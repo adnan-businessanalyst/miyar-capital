@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+**/dist/
+build/
+**/build/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Logs & debug
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor / IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# Neon / local tooling you used earlier
+.neon/
+.neon-cli-tmp/
+
+# Vite / tooling caches
+.vite/
+**/.vite/
+*.tsbuildinfo
+.turbo/
+.cache/
+
+# Test / coverage (if you add them later)
+coverage/
+
+# Optional: local env variants
+.env.local
+.env.development.local
+.env.production.local
