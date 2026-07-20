@@ -1,6 +1,8 @@
 import { PageHero } from "../components/PageHero";
 import { Accordion, type AccordionItem } from "../components/Accordion";
-import agreementImg from "@assets/generated_images/signing_document.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const agreementImg = CONTENT_IMAGES.service_asset_management;
 
 const OBLIGATIONS = [
   { label: "30-Day Response", text: "You must provide requested documents within 30 days. Please respond to every request separately, even if you hold multiple accounts." },
@@ -47,7 +49,7 @@ export function FATCA() {
                   </p>
                 </div>
                 <div className="arr-intro-img">
-                  <img src={agreementImg} alt="FATCA compliance agreement" />
+                  <img src={agreementImg} alt="Asset Management" />
                 </div>
               </div>
             </div>

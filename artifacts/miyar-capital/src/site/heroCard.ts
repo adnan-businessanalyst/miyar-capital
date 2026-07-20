@@ -2,16 +2,19 @@
  * Hardcoded front-page hero promotional card.
  * Edit labels, link, visibility, and styles here — not in Site Manager / CMS.
  *
- * Optional image: place `hero-card.jpg` (or .png / .webp) in `src/assets/hero/`.
+ * Optional image: place `hero-card.svg` (or .avif / .webp / .jpg / .jpeg / .png)
+ * in `src/assets/hero/`.
  */
 
+import { resolveAssetUrl } from "./resolveAssetUrl";
+
 const cardImageModules = import.meta.glob(
-  "../assets/hero/hero-card.{jpg,jpeg,JPG,JPEG,png,webp}",
+  "../assets/hero/hero-card.{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}",
   { eager: true, import: "default" },
 ) as Record<string, string>;
 
 /** Resolved local card image URL, or empty if the file is missing. */
-export const HERO_CARD_IMAGE = Object.values(cardImageModules)[0] ?? "";
+export const HERO_CARD_IMAGE = resolveAssetUrl(cardImageModules);
 
 export interface HeroCardConfig {
   /** Show the promotional card in the hero. */

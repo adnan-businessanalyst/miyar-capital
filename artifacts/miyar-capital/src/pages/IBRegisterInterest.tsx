@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PageHero } from "../components/PageHero";
-import contactImg from "@assets/generated_images/man_on_phone.png";
+import { MAN_ON_PHONE_IMG as contactImg } from "../site/manOnPhone";
 
 export function IBRegisterInterest() {
   const [submitted, setSubmitted] = useState(false);

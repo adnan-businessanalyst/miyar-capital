@@ -1,13 +1,16 @@
-import publicOffers from "@assets/generated_images/public_offers.png";
-import privateOffers from "@assets/generated_images/private_offers.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const publicOffers = CONTENT_IMAGES.service_investment_banking;
+const privateOffers = CONTENT_IMAGES.private_offers;
 
 export interface Service {
   title: string;
   img: string;
+  alt?: string;
 }
 
 export const IM_SERVICES: Service[] = [
-  { title: "Public Offers", img: publicOffers },
+  { title: "Public Offers", img: publicOffers, alt: "Investment Banking" },
   { title: "Private Offers Fund", img: privateOffers },
 ];
 

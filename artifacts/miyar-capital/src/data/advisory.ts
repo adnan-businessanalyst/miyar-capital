@@ -1,8 +1,10 @@
-import step1 from "@assets/generated_images/advisory_step1.png";
-import step2 from "@assets/generated_images/advisory_step2.png";
-import step3 from "@assets/generated_images/advisory_step3.png";
-import step4 from "@assets/generated_images/advisory_step4.png";
-import step5 from "@assets/generated_images/advisory_step5.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const step1 = CONTENT_IMAGES.wm_long_term_partnership;
+const step2 = CONTENT_IMAGES.wm_transparent_reporting;
+const step3 = CONTENT_IMAGES.advisory_step3;
+const step4 = CONTENT_IMAGES.advisory_step4;
+const step5 = CONTENT_IMAGES.wm_transparent_reporting;
 
 export interface AdvisoryPillar {
   title: string;
@@ -28,6 +30,7 @@ export interface AdvisoryStep {
   n: string;
   text: string;
   img: string;
+  alt?: string;
 }
 
 export const ADVISORY_STEPS: AdvisoryStep[] = [
@@ -35,11 +38,13 @@ export const ADVISORY_STEPS: AdvisoryStep[] = [
     n: "01",
     text: "Meeting the client and determining their objectives, risk tolerance, and investment constraints.",
     img: step1,
+    alt: "Long-Term Partnership",
   },
   {
     n: "02",
     text: "Analyzing client assets, liabilities, and cash flows and determining investment objectives and strategy.",
     img: step2,
+    alt: "Transparent Reporting",
   },
   {
     n: "03",
@@ -55,5 +60,6 @@ export const ADVISORY_STEPS: AdvisoryStep[] = [
     n: "05",
     text: "Monitoring, analysis, and evaluation phase of investment portfolio components and performance, and correction if necessary.",
     img: step5,
+    alt: "Transparent Reporting",
   },
 ];

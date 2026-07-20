@@ -1,7 +1,7 @@
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { ADVISORY_PILLARS, ADVISORY_STEPS } from "../data/advisory";
-import manOnPhone from "@assets/generated_images/man_on_phone.png";
+import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
 
 const DEFAULT_ORDER = ["hero", "pillars", "process", "interest"];
 
@@ -55,7 +55,7 @@ export function InvestmentAdvisory() {
                   const textFirst = i % 2 === 0;
                   const media = (
                     <div className={`tl-media${textFirst ? "" : " tl-media--rev"}`} key="media">
-                      <div className="tl-img"><img src={step.img} alt={`Advisory step ${step.n}`} /></div>
+                      <div className="tl-img"><img src={step.img} alt={step.alt ?? `Advisory step ${step.n}`} /></div>
                       <div className="tl-num">{step.n}</div>
                     </div>
                   );

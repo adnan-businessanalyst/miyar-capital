@@ -1,7 +1,9 @@
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { ARRANGEMENT_SERVICES } from "../data/arrangement";
-import buildingImg from "@assets/generated_images/miyar_building.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const buildingImg = CONTENT_IMAGES.app_bg;
 
 const DEFAULT_ORDER = ["hero", "intro", "services", "detail", "interest"];
 
@@ -44,7 +46,7 @@ export function ArrangementManagement() {
                   </button>
                 </div>
                 <div className="arr-intro-img">
-                  <img src={buildingImg} alt="Miyar Capital headquarters" />
+                  <img src={buildingImg} alt="mobile app section background image" />
                 </div>
               </div>
             </div>
