@@ -2,12 +2,13 @@
   "name": "workspace",
   "version": "0.0.0",
   "license": "MIT",
+  "private": true,
+  "packageManager": "pnpm@11.14.0",
   "scripts": {
     "preinstall": "node preinstall.mjs",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck": "pnpm -r --filter \"./artifacts/**\" --if-present run typecheck"
   },
-  "private": true,
   "devDependencies": {
     "prettier": "^3.8.4",
     "typescript": "~5.9.3"
