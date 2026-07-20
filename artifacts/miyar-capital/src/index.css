@@ -2243,7 +2243,26 @@ footer .bottom {
 .page-hero .wrap {
   position: relative;
   z-index: 2;
-  padding: 182px 0 62px;
+  padding-block: 182px 62px;
+  padding-inline: clamp(82px, 12vw, 170px);
+}
+
+@media (max-width: 1100px) {
+  .page-hero .wrap {
+    padding-inline: clamp(56px, 10vw, 112px);
+  }
+}
+
+@media (max-width: 900px) {
+  .page-hero .wrap {
+    padding-inline: clamp(40px, 9vw, 72px);
+  }
+}
+
+@media (max-width: 560px) {
+  .page-hero .wrap {
+    padding-inline: clamp(42px, 8vw, 58px);
+  }
 }
 
 .page-hero .crumb {
