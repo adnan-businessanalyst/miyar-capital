@@ -4306,7 +4306,7 @@ body[dir="rtl"] .reg-form textarea {
   transition: 0.3s;
   /* ...existing styles... */
   /* Position: prefer HERO_CARD.offsetX/Y (inline). Fallback below for when offsets are 0. */
-  transform: translate(-3px, -120px);
+  transform: translate(-3px, -320px);
   width: 100%;
   max-width: 220px;
   justify-self: end;
