@@ -1,7 +1,7 @@
 {
   "installCommand": "pnpm install",
-  "buildCommand": "pnpm --filter @workspace/miyar-capital run build",
-  "outputDirectory": "artifacts/miyar-capital/dist/public",
+  "buildCommand": "pnpm --filter @workspace/miyar-capital run build && rm -rf public && cp -r artifacts/miyar-capital/dist/public public",
+  "outputDirectory": "public",
   "framework": null,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
