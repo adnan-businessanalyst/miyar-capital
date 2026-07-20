@@ -5,12 +5,15 @@ Marketing website for Miyar Capital, an independent Saudi CMA-regulated investme
 ## Run & Operate
 
 - `pnpm --filter @workspace/miyar-capital run typecheck` — typecheck the site
-- `pnpm --filter @workspace/miyar-capital run build` — Vite build + Playwright prerender (SEO HTML in `dist/public`)
+- `pnpm --filter @workspace/miyar-capital run build` — Vite only (use this on Vercel/CI)
+- `pnpm --filter @workspace/miyar-capital run build:prerender` — Vite + Playwright prerender for local SEO HTML (needs Chromium)
 - Preview via the `artifacts/miyar-capital: web` workflow (do not run `pnpm dev` at the workspace root)
 
 ## Prerender (SEO)
 
-- After Vite emits the SPA shell, `scripts/prerender.mjs` serves `dist/public`, opens each route in headless Chromium, and writes real HTML (`/about-us` → `dist/public/about-us/index.html`).
+- Optional / local only. Default `build` does not run Playwright (Vercel lacks Chromium system libs).
+- `build:prerender` / `scripts/prerender.mjs` serves `dist/public`, opens each route in headless Chromium, and writes real HTML (`/about-us` → `dist/public/about-us/index.html`).
+- Skips automatically when `VERCEL=1` or `SKIP_PRERENDER=1`.
 - Route list: `scripts/prerender-routes.mjs` — add a path there whenever you add a marketing `Route` in `App.tsx`.
 - SPA fallback: `artifacts/miyar-capital/public/_redirects` (Cloudflare Pages) and root `vercel.json` (Vercel). Existing prerendered files are served first.
 - Language defaults to English in prerendered HTML; Arabic is client-only after the language toggle.

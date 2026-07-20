@@ -1,14 +1,18 @@
 /**
- * Build-time prerender for SEO (Vite SPA + wouter).
+ * Optional build-time prerender for SEO (Vite SPA + wouter).
+ *
+ * Commands:
+ * - Vercel / CI: `pnpm build` (Vite only — do not run this script)
+ * - Local SEO HTML: `pnpm run build:prerender` (requires Playwright Chromium)
  *
  * Flow: Vite writes dist/public → this script serves that folder, opens each
  * route in headless Chromium, waits for React to paint text, then writes
  * HTML to dist/public/<route>/index.html (and overwrites index.html for "/").
  *
  * Add routes in ./prerender-routes.mjs when you add pages in App.tsx.
- * Deploy as static files (Cloudflare Pages / Vercel); SPA fallback still
- * covers any non-prerendered client routes via public/_redirects + vercel.json.
+ * SPA fallback still covers client routes via public/_redirects + root vercel.json.
  *
+ * Skipped automatically when VERCEL=1 or SKIP_PRERENDER=1.
  * Caveat: LanguageContext defaults to EN; Arabic is client-only after toggle.
  */
 import { execSync } from "node:child_process";
@@ -19,6 +23,13 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { PRERENDER_ROUTES } from "./prerender-routes.mjs";
+
+if (process.env.VERCEL === "1" || process.env.SKIP_PRERENDER === "1") {
+  console.log(
+    "Skipping prerender (VERCEL or SKIP_PRERENDER is set). Use local `pnpm run build:prerender` for SEO HTML.",
+  );
+  process.exit(0);
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.resolve(__dirname, "../dist/public");
