@@ -12,7 +12,7 @@ Marketing website for Miyar Capital, an independent Saudi CMA-regulated investme
 
 - After Vite emits the SPA shell, `scripts/prerender.mjs` serves `dist/public`, opens each route in headless Chromium, and writes real HTML (`/about-us` → `dist/public/about-us/index.html`).
 - Route list: `scripts/prerender-routes.mjs` — add a path there whenever you add a marketing `Route` in `App.tsx`.
-- SPA fallback: `public/_redirects` (Cloudflare Pages) and `vercel.json` (Vercel). Existing prerendered files are served first.
+- SPA fallback: `artifacts/miyar-capital/public/_redirects` (Cloudflare Pages) and root `vercel.json` (Vercel). Existing prerendered files are served first.
 - Language defaults to English in prerendered HTML; Arabic is client-only after the language toggle.
 
 ## Stack
