@@ -6,42 +6,77 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { Disclaimer } from "./components/Disclaimer";
 import { WhatsAppWidget } from "./components/WhatsAppWidget";
-import { FrontPage } from "./pages/FrontPage";
-import { WhoWeAre } from "./pages/WhoWeAre";
-import { AboutUs } from "./pages/AboutUs";
-import { BoardOfDirectors } from "./pages/BoardOfDirectors";
-import { OurTeam } from "./pages/OurTeam";
-import { AssetManagement } from "./pages/AssetManagement";
-import { InvestmentBanking } from "./pages/InvestmentBanking";
-import { ProductTemplate } from "./pages/ProductTemplate";
-import { DPM } from "./pages/DPM";
-import { PrivateMarketsPage } from "./pages/PrivateMarketsPage";
-import { Rakiza } from "./pages/Rakiza";
-import { FinancialReports } from "./pages/FinancialReports";
-import { AnnualReports } from "./pages/AnnualReports";
-import { InvestmentAdvisory } from "./pages/InvestmentAdvisory";
-import { ArrangementManagement } from "./pages/ArrangementManagement";
-import { InvestmentManagement } from "./pages/InvestmentManagement";
-import { MurabahaFund } from "./pages/MurabahaFund";
-import { SaudiEquityFund } from "./pages/SaudiEquityFund";
-import { LiquidityFI } from "./pages/LiquidityFI";
-import { EquityManagement } from "./pages/EquityManagement";
-import { RealAssets } from "./pages/RealAssets";
-import { InstitutionalFamilyOffice } from "./pages/InstitutionalFamilyOffice";
-import { EquityManagementPage } from "./pages/EquityManagementPage";
-import { RealAssetsPage } from "./pages/RealAssetsPage";
-import { CapitalMarketsAdvisory } from "./pages/CapitalMarketsAdvisory";
-import { MergersAcquisitions } from "./pages/MergersAcquisitions";
-import { DebtFinancingArrangement } from "./pages/DebtFinancingArrangement";
-import { ValuationFinancialAdvisory } from "./pages/ValuationFinancialAdvisory";
-import { RealEstatePrivateArrangements } from "./pages/RealEstatePrivateArrangements";
-import { IBRegisterInterest } from "./pages/IBRegisterInterest";
-import { Insights } from "./pages/Insights";
-import { GovernanceIndependence } from "./pages/GovernanceIndependence";
-import { ShariahPrinciples } from "./pages/ShariahPrinciples";
-import { Disclosures } from "./pages/Disclosures";
-import { FATCA } from "./pages/FATCA";
-import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { RouteLoadingProvider, lazyPage } from "./components/RouteLoading";
+
+const FrontPage = lazyPage(() => import("./pages/FrontPage"), "FrontPage");
+const WhoWeAre = lazyPage(() => import("./pages/WhoWeAre"), "WhoWeAre");
+const AboutUs = lazyPage(() => import("./pages/AboutUs"), "AboutUs");
+const BoardOfDirectors = lazyPage(() => import("./pages/BoardOfDirectors"), "BoardOfDirectors");
+const OurTeam = lazyPage(() => import("./pages/OurTeam"), "OurTeam");
+const AssetManagement = lazyPage(() => import("./pages/AssetManagement"), "AssetManagement");
+const InvestmentBanking = lazyPage(() => import("./pages/InvestmentBanking"), "InvestmentBanking");
+const ProductTemplate = lazyPage(() => import("./pages/ProductTemplate"), "ProductTemplate");
+const DPM = lazyPage(() => import("./pages/DPM"), "DPM");
+const PrivateMarketsPage = lazyPage(() => import("./pages/PrivateMarketsPage"), "PrivateMarketsPage");
+const Rakiza = lazyPage(() => import("./pages/Rakiza"), "Rakiza");
+const FinancialReports = lazyPage(() => import("./pages/FinancialReports"), "FinancialReports");
+const AnnualReports = lazyPage(() => import("./pages/AnnualReports"), "AnnualReports");
+const InvestmentAdvisory = lazyPage(() => import("./pages/InvestmentAdvisory"), "InvestmentAdvisory");
+const ArrangementManagement = lazyPage(
+  () => import("./pages/ArrangementManagement"),
+  "ArrangementManagement",
+);
+const InvestmentManagement = lazyPage(
+  () => import("./pages/InvestmentManagement"),
+  "InvestmentManagement",
+);
+const MurabahaFund = lazyPage(() => import("./pages/MurabahaFund"), "MurabahaFund");
+const SaudiEquityFund = lazyPage(() => import("./pages/SaudiEquityFund"), "SaudiEquityFund");
+const LiquidityFI = lazyPage(() => import("./pages/LiquidityFI"), "LiquidityFI");
+const EquityManagement = lazyPage(() => import("./pages/EquityManagement"), "EquityManagement");
+const RealAssets = lazyPage(() => import("./pages/RealAssets"), "RealAssets");
+const InstitutionalFamilyOffice = lazyPage(
+  () => import("./pages/InstitutionalFamilyOffice"),
+  "InstitutionalFamilyOffice",
+);
+const EquityManagementPage = lazyPage(
+  () => import("./pages/EquityManagementPage"),
+  "EquityManagementPage",
+);
+const RealAssetsPage = lazyPage(() => import("./pages/RealAssetsPage"), "RealAssetsPage");
+const CapitalMarketsAdvisory = lazyPage(
+  () => import("./pages/CapitalMarketsAdvisory"),
+  "CapitalMarketsAdvisory",
+);
+const MergersAcquisitions = lazyPage(
+  () => import("./pages/MergersAcquisitions"),
+  "MergersAcquisitions",
+);
+const DebtFinancingArrangement = lazyPage(
+  () => import("./pages/DebtFinancingArrangement"),
+  "DebtFinancingArrangement",
+);
+const ValuationFinancialAdvisory = lazyPage(
+  () => import("./pages/ValuationFinancialAdvisory"),
+  "ValuationFinancialAdvisory",
+);
+const RealEstatePrivateArrangements = lazyPage(
+  () => import("./pages/RealEstatePrivateArrangements"),
+  "RealEstatePrivateArrangements",
+);
+const IBRegisterInterest = lazyPage(
+  () => import("./pages/IBRegisterInterest"),
+  "IBRegisterInterest",
+);
+const Insights = lazyPage(() => import("./pages/Insights"), "Insights");
+const GovernanceIndependence = lazyPage(
+  () => import("./pages/GovernanceIndependence"),
+  "GovernanceIndependence",
+);
+const ShariahPrinciples = lazyPage(() => import("./pages/ShariahPrinciples"), "ShariahPrinciples");
+const Disclosures = lazyPage(() => import("./pages/Disclosures"), "Disclosures");
+const FATCA = lazyPage(() => import("./pages/FATCA"), "FATCA");
+const PrivacyPolicy = lazyPage(() => import("./pages/PrivacyPolicy"), "PrivacyPolicy");
 
 function MetaInjector() {
   const { metaTitle, metaDescription, metaKeywords, metaFavicon } = SITE_META;
@@ -50,19 +85,31 @@ function MetaInjector() {
   }, [metaTitle]);
   useEffect(() => {
     let el = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    if (!el) { el = document.createElement("meta"); el.name = "description"; document.head.appendChild(el); }
+    if (!el) {
+      el = document.createElement("meta");
+      el.name = "description";
+      document.head.appendChild(el);
+    }
     if (metaDescription) el.content = metaDescription;
   }, [metaDescription]);
   useEffect(() => {
     let el = document.querySelector<HTMLMetaElement>('meta[name="keywords"]');
-    if (!el) { el = document.createElement("meta"); el.name = "keywords"; document.head.appendChild(el); }
+    if (!el) {
+      el = document.createElement("meta");
+      el.name = "keywords";
+      document.head.appendChild(el);
+    }
     if (metaKeywords) el.content = metaKeywords;
     else el.remove();
   }, [metaKeywords]);
   useEffect(() => {
     if (!metaFavicon) return;
     let el = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
-    if (!el) { el = document.createElement("link"); el.rel = "icon"; document.head.appendChild(el); }
+    if (!el) {
+      el = document.createElement("link");
+      el.rel = "icon";
+      document.head.appendChild(el);
+    }
     el.href = metaFavicon;
   }, [metaFavicon]);
   return null;
@@ -118,7 +165,10 @@ function Router() {
       <Route path="/investment-banking/mergers-acquisitions" component={MergersAcquisitions} />
       <Route path="/investment-banking/debt-financing-arrangement" component={DebtFinancingArrangement} />
       <Route path="/investment-banking/valuation-financial-advisory" component={ValuationFinancialAdvisory} />
-      <Route path="/investment-banking/real-estate-private-arrangements" component={RealEstatePrivateArrangements} />
+      <Route
+        path="/investment-banking/real-estate-private-arrangements"
+        component={RealEstatePrivateArrangements}
+      />
       <Route path="/investment-banking/register-interest" component={IBRegisterInterest} />
       <Route path="/insights" component={Insights} />
       <Route path="/disclosures" component={Disclosures} />
@@ -136,7 +186,9 @@ function App() {
         <MetaInjector />
         <ScrollToTop />
         <Header />
-        <Router />
+        <RouteLoadingProvider>
+          <Router />
+        </RouteLoadingProvider>
         <ConditionalDisclaimer />
         <Footer />
         <WhatsAppWidget />

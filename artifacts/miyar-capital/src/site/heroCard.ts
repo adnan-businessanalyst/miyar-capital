@@ -52,6 +52,7 @@ export const HERO_CARD: HeroCardConfig = {
   textColor: "",
   width: 0,
   height: 0,
-  offsetX: 0,
-  offsetY: 0,
+  offsetX: -3,
+  /** Desktop only (cleared under 1101px). Negative = up. Less negative = lower on screen. */
+  offsetY: -120,
 };
