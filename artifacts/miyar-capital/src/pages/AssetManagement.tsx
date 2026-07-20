@@ -19,6 +19,7 @@ export function AssetManagement() {
         return (
           <PageHero
             key={id}
+            animate
             title={t("am_h")}
             crumb="Asset Management"
             meta={[

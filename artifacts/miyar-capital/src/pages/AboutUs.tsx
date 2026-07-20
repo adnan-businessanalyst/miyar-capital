@@ -68,6 +68,7 @@ export function AboutUs() {
     <div className="page">
 
       <PageHero
+        animate
         title="About Us"
         crumb="About Us"
         badge="ABOUT MIYAR CAPITAL"

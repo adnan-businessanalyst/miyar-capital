@@ -66,6 +66,38 @@ a {
   box-sizing: border-box;
 }
 
+/* ===== PAGE LOADING SPINNER ===== */
+.page-spinner {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: rgba(7, 30, 51, 0.92);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.page-spinner.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.page-spinner-logo {
+  width: min(112px, 26vw);
+  height: auto;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-spinner {
+    transition: none;
+  }
+}
+
 @media (max-width: 1100px) {
   .wrap {
     max-width: 100%;
@@ -2192,20 +2224,20 @@ footer .bottom {
 .page-hero .ph-bg {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background-size: cover;
   background-position: center;
-  opacity: 0.28;
+  background-repeat: no-repeat;
+  opacity: 1;
 }
 
+/* Solid primary navy over the image — 80% transparent (20% opaque) */
 .page-hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    100deg,
-    var(--navy-deep) 20%,
-    rgba(7, 30, 51, 0.55) 100%
-  );
+  z-index: 1;
+  background: rgba(6, 28, 42, 0.8);
 }
 
 .page-hero .wrap {
@@ -2300,6 +2332,110 @@ footer .bottom {
   color: #fff;
   margin-top: 6px;
   font-weight: 500;
+}
+
+/* Miyar Hero Reveal (only when .page-hero--animate / animate={true}) */
+.page-hero .ph-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-hero .ph-logo.is-in {
+  animation: phLogoExpand 1.85s cubic-bezier(0.22, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes phLogoExpand {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  58% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.22);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.16);
+  }
+}
+
+.page-hero .ph-logo-img {
+  width: min(210px, 38vw);
+  height: auto;
+  display: block;
+}
+
+.page-hero .ph-heading-wrap {
+  display: grid;
+}
+
+.page-hero .ph-heading-wrap h1 {
+  grid-area: 1 / 1;
+}
+
+.page-hero .ph-typewriter-ghost {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.page-hero .ph-typed {
+  min-height: 1.1em;
+}
+
+.page-hero .ph-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.85em;
+  margin-inline-start: 3px;
+  background: currentColor;
+  vertical-align: -0.05em;
+  animation: phCursorBlink 0.9s steps(1) infinite;
+}
+
+@keyframes phCursorBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.page-hero .ph-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.page-hero .ph-reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-hero .ph-logo,
+  .page-hero .ph-reveal {
+    transition: none;
+    animation: none;
+  }
+  .page-hero .ph-logo {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .page-hero .ph-reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .page-hero .ph-cursor {
+    animation: none;
+    display: none;
+  }
 }
 
 /* ===== PEOPLE GRID ===== */
@@ -3934,22 +4070,19 @@ body[dir="rtl"] .reg-form textarea {
   cursor: pointer;
   transition: 0.3s;
   /* ...existing styles... */
-  transform: translate(-3px, -140px); /* negative = up; positive = down */
-  /* or: transform: translate(-20px, -40px);  left/right, up/down */
+  /* Position: prefer HERO_CARD.offsetX/Y (inline). Fallback below for when offsets are 0. */
+  transform: translate(-3px, -120px);
   width: 100%;
-  max-width: 220px; /* try 280px, 360px, etc. */
-  justify-self: end; /* keeps it on the right in the hero grid */
-  /* your existing transform, etc. */
-  height: 140px; /* try 280px, 360px, etc. */
+  max-width: 220px;
+  justify-self: end;
+  height: 140px;
   display: flex;
   flex-direction: column;
 }
 
 .fp-hero-card:hover {
-  transform: translate(-4px, -142px);
   border-color: var(--gold);
   background: rgba(12, 71, 110, 0.55);
-
 }
 
 /* .fp-hero-card img {
@@ -4620,8 +4753,8 @@ body[dir="rtl"] .fp-principals-right p {
   }
   .fp-hero-card,
   .fp-hero-card:hover {
-    /* Drop desktop upward nudge; grow with content (no clipped lines). */
-    transform: none;
+    /* Drop desktop upward nudge (beats inline HERO_CARD offsets). */
+    transform: none !important;
     justify-self: start;
     align-self: start;
     width: 100%;
@@ -4744,7 +4877,7 @@ body[dir="rtl"] .fp-principals-right p {
   }
   .fp-hero-card,
   .fp-hero-card:hover {
-    transform: none;
+    transform: none !important;
     max-width: 100%;
     margin-top: 12px;
   }

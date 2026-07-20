@@ -8,6 +8,7 @@ export function InvestmentBanking() {
     <div className="page">
 
       <PageHero
+        animate
         title="Investment Banking"
         crumb="Investment Banking"
         badge="INVESTMENT BANKING"

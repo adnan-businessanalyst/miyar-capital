@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import buildingImg from "@assets/generated_images/miyar_building.png";
+import pageHeroBg from "../assets/page-hero/page-hero-bg.png";
+import logoSpinner from "../assets/brand/logo-spinner.svg";
 
 export interface PageHeroCrumb {
   label: string;
@@ -31,9 +33,19 @@ export interface PageHeroProps {
   chips?: PageHeroChip[];
   /** Label/value meta row (funds, product facts). */
   meta?: PageHeroMeta[];
-  /** Optional hero background image (defaults to miyar building). */
+  /** Optional hero background image (defaults to page-hero-bg.png). */
   backgroundImage?: string;
+  /**
+   * Miyar Hero Reveal: center logo → type title → fade in badge/desc/chips/meta.
+   * Default false — identical to the static hero (no logo / typing / delays).
+   */
+  animate?: boolean;
 }
+
+type RevealPhase = "logo" | "typing" | "done";
+
+const LOGO_MS = 1900;
+const TYPE_MS = 42;
 
 function normalizeCrumbs(
   title: string,
@@ -44,6 +56,13 @@ function normalizeCrumbs(
   return [{ label: crumb ?? title }];
 }
 
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 export function PageHero({
   title,
   crumb,
@@ -52,14 +71,129 @@ export function PageHero({
   description,
   chips,
   meta,
-  backgroundImage = buildingImg,
+  backgroundImage = pageHeroBg,
+  animate = false,
 }: PageHeroProps) {
   const [, navigate] = useLocation();
   const trail = normalizeCrumbs(title, crumb, crumbs);
 
+  const [phase, setPhase] = useState<RevealPhase>(() =>
+    animate && !prefersReducedMotion() ? "logo" : "done",
+  );
+  const [typed, setTyped] = useState(() =>
+    animate && !prefersReducedMotion() ? "" : title,
+  );
+  const [logoIn, setLogoIn] = useState(false);
+
+  useEffect(() => {
+    if (!animate || prefersReducedMotion()) {
+      setPhase("done");
+      setTyped(title);
+      return;
+    }
+
+    setPhase("logo");
+    setTyped("");
+    setLogoIn(false);
+
+    const raf = requestAnimationFrame(() => setLogoIn(true));
+    const toTyping = window.setTimeout(() => setPhase("typing"), LOGO_MS);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(toTyping);
+    };
+  }, [animate, title]);
+
+  useEffect(() => {
+    if (phase !== "typing") return;
+
+    let i = 0;
+    setTyped("");
+    const id = window.setInterval(() => {
+      i += 1;
+      setTyped(title.slice(0, i));
+      if (i >= title.length) {
+        window.clearInterval(id);
+        window.setTimeout(() => setPhase("done"), 280);
+      }
+    }, TYPE_MS);
+
+    return () => window.clearInterval(id);
+  }, [phase, title]);
+
+  const revealed = phase === "done";
+  const showLogo = animate && phase === "logo";
+  const showCursor = animate && phase === "typing";
+
+  /* ── Static hero (default): unchanged from pre-animate PageHero ── */
+  if (!animate) {
+    return (
+      <section className="page-hero">
+        <div className="ph-bg" style={{ backgroundImage: `url(${backgroundImage})` }} />
+        <div className="wrap">
+          <div className="crumb">
+            <a onClick={() => navigate("/")}>Home</a>
+            {trail.map((item) => (
+              <span key={`${item.label}-${item.href ?? ""}`}>
+                {" / "}
+                {item.href ? (
+                  <a onClick={() => navigate(item.href!)}>{item.label}</a>
+                ) : (
+                  item.label
+                )}
+              </span>
+            ))}
+          </div>
+
+          {badge ? <div className="ph-badge">{badge}</div> : null}
+
+          <h1>{title}</h1>
+
+          {description ? <p className="ph-desc">{description}</p> : null}
+
+          {chips && chips.length > 0 ? (
+            <div className="ph-chips">
+              {chips.map((chip, i) =>
+                typeof chip === "string" ? (
+                  <div className="ph-chip" key={`${chip}-${i}`}>
+                    {chip}
+                  </div>
+                ) : (
+                  <div className="ph-chip" key={`${chip.lead}-${i}`}>
+                    <strong>{chip.lead}</strong> {chip.text}
+                  </div>
+                ),
+              )}
+            </div>
+          ) : null}
+
+          {meta && meta.length > 0 ? (
+            <div className="ph-meta">
+              {meta.map((m) => (
+                <div className="ph-meta-item" key={m.label}>
+                  <div className="ph-meta-label">{m.label}</div>
+                  <div className="ph-meta-value">{m.value}</div>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </section>
+    );
+  }
+
+  /* ── Miyar Hero Reveal (animate={true} only) ── */
   return (
-    <section className="page-hero">
+    <section className="page-hero page-hero--animate">
       <div className="ph-bg" style={{ backgroundImage: `url(${backgroundImage})` }} />
+
+      {showLogo ? (
+        <div className={`ph-logo${logoIn ? " is-in" : ""}`} aria-hidden="true">
+          <img className="ph-logo-img" src={logoSpinner} alt="" width={200} height={200} />
+        </div>
+      ) : null}
+
       <div className="wrap">
         <div className="crumb">
           <a onClick={() => navigate("/")}>Home</a>
@@ -75,14 +209,26 @@ export function PageHero({
           ))}
         </div>
 
-        {badge ? <div className="ph-badge">{badge}</div> : null}
+        {badge ? (
+          <div className={`ph-badge ph-reveal${revealed ? " is-in" : ""}`}>{badge}</div>
+        ) : null}
 
-        <h1>{title}</h1>
+        <div className="ph-heading-wrap">
+          <h1 className="ph-typewriter-ghost" aria-hidden="true">
+            {title}
+          </h1>
+          <h1 className="ph-typed" aria-label={title}>
+            {typed}
+            {showCursor ? <span className="ph-cursor" aria-hidden="true" /> : null}
+          </h1>
+        </div>
 
-        {description ? <p className="ph-desc">{description}</p> : null}
+        {description ? (
+          <p className={`ph-desc ph-reveal${revealed ? " is-in" : ""}`}>{description}</p>
+        ) : null}
 
         {chips && chips.length > 0 ? (
-          <div className="ph-chips">
+          <div className={`ph-chips ph-reveal${revealed ? " is-in" : ""}`}>
             {chips.map((chip, i) =>
               typeof chip === "string" ? (
                 <div className="ph-chip" key={`${chip}-${i}`}>
@@ -98,7 +244,7 @@ export function PageHero({
         ) : null}
 
         {meta && meta.length > 0 ? (
-          <div className="ph-meta">
+          <div className={`ph-meta ph-reveal${revealed ? " is-in" : ""}`}>
             {meta.map((m) => (
               <div className="ph-meta-item" key={m.label}>
                 <div className="ph-meta-label">{m.label}</div>
