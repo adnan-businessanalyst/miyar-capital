@@ -9,13 +9,6 @@ const port = rawPort ? Number(rawPort) : 3000;
 
 const basePath = process.env.BASE_PATH ?? "/";
 
-// On Vercel (repo-root project), emit to /public so Output Directory "public" works.
-// Locally keep dist/public under the package.
-const outDir =
-  process.env.VERCEL === "1"
-    ? path.resolve(import.meta.dirname, "../../public")
-    : path.resolve(import.meta.dirname, "dist/public");
-
 export default defineConfig({
   base: basePath,
   plugins: [
@@ -45,7 +38,7 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir,
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
   },
   server: {
