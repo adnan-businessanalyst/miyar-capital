@@ -1,6 +1,8 @@
-import person1 from "@assets/generated_images/person_1.png";
-import person2 from "@assets/generated_images/person_2.png";
-import person3 from "@assets/generated_images/person_3.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const person1 = CONTENT_IMAGES.wm_understanding_goals;
+const person2 = CONTENT_IMAGES.wm_tailored_strategies;
+const person3 = CONTENT_IMAGES.wm_independent_thinking;
 
 export interface Person {
   name: string;

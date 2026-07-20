@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
-import pageHeroBg from "../assets/page-hero/page-hero-bg.png";
 import logoSpinner from "../assets/brand/logo-spinner.svg";
+import { resolveAssetUrl } from "../site/resolveAssetUrl";
+
+const pageHeroBgModules = import.meta.glob(
+  "../assets/page-hero/page-hero-bg.{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}",
+  { eager: true, import: "default" },
+) as Record<string, string>;
+
+const pageHeroBg = resolveAssetUrl(pageHeroBgModules);
 
 export interface PageHeroCrumb {
   label: string;
@@ -33,7 +40,7 @@ export interface PageHeroProps {
   chips?: PageHeroChip[];
   /** Label/value meta row (funds, product facts). */
   meta?: PageHeroMeta[];
-  /** Optional hero background image (defaults to page-hero-bg.png). */
+  /** Optional hero background image (defaults to page-hero-bg.*). */
   backgroundImage?: string;
   /**
    * Miyar Hero Reveal: center logo → type title → fade in badge/desc/chips/meta.

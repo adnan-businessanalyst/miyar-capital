@@ -1,8 +1,5 @@
 import { useState } from "react";
-import liquidityImg from "@assets/generated_images/pillar_liquidity.png";
-import equityImg from "@assets/generated_images/pillar_equity.png";
-import realAssetsImg from "@assets/generated_images/pillar_real_assets.png";
-import privateMarketsImg from "@assets/generated_images/pillar_private_markets.png";
+import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
 
 interface Pillar {
   num: string;
@@ -10,6 +7,7 @@ interface Pillar {
   body: string;
   href: string;
   image: string;
+  video: string;
 }
 
 const PILLARS: Pillar[] = [
@@ -18,28 +16,32 @@ const PILLARS: Pillar[] = [
     title: "Liquidity & Fixed Income",
     body: "Murabaha and money-market solutions engineered for capital preservation and stable, risk-conscious returns.",
     href: "/product",
-    image: liquidityImg,
+    image: CONTENT_IMAGES.pillar_liquidity,
+    video: CONTENT_VIDEOS.pillar_liquidity,
   },
   {
     num: "II",
     title: "Equity Management",
     body: "Saudi and regional equity strategies built on a disciplined process for long-term value creation.",
     href: "/asset-management",
-    image: equityImg,
+    image: CONTENT_IMAGES.pillar_equity,
+    video: CONTENT_VIDEOS.pillar_equity,
   },
   {
     num: "III",
     title: "Real Assets",
     body: "Real estate income and development funds offering resilience and diversification for a portfolio.",
     href: "/asset-management",
-    image: realAssetsImg,
+    image: CONTENT_IMAGES.pillar_real_assets,
+    video: CONTENT_VIDEOS.pillar_real_assets,
   },
   {
     num: "IV",
     title: "Private Markets",
     body: "Private equity and private credit strategies for qualified and institutional investors.",
     href: "/private-markets",
-    image: privateMarketsImg,
+    image: CONTENT_IMAGES.pillar_private_markets,
+    video: CONTENT_VIDEOS.pillar_private_markets,
   },
 ];
 
@@ -82,11 +84,16 @@ export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
             const role = roleForOffset(offset);
             const isActive = role === "active";
             const isThumb = role === "thumb-left" || role === "thumb-right";
+            const useVideo = Boolean(p.video);
             return (
               <div
                 key={p.num}
-                className={`pcar-card is-${role}`}
-                style={{ backgroundImage: `url(${p.image})` }}
+                className={`pcar-card is-${role}${useVideo || p.image ? " has-media" : ""}`}
+                style={
+                  !useVideo && p.image
+                    ? { backgroundImage: `url(${p.image})` }
+                    : undefined
+                }
                 onClick={() => isThumb && select(i)}
                 onKeyDown={(e) => {
                   if (isThumb && (e.key === "Enter" || e.key === " ")) {
@@ -98,31 +105,43 @@ export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
                 tabIndex={isThumb ? 0 : undefined}
                 aria-label={isThumb ? `Show ${p.title}` : undefined}
               >
+                {useVideo ? (
+                  <video
+                    className="pcar-card-video"
+                    src={p.video}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-label={p.title}
+                  />
+                ) : null}
                 <div className="pcar-overlay" />
                 <div className="pcar-num">{p.num}</div>
-                <div
-                  className="pcar-caption"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (isActive) onNavigate(p.href);
-                  }}
-                  onKeyDown={(e) => {
-                    if (isActive && (e.key === "Enter" || e.key === " ")) {
+                <div className="pcar-copy">
+                  {isActive && (
+                    <div className="pcar-active-body-box">
+                      <p className="pcar-active-body">{p.body}</p>
+                    </div>
+                  )}
+                  <a
+                    className="pcar-caption"
+                    href={p.href}
+                    onClick={(e) => {
                       e.preventDefault();
-                      onNavigate(p.href);
-                    }
-                  }}
-                  role={isActive ? "button" : undefined}
-                  tabIndex={isActive ? 0 : undefined}
-                  aria-label={isActive ? `Go to ${p.title}` : undefined}
-                >
-                  <h3>{p.title}</h3>
+                      e.stopPropagation();
+                      if (isActive) onNavigate(p.href);
+                    }}
+                    tabIndex={isActive ? 0 : -1}
+                    aria-label={`Go to ${p.title}`}
+                    aria-hidden={!isActive}
+                  >
+                    <span className="pcar-caption-label">{p.title}</span>
+                    <span className="pcar-caption-arrow" aria-hidden="true">
+                      →
+                    </span>
+                  </a>
                 </div>
-                {isActive && (
-                  <div className="pcar-active-body-box">
-                    <p className="pcar-active-body">{p.body}</p>
-                  </div>
-                )}
               </div>
             );
           })}

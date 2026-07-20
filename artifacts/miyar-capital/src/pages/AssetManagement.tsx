@@ -2,8 +2,48 @@ import { useLocation } from "wouter";
 import { useLanguage } from "../i18n/LanguageContext";
 import { PageHero } from "../components/PageHero";
 import { PillarCarousel } from "../components/PillarCarousel";
-import dpmImg from "@assets/generated_images/signing_document.png";
-import institutionalImg from "@assets/generated_images/miyar_building.png";
+import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
+
+const dpmImg = CONTENT_IMAGES.client_dpm;
+const dpmVideo = CONTENT_VIDEOS.client_dpm;
+const institutionalImg = CONTENT_IMAGES.client_ifo;
+const institutionalVideo = CONTENT_VIDEOS.client_ifo;
+
+function VertMedia({
+  image,
+  video,
+  label,
+}: {
+  image: string;
+  video: string;
+  label: string;
+}) {
+  return (
+    <div
+      className={`vert-media${video || image ? " has-media" : ""}`}
+      style={
+        !video && image
+          ? { backgroundImage: `url(${image})` }
+          : undefined
+      }
+    >
+      {video ? (
+        <video
+          className="vert-media-video"
+          src={video}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-label={label}
+        />
+      ) : null}
+      <span className="vert-media-arrow" aria-hidden="true">
+        →
+      </span>
+    </div>
+  );
+}
 
 const DEFAULT_ORDER = ["intro", "platform", "client-solutions"];
 
@@ -55,14 +95,11 @@ export function AssetManagement() {
               </div>
               <div className="verticals">
                 <div className="vert vert--img-left" onClick={() => window.open("https://www.google.com", "_blank")}>
-                  <div
-                    className="vert-media"
-                    style={{ backgroundImage: `url(${dpmImg})` }}
-                  >
-                    <span className="vert-media-arrow" aria-hidden="true">
-                      →
-                    </span>
-                  </div>
+                  <VertMedia
+                    image={dpmImg}
+                    video={dpmVideo}
+                    label="Discretionary Portfolio Management"
+                  />
                   <div className="vert-content">
                     <div className="vnum">A</div>
                     <h3 className="vert-h3-hover-ul">Discretionary Portfolio Management</h3>
@@ -81,14 +118,11 @@ export function AssetManagement() {
                       structures for sophisticated pools of capital.
                     </p>
                   </div>
-                  <div
-                    className="vert-media"
-                    style={{ backgroundImage: `url(${institutionalImg})` }}
-                  >
-                    <span className="vert-media-arrow" aria-hidden="true">
-                      →
-                    </span>
-                  </div>
+                  <VertMedia
+                    image={institutionalImg}
+                    video={institutionalVideo}
+                    label="Institutional and Family Office"
+                  />
                 </div>
               </div>
             </div>

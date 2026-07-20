@@ -2,8 +2,10 @@ import { PageHero } from "../components/PageHero";
 import { IntroCard } from "../components/IntroCard";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { DMP_FEATURES, IM_SERVICES, PORTFOLIO_TYPES } from "../data/investmentManagement";
-import manOnPhone from "@assets/generated_images/man_on_phone.png";
-import signingImg from "@assets/generated_images/signing_document.png";
+import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const signingImg = CONTENT_IMAGES.service_asset_management;
 
 const DEFAULT_ORDER = ["hero", "intro", "services", "portfolios", "table", "interest"];
 
@@ -32,7 +34,7 @@ export function InvestmentManagement() {
               <div className="im-services">
                 {IM_SERVICES.map((service) => (
                   <div className="im-service" key={service.title}>
-                    <img src={service.img} alt={service.title} />
+                    <img src={service.img} alt={service.alt ?? service.title} />
                     <div className="im-service-overlay">
                       <h3>{service.title}</h3>
                     </div>

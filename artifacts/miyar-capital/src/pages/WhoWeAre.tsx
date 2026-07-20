@@ -1,6 +1,8 @@
 import { type FormEvent, useState } from "react";
 import { PageHero } from "../components/PageHero";
-import buildingImg from "@assets/generated_images/miyar_building.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const buildingImg = CONTENT_IMAGES.app_bg;
 
 const STATS = [
   { n: "2%", l: "Average annual investment return for our users." },
@@ -66,7 +68,7 @@ export function WhoWeAre() {
                   </div>
                 </div>
                 <div className="img">
-                  <img src={buildingImg} alt="Miyar Capital headquarters" />
+                  <img src={buildingImg} alt="mobile app section background image" />
                 </div>
               </div>
             </div>

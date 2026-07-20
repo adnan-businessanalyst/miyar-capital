@@ -1,14 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
+import { resolveAssetUrl } from "../site/resolveAssetUrl";
 
 type HeroSize = "mobile" | "tablet" | "desktop";
 
 /** When a size is missing, try desktop → tablet → mobile. */
 const FALLBACK_ORDER: HeroSize[] = ["desktop", "tablet", "mobile"];
 
-const imageModules = import.meta.glob("../assets/hero/hero-*.{jpg,jpeg,JPG,JPEG,webp,png}", {
-  eager: true,
-  import: "default",
-}) as Record<string, string>;
+const imageModules = import.meta.glob(
+  "../assets/hero/hero-*.{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}",
+  {
+    eager: true,
+    import: "default",
+  },
+) as Record<string, string>;
 
 const videoModules = import.meta.glob("../assets/hero/hero-*.mp4", {
   eager: true,
@@ -17,14 +21,14 @@ const videoModules = import.meta.glob("../assets/hero/hero-*.mp4", {
 
 function buildSizeMap(modules: Record<string, string>): Partial<Record<HeroSize, string>> {
   const map: Partial<Record<HeroSize, string>> = {};
-  for (const [path, url] of Object.entries(modules)) {
-    const base = path.split("/").pop() ?? path;
-    for (const size of FALLBACK_ORDER) {
-      if (base.startsWith(`hero-${size}.`)) {
-        map[size] = url;
-        break;
-      }
+  for (const size of FALLBACK_ORDER) {
+    const sizeModules: Record<string, string> = {};
+    for (const [path, url] of Object.entries(modules)) {
+      const base = path.split(/[/\\]/).pop() ?? path;
+      if (base.startsWith(`hero-${size}.`)) sizeModules[path] = url;
     }
+    const resolved = resolveAssetUrl(sizeModules);
+    if (resolved) map[size] = resolved;
   }
   return map;
 }

@@ -1,5 +1,7 @@
 import { PageHero } from "../components/PageHero";
-import heroImg from "@assets/generated_images/pillar_real_assets.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const heroImg = CONTENT_IMAGES.pillar_real_assets;
 
 const DEFAULT_ORDER = ["intro", "offer", "what-we-offer"];
 

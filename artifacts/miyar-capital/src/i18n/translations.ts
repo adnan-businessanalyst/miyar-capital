@@ -15,10 +15,8 @@ export type TranslationKey =
   | "fp_wwd_tag"
   | "fp_wwd_h"
   | "fp_wwd_lead"
-  | "fp_wwd_btn1"
-  | "fp_wwd_btn1_url"
-  | "fp_wwd_btn2"
-  | "fp_wwd_btn2_url"
+  | "fp_wwd_link"
+  | "fp_wwd_link_url"
   | "fp_wwd_p1_n"
   | "fp_wwd_p1_l"
   | "fp_wwd_p2_n"
@@ -96,10 +94,8 @@ export const EN: Record<TranslationKey, string> = {
   fp_wwd_tag: "INDEPENDENT · SAUDI · CMA-REGULATED",
   fp_wwd_h: "Principal-minded investing, built on conviction — not product shelves.",
   fp_wwd_lead: "Miyar Capital is an independent Saudi investment firm managing capital across four integrated disciplines, and advising companies and shareholders on the transactions that define their future.",
-  fp_wwd_btn1: "Explore Asset Management",
-  fp_wwd_btn1_url: "/asset-management",
-  fp_wwd_btn2: "Investment Banking",
-  fp_wwd_btn2_url: "/investment-banking",
+  fp_wwd_link: "About Us",
+  fp_wwd_link_url: "/about-us",
   fp_wwd_p1_n: "4",
   fp_wwd_p1_l: "Investment Pillars",
   fp_wwd_p2_n: "Multi-bn",
@@ -178,10 +174,8 @@ export const AR: Record<TranslationKey, string> = {
   fp_wwd_tag: "مستقلة · سعودية · مرخصة من هيئة السوق المالية",
   fp_wwd_h: "استثمار قائم على المبادئ، مبني على القناعة — لا على رفوف المنتجات.",
   fp_wwd_lead: "معيار المالية شركة استثمارية سعودية مستقلة تدير رؤوس الأموال عبر أربعة مجالات متكاملة، وتقدم المشورة للشركات والمساهمين في الصفقات التي ترسم مستقبلهم.",
-  fp_wwd_btn1: "استكشف إدارة الأصول",
-  fp_wwd_btn1_url: "/asset-management",
-  fp_wwd_btn2: "الخدمات المصرفية الاستثمارية",
-  fp_wwd_btn2_url: "/investment-banking",
+  fp_wwd_link: "من نحن",
+  fp_wwd_link_url: "/about-us",
   fp_wwd_p1_n: "4",
   fp_wwd_p1_l: "ركائز استثمارية",
   fp_wwd_p2_n: "مليارات",

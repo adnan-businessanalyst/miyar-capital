@@ -5,16 +5,18 @@ import type { FooterDoc } from "./types";
  * Edit labels (EN/AR), columns, address, and background settings here.
  * Not managed by Site Manager or the API.
  *
- * Background image: place `footer-bg.jpg` (or .png / .webp) in
- * `src/assets/footer/`. Resolved via import.meta.glob when present.
+ * Background image: place `footer-bg.svg` (or .avif / .webp / .jpg / .jpeg / .png)
+ * in `src/assets/footer/`. Resolved via import.meta.glob when present.
  */
+import { resolveAssetUrl } from "./resolveAssetUrl";
+
 const footerBgModules = import.meta.glob(
-  "../assets/footer/footer-bg.{svg,jpg,jpeg,JPG,JPEG,png,webp}",
+  "../assets/footer/footer-bg.{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}",
   { eager: true, import: "default" },
 ) as Record<string, string>;
 
 /** Resolved URL for the local footer background image, or empty if missing. */
-export const FOOTER_BG_IMAGE = Object.values(footerBgModules)[0] ?? "";
+export const FOOTER_BG_IMAGE = resolveAssetUrl(footerBgModules);
 
 export interface SiteFooter extends FooterDoc {
   /** Solid footer base colour (shows behind / without the image). */

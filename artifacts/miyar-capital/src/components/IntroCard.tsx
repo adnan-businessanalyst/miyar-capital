@@ -1,8 +1,9 @@
 interface IntroCardProps {
   image: string;
+  alt?: string;
 }
 
-export function IntroCard({ image }: IntroCardProps) {
+export function IntroCard({ image, alt = "Asset Management" }: IntroCardProps) {
   const scrollToRegister = () => {
     document
       .getElementById("register")
@@ -31,7 +32,7 @@ export function IntroCard({ image }: IntroCardProps) {
             </button>
           </div>
           <div className="arr-intro-img">
-            <img src={image} alt="Miyar Capital investment management" />
+            <img src={image} alt={alt} />
           </div>
         </div>
       </div>

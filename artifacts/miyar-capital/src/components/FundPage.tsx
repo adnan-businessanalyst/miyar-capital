@@ -3,7 +3,9 @@ import { IntroCard } from "./IntroCard";
 import { RegisterInterest } from "./RegisterInterest";
 import { StatIcon } from "./StatIcon";
 import type { FundData, FundReport, FundStat } from "../data/funds";
-import signingImg from "@assets/generated_images/signing_document.png";
+import { CONTENT_IMAGES } from "../site/contentImages";
+
+const signingImg = CONTENT_IMAGES.service_asset_management;
 
 function StatSection({ title, stats }: { title: string; stats: FundStat[] }) {
   return (

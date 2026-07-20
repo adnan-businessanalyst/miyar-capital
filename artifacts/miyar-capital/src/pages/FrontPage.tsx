@@ -1,5 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type CSSProperties, type ComponentType } from "react";
 import { useLocation } from "wouter";
+import {
+  Target,
+  SlidersHorizontal,
+  Compass,
+  Handshake,
+  ChartColumnIncreasing,
+  type LucideProps,
+} from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
 import { HERO_CARD, HERO_CARD_IMAGE } from "../site/heroCard";
 import { HERO_CTA } from "../site/heroCta";
@@ -7,16 +15,16 @@ import { HERO_TEXT } from "../site/heroText";
 import { pickLang } from "../site/types";
 import { HeroBackground } from "../components/HeroBackground";
 import { Disclaimer } from "../components/Disclaimer";
-import heroBg from "@assets/generated_images/miyar_building.png";
-import ibImg from "@assets/generated_images/public_offers.png";
-import amImg from "@assets/generated_images/signing_document.png";
-import why1 from "@assets/generated_images/person_1.png";
-import why2 from "@assets/generated_images/person_2.png";
-import why3 from "@assets/generated_images/person_3.png";
-import why4 from "@assets/generated_images/advisory_step1.png";
-import why5 from "@assets/generated_images/advisory_step2.png";
-import contactImg from "@assets/generated_images/man_on_phone.png";
+import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
+import { FOOTER_BG_IMAGE } from "../site/footer";
+import { MAN_ON_PHONE_IMG as contactImg } from "../site/manOnPhone";
 import type { TranslationKey } from "../i18n/translations";
+
+const appBg = CONTENT_IMAGES.app_bg;
+const appPhoneScreen = CONTENT_IMAGES.app_phone_screen;
+const appPhoneVideo = CONTENT_VIDEOS.app_phone_screen;
+const ibImg = CONTENT_IMAGES.service_investment_banking;
+const amImg = CONTENT_IMAGES.service_asset_management;
 
 type TFn = (key: TranslationKey) => string;
 
@@ -60,33 +68,57 @@ function SlotImg({ raw, fallback, className, alt }: { raw: string; fallback: str
   return <img className={className} src={src} alt={cfg.altText ?? alt ?? ""} style={style} />;
 }
 
-const WHY_CARDS: { img: string; imgKey: TranslationKey; h: TranslationKey; p: TranslationKey }[] = [
-  { img: why1, imgKey: "fp_img_why1", h: "fp_why_h",  p: "fp_why_p"  },
-  { img: why2, imgKey: "fp_img_why2", h: "fp_why2_h", p: "fp_why2_p" },
-  { img: why3, imgKey: "fp_img_why3", h: "fp_why3_h", p: "fp_why3_p" },
-  { img: why4, imgKey: "fp_img_why4", h: "fp_why4_h", p: "fp_why4_p" },
-  { img: why5, imgKey: "fp_img_why5", h: "fp_why5_h", p: "fp_why5_p" },
+const WHY_CARDS: {
+  Icon: ComponentType<LucideProps>;
+  h: TranslationKey;
+  p: TranslationKey;
+}[] = [
+  { Icon: Target, h: "fp_why_h", p: "fp_why_p" },
+  { Icon: SlidersHorizontal, h: "fp_why2_h", p: "fp_why2_p" },
+  { Icon: Compass, h: "fp_why3_h", p: "fp_why3_p" },
+  { Icon: Handshake, h: "fp_why4_h", p: "fp_why4_p" },
+  { Icon: ChartColumnIncreasing, h: "fp_why5_h", p: "fp_why5_p" },
 ];
 
 function WhyAccordion({ t }: { t: TFn }) {
   const [open, setOpen] = useState(0);
   return (
     <div className="fp-why-layout">
-      <div className="fp-why-acc">
-        {WHY_CARDS.map((card, i) => (
-          <div
-            key={i}
-            className={`fp-why-item${open === i ? " is-open" : ""}`}
-            onClick={() => setOpen(i)}
-          >
-            <span className="fp-why-item-num">0{i + 1}</span>
-            <SlotImg raw={t(card.imgKey)} fallback={card.img} alt="" />
-            <div className="fp-why-item-body">
-              <h3>{t(card.h)}</h3>
-              <p>{t(card.p)}</p>
+      <div
+        className="fp-why-acc"
+        style={
+          FOOTER_BG_IMAGE
+            ? ({ "--fp-why-expanded-bg": `url(${FOOTER_BG_IMAGE})` } as CSSProperties)
+            : undefined
+        }
+      >
+        {WHY_CARDS.map((card, i) => {
+          const Icon = card.Icon;
+          return (
+            <div
+              key={i}
+              className={`fp-why-item${open === i ? " is-open" : ""}`}
+              onClick={() => setOpen(i)}
+            >
+              <span className="fp-why-item-num">0{i + 1}</span>
+              <span className="fp-why-icon" aria-hidden="true">
+                <span className="fp-why-icon-extrude">
+                  <Icon strokeWidth={1.5} />
+                </span>
+                <span className="fp-why-icon-extrude fp-why-icon-extrude--mid">
+                  <Icon strokeWidth={1.5} />
+                </span>
+                <span className="fp-why-icon-face">
+                  <Icon strokeWidth={1.5} />
+                </span>
+              </span>
+              <div className="fp-why-item-body">
+                <h3>{t(card.h)}</h3>
+                <p>{t(card.p)}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
       <ul className="fp-why-list">
         {WHY_CARDS.map((card, i) => (
@@ -158,6 +190,24 @@ function AnimatedHero({ lang }: { lang: string }) {
 
 const DEFAULT_ORDER = ["hero", "whatwedo", "services", "principals", "why", "contact", "disclaimer", "app"];
 
+/** Sections that alternate light / soft backgrounds (not hero, app, or footer). */
+const FP_BANDED_SECTIONS = new Set([
+  "whatwedo",
+  "services",
+  "principals",
+  "why",
+  "contact",
+  "disclaimer",
+]);
+
+function fpSectionBgClass(id: string, order: string[]): string {
+  if (!FP_BANDED_SECTIONS.has(id)) return "";
+  const banded = order.filter((s) => FP_BANDED_SECTIONS.has(s));
+  const i = banded.indexOf(id);
+  if (i < 0) return "";
+  return i % 2 === 0 ? "fp-section-bg-a" : "fp-section-bg-b";
+}
+
 export function FrontPage() {
   const [, navigate] = useLocation();
   const { t, lang } = useLanguage();
@@ -174,11 +224,11 @@ export function FrontPage() {
     openHref(stored || defaultPath);
   };
 
-  const phoneImageUrl = t("fp_app_phone_img");
   const googlePlayUrl = t("fp_app_google_url");
   const appStoreUrl = t("fp_app_store_url");
   const contactFormAction = t("fp_contact_form_action");
   const sectionOrder = DEFAULT_ORDER;
+  const bg = (id: string) => fpSectionBgClass(id, sectionOrder);
 
   const renderSection = (id: string) => {
     switch (id) {
@@ -249,15 +299,24 @@ export function FrontPage() {
         );
       case "whatwedo":
         return (
-          <section key={id} className="blk fp-wwd">
+          <section key={id} className={`blk fp-wwd ${bg(id)}`}>
             <div className="wrap">
               <div className="fp-tag">{t("fp_wwd_tag")}</div>
               <h2 className="fp-h2 fp-wwd-h2">{t("fp_wwd_h")}</h2>
               <p className="fp-wwd-lead">{t("fp_wwd_lead")}</p>
-              <div className="fp-wwd-btns">
-                <button className="btn btn-gold fp-round" onClick={() => followLink(t("fp_wwd_btn1_url"), "/asset-management")}>{t("fp_wwd_btn1")}</button>
-                <button className="btn btn-outline-white fp-round" onClick={() => followLink(t("fp_wwd_btn2_url"), "/investment-banking")}>{t("fp_wwd_btn2")}</button>
-              </div>
+              <a
+                className="fp-wwd-link"
+                href="/about-us"
+                onClick={(e) => {
+                  e.preventDefault();
+                  followLink(t("fp_wwd_link_url"), "/about-us");
+                }}
+              >
+                <span className="fp-wwd-link-label">{t("fp_wwd_link")}</span>
+                <span className="fp-wwd-link-arrow" aria-hidden="true">
+                  →
+                </span>
+              </a>
               <div className="fp-wwd-pillars">
                 <div className="fp-wwd-pillar">
                   <div className="fp-wwd-pillar-n">{t("fp_wwd_p1_n")}</div>
@@ -277,7 +336,7 @@ export function FrontPage() {
         );
       case "principals":
         return (
-          <section key={id} className="blk fp-principals">
+          <section key={id} className={`blk fp-principals ${bg(id)}`}>
             <div className="wrap fp-principals-grid">
               <p className="fp-principals-left">
                 {t("fp_prin_left_a")}
@@ -303,7 +362,7 @@ export function FrontPage() {
         );
       case "services":
         return (
-          <section key={id} className="blk">
+          <section key={id} className={`blk ${bg(id)}`}>
             <div className="wrap">
               <div className="fp-center">
                 <div className="fp-tag">{t("fp_services_tag")}</div>
@@ -311,7 +370,7 @@ export function FrontPage() {
               </div>
               <div className="fp-services">
                 <div className="fp-service" onClick={() => followLink(t("fp_svc_ib_url"), "/investment-banking")}>
-                  <SlotImg raw={t("fp_img_svc_ib")} fallback={ibImg} alt={t("fp_svc_ib")} />
+                  <SlotImg raw={t("fp_img_svc_ib")} fallback={ibImg} alt="Investment Banking" />
                   <div className="fp-service-cap">
                     <span className="fp-service-num" aria-hidden="true">01</span>
                     <h3>{t("fp_svc_ib")}</h3>
@@ -323,7 +382,7 @@ export function FrontPage() {
                   </div>
                 </div>
                 <div className="fp-service" onClick={() => followLink(t("fp_svc_am_url"), "/asset-management")}>
-                  <SlotImg raw={t("fp_img_svc_am")} fallback={amImg} alt={t("fp_svc_am")} />
+                  <SlotImg raw={t("fp_img_svc_am")} fallback={amImg} alt="Asset Management" />
                   <div className="fp-service-cap">
                     <span className="fp-service-num" aria-hidden="true">02</span>
                     <h3>{t("fp_svc_am")}</h3>
@@ -340,7 +399,7 @@ export function FrontPage() {
         );
       case "why":
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className={`blk ${bg(id)}`}>
             <div className="wrap">
               <div className="fp-center" style={{ marginBottom: "28px" }}>
                 <div className="fp-tag">{t("fp_why_tag")}</div>
@@ -351,7 +410,7 @@ export function FrontPage() {
         );
       case "contact":
         return (
-          <section key={id} className="fp-contact">
+          <section key={id} className={`fp-contact ${bg(id)}`}>
             <div className="fp-contact-media">
               <SlotImg raw={t("fp_img_contact")} fallback={contactImg} alt="" />
             </div>
@@ -379,16 +438,19 @@ export function FrontPage() {
           </section>
         );
       case "disclaimer":
-        return <Disclaimer key={id} />;
+        return (
+          <section key={id} className={bg(id)}>
+            <Disclaimer />
+          </section>
+        );
       case "app":
         return (
-          <section
-            key={id}
-            className="fp-app"
-            style={{
-              backgroundImage: `linear-gradient(90deg, rgba(7,30,51,0.95) 0%, rgba(7,30,51,0.7) 60%, rgba(7,30,51,0.5) 100%), url(${heroBg})`,
-            }}
-          >
+          <section key={id} className="fp-app">
+            <img
+              className="fp-app-bg"
+              src={appBg}
+              alt="mobile app section background image"
+            />
             <div className="wrap fp-app-inner">
               <div className="fp-app-text">
                 <h2>{t("fp_app_h")}</h2>
@@ -418,27 +480,45 @@ export function FrontPage() {
                 <div className="fp-phone">
                   <div className="fp-phone-notch" />
                   <div
-                    className="fp-phone-screen"
+                    className={`fp-phone-screen${appPhoneVideo || appPhoneScreen ? " has-media" : ""}`}
                     style={
-                      phoneImageUrl
+                      !appPhoneVideo && appPhoneScreen
                         ? {
-                            backgroundImage: `url(${phoneImageUrl})`,
+                            backgroundImage: `url(${appPhoneScreen})`,
                             backgroundSize: "cover",
                             backgroundPosition: "top center",
                             backgroundRepeat: "no-repeat",
                           }
                         : undefined
                     }
+                    role={!appPhoneVideo && appPhoneScreen ? "img" : undefined}
+                    aria-label={
+                      appPhoneVideo || appPhoneScreen
+                        ? "Miyar mobile app screen"
+                        : undefined
+                    }
                   >
-                    {!phoneImageUrl && (
-                      <>
-                        <div className="fp-phone-brand">MIYAR</div>
-                        <div className="fp-phone-bar" />
-                        <div className="fp-phone-bar short" />
-                        <div className="fp-phone-tile" />
-                        <div className="fp-phone-bar" />
-                        <div className="fp-phone-bar short" />
-                      </>
+                    {appPhoneVideo ? (
+                      <video
+                        className="fp-phone-media"
+                        src={appPhoneVideo}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        aria-label="Miyar mobile app screen"
+                      />
+                    ) : (
+                      !appPhoneScreen && (
+                        <>
+                          <div className="fp-phone-brand">MIYAR</div>
+                          <div className="fp-phone-bar" />
+                          <div className="fp-phone-bar short" />
+                          <div className="fp-phone-tile" />
+                          <div className="fp-phone-bar" />
+                          <div className="fp-phone-bar short" />
+                        </>
+                      )
                     )}
                   </div>
                 </div>
