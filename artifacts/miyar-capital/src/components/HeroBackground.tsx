@@ -1,7 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { resolveAssetUrl } from "../site/resolveAssetUrl";
 
 type HeroSize = "mobile" | "tablet" | "desktop";
+
+/** Hero background playback speed (1 = normal). */
+const HERO_VIDEO_RATE = 0.5;
 
 /** When a size is missing, try desktop → tablet → mobile. */
 const FALLBACK_ORDER: HeroSize[] = ["desktop", "tablet", "mobile"];
@@ -62,6 +65,7 @@ export function HeroBackground() {
   const images = useMemo(() => buildSizeMap(imageModules), []);
   const videos = useMemo(() => buildSizeMap(videoModules), []);
   const [size, setSize] = useState<HeroSize>(getViewportSize);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const mqMobile = window.matchMedia("(max-width: 560px)");
@@ -82,11 +86,28 @@ export function HeroBackground() {
   const desktopImg = resolveAsset(images, "desktop");
   const imgSrc = resolveAsset(images, size);
 
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el || !videoSrc) return;
+    const applyRate = () => {
+      el.playbackRate = HERO_VIDEO_RATE;
+      el.defaultPlaybackRate = HERO_VIDEO_RATE;
+    };
+    applyRate();
+    el.addEventListener("loadedmetadata", applyRate);
+    el.addEventListener("play", applyRate);
+    return () => {
+      el.removeEventListener("loadedmetadata", applyRate);
+      el.removeEventListener("play", applyRate);
+    };
+  }, [videoSrc]);
+
   return (
     <div className="fp-hero-bg" aria-hidden="true">
       {videoSrc ? (
         <video
           key={videoSrc}
+          ref={videoRef}
           className="fp-hero-bg-media"
           autoPlay
           muted
