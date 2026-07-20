@@ -32,7 +32,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
-      "@assets": path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
     },
     dedupe: ["react", "react-dom"],
   },
@@ -46,13 +45,6 @@ export default defineConfig({
     strictPort: true,
     host: "0.0.0.0",
     allowedHosts: true,
-    fs: {
-      strict: true,
-      allow: [
-        path.resolve(import.meta.dirname),
-        path.resolve(import.meta.dirname, "..", "..", "attached_assets"),
-      ],
-    },
   },
   preview: {
     port,
