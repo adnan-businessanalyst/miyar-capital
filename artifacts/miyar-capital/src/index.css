@@ -3934,7 +3934,7 @@ body[dir="rtl"] .reg-form textarea {
   cursor: pointer;
   transition: 0.3s;
   /* ...existing styles... */
-  transform: translate(-3px, -257px); /* negative = up; positive = down */
+  transform: translate(-3px, -140px); /* negative = up; positive = down */
   /* or: transform: translate(-20px, -40px);  left/right, up/down */
   width: 100%;
   max-width: 220px; /* try 280px, 360px, etc. */
@@ -3946,7 +3946,7 @@ body[dir="rtl"] .reg-form textarea {
 }
 
 .fp-hero-card:hover {
-  transform: translate(-4px, -259px);
+  transform: translate(-4px, -142px);
   border-color: var(--gold);
   background: rgba(12, 71, 110, 0.55);
 
