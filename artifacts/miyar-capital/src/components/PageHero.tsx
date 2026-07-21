@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useLocation } from "wouter";
-import logoSpinner from "../assets/brand/logo-spinner.svg";
+import logoSpinner from "../assets/brand/logo-spinner-hero.svg";
 import { resolveAssetUrl } from "../site/resolveAssetUrl";
 
 const pageHeroBgModules = import.meta.glob(
@@ -55,7 +55,7 @@ export interface PageHeroProps {
 
 type RevealPhase = "logo" | "typing" | "done";
 
-const LOGO_MS = 1900;
+const LOGO_MS = 3800;
 const TYPE_MS = 42;
 
 function normalizeCrumbs(

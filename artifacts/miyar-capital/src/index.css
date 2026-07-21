@@ -2663,7 +2663,7 @@ footer .bottom {
 }
 
 .page-hero .ph-logo.is-in {
-  animation: phLogoExpand 1.85s cubic-bezier(0.22, 0.8, 0.25, 1) forwards;
+  animation: phLogoExpand 3.7s cubic-bezier(0.22, 0.8, 0.25, 1) forwards;
 }
 
 @keyframes phLogoExpand {
@@ -4601,13 +4601,14 @@ body[dir="rtl"] .reg-form textarea {
   color: #fff;
   /* Pull hero up behind the topbar + sticky header (30px topbar + 74px header)
      so the chrome floats over it, and size the section to exactly one screen:
-     min-height 100vh with the content vertically centred in the space below
-     the chrome. */
+     min-height 100vh with the copy vertically centred in the space below
+     the chrome. Promo card is pinned to the top of this band (not translated
+     from the centered grid), so it stays put when the viewport resizes. */
   margin-top: -104px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 134px 0 60px;
   position: relative;
   overflow: hidden;
@@ -4654,6 +4655,9 @@ body[dir="rtl"] .reg-form textarea {
 .fp-hero .fp-hero-inner {
   position: relative;
   z-index: 2;
+  flex: 1 1 auto;
+  width: 100%;
+  align-content: center;
 }
 
 .fp-hero-inner {
@@ -4759,16 +4763,23 @@ body[dir="rtl"] .reg-form textarea {
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-  transition: 0.3s;
-  /* ...existing styles... */
-  /* Position: prefer HERO_CARD.offsetX/Y (inline). Fallback below for when offsets are 0. */
-  transform: translate(-3px, -320px);
+  transition: background 0.3s, border-color 0.3s;
   width: 100%;
   max-width: 220px;
-  justify-self: end;
   height: 140px;
   display: flex;
   flex-direction: column;
+  /* Desktop: pin to top of the hero wrap; inline-start synced to Login via --fp-hero-card-inline-start. */
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  inset-inline-start: auto;
+  z-index: 3;
+}
+
+.fp-hero-inner.is-card-aligned .fp-hero-card {
+  inset-inline-start: var(--fp-hero-card-inline-start);
+  inset-inline-end: auto;
 }
 
 .fp-hero-card:hover {
@@ -5133,15 +5144,15 @@ body[dir="rtl"] .fp-principals-right p {
 .fp-why-layout {
   display: flex;
   align-items: stretch;
-  gap: 28px;
+  gap: 1.75rem;
 }
 
 .fp-why-acc {
   display: flex;
   flex: 1;
   min-width: 0;
-  gap: 14px;
-  height: 420px;
+  gap: 0.875rem;
+  height: clamp(18rem, 52vh, 26.25rem);
 }
 
 .fp-why-list {
@@ -5151,9 +5162,9 @@ body[dir="rtl"] .fp-principals-right p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 18px;
-  flex: 0 0 200px;
-  max-width: 220px;
+  gap: 1.125rem;
+  flex: 0 0 12.5rem;
+  max-width: 13.75rem;
 }
 
 .fp-why-list li {
@@ -5173,7 +5184,7 @@ body[dir="rtl"] .fp-principals-right p {
 
 .fp-why-item {
   flex: 1;
-  min-width: 72px;
+  min-width: 4.5rem;
   position: relative;
   border-radius: 999px;
   overflow: hidden;
@@ -5202,7 +5213,8 @@ body[dir="rtl"] .fp-principals-right p {
 
 .fp-why-item.is-open {
   flex: 4.5;
-  border-radius: 40px;
+  min-width: 0;
+  border-radius: 2.5rem;
   border-color: transparent;
   box-shadow: 0 18px 40px rgba(7, 30, 51, 0.18);
   background-color: var(--navy);
@@ -5217,10 +5229,10 @@ body[dir="rtl"] .fp-principals-right p {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(88px, 68%);
-  height: min(88px, 68%);
-  max-width: 100px;
-  max-height: 100px;
+  width: min(5.5rem, 68%);
+  height: min(5.5rem, 68%);
+  max-width: 6.25rem;
+  max-height: 6.25rem;
   display: grid;
   place-items: center;
   transform-style: preserve-3d;
@@ -5307,7 +5319,11 @@ body[dir="rtl"] .fp-principals-right p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 28px;
+  gap: 0.65rem;
+  padding:
+    clamp(2.75rem, 6vw, 3.5rem)
+    clamp(1.15rem, 3.2vw, 1.75rem)
+    clamp(1.25rem, 3vw, 2rem);
   background: linear-gradient(
     180deg,
     rgba(7, 30, 51, 0.42) 0%,
@@ -5317,6 +5333,9 @@ body[dir="rtl"] .fp-principals-right p {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
@@ -5329,25 +5348,28 @@ body[dir="rtl"] .fp-principals-right p {
 .fp-why-item-body h3 {
   font-family: var(--serif);
   font-weight: 500;
-  font-size: 1.375rem;
+  font-size: clamp(1.05rem, 2.1vw, 1.375rem);
   color: #fff;
-  margin: 0 auto 10px;
+  margin: 0 auto;
   text-align: center;
+  max-width: 18ch;
+  line-height: 1.25;
+  flex-shrink: 0;
 }
 
 .fp-why-item-body p {
-  font-size: 0.875rem;
+  font-size: clamp(0.8rem, 1.35vw, 0.9375rem);
   color: #c7d2dc;
   font-weight: 300;
   line-height: 1.65;
   margin: 0 auto;
-  max-width: 36ch;
+  max-width: min(36ch, 100%);
   text-align: center;
 }
 
 .fp-why-item-num {
   position: absolute;
-  top: 22px;
+  top: 1.375rem;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--serif);
@@ -5366,7 +5388,8 @@ body[dir="rtl"] .fp-principals-right p {
 }
 
 .fp-why-item.is-open .fp-why-item-num {
-  left: 18px;
+  left: auto;
+  inset-inline-start: 1.125rem;
   transform: none;
   color: rgba(255, 255, 255, 0.55);
   opacity: 1;
@@ -5650,7 +5673,12 @@ body[dir="rtl"] .fp-principals-right p {
   }
   .fp-hero-card,
   .fp-hero-card:hover {
-    /* Drop desktop upward nudge (beats inline HERO_CARD offsets). */
+    /* Return to document flow under the CTA on smaller screens. */
+    position: static;
+    top: auto;
+    inset-inline-end: auto;
+    inset-inline-start: auto;
+    z-index: auto;
     transform: none !important;
     justify-self: start;
     align-self: start;
@@ -5707,10 +5735,10 @@ body[dir="rtl"] .fp-principals-right p {
   .fp-why-layout {
     flex-direction: row;
     align-items: stretch;
-    gap: 20px;
+    gap: 1.25rem;
   }
   .fp-why-acc {
-    height: 320px;
+    height: clamp(16rem, 48vh, 22rem);
   }
   .fp-why-item:not(.is-open) {
     display: none;
@@ -5718,17 +5746,25 @@ body[dir="rtl"] .fp-principals-right p {
   .fp-why-item.is-open {
     flex: 1;
     min-width: 0;
+    border-radius: 1.75rem;
   }
   .fp-why-list {
-    flex: 0 0 140px;
-    max-width: 160px;
+    flex: 0 0 8.75rem;
+    max-width: 10rem;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
-    gap: 14px;
+    gap: 0.875rem;
   }
   .fp-why-list li {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
+  }
+  .fp-why-item-body h3 {
+    font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+    max-width: 22ch;
+  }
+  .fp-why-item-body p {
+    font-size: clamp(0.8125rem, 2.4vw, 0.9375rem);
   }
 }
 
@@ -5824,18 +5860,27 @@ body[dir="rtl"] .fp-principals-right p {
     font-size: 0.75rem;
   }
   .fp-why-layout {
-    gap: 14px;
+    gap: 0.875rem;
   }
   .fp-why-acc {
-    height: 260px;
+    height: clamp(15rem, 58vh, 20rem);
   }
   .fp-why-list {
-    flex: 0 0 110px;
-    max-width: 120px;
-    gap: 12px;
+    flex: 0 0 6.75rem;
+    max-width: 7.5rem;
+    gap: 0.75rem;
   }
   .fp-why-list li {
-    font-size: 0.8rem;
+    font-size: 0.8125rem;
+  }
+  .fp-why-item.is-open {
+    border-radius: 1.5rem;
+  }
+  .fp-why-item-body {
+    padding:
+      clamp(2.5rem, 8vw, 3rem)
+      clamp(1rem, 4vw, 1.35rem)
+      clamp(1.1rem, 4vw, 1.5rem);
   }
 }
 

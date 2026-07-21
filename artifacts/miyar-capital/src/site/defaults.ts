@@ -12,7 +12,7 @@ export const SITE_META: MetaDoc = {
 /** WhatsApp floating widget config. */
 export const WHATSAPP: WhatsAppConfig = {
   enabled: true,
-  phone: "+966 92 003 2099",
+  phone: "+966 55 350 5030",
   messageEn: "Hello Miyar Capital, I would like to know more.",
   messageAr: "مرحباً معيار كابيتال، أود معرفة المزيد.",
   bgColor: "#0c476e",
