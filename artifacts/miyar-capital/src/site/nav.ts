@@ -63,12 +63,6 @@ export const SITE_NAV: NavDoc = {
           href: "/asset-management",
         },
         {
-          id: "am-im",
-          labelEn: "Investment Management",
-          labelAr: "إدارة الاستثمار",
-          href: "/investment-management",
-        },
-        {
           id: "am-grp1",
           labelEn: "THE FOUR PILLARS",
           labelAr: "الركائز الأربع",
@@ -91,18 +85,6 @@ export const SITE_NAV: NavDoc = {
           labelEn: "Real Assets",
           labelAr: "الأصول الحقيقية",
           href: "/real-assets",
-        },
-        {
-          id: "am-mur",
-          labelEn: "Murabaha Fund",
-          labelAr: "صندوق المرابحة",
-          href: "/murabaha-fund",
-        },
-        {
-          id: "am-seq",
-          labelEn: "Saudi Equity Fund",
-          labelAr: "صندوق الأسهم السعودية",
-          href: "/saudi-equity-fund",
         },
         {
           id: "am-pm",
@@ -128,6 +110,30 @@ export const SITE_NAV: NavDoc = {
           labelAr: "المؤسسات والمكاتب العائلية",
           href: "/asset-management/institutional-family-office",
         },
+        {
+          id: "am-grp3",
+          labelEn: "ORIGINAL",
+          labelAr: "حلول الاستثمار",
+          group: true,
+        },
+        {
+          id: "am-im",
+          labelEn: "Investment Management",
+          labelAr: "إدارة الاستثمار",
+          href: "/investment-management",
+        },
+        {
+          id: "am-seq",
+          labelEn: "Saudi Equity Fund",
+          labelAr: "صندوق الأسهم السعودية",
+          href: "/saudi-equity-fund",
+        },
+        {
+          id: "am-mur",
+          labelEn: "Murabaha Fund",
+          labelAr: "صندوق المرابحة",
+          href: "/murabaha-fund",
+        },
       ],
     },
     {
@@ -141,6 +147,12 @@ export const SITE_NAV: NavDoc = {
           labelEn: "Overview",
           labelAr: "نظرة عامة",
           href: "/investment-banking",
+        },
+        {
+          id: "ib-grp-overview",
+          labelEn: "",
+          labelAr: "",
+          group: true,
         },
         {
           id: "ib-cma",
@@ -172,6 +184,25 @@ export const SITE_NAV: NavDoc = {
           labelAr: "العقارات والترتيبات الخاصة",
           href: "/investment-banking/real-estate-private-arrangements",
         },
+        {
+        id: "am-grp1",
+        labelEn: "ORIGINAL PAGES",
+        labelAr: "",
+        group: true,
+      },
+        {
+          id: "ib-repa",
+          labelEn: "Arrangement Management",
+          labelAr: "",
+          href: "/arrangement-management",
+        },
+        {
+          id: "ib-repa",
+          labelEn: "Investment Advisory",
+          labelAr: "",
+          href: "/investment-advisory",
+        },
+
       ],
     },
     {
