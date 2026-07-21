@@ -1,3 +1,4 @@
+import { ChartColumnIncreasing, Compass, Globe2, Layers } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
@@ -54,22 +55,30 @@ export function EquityManagement() {
               </div>
               <div className="svc-grid svc-grid--4">
                 <div className="svc svc--dark">
-                  <div className="si">◈</div>
+                  <div className="si" aria-hidden="true">
+                    <ChartColumnIncreasing strokeWidth={1.5} />
+                  </div>
                   <h4>Local Equities</h4>
                   <p>Deep expertise in the Saudi and GCC equity markets.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">⊕</div>
+                  <div className="si" aria-hidden="true">
+                    <Globe2 strokeWidth={1.5} />
+                  </div>
                   <h4>Regional &amp; Global Equities</h4>
                   <p>Diversified exposure to broader regional and international markets.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">≣</div>
+                  <div className="si" aria-hidden="true">
+                    <Compass strokeWidth={1.5} />
+                  </div>
                   <h4>Thematic Strategies</h4>
                   <p>Focused strategies built around long-term structural growth themes.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">◆</div>
+                  <div className="si" aria-hidden="true">
+                    <Layers strokeWidth={1.5} />
+                  </div>
                   <h4>Active Portfolio Management</h4>
                   <p>Ongoing research and rebalancing to manage risk and capture opportunity.</p>
                 </div>

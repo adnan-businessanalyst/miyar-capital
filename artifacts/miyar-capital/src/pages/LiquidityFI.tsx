@@ -1,3 +1,4 @@
+import { Banknote, Landmark, Shield, Wallet } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
@@ -55,22 +56,30 @@ export function LiquidityFI() {
               </div>
               <div className="svc-grid svc-grid--4">
                 <div className="svc svc--dark">
-                  <div className="si">◈</div>
+                  <div className="si" aria-hidden="true">
+                    <Wallet strokeWidth={1.5} />
+                  </div>
                   <h4>Money Market Solutions</h4>
                   <p>Short-term instruments designed for capital preservation and liquidity.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">≡</div>
+                  <div className="si" aria-hidden="true">
+                    <Landmark strokeWidth={1.5} />
+                  </div>
                   <h4>Sukuk &amp; Fixed Income</h4>
                   <p>Access to local, regional, and global Shariah-compliant fixed income opportunities.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">⊙</div>
+                  <div className="si" aria-hidden="true">
+                    <Banknote strokeWidth={1.5} />
+                  </div>
                   <h4>Cash Management</h4>
                   <p>Efficient management of surplus cash for optimal, low-risk returns.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">◆</div>
+                  <div className="si" aria-hidden="true">
+                    <Shield strokeWidth={1.5} />
+                  </div>
                   <h4>Capital Preservation</h4>
                   <p>Strategies built around protecting principal while pursuing steady income.</p>
                 </div>
