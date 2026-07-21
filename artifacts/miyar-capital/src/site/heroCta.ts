@@ -13,7 +13,7 @@ export interface HeroCtaConfig {
 
 export const HERO_CTA: HeroCtaConfig = {
   show: true,
-  href: "/asset-management",
+  href: "#what-we-do",
   labelEn: "Explore Our Services",
   labelAr: "استكشف خدماتنا",
 };

@@ -4830,6 +4830,10 @@ body[dir="rtl"] .reg-form textarea {
   position: relative;
 }
 
+#what-we-do {
+  scroll-margin-top: 5.5rem; /* clear sticky header on in-page CTA jump */
+}
+
 .fp-wwd .fp-tag {
   color: var(--gold);
 }
