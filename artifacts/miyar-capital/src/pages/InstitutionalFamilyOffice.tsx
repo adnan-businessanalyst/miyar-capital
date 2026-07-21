@@ -1,3 +1,12 @@
+import {
+  Briefcase,
+  Building2,
+  KeyRound,
+  Landmark,
+  Layers,
+  MessageSquareText,
+  Sprout,
+} from "lucide-react";
 import { PageHero } from "../components/PageHero";
 
 export function InstitutionalFamilyOffice() {
@@ -53,7 +62,9 @@ export function InstitutionalFamilyOffice() {
 
           <div className="svc-grid svc-grid--4">
             <div className="svc">
-              <div className="si">◈</div>
+              <div className="si" aria-hidden="true">
+                <Landmark strokeWidth={1.5} />
+              </div>
               <h4>Government &amp; Quasi-Government Entities</h4>
               <p>
                 Investment programs for public institutions and their affiliates, built
@@ -62,7 +73,9 @@ export function InstitutionalFamilyOffice() {
               </p>
             </div>
             <div className="svc">
-              <div className="si">◇</div>
+              <div className="si" aria-hidden="true">
+                <Briefcase strokeWidth={1.5} />
+              </div>
               <h4>Corporates &amp; Treasuries</h4>
               <p>
                 Treasury and surplus-cash mandates that prioritize capital preservation
@@ -71,7 +84,9 @@ export function InstitutionalFamilyOffice() {
               </p>
             </div>
             <div className="svc">
-              <div className="si">∞</div>
+              <div className="si" aria-hidden="true">
+                <Building2 strokeWidth={1.5} />
+              </div>
               <h4>Family Offices &amp; Private Wealth</h4>
               <p>
                 Multi-generational portfolios aligned with family governance, succession
@@ -80,7 +95,9 @@ export function InstitutionalFamilyOffice() {
               </p>
             </div>
             <div className="svc">
-              <div className="si">◉</div>
+              <div className="si" aria-hidden="true">
+                <Sprout strokeWidth={1.5} />
+              </div>
               <h4>Endowments, Awqaf &amp; Foundations</h4>
               <p>
                 Perpetual-horizon portfolios structured to generate sustainable
@@ -116,7 +133,9 @@ export function InstitutionalFamilyOffice() {
 
           <div className="svc-grid">
             <div className="svc">
-              <div className="si">≡</div>
+              <div className="si" aria-hidden="true">
+                <Layers strokeWidth={1.5} />
+              </div>
               <h4>Segregated Mandates</h4>
               <p>
                 Fully discretionary portfolios held in the client's own name, managed
@@ -124,7 +143,9 @@ export function InstitutionalFamilyOffice() {
               </p>
             </div>
             <div className="svc">
-              <div className="si">◎</div>
+              <div className="si" aria-hidden="true">
+                <MessageSquareText strokeWidth={1.5} />
+              </div>
               <h4>Advisory Services</h4>
               <p>
                 Non-discretionary support for clients who retain decision-making
@@ -133,7 +154,9 @@ export function InstitutionalFamilyOffice() {
               </p>
             </div>
             <div className="svc">
-              <div className="si">⊕</div>
+              <div className="si" aria-hidden="true">
+                <KeyRound strokeWidth={1.5} />
+              </div>
               <h4>Access to Firm Strategies</h4>
               <p>
                 Preferential institutional access to Miyar Capital's fund range and

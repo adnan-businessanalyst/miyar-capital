@@ -1,3 +1,4 @@
+import { Building2, Construction, Network, PieChart } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
@@ -54,22 +55,30 @@ export function RealAssets() {
               </div>
               <div className="svc-grid svc-grid--4">
                 <div className="svc svc--dark">
-                  <div className="si">◈</div>
+                  <div className="si" aria-hidden="true">
+                    <Building2 strokeWidth={1.5} />
+                  </div>
                   <h4>Income-Generating Real Estate</h4>
                   <p>Access to stabilized properties offering steady, recurring income.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">⊕</div>
+                  <div className="si" aria-hidden="true">
+                    <Construction strokeWidth={1.5} />
+                  </div>
                   <h4>Development Opportunities</h4>
                   <p>Selective participation in value-add and development-stage real estate.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">≣</div>
+                  <div className="si" aria-hidden="true">
+                    <Network strokeWidth={1.5} />
+                  </div>
                   <h4>Infrastructure</h4>
                   <p>Exposure to essential infrastructure assets with long-term stability.</p>
                 </div>
                 <div className="svc svc--dark">
-                  <div className="si">◆</div>
+                  <div className="si" aria-hidden="true">
+                    <PieChart strokeWidth={1.5} />
+                  </div>
                   <h4>Portfolio Diversification</h4>
                   <p>Real assets that reduce correlation with traditional financial markets.</p>
                 </div>
