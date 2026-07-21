@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Animated symmetrical nine-column white logo</title>
+  <desc id="desc">Nine rounded white columns animate upward from the baseline in a symmetrical center-outward sequence.</desc>
+
+  <rect width="1200" height="1200" fill="none"/>
+
+  <style>
+    .bar {
+      fill: #ffffff;
+      transform-box: fill-box;
+      transform-origin: center bottom;
+      animation: rise 5.6s cubic-bezier(.22,.8,.25,1) infinite;
+    }
+
+    .b1, .b9 { animation-delay: .64s; }
+    .b2, .b8 { animation-delay: .48s; }
+    .b3, .b7 { animation-delay: .32s; }
+    .b4, .b6 { animation-delay: .16s; }
+    .b5     { animation-delay: 0s; }
+
+    @keyframes rise {
+      0%, 8%   { transform: scaleY(0.08); opacity: 0.35; }
+      34%      { transform: scaleY(1); opacity: 1; }
+      72%      { transform: scaleY(1); opacity: 1; }
+      88%,100% { transform: scaleY(0.08); opacity: 0.35; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bar { animation: none; transform: scaleY(1); opacity: 1; }
+    }
+  </style>
+
+  <g>
+    <rect class="bar b1" x="120"  y="230" width="70" height="740" rx="35"/>
+    <rect class="bar b2" x="235"  y="320" width="70" height="650" rx="35"/>
+    <rect class="bar b3" x="350"  y="400" width="70" height="570" rx="35"/>
+    <rect class="bar b4" x="465"  y="485" width="70" height="485" rx="35"/>
+    <rect class="bar b5" x="565"  y="610" width="70" height="360" rx="35"/>
+    <rect class="bar b6" x="665"  y="485" width="70" height="485" rx="35"/>
+    <rect class="bar b7" x="780"  y="400" width="70" height="570" rx="35"/>
+    <rect class="bar b8" x="895"  y="320" width="70" height="650" rx="35"/>
+    <rect class="bar b9" x="1010" y="230" width="70" height="740" rx="35"/>
+  </g>
+</svg>

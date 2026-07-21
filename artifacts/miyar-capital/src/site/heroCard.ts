@@ -35,8 +35,6 @@ export interface HeroCardConfig {
   width: number;
   /** Height in px; 0 = auto. */
   height: number;
-  offsetX: number;
-  offsetY: number;
 }
 
 export const HERO_CARD: HeroCardConfig = {
@@ -55,7 +53,4 @@ export const HERO_CARD: HeroCardConfig = {
   textColor: "",
   width: 0,
   height: 0,
-  offsetX: -3,
-  /** Desktop only (cleared under 1101px). Negative = up. */
-  offsetY: -320,
 };

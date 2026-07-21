@@ -18,6 +18,7 @@ import { Disclaimer } from "../components/Disclaimer";
 import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
 import { FOOTER_BG_IMAGE } from "../site/footer";
 import { MAN_ON_PHONE_IMG as contactImg } from "../site/manOnPhone";
+import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import type { TranslationKey } from "../i18n/translations";
 
 const appBg = CONTENT_IMAGES.app_bg;
@@ -211,6 +212,8 @@ function fpSectionBgClass(id: string, order: string[]): string {
 export function FrontPage() {
   const [, navigate] = useLocation();
   const { t, lang } = useLanguage();
+  const heroWrapRef = useRef<HTMLDivElement>(null);
+  useHeroCardLoginAlign(heroWrapRef, HERO_CARD.show, lang);
 
   const openHref = (href: string) => {
     if (/^https?:\/\//.test(href)) {
@@ -236,7 +239,7 @@ export function FrontPage() {
         return (
           <section key={id} className="fp-hero">
             <HeroBackground />
-            <div className="wrap fp-hero-inner">
+            <div className="wrap fp-hero-inner" ref={heroWrapRef}>
               <div className="fp-hero-text">
                 <AnimatedHero lang={lang} />
                 {HERO_CTA.show && (
@@ -255,7 +258,7 @@ export function FrontPage() {
                   style={{
                     ...(HERO_CARD.background ? { background: HERO_CARD.background } : {}),
                     ...(HERO_CARD.width > 0
-                      ? { width: "100%", maxWidth: HERO_CARD.width, justifySelf: "end" }
+                      ? { width: "100%", maxWidth: HERO_CARD.width }
                       : {}),
                     ...(HERO_CARD.height > 0
                       ? {
@@ -263,9 +266,6 @@ export function FrontPage() {
                           display: "flex",
                           flexDirection: "column" as const,
                         }
-                      : {}),
-                    ...(HERO_CARD.offsetX !== 0 || HERO_CARD.offsetY !== 0
-                      ? { transform: `translate(${HERO_CARD.offsetX}px, ${HERO_CARD.offsetY}px)` }
                       : {}),
                   }}
                   onClick={() => openHref(HERO_CARD.href)}

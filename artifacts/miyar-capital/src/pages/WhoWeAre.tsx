@@ -107,6 +107,7 @@ export function WhoWeAre() {
             title="Who We Are"
             crumb="Who We Are"
             description="Miyar Capital is a Shariah-compliant financial institution committed to ethical investment, transparent governance, and long-term value for the communities we serve."
+            animate
           />
         );
       case "story":
