@@ -218,9 +218,14 @@ export function FrontPage() {
   const openHref = (href: string) => {
     if (/^https?:\/\//.test(href)) {
       window.open(href, "_blank", "noopener,noreferrer");
-    } else {
-      navigate(href);
+      return;
     }
+    if (href.startsWith("#")) {
+      const el = document.getElementById(href.slice(1));
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    navigate(href);
   };
 
   const followLink = (stored: string, defaultPath: string) => {
@@ -362,7 +367,7 @@ export function FrontPage() {
         );
       case "services":
         return (
-          <section key={id} className={`blk ${bg(id)}`}>
+          <section key={id} id="what-we-do" className={`blk ${bg(id)}`}>
             <div className="wrap">
               <div className="fp-center">
                 <div className="fp-tag">{t("fp_services_tag")}</div>
