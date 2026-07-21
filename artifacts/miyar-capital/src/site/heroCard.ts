@@ -42,13 +42,13 @@ export interface HeroCardConfig {
 export const HERO_CARD: HeroCardConfig = {
   show: true,
   showImage: false,
-  href: "/private-markets",
-  titleEn: "Riyadh Residences",
-  titleAr: "مساكن الرياض",
+  href: "/asset-management/liquidity-fi",
+  titleEn: "Sukuk Offerings ",
+  titleAr: "عروض الصكوك",
   bodyEn:
-    "A residential development marketing mandate — a smart, modern offering built for comfortable living.",
+    "We offer a range of Sukuk offerings to meet the needs of our clients.",
   bodyAr:
-    "تفويض تسويق لمشروع تطوير سكني — عرض عصري وذكي مصمم لحياة مريحة.",
+    "نقدم عروض مختلفة من السكوك لتلبية احتياجات عملائنا.",
   background: "",
   headingColor: "",
   headingFont: "",

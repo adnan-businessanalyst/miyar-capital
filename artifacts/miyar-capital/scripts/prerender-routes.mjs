@@ -10,9 +10,8 @@
 export const PRERENDER_ROUTES = [
   "/",
   "/who-we-are",
-  "/about-us",
   "/board-of-directors",
-  "/our-team",
+  "/executive-team",
   "/governance-independence",
   "/shariah-principles",
   "/asset-management",

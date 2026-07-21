@@ -306,10 +306,10 @@ export function FrontPage() {
               <p className="fp-wwd-lead">{t("fp_wwd_lead")}</p>
               <a
                 className="fp-wwd-link"
-                href="/about-us"
+                href="/who-we-are"
                 onClick={(e) => {
                   e.preventDefault();
-                  followLink(t("fp_wwd_link_url"), "/about-us");
+                  followLink(t("fp_wwd_link_url"), "/who-we-are");
                 }}
               >
                 <span className="fp-wwd-link-label">{t("fp_wwd_link")}</span>
