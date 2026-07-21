@@ -1,47 +1,46 @@
 import { PageHero } from "../components/PageHero";
 import { PersonCard } from "../components/PersonCard";
-import { BOARD_MEMBERS } from "../data/people";
+import { EXECUTIVE_TEAM } from "../data/people";
 import { usePeopleGridReveal } from "../hooks/usePeopleGridReveal";
 
-const CHAIRMAN =
-  BOARD_MEMBERS.find(
-    (m) => m.role.includes("Chairman") && !m.role.includes("Vice"),
-  ) ?? BOARD_MEMBERS[0];
+const CEO =
+  EXECUTIVE_TEAM.find((m) => m.role.includes("Chief Executive Officer")) ??
+  EXECUTIVE_TEAM[0];
 
-export function BoardOfDirectors() {
-  const gridRef = usePeopleGridReveal(BOARD_MEMBERS.length);
+export function ExecutiveTeam() {
+  const gridRef = usePeopleGridReveal(EXECUTIVE_TEAM.length);
 
   return (
     <div className="page">
       <PageHero
         className="page-hero--fold"
-        title="Board of Directors"
+        title="Executive Team"
         crumbs={[
           { label: "About", href: "/who-we-are" },
-          { label: "Board of Directors" },
+          { label: "Executive Team" },
         ]}
-        description="An independent board that sets strategy, upholds Shariah-aligned governance, and stewards Miyar Capital for long-term client trust."
+        description="Seasoned leaders in finance, governance, and Islamic investment — guiding Miyar Capital's strategy and day-to-day operations."
       >
         <div className="bod-chair">
           <aside className="bod-chair-person">
-            <div className={`bod-chair-photo${!CHAIRMAN.photo ? " bod-chair-photo--placeholder" : ""}`}>
-              {CHAIRMAN.photo ? (
-                <img src={CHAIRMAN.photo} alt={CHAIRMAN.name} />
+            <div className={`bod-chair-photo${!CEO.photo ? " bod-chair-photo--placeholder" : ""}`}>
+              {CEO.photo ? (
+                <img src={CEO.photo} alt={CEO.name} />
               ) : (
                 <span className="bod-chair-initials" aria-hidden="true">
-                  {CHAIRMAN.initials ?? "MZ"}
+                  {CEO.initials ?? "MZ"}
                 </span>
               )}
             </div>
-            <div className="bod-chair-name">{CHAIRMAN.name}</div>
-            <div className="bod-chair-role">{CHAIRMAN.role}</div>
+            <div className="bod-chair-name">{CEO.name}</div>
+            <div className="bod-chair-role">{CEO.role}</div>
           </aside>
           <blockquote className="bod-chair-message">
             <p>
               <span className="bod-chair-mark" aria-hidden="true">
                 “
               </span>
-              {CHAIRMAN.bio}
+              {CEO.bio}
             </p>
           </blockquote>
         </div>
@@ -49,7 +48,7 @@ export function BoardOfDirectors() {
       <section className="blk">
         <div className="wrap">
           <div ref={gridRef} className="people-grid people-grid--board">
-            {BOARD_MEMBERS.map((person, i) => (
+            {EXECUTIVE_TEAM.map((person, i) => (
               <PersonCard
                 key={`${person.name}-${i}`}
                 {...person}

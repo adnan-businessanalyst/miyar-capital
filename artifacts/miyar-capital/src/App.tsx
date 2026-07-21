@@ -10,9 +10,8 @@ import { RouteLoadingProvider, lazyPage } from "./components/RouteLoading";
 
 const FrontPage = lazyPage(() => import("./pages/FrontPage"), "FrontPage");
 const WhoWeAre = lazyPage(() => import("./pages/WhoWeAre"), "WhoWeAre");
-const AboutUs = lazyPage(() => import("./pages/AboutUs"), "AboutUs");
 const BoardOfDirectors = lazyPage(() => import("./pages/BoardOfDirectors"), "BoardOfDirectors");
-const OurTeam = lazyPage(() => import("./pages/OurTeam"), "OurTeam");
+const ExecutiveTeam = lazyPage(() => import("./pages/ExecutiveTeam"), "ExecutiveTeam");
 const AssetManagement = lazyPage(() => import("./pages/AssetManagement"), "AssetManagement");
 const InvestmentBanking = lazyPage(() => import("./pages/InvestmentBanking"), "InvestmentBanking");
 const ProductTemplate = lazyPage(() => import("./pages/ProductTemplate"), "ProductTemplate");
@@ -137,9 +136,11 @@ function Router() {
         <Redirect to="/" />
       </Route>
       <Route path="/who-we-are" component={WhoWeAre} />
-      <Route path="/about-us" component={AboutUs} />
       <Route path="/board-of-directors" component={BoardOfDirectors} />
-      <Route path="/our-team" component={OurTeam} />
+      <Route path="/executive-team" component={ExecutiveTeam} />
+      <Route path="/our-team">
+        <Redirect to="/executive-team" />
+      </Route>
       <Route path="/governance-independence" component={GovernanceIndependence} />
       <Route path="/shariah-principles" component={ShariahPrinciples} />
       <Route path="/asset-management" component={AssetManagement} />

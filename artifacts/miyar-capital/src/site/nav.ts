@@ -16,14 +16,8 @@ export const SITE_NAV: NavDoc = {
       id: "about",
       labelEn: "About",
       labelAr: "عن معيار",
-      href: "/who-we-are",
+      href: "",
       children: [
-        {
-          id: "about-us",
-          labelEn: "Abont Us",
-          labelAr: "من نحن",
-          href: "/about-us",
-        },
         {
           id: "about-who",
           labelEn: "Who We Are",
@@ -37,10 +31,10 @@ export const SITE_NAV: NavDoc = {
           href: "/board-of-directors",
         },
         {
-          id: "about-team",
-          labelEn: "Our Team",
-          labelAr: "فريقنا",
-          href: "/our-team",
+          id: "about-executive-team",
+          labelEn: "Executive Team",
+          labelAr: "الفريق التنفيذي",
+          href: "/executive-team",
         },
         {
           id: "about-gov",
@@ -143,6 +137,12 @@ export const SITE_NAV: NavDoc = {
       href: "/investment-banking",
       children: [
         {
+          id: "ib-overview",
+          labelEn: "Overview",
+          labelAr: "نظرة عامة",
+          href: "/investment-banking",
+        },
+        {
           id: "ib-cma",
           labelEn: "Capital Markets Advisory",
           labelAr: "استشارات أسواق المال",
@@ -175,22 +175,10 @@ export const SITE_NAV: NavDoc = {
       ],
     },
     {
-      id: "insights",
-      labelEn: "Insights",
-      labelAr: "رؤى",
-      href: "/insights",
-      children: [
-        { id: "ins-cio",  labelEn: "CIO Views",          labelAr: "رؤى مدير الاستثمار",  href: "/insights#cio" },
-        { id: "ins-fund", labelEn: "Fund Commentary",     labelAr: "تعليقات الصناديق",    href: "/insights#fund" },
-        { id: "ins-mkt",  labelEn: "Market Commentary",   labelAr: "تعليقات السوق",       href: "/insights#market" },
-        { id: "ins-res",  labelEn: "Research Notes",      labelAr: "مذكرات بحثية",        href: "/insights#research" },
-      ],
-    },
-    {
       id: "ir",
       labelEn: "Investor Relations",
       labelAr: "علاقات المستثمرين",
-      href: "/financial-reports",
+      href: "",
       children: [
         {
           id: "ir-fin",
@@ -224,6 +212,18 @@ export const SITE_NAV: NavDoc = {
           href: "/privacy-policy",
         },
       ],
+    },
+    {
+      id: "insights",
+      labelEn: "Insights",
+      labelAr: "رؤى",
+      href: "/insights",
+      // children: [
+      //   { id: "ins-cio",  labelEn: "CIO Views",          labelAr: "رؤى مدير الاستثمار",  href: "/insights#cio" },
+      //   { id: "ins-fund", labelEn: "Fund Commentary",     labelAr: "تعليقات الصناديق",    href: "/insights#fund" },
+      //   { id: "ins-mkt",  labelEn: "Market Commentary",   labelAr: "تعليقات السوق",       href: "/insights#market" },
+      //   { id: "ins-res",  labelEn: "Research Notes",      labelAr: "مذكرات بحثية",        href: "/insights#research" },
+      // ],
     },
   ],
 };

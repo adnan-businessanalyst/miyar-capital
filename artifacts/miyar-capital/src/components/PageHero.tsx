@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import logoSpinner from "../assets/brand/logo-spinner.svg";
 import { resolveAssetUrl } from "../site/resolveAssetUrl";
@@ -47,6 +47,10 @@ export interface PageHeroProps {
    * Default false — identical to the static hero (no logo / typing / delays).
    */
   animate?: boolean;
+  /** Optional content rendered below the description (e.g. featured quote). */
+  children?: ReactNode;
+  /** Extra class on the hero section (e.g. page-hero--fold). */
+  className?: string;
 }
 
 type RevealPhase = "logo" | "typing" | "done";
@@ -80,7 +84,10 @@ export function PageHero({
   meta,
   backgroundImage = pageHeroBg,
   animate = false,
+  children,
+  className = "",
 }: PageHeroProps) {
+  const sectionClass = ["page-hero", className].filter(Boolean).join(" ");
   const [, navigate] = useLocation();
   const trail = normalizeCrumbs(title, crumb, crumbs);
 
@@ -136,7 +143,7 @@ export function PageHero({
   /* ── Static hero (default): unchanged from pre-animate PageHero ── */
   if (!animate) {
     return (
-      <section className="page-hero">
+      <section className={sectionClass}>
         <div className="ph-bg" style={{ backgroundImage: `url(${backgroundImage})` }} />
         <div className="wrap">
           <div className="crumb">
@@ -158,6 +165,8 @@ export function PageHero({
           <h1>{title}</h1>
 
           {description ? <p className="ph-desc">{description}</p> : null}
+
+          {children}
 
           {chips && chips.length > 0 ? (
             <div className="ph-chips">
@@ -192,7 +201,7 @@ export function PageHero({
 
   /* ── Miyar Hero Reveal (animate={true} only) ── */
   return (
-    <section className="page-hero page-hero--animate">
+    <section className={`${sectionClass} page-hero--animate`}>
       <div className="ph-bg" style={{ backgroundImage: `url(${backgroundImage})` }} />
 
       {showLogo ? (
