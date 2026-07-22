@@ -1,5 +1,8 @@
+"use client";
+
 import { useState } from "react";
 import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
+import { LazyVideo } from "./LazyVideo";
 
 interface Pillar {
   num: string;
@@ -106,13 +109,11 @@ export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
                 aria-label={isThumb ? `Show ${p.title}` : undefined}
               >
                 {useVideo ? (
-                  <video
+                  <LazyVideo
                     className="pcar-card-video"
                     src={p.video}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
+                    poster={p.image || undefined}
+                    eager={isActive}
                     aria-label={p.title}
                   />
                 ) : null}

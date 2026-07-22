@@ -33,6 +33,12 @@ minimumReleaseAgeExclude:
   # this setting guards against does not apply to our own packages.
   - '@replit/*'
   - stripe-replit-sync
+  # Next.js ecosystem — allow current releases for the App Router migration.
+  - next
+  - resend
+  - drizzle-orm
+  - drizzle-kit
+  - postgres
 
 packages:
   - artifacts/*
@@ -68,6 +74,8 @@ onlyBuiltDependencies:
   - esbuild
   - msw
   - unrs-resolver
+  - sharp
+  - ffmpeg-static
 
 overrides:
   # Exclude unused platforms to keep installs smaller.
@@ -150,3 +158,5 @@ overrides:
 
 allowBuilds:
   esbuild: true
+  ffmpeg-static: true
+  sharp: true

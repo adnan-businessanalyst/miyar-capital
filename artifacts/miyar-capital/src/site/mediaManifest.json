@@ -1,0 +1,278 @@
+{
+  "brand": {
+    "logo-footer": {
+      "files": {
+        ".svg": "/media/brand/logo-footer.svg"
+      },
+      "image": "/media/brand/logo-footer.svg"
+    },
+    "logo-nav-dark": {
+      "files": {
+        ".svg": "/media/brand/logo-nav-dark.svg"
+      },
+      "image": "/media/brand/logo-nav-dark.svg"
+    },
+    "logo-nav-light": {
+      "files": {
+        ".svg": "/media/brand/logo-nav-light.svg"
+      },
+      "image": "/media/brand/logo-nav-light.svg"
+    },
+    "logo-spinner-hero": {
+      "files": {
+        ".svg": "/media/brand/logo-spinner-hero.svg"
+      },
+      "image": "/media/brand/logo-spinner-hero.svg"
+    },
+    "logo-spinner": {
+      "files": {
+        ".svg": "/media/brand/logo-spinner.svg"
+      },
+      "image": "/media/brand/logo-spinner.svg"
+    }
+  },
+  "content": {
+    "app-bg": {
+      "files": {
+        ".webp": "/media/content/app-bg.webp"
+      },
+      "image": "/media/content/app-bg.webp"
+    },
+    "app-phone-screen": {
+      "files": {
+        ".mp4": "/media/content/app-phone-screen.mp4",
+        ".webp": "/media/content/app-phone-screen.webp"
+      },
+      "video": "/media/content/app-phone-screen.mp4",
+      "image": "/media/content/app-phone-screen.webp"
+    },
+    "client-dpm": {
+      "files": {
+        ".mp4": "/media/content/client-dpm.mp4",
+        ".webp": "/media/content/client-dpm.webp"
+      },
+      "video": "/media/content/client-dpm.mp4",
+      "image": "/media/content/client-dpm.webp"
+    },
+    "client-ifo": {
+      "files": {
+        ".mp4": "/media/content/client-ifo.mp4",
+        ".webp": "/media/content/client-ifo.webp"
+      },
+      "video": "/media/content/client-ifo.mp4",
+      "image": "/media/content/client-ifo.webp"
+    },
+    "man_on_phone": {
+      "files": {
+        ".avif": "/media/content/man_on_phone.avif"
+      },
+      "image": "/media/content/man_on_phone.avif"
+    },
+    "pillar_equity": {
+      "files": {
+        ".mp4": "/media/content/pillar_equity.mp4",
+        ".webp": "/media/content/pillar_equity.webp"
+      },
+      "video": "/media/content/pillar_equity.mp4",
+      "image": "/media/content/pillar_equity.webp"
+    },
+    "pillar_liquidity": {
+      "files": {
+        ".mp4": "/media/content/pillar_liquidity.mp4",
+        ".webp": "/media/content/pillar_liquidity.webp"
+      },
+      "video": "/media/content/pillar_liquidity.mp4",
+      "image": "/media/content/pillar_liquidity.webp"
+    },
+    "pillar_private_markets": {
+      "files": {
+        ".mp4": "/media/content/pillar_private_markets.mp4",
+        ".webp": "/media/content/pillar_private_markets.webp"
+      },
+      "video": "/media/content/pillar_private_markets.mp4",
+      "image": "/media/content/pillar_private_markets.webp"
+    },
+    "pillar_real_assets": {
+      "files": {
+        ".mp4": "/media/content/pillar_real_assets.mp4",
+        ".webp": "/media/content/pillar_real_assets.webp"
+      },
+      "video": "/media/content/pillar_real_assets.mp4",
+      "image": "/media/content/pillar_real_assets.webp"
+    },
+    "private_offers": {
+      "files": {
+        ".webp": "/media/content/private_offers.webp"
+      },
+      "image": "/media/content/private_offers.webp"
+    },
+    "service-asset-management": {
+      "files": {
+        ".webp": "/media/content/service-asset-management.webp"
+      },
+      "image": "/media/content/service-asset-management.webp"
+    },
+    "service-investment-banking": {
+      "files": {
+        ".webp": "/media/content/service-investment-banking.webp"
+      },
+      "image": "/media/content/service-investment-banking.webp"
+    },
+    "wm-independent-thinking": {
+      "files": {
+        ".webp": "/media/content/wm-independent-thinking.webp"
+      },
+      "image": "/media/content/wm-independent-thinking.webp"
+    },
+    "wm-long-term-partnership": {
+      "files": {
+        ".webp": "/media/content/wm-long-term-partnership.webp"
+      },
+      "image": "/media/content/wm-long-term-partnership.webp"
+    },
+    "wm-tailored-strategies": {
+      "files": {
+        ".webp": "/media/content/wm-tailored-strategies.webp"
+      },
+      "image": "/media/content/wm-tailored-strategies.webp"
+    },
+    "wm-transparent-reporting": {
+      "files": {
+        ".webp": "/media/content/wm-transparent-reporting.webp"
+      },
+      "image": "/media/content/wm-transparent-reporting.webp"
+    },
+    "wm-understanding-goals": {
+      "files": {
+        ".svg": "/media/content/wm-understanding-goals.svg"
+      },
+      "image": "/media/content/wm-understanding-goals.svg"
+    }
+  },
+  "executives": {
+    "exec-1": {
+      "files": {
+        ".webp": "/media/executives/exec-1.webp"
+      },
+      "image": "/media/executives/exec-1.webp"
+    },
+    "exec-2": {
+      "files": {
+        ".webp": "/media/executives/exec-2.webp"
+      },
+      "image": "/media/executives/exec-2.webp"
+    },
+    "exec-3": {
+      "files": {
+        ".webp": "/media/executives/exec-3.webp"
+      },
+      "image": "/media/executives/exec-3.webp"
+    },
+    "exec-4": {
+      "files": {
+        ".webp": "/media/executives/exec-4.webp"
+      },
+      "image": "/media/executives/exec-4.webp"
+    },
+    "exec-5": {
+      "files": {
+        ".webp": "/media/executives/exec-5.webp"
+      },
+      "image": "/media/executives/exec-5.webp"
+    },
+    "exec-6": {
+      "files": {
+        ".webp": "/media/executives/exec-6.webp"
+      },
+      "image": "/media/executives/exec-6.webp"
+    },
+    "exec-7": {
+      "files": {
+        ".webp": "/media/executives/exec-7.webp"
+      },
+      "image": "/media/executives/exec-7.webp"
+    }
+  },
+  "footer": {
+    "footer-bg": {
+      "files": {
+        ".webp": "/media/footer/footer-bg.webp"
+      },
+      "image": "/media/footer/footer-bg.webp"
+    }
+  },
+  "hero": {
+    "hero-desktop": {
+      "files": {
+        ".mp4": "/media/hero/hero-desktop.mp4",
+        ".webp": "/media/hero/hero-desktop.webp"
+      },
+      "video": "/media/hero/hero-desktop.mp4",
+      "image": "/media/hero/hero-desktop.webp"
+    },
+    "hero-mobile": {
+      "files": {
+        ".webp": "/media/hero/hero-mobile.webp"
+      },
+      "image": "/media/hero/hero-mobile.webp"
+    },
+    "hero-tablet": {
+      "files": {
+        ".webp": "/media/hero/hero-tablet.webp"
+      },
+      "image": "/media/hero/hero-tablet.webp"
+    }
+  },
+  "members": {
+    "member-1": {
+      "files": {
+        ".webp": "/media/members/member-1.webp"
+      },
+      "image": "/media/members/member-1.webp"
+    },
+    "member-2": {
+      "files": {
+        ".webp": "/media/members/member-2.webp"
+      },
+      "image": "/media/members/member-2.webp"
+    },
+    "member-3": {
+      "files": {
+        ".webp": "/media/members/member-3.webp"
+      },
+      "image": "/media/members/member-3.webp"
+    },
+    "member-4": {
+      "files": {
+        ".webp": "/media/members/member-4.webp"
+      },
+      "image": "/media/members/member-4.webp"
+    },
+    "member-5": {
+      "files": {
+        ".webp": "/media/members/member-5.webp"
+      },
+      "image": "/media/members/member-5.webp"
+    },
+    "member-6": {
+      "files": {
+        ".webp": "/media/members/member-6.webp"
+      },
+      "image": "/media/members/member-6.webp"
+    },
+    "member-7": {
+      "files": {
+        ".webp": "/media/members/member-7.webp"
+      },
+      "image": "/media/members/member-7.webp"
+    }
+  },
+  "page-hero": {
+    "page-hero-bg": {
+      "files": {
+        ".webp": "/media/page-hero/page-hero-bg.webp"
+      },
+      "image": "/media/page-hero/page-hero-bg.webp"
+    }
+  }
+}

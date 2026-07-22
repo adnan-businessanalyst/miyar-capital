@@ -12,7 +12,7 @@ export interface Person {
 
 /**
  * Board of Directors — LTR display order = member-1 … member-7 photos.
- * Drop portraits into src/assets/members/ as member-1.jpg (or .png/.webp/…).
+ * Drop portraits into public/media/members/ as member-1.webp (or .jpg/.png/…).
  */
 export const BOARD_MEMBERS: Person[] = [
   {
@@ -68,7 +68,7 @@ export const BOARD_MEMBERS: Person[] = [
 
 /**
  * Executive Team — LTR display order = exec-1 … exec-7 photos.
- * Drop portraits into src/assets/executives/ as exec-1.jpg (or .png/.webp/…).
+ * Drop portraits into public/media/executives/ as exec-1.webp (or .jpg/.png/…).
  */
 export const EXECUTIVE_TEAM: Person[] = [
   {

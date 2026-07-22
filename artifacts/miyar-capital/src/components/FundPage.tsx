@@ -70,7 +70,7 @@ export function FundPage({ fund }: { fund: FundData }) {
       <StatSection title="Operation" stats={fund.operation} />
       <ReportSection title="Quarterly Reports" reports={fund.quarterlyReports} />
       <ReportSection title="Annual Reports" reports={fund.annualReports} />
-      <RegisterInterest />
+      <RegisterInterest sourcePage="/funds" />
     </div>
   );
 }

@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "wouter";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "../i18n/LanguageContext";
 import { WHATSAPP } from "../site/defaults";
 
@@ -20,7 +22,7 @@ function heroBottom(): number {
 export function WhatsAppWidget() {
   const cfg = WHATSAPP;
   const { lang } = useLanguage();
-  const [location] = useLocation();
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [bouncing, setBouncing] = useState(false);
   const bounceTimer = useRef<number | null>(null);
@@ -51,7 +53,7 @@ export function WhatsAppWidget() {
       window.removeEventListener("scroll", compute);
       window.removeEventListener("resize", compute);
     };
-  }, [active, cfg.scrollThresholdPct, location]);
+  }, [active, cfg.scrollThresholdPct, pathname]);
 
   // Bounce once as it slides in (fires only on the hidden→visible transition).
   useEffect(() => {

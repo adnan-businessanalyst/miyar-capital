@@ -1,4 +1,6 @@
-import logoSpinner from "../assets/brand/logo-spinner.svg";
+import { mediaUrl } from "../site/resolveAssetUrl";
+
+const logoSpinner = mediaUrl("brand", "logo-spinner");
 
 interface PageSpinnerProps {
   /** When false, overlay is hidden (keeps DOM for smooth fade). */
