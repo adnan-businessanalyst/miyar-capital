@@ -1,30 +1,20 @@
-import { type FormEvent, useState } from "react";
+"use client";
+
+import { ContactForm } from "./ContactForm";
 
 interface RegisterInterestProps {
   image?: string;
+  sourcePage?: string;
 }
 
-export function RegisterInterest({ image }: RegisterInterestProps) {
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
-  const body = submitted ? (
-    <p className="ri-thanks">
-      Thank you — your message has been received. Our team will be in touch
-      shortly.
-    </p>
-  ) : (
-    <form className="reg-form" onSubmit={handleSubmit}>
-      <input type="text" name="name" placeholder="Name" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="tel" name="phone" placeholder="Phone" />
-      <textarea name="message" placeholder="Write your message" required />
-      <button type="submit">Send Message</button>
-    </form>
+export function RegisterInterest({ image, sourcePage = "/register-interest" }: RegisterInterestProps) {
+  const body = (
+    <ContactForm
+      sourcePage={sourcePage}
+      variant="register"
+      className="reg-form"
+      submitLabel="Send Message"
+    />
   );
 
   if (image) {

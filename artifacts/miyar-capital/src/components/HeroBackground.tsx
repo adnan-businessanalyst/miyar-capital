@@ -1,51 +1,24 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { resolveAssetUrl } from "../site/resolveAssetUrl";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { mediaUrl, mediaVideoUrl } from "../site/resolveAssetUrl";
 
 type HeroSize = "mobile" | "tablet" | "desktop";
 
 /** Hero background playback speed (1 = normal). */
 const HERO_VIDEO_RATE = 0.5;
 
-/** When a size is missing, try desktop → tablet → mobile. */
-const FALLBACK_ORDER: HeroSize[] = ["desktop", "tablet", "mobile"];
+const HERO_IMAGES: Partial<Record<HeroSize, string>> = {
+  mobile: mediaUrl("hero", "hero-mobile") || undefined,
+  tablet: mediaUrl("hero", "hero-tablet") || undefined,
+  desktop: mediaUrl("hero", "hero-desktop") || undefined,
+};
 
-const imageModules = import.meta.glob(
-  "../assets/hero/hero-*.{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}",
-  {
-    eager: true,
-    import: "default",
-  },
-) as Record<string, string>;
-
-const videoModules = import.meta.glob("../assets/hero/hero-*.mp4", {
-  eager: true,
-  import: "default",
-}) as Record<string, string>;
-
-function buildSizeMap(modules: Record<string, string>): Partial<Record<HeroSize, string>> {
-  const map: Partial<Record<HeroSize, string>> = {};
-  for (const size of FALLBACK_ORDER) {
-    const sizeModules: Record<string, string> = {};
-    for (const [path, url] of Object.entries(modules)) {
-      const base = path.split(/[/\\]/).pop() ?? path;
-      if (base.startsWith(`hero-${size}.`)) sizeModules[path] = url;
-    }
-    const resolved = resolveAssetUrl(sizeModules);
-    if (resolved) map[size] = resolved;
-  }
-  return map;
-}
-
-function resolveAsset(
-  map: Partial<Record<HeroSize, string>>,
-  preferred: HeroSize,
-): string | undefined {
-  if (map[preferred]) return map[preferred];
-  for (const size of FALLBACK_ORDER) {
-    if (map[size]) return map[size];
-  }
-  return undefined;
-}
+const HERO_VIDEOS: Partial<Record<HeroSize, string>> = {
+  mobile: mediaVideoUrl("hero", "hero-mobile") || undefined,
+  tablet: mediaVideoUrl("hero", "hero-tablet") || undefined,
+  desktop: mediaVideoUrl("hero", "hero-desktop") || undefined,
+};
 
 function getViewportSize(): HeroSize {
   if (typeof window === "undefined") return "desktop";
@@ -57,21 +30,32 @@ function getViewportSize(): HeroSize {
 }
 
 /**
- * Hardcoded responsive hero media from `src/assets/hero/`.
- * Prefer video when a file exists for the active size (with fallback);
- * otherwise render a `<picture>` of the matching stills.
+ * Prefer an image for the active size, falling back desktop → tablet → mobile.
+ * Videos do NOT fall across sizes (avoids downloading desktop hero video on phones).
+ */
+function resolveImage(preferred: HeroSize): string | undefined {
+  if (HERO_IMAGES[preferred]) return HERO_IMAGES[preferred];
+  for (const size of ["desktop", "tablet", "mobile"] as HeroSize[]) {
+    if (HERO_IMAGES[size]) return HERO_IMAGES[size];
+  }
+  return undefined;
+}
+
+/**
+ * Hardcoded responsive hero media from `public/media/hero/`.
+ * Video only when a file exists for the active viewport size; otherwise stills.
  */
 export function HeroBackground() {
-  const images = useMemo(() => buildSizeMap(imageModules), []);
-  const videos = useMemo(() => buildSizeMap(videoModules), []);
-  const [size, setSize] = useState<HeroSize>(getViewportSize);
+  const [size, setSize] = useState<HeroSize>("desktop");
+  const [hydrated, setHydrated] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const mqMobile = window.matchMedia("(max-width: 560px)");
-    const mqTablet = window.matchMedia("(min-width: 561px) and (max-width: 900px)");
     const update = () => setSize(getViewportSize());
     update();
+    setHydrated(true);
+    const mqMobile = window.matchMedia("(max-width: 560px)");
+    const mqTablet = window.matchMedia("(min-width: 561px) and (max-width: 900px)");
     mqMobile.addEventListener("change", update);
     mqTablet.addEventListener("change", update);
     return () => {
@@ -80,11 +64,12 @@ export function HeroBackground() {
     };
   }, []);
 
-  const videoSrc = resolveAsset(videos, size);
-  const mobileImg = resolveAsset(images, "mobile");
-  const tabletImg = resolveAsset(images, "tablet");
-  const desktopImg = resolveAsset(images, "desktop");
-  const imgSrc = resolveAsset(images, size);
+  // Exact-size video only (no desktop fallback on mobile/tablet).
+  const videoSrc = hydrated ? HERO_VIDEOS[size] : undefined;
+  const mobileImg = HERO_IMAGES.mobile || HERO_IMAGES.desktop;
+  const tabletImg = HERO_IMAGES.tablet || HERO_IMAGES.desktop;
+  const desktopImg = HERO_IMAGES.desktop;
+  const imgSrc = resolveImage(size);
 
   useEffect(() => {
     const el = videoRef.current;
@@ -113,6 +98,7 @@ export function HeroBackground() {
           muted
           loop
           playsInline
+          preload="metadata"
           poster={imgSrc}
         >
           <source src={videoSrc} type="video/mp4" />
@@ -132,6 +118,8 @@ export function HeroBackground() {
             className="fp-hero-bg-media"
             src={desktopImg ?? imgSrc}
             alt=""
+            fetchPriority="high"
+            decoding="async"
           />
         </picture>
       ) : null}

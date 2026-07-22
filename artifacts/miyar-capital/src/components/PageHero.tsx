@@ -1,14 +1,11 @@
+"use client";
+
 import { useEffect, useState, type ReactNode } from "react";
-import { useLocation } from "wouter";
-import logoSpinner from "../assets/brand/logo-spinner-hero.svg";
-import { resolveAssetUrl } from "../site/resolveAssetUrl";
+import { useRouter } from "next/navigation";
+import { mediaUrl } from "../site/resolveAssetUrl";
 
-const pageHeroBgModules = import.meta.glob(
-  "../assets/page-hero/page-hero-bg.{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}",
-  { eager: true, import: "default" },
-) as Record<string, string>;
-
-const pageHeroBg = resolveAssetUrl(pageHeroBgModules);
+const logoSpinner = mediaUrl("brand", "logo-spinner-hero");
+const pageHeroBg = mediaUrl("page-hero", "page-hero-bg");
 
 export interface PageHeroCrumb {
   label: string;
@@ -88,7 +85,7 @@ export function PageHero({
   className = "",
 }: PageHeroProps) {
   const sectionClass = ["page-hero", className].filter(Boolean).join(" ");
-  const [, navigate] = useLocation();
+  const router = useRouter();
   const trail = normalizeCrumbs(title, crumb, crumbs);
 
   const [phase, setPhase] = useState<RevealPhase>(() =>
@@ -140,19 +137,33 @@ export function PageHero({
   const showLogo = animate && phase === "logo";
   const showCursor = animate && phase === "typing";
 
+  const bg = backgroundImage ? (
+    <div className="ph-bg" aria-hidden="true">
+      <img
+        className="ph-bg-img"
+        src={backgroundImage}
+        alt=""
+        decoding="async"
+        fetchPriority="high"
+      />
+    </div>
+  ) : (
+    <div className="ph-bg" aria-hidden="true" />
+  );
+
   /* ── Static hero (default): unchanged from pre-animate PageHero ── */
   if (!animate) {
     return (
       <section className={sectionClass}>
-        <div className="ph-bg" style={{ backgroundImage: `url(${backgroundImage})` }} />
+        {bg}
         <div className="wrap">
           <div className="crumb">
-            <a onClick={() => navigate("/")}>Home</a>
+            <a onClick={() => router.push("/")}>Home</a>
             {trail.map((item) => (
               <span key={`${item.label}-${item.href ?? ""}`}>
                 {" / "}
                 {item.href ? (
-                  <a onClick={() => navigate(item.href!)}>{item.label}</a>
+                  <a onClick={() => router.push(item.href!)}>{item.label}</a>
                 ) : (
                   item.label
                 )}
@@ -202,7 +213,7 @@ export function PageHero({
   /* ── Miyar Hero Reveal (animate={true} only) ── */
   return (
     <section className={`${sectionClass} page-hero--animate`}>
-      <div className="ph-bg" style={{ backgroundImage: `url(${backgroundImage})` }} />
+      {bg}
 
       {showLogo ? (
         <div className={`ph-logo${logoIn ? " is-in" : ""}`} aria-hidden="true">
@@ -212,12 +223,12 @@ export function PageHero({
 
       <div className="wrap">
         <div className="crumb">
-          <a onClick={() => navigate("/")}>Home</a>
+          <a onClick={() => router.push("/")}>Home</a>
           {trail.map((item) => (
             <span key={`${item.label}-${item.href ?? ""}`}>
               {" / "}
               {item.href ? (
-                <a onClick={() => navigate(item.href!)}>{item.label}</a>
+                <a onClick={() => router.push(item.href!)}>{item.label}</a>
               ) : (
                 item.label
               )}

@@ -1,3 +1,15 @@
+import mediaManifest from "./mediaManifest.json";
+
+type Entry = {
+  image?: string;
+  video?: string;
+  files: Record<string, string>;
+};
+
+type Manifest = Record<string, Record<string, Entry>>;
+
+const manifest = mediaManifest as Manifest;
+
 /** Preferred order when multiple files share the same basename. */
 export const IMAGE_EXT_PREFERENCE = [
   ".svg",
@@ -9,9 +21,19 @@ export const IMAGE_EXT_PREFERENCE = [
   ".mp4",
 ] as const;
 
+/** Resolve preferred image URL under /media/{folder}/{basename}.* */
+export function mediaUrl(folder: string, basename: string): string {
+  return manifest[folder]?.[basename]?.image ?? "";
+}
+
+/** Resolve video URL under /media/{folder}/{basename}.mp4 */
+export function mediaVideoUrl(folder: string, basename: string): string {
+  return manifest[folder]?.[basename]?.video ?? "";
+}
+
 /**
- * Pick one URL from an import.meta.glob result.
- * Optionally match a basename (filename without extension).
+ * Legacy helper for import.meta.glob-style maps.
+ * Prefer `mediaUrl` / `mediaVideoUrl` in new code.
  */
 export function resolveAssetUrl(
   modules: Record<string, string>,
@@ -32,6 +54,5 @@ export function resolveAssetUrl(
   return entries[0]?.[1] ?? "";
 }
 
-/** Glob brace list for Vite import.meta.glob image patterns. */
 export const IMAGE_GLOB_EXTS =
   "{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}";

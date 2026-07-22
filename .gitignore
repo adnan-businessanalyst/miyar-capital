@@ -43,6 +43,11 @@ Desktop.ini
 .turbo/
 .cache/
 
+# Next.js
+.next/
+**/.next/
+out/
+
 # Test / coverage (if you add them later)
 coverage/
 

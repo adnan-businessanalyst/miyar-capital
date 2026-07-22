@@ -1,19 +1,14 @@
-import { useLocation } from "wouter";
+"use client";
+
+import Link from "next/link";
 import { useLanguage } from "../i18n/LanguageContext";
 import { FOOTER_BG_IMAGE, SITE_FOOTER } from "../site/footer";
 import { pickLang } from "../site/types";
 import { Brand } from "./Brand";
 
 export function Footer() {
-  const [, navigate] = useLocation();
   const { lang, t } = useLanguage();
   const footer = SITE_FOOTER;
-
-  const go = (href?: string) => () => {
-    if (!href) return;
-    if (href.startsWith("/")) navigate(href);
-    else window.open(href, "_blank");
-  };
 
   const address = pickLang(footer.addressEn, footer.addressAr, lang);
   const overlay = Math.max(0, Math.min(100, footer.overlayOpacity)) / 100;
@@ -56,11 +51,29 @@ export function Footer() {
           {footer.columns.map((col) => (
             <div key={col.id}>
               <h6>{pickLang(col.titleEn, col.titleAr, lang)}</h6>
-              {col.links.map((link) => (
-                <a key={link.id} onClick={go(link.href)}>
-                  {pickLang(link.labelEn, link.labelAr, lang)}
-                </a>
-              ))}
+              {col.links.map((link) => {
+                const label = pickLang(link.labelEn, link.labelAr, lang);
+                if (!link.href) {
+                  return <a key={link.id}>{label}</a>;
+                }
+                if (link.href.startsWith("/")) {
+                  return (
+                    <Link key={link.id} href={link.href}>
+                      {label}
+                    </Link>
+                  );
+                }
+                return (
+                  <a
+                    key={link.id}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {label}
+                  </a>
+                );
+              })}
             </div>
           ))}
         </div>

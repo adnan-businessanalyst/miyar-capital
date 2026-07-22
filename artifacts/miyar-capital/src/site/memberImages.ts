@@ -1,34 +1,20 @@
 /**
- * Board member portraits under src/assets/members/.
- * Drop files named member-1 … member-7 with any of:
- * .svg | .avif | .webp | .jpg | .jpeg | .png
- * Preference: svg → avif → webp → jpg → jpeg → png.
- *
- * LTR order: member-1 (Chairman) … member-7 (6th card from the left).
+ * Board member portraits under public/media/members/.
+ * Drop files named member-1 … member-7 (.svg | .avif | .webp | .jpg | .jpeg | .png).
  */
 
-import { resolveAssetUrl } from "./resolveAssetUrl";
-
-const memberModules = import.meta.glob(
-  "../assets/members/*.{svg,SVG,avif,AVIF,webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}",
-  { eager: true, import: "default" },
-) as Record<string, string>;
-
-function member(basename: string): string {
-  return resolveAssetUrl(memberModules, basename);
-}
+import { mediaUrl } from "./resolveAssetUrl";
 
 export const MEMBER_IMAGES = {
-  member_1: member("member-1"),
-  member_2: member("member-2"),
-  member_3: member("member-3"),
-  member_4: member("member-4"),
-  member_5: member("member-5"),
-  member_6: member("member-6"),
-  member_7: member("member-7"),
+  member_1: mediaUrl("members", "member-1"),
+  member_2: mediaUrl("members", "member-2"),
+  member_3: mediaUrl("members", "member-3"),
+  member_4: mediaUrl("members", "member-4"),
+  member_5: mediaUrl("members", "member-5"),
+  member_6: mediaUrl("members", "member-6"),
+  member_7: mediaUrl("members", "member-7"),
 } as const;
 
-/** Ordered list matching BOARD_MEMBERS LTR display order. */
 export const BOARD_MEMBER_PHOTOS = [
   MEMBER_IMAGES.member_1,
   MEMBER_IMAGES.member_2,

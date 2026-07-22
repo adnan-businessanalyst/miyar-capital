@@ -1,7 +1,7 @@
-import { Link } from "wouter";
-import logoNavDark from "../assets/brand/logo-nav-dark.svg";
-import logoNavLight from "../assets/brand/logo-nav-light.svg";
-import logoFooter from "../assets/brand/logo-footer.svg";
+"use client";
+
+import Link from "next/link";
+import { mediaUrl } from "../site/resolveAssetUrl";
 
 interface BrandProps {
   variant?: "light" | "dark";
@@ -11,11 +11,11 @@ interface BrandProps {
 export function Brand({ variant = "light", transparent = false }: BrandProps) {
   let logo: string;
   if (variant === "dark") {
-    logo = logoFooter;
+    logo = mediaUrl("brand", "logo-footer");
   } else if (transparent) {
-    logo = logoNavLight;
+    logo = mediaUrl("brand", "logo-nav-light");
   } else {
-    logo = logoNavDark;
+    logo = mediaUrl("brand", "logo-nav-dark");
   }
 
   return (

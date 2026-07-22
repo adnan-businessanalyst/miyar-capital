@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useLocation } from "wouter";
+import { usePathname, useRouter } from "next/navigation";
 import { useLanguage } from "../i18n/LanguageContext";
 import { SITE_NAV } from "../site/nav";
 import { pickLang, type NavItem, type Lang } from "../site/types";
@@ -34,7 +36,8 @@ function collectHrefs(item: NavItem): string[] {
 }
 
 export function Header() {
-  const [location, navigate] = useLocation();
+  const pathname = usePathname();
+  const router = useRouter();
   const { lang, setLang, t } = useLanguage();
   const nav = SITE_NAV;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -60,11 +63,11 @@ export function Header() {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", update);
     };
-  }, [location]);
+  }, [pathname]);
 
   const go = (href?: string) => () => {
     if (!href) return;
-    if (href.startsWith("/")) navigate(href);
+    if (href.startsWith("/")) router.push(href);
     else window.open(href, "_blank");
     setMenuOpen(false);
     setExpandedId(null);
@@ -75,7 +78,7 @@ export function Header() {
 
   const isActive = (item: NavItem): boolean => {
     const hrefs = collectHrefs(item);
-    return hrefs.some((h) => h === location);
+    return hrefs.some((h) => h === pathname);
   };
 
   const label = (item: { labelEn: string; labelAr: string }, l: Lang) =>
