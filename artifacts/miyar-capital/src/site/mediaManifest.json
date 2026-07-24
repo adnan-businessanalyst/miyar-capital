@@ -212,14 +212,18 @@
     },
     "hero-mobile": {
       "files": {
+        ".mp4": "/media/hero/hero-mobile.mp4",
         ".webp": "/media/hero/hero-mobile.webp"
       },
+      "video": "/media/hero/hero-mobile.mp4",
       "image": "/media/hero/hero-mobile.webp"
     },
     "hero-tablet": {
       "files": {
+        ".mp4": "/media/hero/hero-tablet.mp4",
         ".webp": "/media/hero/hero-tablet.webp"
       },
+      "video": "/media/hero/hero-tablet.mp4",
       "image": "/media/hero/hero-tablet.webp"
     }
   },
