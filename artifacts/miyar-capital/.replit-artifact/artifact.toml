@@ -5,27 +5,18 @@ version = "1.0.0"
 id = "artifacts/miyar-capital"
 router = "path"
 
-[[integratedSkills]]
-name = "react-vite"
-version = "1.0.0"
-
 [[services]]
 name = "web"
 paths = [ "/" ]
-localPort = 20956
+localPort = 3001
 
 [services.development]
 run = "pnpm --filter @workspace/miyar-capital run dev"
 
 [services.production]
 build = [ "pnpm", "--filter", "@workspace/miyar-capital", "run", "build" ]
-publicDir = "artifacts/miyar-capital/dist/public"
-serve = "static"
-
-[[services.production.rewrites]]
-from = "/*"
-to = "/index.html"
+run = "pnpm --filter @workspace/miyar-capital run start"
 
 [services.env]
-PORT = "20956"
+PORT = "3001"
 BASE_PATH = "/"

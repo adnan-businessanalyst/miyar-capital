@@ -73,6 +73,13 @@ pnpm media:manifest
 
 See `.env.example`. Never commit real secrets.
 
+## Vercel deploy
+
+- Framework: **Next.js** (do not use a static/Vite output directory).
+- In Project Settings → Build & Development Settings, leave **Output Directory** empty (or ensure overrides are off). A leftover Vite value like `dist/public` will break deploys.
+- Prefer Root Directory `artifacts/miyar-capital`, or deploy from the monorepo root with the root `vercel.json` (`pnpm --filter @workspace/miyar-capital run build`).
+- Repo `vercel.json` sets `"outputDirectory": null` so Next.js uses `.next`.
+
 ## Remaining TODO (phase 1 leftovers)
 
 - SEO polish: richer per-route `generateMetadata` (many routes use a simple title)
