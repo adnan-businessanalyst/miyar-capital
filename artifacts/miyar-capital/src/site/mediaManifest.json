@@ -202,6 +202,14 @@
     }
   },
   "hero": {
+    "hero-desktop-alt": {
+      "files": {
+        ".mp4": "/media/hero/hero-desktop-alt.mp4",
+        ".webp": "/media/hero/hero-desktop-alt.webp"
+      },
+      "video": "/media/hero/hero-desktop-alt.mp4",
+      "image": "/media/hero/hero-desktop-alt.webp"
+    },
     "hero-desktop": {
       "files": {
         ".mp4": "/media/hero/hero-desktop.mp4",
