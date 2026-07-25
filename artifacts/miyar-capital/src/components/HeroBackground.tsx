@@ -20,6 +20,16 @@ const HERO_VIDEOS: Partial<Record<HeroSize, string>> = {
   desktop: mediaVideoUrl("hero", "hero-desktop") || undefined,
 };
 
+/** Optional second desktop clip — rotates with hero-desktop on large screens. */
+const HERO_DESKTOP_ALT = mediaVideoUrl("hero", "hero-desktop-alt") || undefined;
+const HERO_DESKTOP_ALT_POSTER =
+  mediaUrl("hero", "hero-desktop-alt") || undefined;
+
+const DESKTOP_PLAYLIST = [
+  HERO_VIDEOS.desktop,
+  HERO_DESKTOP_ALT,
+].filter((src): src is string => Boolean(src));
+
 function getViewportSize(): HeroSize {
   if (typeof window === "undefined") return "desktop";
   if (window.matchMedia("(max-width: 560px)").matches) return "mobile";
@@ -43,11 +53,12 @@ function resolveImage(preferred: HeroSize): string | undefined {
 
 /**
  * Hardcoded responsive hero media from `public/media/hero/`.
- * Video only when a file exists for the active viewport size; otherwise stills.
+ * Desktop rotates through hero-desktop (+ hero-desktop-alt when present).
  */
 export function HeroBackground() {
   const [size, setSize] = useState<HeroSize>("desktop");
   const [hydrated, setHydrated] = useState(false);
+  const [desktopIndex, setDesktopIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -64,12 +75,25 @@ export function HeroBackground() {
     };
   }, []);
 
-  // Exact-size video only (no desktop fallback on mobile/tablet).
-  const videoSrc = hydrated ? HERO_VIDEOS[size] : undefined;
+  const isDesktop = size === "desktop";
+  const rotating = isDesktop && DESKTOP_PLAYLIST.length > 1;
+
+  const videoSrc = hydrated
+    ? isDesktop
+      ? DESKTOP_PLAYLIST[desktopIndex % Math.max(DESKTOP_PLAYLIST.length, 1)]
+      : HERO_VIDEOS[size]
+    : undefined;
+
   const mobileImg = HERO_IMAGES.mobile || HERO_IMAGES.desktop;
   const tabletImg = HERO_IMAGES.tablet || HERO_IMAGES.desktop;
   const desktopImg = HERO_IMAGES.desktop;
-  const imgSrc = resolveImage(size);
+  const imgSrc =
+    isDesktop &&
+    rotating &&
+    DESKTOP_PLAYLIST[desktopIndex % DESKTOP_PLAYLIST.length] === HERO_DESKTOP_ALT &&
+    HERO_DESKTOP_ALT_POSTER
+      ? HERO_DESKTOP_ALT_POSTER
+      : resolveImage(size);
 
   useEffect(() => {
     const el = videoRef.current;
@@ -87,6 +111,17 @@ export function HeroBackground() {
     };
   }, [videoSrc]);
 
+  useEffect(() => {
+    if (!rotating) return;
+    const el = videoRef.current;
+    if (!el) return;
+    const onEnded = () => {
+      setDesktopIndex((i) => (i + 1) % DESKTOP_PLAYLIST.length);
+    };
+    el.addEventListener("ended", onEnded);
+    return () => el.removeEventListener("ended", onEnded);
+  }, [rotating, videoSrc]);
+
   return (
     <div className="fp-hero-bg" aria-hidden="true">
       {videoSrc ? (
@@ -96,7 +131,7 @@ export function HeroBackground() {
           className="fp-hero-bg-media"
           autoPlay
           muted
-          loop
+          loop={!rotating}
           playsInline
           preload="metadata"
           poster={imgSrc}
