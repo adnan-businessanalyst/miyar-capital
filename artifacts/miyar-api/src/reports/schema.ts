@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const REPORT_SECTIONS = ["annual", "financial"] as const;
 export const MAX_REPORT_BYTES = 20 * 1024 * 1024; // 20 MB
+export const MAX_REPORT_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB
 
 const optionalAr = z.string().trim().max(300).optional().default("");
 
@@ -35,4 +36,18 @@ export function isPdfUpload(file: File | Blob, fileName: string): boolean {
   const mime = "type" in file ? file.type : "";
   if (mime === "application/pdf") return true;
   return fileName.toLowerCase().endsWith(".pdf");
+}
+
+const IMAGE_MIME = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/svg+xml",
+]);
+
+export function isImageUpload(file: File | Blob, fileName: string): boolean {
+  const mime = "type" in file ? file.type : "";
+  if (mime && IMAGE_MIME.has(mime)) return true;
+  return /\.(jpe?g|png|webp|gif|svg)$/i.test(fileName);
 }

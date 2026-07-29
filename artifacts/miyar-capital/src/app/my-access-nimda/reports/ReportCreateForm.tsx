@@ -17,6 +17,7 @@ export function ReportCreateForm() {
   const [fileNameAr, setFileNameAr] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [fileAr, setFileAr] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [translating, setTranslating] = useState(false);
@@ -69,6 +70,7 @@ export function ReportCreateForm() {
       body.set("fileNameAr", fileNameAr || fileAr?.name || "");
       body.set("file", file);
       if (fileAr) body.set("fileAr", fileAr);
+      if (image) body.set("image", image);
 
       const res = await fetch(apiUrl("/api/admin/reports"), {
         method: "POST",
@@ -88,6 +90,7 @@ export function ReportCreateForm() {
       setFileNameAr("");
       setFile(null);
       setFileAr(null);
+      setImage(null);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed");
@@ -114,7 +117,18 @@ export function ReportCreateForm() {
             <option value="financial">Financial Reports</option>
           </select>
         </label>
+        <label>
+          Card image (optional)
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,.jpg,.jpeg,.png,.webp,.gif,.svg"
+            onChange={(e) => setImage(e.target.files?.[0] ?? null)}
+          />
+        </label>
       </div>
+      <p className="admin-meta" style={{ marginTop: -8 }}>
+        If no image is uploaded, the Miyar logo is shown on the card.
+      </p>
 
       <h3 className="admin-form-section">English</h3>
       <div className="admin-form-grid">

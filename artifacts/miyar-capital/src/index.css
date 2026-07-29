@@ -3608,6 +3608,23 @@ body[dir="rtl"] .reg-form textarea {
   color: var(--gold);
   margin-bottom: 22px;
   transition: border-color 0.25s;
+  overflow: hidden;
+}
+
+.report-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.report-thumb--logo {
+  padding: 18%;
+  background: #fff;
+}
+
+.report-thumb--logo img {
+  object-fit: contain;
 }
 
 .report-card:hover .report-thumb {

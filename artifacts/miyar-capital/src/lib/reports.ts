@@ -13,6 +13,8 @@ type ApiReport = {
   fileUrl: string;
   fileUrlAr: string | null;
   hasArabicFile: boolean;
+  hasImage: boolean;
+  imageUrl: string | null;
 };
 
 export async function fetchReports(section?: ReportSection): Promise<Report[]> {
@@ -36,5 +38,7 @@ export async function fetchReports(section?: ReportSection): Promise<Report[]> {
     fileUrl: r.fileUrl,
     fileUrlAr: r.fileUrlAr ?? null,
     hasArabicFile: Boolean(r.hasArabicFile),
+    hasImage: Boolean(r.hasImage),
+    imageUrl: r.imageUrl ?? null,
   }));
 }

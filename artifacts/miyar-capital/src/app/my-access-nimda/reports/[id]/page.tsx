@@ -17,6 +17,8 @@ type ReportRow = {
   fileName: string;
   fileNameAr: string | null;
   hasArabicFile: boolean;
+  hasImage: boolean;
+  imageUrl: string | null;
 };
 
 export default async function AdminReportEditPage({
@@ -66,6 +68,8 @@ export default async function AdminReportEditPage({
               fileName: report.fileName,
               fileNameAr: report.fileNameAr ?? "",
               hasArabicFile: Boolean(report.hasArabicFile),
+              hasImage: Boolean(report.hasImage),
+              imageUrl: report.imageUrl ?? null,
             }}
           />
         </div>

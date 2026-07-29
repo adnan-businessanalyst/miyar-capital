@@ -17,6 +17,8 @@ type Props = {
     fileName: string;
     fileNameAr: string;
     hasArabicFile: boolean;
+    hasImage: boolean;
+    imageUrl: string | null;
   };
 };
 
@@ -31,6 +33,7 @@ export function ReportEditForm({ id, initial }: Props) {
   const [fileNameAr, setFileNameAr] = useState(initial.fileNameAr);
   const [file, setFile] = useState<File | null>(null);
   const [fileAr, setFileAr] = useState<File | null>(null);
+  const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [translating, setTranslating] = useState(false);
@@ -73,6 +76,7 @@ export function ReportEditForm({ id, initial }: Props) {
       body.set("fileNameAr", fileNameAr);
       if (file) body.set("file", file);
       if (fileAr) body.set("fileAr", fileAr);
+      if (image) body.set("image", image);
 
       const res = await fetch(apiUrl(`/api/admin/reports/${id}`), {
         method: "PATCH",
@@ -110,7 +114,25 @@ export function ReportEditForm({ id, initial }: Props) {
             <option value="financial">Financial Reports</option>
           </select>
         </label>
+        <label>
+          {initial.hasImage ? "Replace card image (optional)" : "Card image (optional)"}
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,.jpg,.jpeg,.png,.webp,.gif,.svg"
+            onChange={(e) => setImage(e.target.files?.[0] ?? null)}
+          />
+        </label>
       </div>
+      {initial.hasImage && initial.imageUrl ? (
+        <p className="admin-meta">
+          Current image:{" "}
+          <a href={apiUrl(initial.imageUrl)} target="_blank" rel="noopener noreferrer">
+            view
+          </a>
+        </p>
+      ) : (
+        <p className="admin-meta">No card image yet — Miyar logo is used as default.</p>
+      )}
 
       <h3 className="admin-form-section">English</h3>
       <div className="admin-form-grid">

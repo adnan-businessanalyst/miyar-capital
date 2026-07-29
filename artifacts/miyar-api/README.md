@@ -10,6 +10,9 @@ Standalone Node backend for Miyar Capital (Hono + Drizzle + Postgres + Resend).
 | `POST` | `/api/contact` | public (+ reCAPTCHA) |
 | `GET` | `/api/reports` | public (optional `?section=annual\|financial`) |
 | `GET` | `/api/reports/:id/file` | public (`?download=1` for attachment; `?lang=ar` for Arabic PDF) |
+| `GET` | `/api/homepage-hero` | public |
+| `GET` | `/api/admin/homepage-hero` | session |
+| `PUT` | `/api/admin/homepage-hero` | session (CTA + promo show/href/labels EN+AR) |
 | `GET` | `/api/disclosures` | public |
 | `GET` | `/api/disclosures/:id/file` | public (`?download=1`; `?lang=ar` for Arabic PDF) |
 | `GET` | `/api/admin/disclosures` | session |
