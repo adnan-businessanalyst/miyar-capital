@@ -8,9 +8,9 @@ const DURATION = 0.85;
 const BUFFER_MS = 80;
 
 /**
- * Soft stagger reveal for Board / Executive people grids.
- * Adds `is-visible` when the grid enters view, then `is-ready`
- * after all cards finish — hover is CSS-gated on `is-ready`.
+ * Soft stagger reveal for Board / Executive people lists.
+ * Adds `is-visible` when the list enters view, then `is-ready`
+ * after all rows finish.
  */
 export function usePeopleGridReveal(cardCount: number) {
   const gridRef = useRef<HTMLDivElement>(null);
