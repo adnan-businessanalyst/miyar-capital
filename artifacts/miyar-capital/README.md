@@ -6,13 +6,12 @@ Marketing site + admin UI. Backend lives in `@workspace/miyar-api`.
 
 | App | Path | Role |
 |-----|------|------|
-| Frontend | `artifacts/miyar-capital` | Pages, styles, admin UI, public PDFs |
-| API | `artifacts/miyar-api` | Contact, admin auth, Postgres, Resend, reCAPTCHA |
+| Frontend | `artifacts/miyar-capital` | Pages, styles, admin UI |
+| API | `artifacts/miyar-api` | Contact, admin auth, report PDFs, Postgres, Resend, reCAPTCHA |
 
 Browser calls **same-origin** `/api/*`. Next.js rewrites those to `API_INTERNAL_URL` (default `http://127.0.0.1:4000`) so admin cookies stay `SameSite=Lax`.
 
-Public PDFs: `public/docs/` → `/docs/...`.
-
+Financial report PDFs and disclosures are managed in Admin (`/my-access-nimda/reports`, `/my-access-nimda/disclosures`) and served by the API.
 ## Local setup
 
 ```bash
@@ -48,8 +47,8 @@ Wired: homepage, RegisterInterest, Who We Are, IB Register Interest.
 
 ## Admin
 
-- `/admin` login → API session cookie `miyar_admin_session`
-- `/admin/submissions` list + detail + mark-as-read
+- `/my-access-nimda` login → API session cookie `miyar_admin_session`
+- `/my-access-nimda/submissions` list + detail + mark-as-read
 
 ## Env (frontend only)
 

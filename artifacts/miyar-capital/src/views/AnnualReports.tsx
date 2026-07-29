@@ -1,7 +1,10 @@
-"use client";
-
 import { ReportsPage } from "../components/ReportsPage";
+import type { Report } from "../data/reports";
 
-export function AnnualReports() {
-  return <ReportsPage title="Annual Reports" />;
+interface AnnualReportsProps {
+  reports: Report[];
+}
+
+export function AnnualReports({ reports }: AnnualReportsProps) {
+  return <ReportsPage title="Annual Reports" reports={reports} />;
 }

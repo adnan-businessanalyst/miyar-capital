@@ -1,12 +1,9 @@
-export type ReportSection = "annual" | "financial";
-
-export interface Report {
+export interface Disclosure {
   id: string;
-  section: ReportSection;
   title: string;
   titleAr: string | null;
-  date: string;
-  dateAr: string | null;
+  body: string;
+  bodyAr: string | null;
   fileName: string;
   fileNameAr: string | null;
   fileUrl: string;

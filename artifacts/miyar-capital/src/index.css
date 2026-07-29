@@ -3660,6 +3660,12 @@ body[dir="rtl"] .reg-form textarea {
   background: var(--cream);
 }
 
+.report-btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 @media (max-width: 900px) {
   .reports-grid {
     grid-template-columns: 1fr 1fr;
@@ -4751,6 +4757,8 @@ body[dir="rtl"] .reg-form textarea {
 }
 
 .acc-action {
+  display: block;
+  box-sizing: border-box;
   margin-top: 22px;
   width: 100%;
   padding: 14px;
@@ -4763,6 +4771,8 @@ body[dir="rtl"] .reg-form textarea {
   letter-spacing: 0.04em;
   cursor: pointer;
   transition: 0.25s;
+  text-align: center;
+  text-decoration: none;
 }
 
 .acc-action:hover {

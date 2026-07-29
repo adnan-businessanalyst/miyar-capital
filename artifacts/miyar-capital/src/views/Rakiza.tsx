@@ -1,7 +1,10 @@
-"use client";
-
 import { ReportsPage } from "../components/ReportsPage";
+import type { Report } from "../data/reports";
 
-export function Rakiza() {
-  return <ReportsPage title="Rakiza" />;
+interface RakizaProps {
+  reports: Report[];
+}
+
+export function Rakiza({ reports }: RakizaProps) {
+  return <ReportsPage title="Rakiza" reports={reports} />;
 }

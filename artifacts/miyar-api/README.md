@@ -8,6 +8,18 @@ Standalone Node backend for Miyar Capital (Hono + Drizzle + Postgres + Resend).
 |--------|------|------|
 | `GET` | `/health` | public |
 | `POST` | `/api/contact` | public (+ reCAPTCHA) |
+| `GET` | `/api/reports` | public (optional `?section=annual\|financial`) |
+| `GET` | `/api/reports/:id/file` | public (`?download=1` for attachment; `?lang=ar` for Arabic PDF) |
+| `GET` | `/api/disclosures` | public |
+| `GET` | `/api/disclosures/:id/file` | public (`?download=1`; `?lang=ar` for Arabic PDF) |
+| `GET` | `/api/admin/disclosures` | session |
+| `POST` | `/api/admin/disclosures` | session (multipart: title, titleAr, body, bodyAr, fileName, fileNameAr, file, fileAr) |
+| `PATCH` | `/api/admin/disclosures/:id` | session (multipart; file / fileAr optional) |
+| `DELETE` | `/api/admin/disclosures/:id` | session |
+| `GET` | `/api/admin/reports` | session |
+| `POST` | `/api/admin/reports` | session (multipart: section, title, titleAr, date, dateAr, fileName, fileNameAr, file, fileAr) |
+| `PATCH` | `/api/admin/reports/:id` | session (multipart; file / fileAr optional) |
+| `DELETE` | `/api/admin/reports/:id` | session |
 | `POST` | `/api/admin/login` | password |
 | `POST` | `/api/admin/logout` | session |
 | `GET` | `/api/admin/me` | session |
@@ -37,6 +49,11 @@ Cross-origin without a proxy: set `COOKIE_SAME_SITE=none` (HTTPS required) and l
 
 Configure SPF + DKIM for the sending domain in the Resend dashboard before production use of `CONTACT_FROM_EMAIL`.
 
-## PDFs
+## PDFs / financial reports
 
-Public disclosure PDFs are served by the **frontend** at `artifacts/miyar-capital/public/docs/` → `/docs/...`.
+Report metadata and English/Arabic PDF bytes are stored in Postgres (`reports` table)
+via the admin panel (`/my-access-nimda/reports` on the frontend). Public pages load them from
+`GET /api/reports` and serve files from `GET /api/reports/:id/file` (add `?lang=ar`
+for the Arabic PDF). Arabic site mode uses Arabic title, date, file name, and PDF.
+
+After pulling schema changes: `pnpm db:push` (or `pnpm db:migrate`) in this package.

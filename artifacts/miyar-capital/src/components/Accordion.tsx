@@ -1,9 +1,12 @@
+"use client";
+
 import { useState } from "react";
 
 export interface AccordionItem {
   title: string;
   body: string;
   action?: string;
+  actionHref?: string;
 }
 
 interface AccordionProps {
@@ -39,11 +42,20 @@ export function Accordion({ items, numbered = false }: AccordionProps) {
             {isOpen && (
               <div className="acc-body">
                 <p>{item.body}</p>
-                {item.action && (
+                {item.action && item.actionHref ? (
+                  <a
+                    className="acc-action"
+                    href={item.actionHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.action}
+                  </a>
+                ) : item.action ? (
                   <button type="button" className="acc-action">
                     {item.action}
                   </button>
-                )}
+                ) : null}
               </div>
             )}
           </div>

@@ -13,6 +13,8 @@ import { verifyRecaptcha } from "./contact/recaptcha.js";
 import { contactPayloadSchema } from "./contact/schema.js";
 import { getDb } from "./db/index.js";
 import { contactSubmissions } from "./db/schema.js";
+import { registerReportRoutes } from "./reports/routes.js";
+import { registerDisclosureRoutes } from "./disclosures/routes.js";
 
 function clientIp(c: { req: { header: (name: string) => string | undefined } }): string {
   return (
@@ -42,7 +44,7 @@ export function createApp() {
         return allowed.includes(origin) ? origin : allowed[0] ?? "";
       },
       credentials: true,
-      allowMethods: ["GET", "POST", "OPTIONS"],
+      allowMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
       allowHeaders: ["Content-Type"],
     }),
   );
@@ -153,6 +155,36 @@ export function createApp() {
     return c.json({ ok: true });
   });
 
+  app.post("/api/admin/translate", async (c) => {
+    if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
+    try {
+      const body = (await c.req.json().catch(() => null)) as
+        | { text?: string; texts?: Record<string, string> }
+        | null;
+      const { translateEnToAr } = await import("./i18n/translate.js");
+
+      if (body?.texts && typeof body.texts === "object") {
+        const out: Record<string, string> = {};
+        for (const [key, value] of Object.entries(body.texts)) {
+          out[key] = typeof value === "string" ? await translateEnToAr(value) : "";
+        }
+        return c.json({ ok: true, texts: out });
+      }
+
+      const text = typeof body?.text === "string" ? body.text : "";
+      if (!text.trim()) {
+        return c.json({ error: "text is required" }, 400);
+      }
+      const translated = await translateEnToAr(text);
+      return c.json({ ok: true, text: translated });
+    } catch (e) {
+      return c.json(
+        { error: e instanceof Error ? e.message : "Translation failed" },
+        500,
+      );
+    }
+  });
+
   app.get("/api/admin/submissions", async (c) => {
     if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
     try {
@@ -201,6 +233,9 @@ export function createApp() {
       .where(eq(contactSubmissions.id, id));
     return c.json({ ok: true });
   });
+
+  registerReportRoutes(app);
+  registerDisclosureRoutes(app);
 
   return app;
 }

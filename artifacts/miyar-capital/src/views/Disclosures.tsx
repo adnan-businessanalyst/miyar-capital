@@ -2,39 +2,55 @@
 
 import { PageHero } from "../components/PageHero";
 import { Accordion, type AccordionItem } from "../components/Accordion";
+import type { Disclosure } from "../data/disclosures";
+import { useLanguage } from "../i18n/LanguageContext";
+import { apiUrl } from "../lib/api";
 
-const DISCLOSURES: AccordionItem[] = [
-  {
-    title:
-      "Miyar Capital announces the availability of the quarterly statement for the Mudaraba Fund for the period ending 2024-12-31",
-    body: "Miyar Capital has published the quarterly statement for the Mudaraba Fund covering the period ending 2024-12-31. The statement includes the fund's financial position, performance summary, and unit-price movement for the quarter. The full document is available for download below.",
-    action: "View Attached File",
-  },
-  {
-    title:
-      "Miyar Capital announces the availability of the quarterly statement for the Mudaraba Fund for the period ending 2024-09-30",
-    body: "Miyar Capital has published the quarterly statement for the Mudaraba Fund covering the period ending 2024-09-30. The statement includes the fund's financial position, performance summary, and unit-price movement for the quarter. The full document is available for download below.",
-    action: "View Attached File",
-  },
-  {
-    title:
-      "Miyar Capital announces the availability of the quarterly statement for the Mudaraba Fund for the period ending 2024-06-30",
-    body: "Miyar Capital has published the quarterly statement for the Mudaraba Fund covering the period ending 2024-06-30. The statement includes the fund's financial position, performance summary, and unit-price movement for the quarter. The full document is available for download below.",
-    action: "View Attached File",
-  },
-];
+interface DisclosuresProps {
+  disclosures: Disclosure[];
+  loadError?: string;
+}
 
-export function Disclosures() {
+export function Disclosures({ disclosures, loadError }: DisclosuresProps) {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+
+  const items: AccordionItem[] = disclosures.map((d) => {
+    const title = (isAr ? d.titleAr : d.title) || d.title;
+    const body = (isAr ? d.bodyAr : d.body) || d.body;
+    const useArabicFile = isAr && d.hasArabicFile && d.fileUrlAr;
+    const fileUrl = useArabicFile ? d.fileUrlAr! : d.fileUrl;
+    return {
+      title,
+      body,
+      action: isAr ? "عرض الملف المرفق" : "View Attached File",
+      actionHref: fileUrl ? apiUrl(fileUrl) : undefined,
+    };
+  });
+
   return (
     <div className="page">
-      <PageHero title="Disclosures" crumb="Disclosures" />
+      <PageHero
+        title={isAr ? "الإفصاحات" : "Disclosures"}
+        crumb={isAr ? "الإفصاحات" : "Disclosures"}
+      />
 
       <section className="blk">
         <div className="wrap">
           <div className="sec-head sec-head--center">
-            <h2>Disclosures</h2>
+            <h2>{isAr ? "الإفصاحات" : "Disclosures"}</h2>
           </div>
-          <Accordion items={DISCLOSURES} />
+          {loadError ? (
+            <p style={{ color: "#b42318" }}>{loadError}</p>
+          ) : items.length === 0 ? (
+            <p style={{ color: "var(--muted)", textAlign: "center" }}>
+              {isAr
+                ? "لا توجد إفصاحات منشورة حالياً."
+                : "No disclosures published yet."}
+            </p>
+          ) : (
+            <Accordion items={items} />
+          )}
         </div>
       </section>
     </div>
