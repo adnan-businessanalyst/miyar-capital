@@ -1,19 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
-import { ARRANGEMENT_SERVICES } from "../data/arrangement";
-import { CONTENT_IMAGES } from "../site/contentImages";
+import {
+  ARRANGEMENT_DETAIL_CARDS,
+  ARRANGEMENT_SERVICES,
+} from "../data/arrangement";
+import { CONTENT_IMAGES, DETAILS_PG_IMAGE, IA_INTRO_IMAGE } from "../site/contentImages";
+import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
 
 const buildingImg = CONTENT_IMAGES.app_bg;
+const introImg = IA_INTRO_IMAGE || buildingImg;
+const detailBg = DETAILS_PG_IMAGE || buildingImg;
 
 const DEFAULT_ORDER = ["hero", "intro", "services", "detail", "interest"];
 
 export function ArrangementManagement() {
   const sectionOrder = DEFAULT_ORDER;
+  const [activeDetail, setActiveDetail] = useState(0);
+  const cards = ARRANGEMENT_DETAIL_CARDS;
+  const prevDetail = (activeDetail - 1 + cards.length) % cards.length;
+  const nextDetail = (activeDetail + 1) % cards.length;
 
   const scrollToRegister = () => {
     document.getElementById("register")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const goDetail = (index: number) => {
+    const n = cards.length;
+    setActiveDetail(((index % n) + n) % n);
   };
 
   const renderSection = (id: string) => {
@@ -48,7 +64,7 @@ export function ArrangementManagement() {
                   </button>
                 </div>
                 <div className="arr-intro-img">
-                  <img src={buildingImg} alt="mobile app section background image" />
+                  <img src={introImg} alt="Arrangement management" />
                 </div>
               </div>
             </div>
@@ -85,33 +101,83 @@ export function ArrangementManagement() {
       case "detail":
         return (
           <section key={id} className="detail">
-            <div className="detail-bg" style={{ backgroundImage: `url(${buildingImg})` }} />
+            <div
+              className="detail-bg"
+              style={detailBg ? { backgroundImage: `url(${detailBg})` } : undefined}
+            />
             <div className="wrap">
               <div className="detail-inner">
                 <h2>More Detailed Information</h2>
                 <div className="detail-cards">
-                  <div className="detail-index">
-                    <span className="on">01</span>
-                    <span>02</span>
+                  <div className="detail-index" role="tablist" aria-label="Detail cards">
+                    {cards.map((card, i) => (
+                      <button
+                        key={card.title}
+                        type="button"
+                        role="tab"
+                        aria-selected={i === activeDetail}
+                        className={i === activeDetail ? "on" : undefined}
+                        onClick={() => goDetail(i)}
+                      >
+                        {card.title}
+                      </button>
+                    ))}
                   </div>
-                  <div className="detail-card">
-                    <h4>Capital Increase through a Rights Offering</h4>
-                    <p>
-                      Miyar Capital supports companies in increasing capital through
-                      a Rights Offering to their existing shareholders, while
-                      adhering to the Shariah controls related to such operations.
-                    </p>
+                  <div className="detail-stage">
+                    <button
+                      type="button"
+                      className="detail-card detail-card--peek detail-card--prev"
+                      onClick={() => goDetail(prevDetail)}
+                      aria-label={`Previous: ${cards[prevDetail].title}`}
+                    >
+                      <h4>{cards[prevDetail].title}</h4>
+                      <p>{cards[prevDetail].body}</p>
+                    </button>
+                    <div className="detail-card detail-card--active" role="tabpanel">
+                      <h4>{cards[activeDetail].title}</h4>
+                      <p>{cards[activeDetail].body}</p>
+                    </div>
+                    <button
+                      type="button"
+                      className="detail-card detail-card--peek detail-card--next"
+                      onClick={() => goDetail(nextDetail)}
+                      aria-label={`Next: ${cards[nextDetail].title}`}
+                    >
+                      <h4>{cards[nextDetail].title}</h4>
+                      <p>{cards[nextDetail].body}</p>
+                    </button>
                   </div>
-                  <div className="detail-card detail-card--muted">
-                    <h4>Debt Restructuring Solutions</h4>
-                  </div>
+                </div>
+                <div className="detail-arrows">
+                  <button
+                    type="button"
+                    className="detail-arrow"
+                    onClick={() => goDetail(activeDetail - 1)}
+                    aria-label="Previous detail card"
+                  >
+                    ←
+                  </button>
+                  <button
+                    type="button"
+                    className="detail-arrow"
+                    onClick={() => goDetail(activeDetail + 1)}
+                    aria-label="Next detail card"
+                  >
+                    →
+                  </button>
                 </div>
               </div>
             </div>
           </section>
         );
       case "interest":
-        return <RegisterInterest key={id} sourcePage="/arrangement-management" />;
+        return (
+          <RegisterInterest
+            key={id}
+            image={manOnPhone}
+            sourcePage="/arrangement-management"
+          />
+        );
       default:
         return null;
     }

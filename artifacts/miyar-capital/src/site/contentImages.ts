@@ -14,8 +14,6 @@ function contentVideo(basename: string): string {
 }
 
 export const CONTENT_IMAGES = {
-  advisory_step3: content("advisory_step3"),
-  advisory_step4: content("advisory_step4"),
   man_on_phone: content("man_on_phone"),
   app_bg: content("app-bg"),
   app_phone_screen: content("app-phone-screen"),
@@ -34,6 +32,40 @@ export const CONTENT_IMAGES = {
   wm_transparent_reporting: content("wm-transparent-reporting"),
   wm_understanding_goals: content("wm-understanding-goals"),
 } as const;
+
+function investmentAdvisory(basename: string): string {
+  return mediaUrl("investment-advisory", basename);
+}
+
+function investmentAdvisoryVideo(basename: string): string {
+  return mediaVideoUrl("investment-advisory", basename);
+}
+
+/** Process timeline images for Investment Advisory (`ia-process-1` … `ia-process-5`). */
+export const IA_PROCESS_IMAGES = {
+  1: investmentAdvisory("ia-process-1"),
+  2: investmentAdvisory("ia-process-2"),
+  3: investmentAdvisory("ia-process-3"),
+  4: investmentAdvisory("ia-process-4"),
+  5: investmentAdvisory("ia-process-5"),
+} as const;
+
+/**
+ * Intro card background (`ia-bg`) — applied inside the rounded advisory card.
+ * Drop `ia-bg.mp4` and/or `ia-bg.avif|webp|jpg|png` under
+ * `src/assets/investment-advisory` → copy to `public/media/investment-advisory`.
+ * Video is preferred when both exist.
+ */
+export const IA_BG = {
+  image: investmentAdvisory("ia-bg"),
+  video: investmentAdvisoryVideo("ia-bg"),
+} as const;
+
+/** Arrangement “More Detailed Information” section background (`details-pg`). */
+export const DETAILS_PG_IMAGE = investmentAdvisory("details-pg");
+
+/** Intro split image (`ia-intro`) — Arrangement Management intro card. */
+export const IA_INTRO_IMAGE = investmentAdvisory("ia-intro");
 
 /** Optional short looping videos (preferred over still when both exist). */
 export const CONTENT_VIDEOS = {
