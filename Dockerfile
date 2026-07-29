@@ -1,9 +1,10 @@
-# Build context = artifacts/miyar-api (Railway Root Directory or Dockerfile folder).
+# Monorepo-root build context (Railway Root Directory empty).
+# Prefer setting Root Directory to `artifacts/miyar-api` and using that folder's Dockerfile instead.
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
 RUN corepack enable && corepack prepare pnpm@11.14.0 --activate
-COPY package.json tsconfig.json ./
-COPY src ./src
+COPY artifacts/miyar-api/package.json artifacts/miyar-api/tsconfig.json ./
+COPY artifacts/miyar-api/src ./src
 RUN pnpm install
 RUN pnpm run build
 RUN pnpm prune --prod
