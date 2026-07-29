@@ -2968,16 +2968,20 @@ footer .bottom {
   align-items: start;
   padding: 28px 0;
   border-bottom: 1px solid var(--line);
+  /* Same soft entrance as board person-card--board */
   opacity: 0;
-  transform: translateY(18px);
+  transform: scale(0.97);
+  filter: blur(3px);
   transition:
-    opacity 0.85s ease,
-    transform 0.85s ease;
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.85s ease;
 }
 
 .people-rows.is-visible .person-row {
   opacity: 1;
   transform: none;
+  filter: none;
 }
 
 .people-rows.is-visible .person-row:nth-child(1) { transition-delay: 0s; }
@@ -3094,6 +3098,7 @@ footer .bottom {
   .person-row {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
   }
 }

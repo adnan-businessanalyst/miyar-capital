@@ -39,7 +39,8 @@ export function usePeopleGridReveal(cardCount: number) {
           io.disconnect();
         });
       },
-      { threshold: 0.15 },
+      /* Trigger when the list top enters view — same feel for short (board) and tall (executive) lists */
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" },
     );
 
     io.observe(grid);
