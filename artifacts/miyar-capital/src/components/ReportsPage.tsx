@@ -1,6 +1,6 @@
 import { PageHero } from "./PageHero";
 import { ReportCard } from "./ReportCard";
-import { REPORTS } from "../data/reports";
+import { ANNUAL_REPORTS } from "../data/reports";
 
 interface ReportsPageProps {
   title: string;
@@ -13,7 +13,7 @@ export function ReportsPage({ title }: ReportsPageProps) {
       <section className="blk">
         <div className="wrap">
           <div className="reports-grid">
-            {REPORTS.map((report, i) => (
+            {ANNUAL_REPORTS.map((report, i) => (
               <ReportCard key={`${report.title}-${i}`} {...report} />
             ))}
           </div>
