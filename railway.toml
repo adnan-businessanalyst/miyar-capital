@@ -1,0 +1,12 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "pnpm install --filter @workspace/miyar-api... && pnpm --filter @workspace/miyar-api run build"
+  },
+  "deploy": {
+    "startCommand": "pnpm --filter @workspace/miyar-api run start",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 5
+  }
+}

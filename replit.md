@@ -5,49 +5,36 @@ Marketing website for Miyar Capital, an independent Saudi CMA-regulated investme
 ## Run & Operate
 
 - `pnpm --filter @workspace/miyar-capital run typecheck` — typecheck the site
-- `pnpm --filter @workspace/miyar-capital run build` — Next.js production build (Vercel/CI)
-- `pnpm --filter @workspace/miyar-capital run dev` — local Next.js server (`http://localhost:3001`)
-- See `artifacts/miyar-capital/README.md` for DB, forms, admin, and env setup
+- `pnpm --filter @workspace/miyar-api run typecheck` — typecheck the API
+- `pnpm --filter @workspace/miyar-capital run build` — Next.js production build
+- `pnpm --filter @workspace/miyar-api run build` — API TypeScript build
+- `pnpm --filter @workspace/miyar-api run dev` — API on `:4000`
+- `pnpm --filter @workspace/miyar-capital run dev` — site on `:3001`
+- See `artifacts/miyar-capital/README.md` and `artifacts/miyar-api/README.md`
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- Next.js App Router + React (Server Components by default)
-- Postgres (Drizzle), Resend, reCAPTCHA v3 for contact forms
-- Styling: plain CSS in `artifacts/miyar-capital/src/index.css` (Tailwind not used)
-- Fonts: Cormorant Garamond + DM Sans (loaded in root layout)
+- Frontend: Next.js App Router + React
+- Backend: Hono API (`artifacts/miyar-api`) — Postgres (Drizzle), Resend, reCAPTCHA v3
+- Styling: plain CSS in `artifacts/miyar-capital/src/index.css`
 
 ## Where things live
 
-- `artifacts/miyar-capital/src/app/` — App Router routes, API handlers, admin
+- `artifacts/miyar-capital/src/app/` — App Router pages + admin UI
 - `artifacts/miyar-capital/src/views/` — marketing page components
-- `artifacts/miyar-capital/src/index.css` — design system (tokens, layout, RTL)
-- `artifacts/miyar-capital/src/i18n/` — `LanguageContext` (EN/AR + RTL) and translations
-- `artifacts/miyar-capital/src/components/` — Header, Footer, PageHero, forms, shared blocks
+- `artifacts/miyar-api/` — contact, admin auth, DB, email
 - `artifacts/miyar-capital/public/docs/` — public PDF downloads
-- Source prototype: `attached_assets/remixed-1e234082_1783242009522.html`
+- `artifacts/miyar-capital/public/media/` — optimized images/videos
 
 ## Architecture decisions
 
-- Migrated from Vite + wouter SPA to Next.js; SEO uses App Router static generation / metadata (no Playwright prerender).
-- i18n covers translated keys (home, nav, headings). Non-home subpage body copy is largely EN-only.
-- `RichText` renders trusted, static translation strings containing inline `<em>`/`<strong>` via `dangerouslySetInnerHTML` — never user input.
-- Language toggle sets `dir`/`lang` on `<body>`; RTL layout and Arabic fonts are handled in CSS.
-
-## Product
-
-A bilingual (EN/AR) marketing site with homepage plus Asset Management, Investment Banking, fund product pages, DPM, Private Markets, contact API, and an authenticated admin submissions panel.
-
-## User preferences
-
-- Prefers clean code.
+- Backend extracted from Next Route Handlers into a standalone API package.
+- Frontend proxies `/api/*` to the API (same-origin cookies for admin).
+- Public PDFs stay on the frontend under `/docs`.
 
 ## Gotchas
 
-- Styling is plain CSS, not Tailwind — add styles in `index.css`, don't reach for utility classes.
+- Styling is plain CSS, not Tailwind — add styles in `index.css`.
 - Do not put page components under `src/pages/` (Next Pages Router conflict); use `src/views/`.
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
-- See `artifacts/miyar-capital/README.md` for fullstack setup
+- Form/admin secrets belong in `miyar-api/.env`, not the Next client bundle.

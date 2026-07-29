@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
-import { isAdminAuthenticated } from "@/server/admin/auth";
+import { isAdminAuthenticatedViaApi } from "@/lib/api-server";
 import { AdminLoginForm } from "./AdminLoginForm";
 
 export const metadata = { title: "Admin" };
 
 export default async function AdminHomePage() {
-  if (await isAdminAuthenticated()) {
+  if (await isAdminAuthenticatedViaApi()) {
     redirect("/admin/submissions");
   }
   return (

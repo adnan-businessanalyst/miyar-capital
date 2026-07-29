@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { apiUrl } from "@/lib/api";
 
 export function MarkReadButton({ id }: { id: string }) {
   const router = useRouter();
@@ -14,7 +15,10 @@ export function MarkReadButton({ id }: { id: string }) {
       disabled={loading}
       onClick={async () => {
         setLoading(true);
-        await fetch(`/api/admin/submissions/${id}/read`, { method: "POST" });
+        await fetch(apiUrl(`/api/admin/submissions/${id}/read`), {
+          method: "POST",
+          credentials: "include",
+        });
         router.refresh();
         setLoading(false);
       }}

@@ -1,6 +1,8 @@
-export async function verifyRecaptcha(token: string | undefined, ip?: string | null): Promise<boolean> {
+export async function verifyRecaptcha(
+  token: string | undefined,
+  ip?: string | null,
+): Promise<boolean> {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
-  // Allow local/dev without captcha when secret is unset.
   if (!secret) {
     if (process.env.NODE_ENV === "production") {
       console.warn("[contact] RECAPTCHA_SECRET_KEY missing in production");
@@ -24,7 +26,6 @@ export async function verifyRecaptcha(token: string | undefined, ip?: string | n
   if (!res.ok) return false;
   const data = (await res.json()) as { success?: boolean; score?: number };
   if (!data.success) return false;
-  // v3 score threshold
   if (typeof data.score === "number" && data.score < 0.3) return false;
   return true;
 }

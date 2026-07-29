@@ -1,23 +1,39 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { desc } from "drizzle-orm";
-import { isAdminAuthenticated } from "@/server/admin/auth";
-import { getDb } from "@/server/db";
-import { contactSubmissions } from "@/server/db/schema";
+import { apiServerFetch, isAdminAuthenticatedViaApi } from "@/lib/api-server";
 import { AdminLogoutButton } from "../AdminLogoutButton";
 
 export const metadata = { title: "Submissions · Admin" };
 export const dynamic = "force-dynamic";
 
-export default async function SubmissionsPage() {
-  if (!(await isAdminAuthenticated())) redirect("/admin");
+type SubmissionRow = {
+  id: string;
+  createdAt: string;
+  name: string;
+  email: string;
+  sourcePage: string;
+  status: string;
+};
 
-  let rows: Array<typeof contactSubmissions.$inferSelect> = [];
+export default async function SubmissionsPage() {
+  if (!(await isAdminAuthenticatedViaApi())) redirect("/admin");
+
+  let rows: SubmissionRow[] = [];
   let dbError = "";
   try {
-    rows = await getDb().select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(200);
+    const res = await apiServerFetch("/api/admin/submissions");
+    const json = (await res.json()) as {
+      ok?: boolean;
+      submissions?: SubmissionRow[];
+      error?: string;
+    };
+    if (!res.ok) {
+      dbError = json.error || "Failed to load submissions";
+    } else {
+      rows = json.submissions ?? [];
+    }
   } catch (e) {
-    dbError = e instanceof Error ? e.message : "Database unavailable";
+    dbError = e instanceof Error ? e.message : "API unavailable";
   }
 
   return (
@@ -52,7 +68,7 @@ export default async function SubmissionsPage() {
               <tbody>
                 {rows.map((r) => (
                   <tr key={r.id}>
-                    <td>{r.createdAt.toISOString().replace("T", " ").slice(0, 19)}</td>
+                    <td>{r.createdAt.replace("T", " ").slice(0, 19)}</td>
                     <td>{r.name}</td>
                     <td>{r.email}</td>
                     <td>{r.sourcePage}</td>

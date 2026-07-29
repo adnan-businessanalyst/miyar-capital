@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { apiUrl } from "@/lib/api";
 
 export function AdminLoginForm() {
   const router = useRouter();
@@ -13,9 +14,10 @@ export function AdminLoginForm() {
     setLoading(true);
     setError("");
     const password = String(new FormData(e.currentTarget).get("password") ?? "");
-    const res = await fetch("/api/admin/login", {
+    const res = await fetch(apiUrl("/api/admin/login"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ password }),
     });
     setLoading(false);

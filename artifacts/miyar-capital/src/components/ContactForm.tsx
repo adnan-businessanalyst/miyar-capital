@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { apiUrl } from "@/lib/api";
 
 export type ContactFormVariant = "homepage" | "register" | "ib" | "who-we-are";
 
@@ -69,9 +70,10 @@ export function ContactForm({
     };
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(apiUrl("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(payload),
       });
       const json = (await res.json()) as { ok?: boolean; error?: string; warning?: string };
