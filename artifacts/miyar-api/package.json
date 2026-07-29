@@ -19,11 +19,11 @@
     "postgres": "^3.4.7",
     "resend": "^6.0.2",
     "typescript": "~5.9.3",
-    "zod": "catalog:"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
+    "@types/node": "^25.3.3",
     "drizzle-kit": "^0.31.4",
-    "tsx": "catalog:"
+    "tsx": "^4.21.0"
   }
 }
