@@ -1,12 +1,11 @@
-# Build context = artifacts/miyar-api (Railway Root Directory or Dockerfile folder).
+# Context: artifacts/miyar-api (set Railway Root Directory to this folder).
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
-RUN corepack enable && corepack prepare pnpm@11.14.0 --activate
 COPY package.json tsconfig.json ./
 COPY src ./src
-RUN pnpm install
-RUN pnpm run build
-RUN pnpm prune --prod
+RUN npm install
+RUN npm run build
+RUN npm prune --omit=dev
 
 FROM node:22-bookworm-slim
 WORKDIR /app

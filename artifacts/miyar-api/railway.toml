@@ -1,6 +1,7 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
+# Do not use pnpm --filter here. Clear any custom Build Command in the Railway UI.
 
 [deploy]
 startCommand = "node dist/index.js"
