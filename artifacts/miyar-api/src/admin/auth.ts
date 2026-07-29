@@ -1,7 +1,8 @@
-import { cookies } from "next/headers";
 import { createHmac, timingSafeEqual } from "node:crypto";
+import type { Context } from "hono";
+import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 
-const COOKIE = "miyar_admin_session";
+export const ADMIN_COOKIE = "miyar_admin_session";
 const MAX_AGE_SEC = 60 * 60 * 12; // 12h
 
 function secret(): string {
@@ -14,28 +15,31 @@ function sign(value: string): string {
   return createHmac("sha256", secret()).update(value).digest("hex");
 }
 
-export async function createAdminSession(): Promise<void> {
-  const issued = String(Date.now());
-  const token = `${issued}.${sign(issued)}`;
-  const jar = await cookies();
-  jar.set(COOKIE, token, {
+function cookieOptions() {
+  const sameSiteEnv = (process.env.COOKIE_SAME_SITE || "lax").toLowerCase();
+  const crossSite = sameSiteEnv === "none";
+  return {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: crossSite || process.env.NODE_ENV === "production",
+    sameSite: (crossSite ? "None" : "Lax") as "None" | "Lax",
     path: "/",
     maxAge: MAX_AGE_SEC,
-  });
+  };
 }
 
-export async function clearAdminSession(): Promise<void> {
-  const jar = await cookies();
-  jar.delete(COOKIE);
+export function createAdminSession(c: Context): void {
+  const issued = String(Date.now());
+  const token = `${issued}.${sign(issued)}`;
+  setCookie(c, ADMIN_COOKIE, token, cookieOptions());
 }
 
-export async function isAdminAuthenticated(): Promise<boolean> {
+export function clearAdminSession(c: Context): void {
+  deleteCookie(c, ADMIN_COOKIE, { path: "/" });
+}
+
+export function isAdminAuthenticated(c: Context): boolean {
   try {
-    const jar = await cookies();
-    const raw = jar.get(COOKIE)?.value;
+    const raw = getCookie(c, ADMIN_COOKIE);
     if (!raw) return false;
     const [issued, sig] = raw.split(".");
     if (!issued || !sig) return false;

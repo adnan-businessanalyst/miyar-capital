@@ -24,6 +24,9 @@ catalogs:
     react-dom:
       specifier: 19.1.0
       version: 19.1.0
+    tsx:
+      specifier: ^4.21.0
+      version: 4.23.1
     zod:
       specifier: ^3.25.76
       version: 3.25.76
@@ -116,26 +119,20 @@ importers:
         specifier: ~5.9.3
         version: 5.9.3
 
-  artifacts/miyar-capital:
+  artifacts/miyar-api:
     dependencies:
+      '@hono/node-server':
+        specifier: ^1.19.0
+        version: 1.19.17(hono@4.12.32)
       drizzle-orm:
         specifier: ^0.44.5
         version: 0.44.7(postgres@3.4.9)
-      lucide-react:
-        specifier: 'catalog:'
-        version: 0.545.0(react@19.1.0)
-      next:
-        specifier: ^15.5.2
-        version: 15.5.21(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      hono:
+        specifier: ^4.9.6
+        version: 4.12.32
       postgres:
         specifier: ^3.4.7
         version: 3.4.9
-      react:
-        specifier: 'catalog:'
-        version: 19.1.0
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.1.0(react@19.1.0)
       resend:
         specifier: ^6.0.2
         version: 6.18.0
@@ -146,15 +143,40 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 25.9.5
+      drizzle-kit:
+        specifier: ^0.31.4
+        version: 0.31.10
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.1
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+
+  artifacts/miyar-capital:
+    dependencies:
+      lucide-react:
+        specifier: 'catalog:'
+        version: 0.545.0(react@19.1.0)
+      next:
+        specifier: ^15.5.2
+        version: 15.5.21(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.1.0
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.1.0(react@19.1.0)
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.9.5
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.17
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.17)
-      drizzle-kit:
-        specifier: ^0.31.4
-        version: 0.31.10
       ffmpeg-static:
         specifier: ^5.3.0
         version: 5.3.0
@@ -196,6 +218,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@hono/node-server@1.19.17':
+    resolution: {integrity: sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ==}
+    engines: {node: '>=18.14.1'}
+    peerDependencies:
+      hono: ^4
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -739,6 +767,10 @@ packages:
   get-tsconfig@4.14.0:
     resolution: {integrity: sha512-yTb+8DXzDREzgvYmh6s9vHsSVCHeC0G3PI5bEXNBHtmshPnO+S5O7qgLEOn0I5QvMy6kpZN8K1NKGyilLb93wA==}
 
+  hono@4.12.32:
+    resolution: {integrity: sha512-XcuyW9qE2kJn07PkecMOBd5Vq/hMy7mmGw+idz1yblbg9N17ijJODrvPkn7/dwL3Kulj8LcRJ69DLOWf91dRUg==}
+    engines: {node: '>=16.9.0'}
+
   http-response-object@3.0.2:
     resolution: {integrity: sha512-bqX0XTF6fnXSQcEJ2Iuyr75yVakyjIDCqroJQ/aHfSdlM743Cwqoi2nDYMzLGWUcuTWGWy8AAvOKXTfiv6q9RA==}
 
@@ -944,6 +976,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.27.3':
     optional: true
+
+  '@hono/node-server@1.19.17(hono@4.12.32)':
+    dependencies:
+      hono: 4.12.32
 
   '@img/colour@1.1.0': {}
 
@@ -1255,6 +1291,8 @@ snapshots:
   get-tsconfig@4.14.0:
     dependencies:
       resolve-pkg-maps: 1.0.0
+
+  hono@4.12.32: {}
 
   http-response-object@3.0.2:
     dependencies:

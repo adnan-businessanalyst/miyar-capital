@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
-import { isAdminAuthenticated } from "@/server/admin/auth";
-import { getDb } from "@/server/db";
-import { contactSubmissions } from "@/server/db/schema";
+import { apiServerFetch, isAdminAuthenticatedViaApi } from "@/lib/api-server";
 import { AdminLogoutButton } from "../../AdminLogoutButton";
 import { MarkReadButton } from "./MarkReadButton";
 
@@ -11,16 +8,31 @@ export const dynamic = "force-dynamic";
 
 type Props = { params: Promise<{ id: string }> };
 
+type Submission = {
+  id: string;
+  createdAt: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  subject: string | null;
+  message: string;
+  sourcePage: string;
+  status: string;
+  ip: string | null;
+  userAgent: string | null;
+};
+
 export default async function SubmissionDetailPage({ params }: Props) {
-  if (!(await isAdminAuthenticated())) redirect("/admin");
+  if (!(await isAdminAuthenticatedViaApi())) redirect("/admin");
   const { id } = await params;
 
-  const [row] = await getDb()
-    .select()
-    .from(contactSubmissions)
-    .where(eq(contactSubmissions.id, id))
-    .limit(1);
-
+  const res = await apiServerFetch(`/api/admin/submissions/${id}`);
+  if (res.status === 404) notFound();
+  if (!res.ok) {
+    redirect("/admin/submissions");
+  }
+  const json = (await res.json()) as { submission?: Submission };
+  const row = json.submission;
   if (!row) notFound();
 
   return (
@@ -39,7 +51,7 @@ export default async function SubmissionDetailPage({ params }: Props) {
         <div className="admin-card">
           <h1 style={{ marginTop: 0 }}>{row.name}</h1>
           <p className="admin-meta">
-            {row.createdAt.toISOString()} · {row.sourcePage} · {row.status}
+            {row.createdAt} · {row.sourcePage} · {row.status}
           </p>
           <table className="admin-table" style={{ marginTop: 16 }}>
             <tbody>

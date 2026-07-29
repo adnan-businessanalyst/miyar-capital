@@ -7,7 +7,9 @@
   "scripts": {
     "preinstall": "node preinstall.mjs",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "typecheck": "pnpm -r --filter \"./artifacts/**\" --if-present run typecheck"
+    "typecheck": "pnpm -r --filter \"./artifacts/**\" --if-present run typecheck",
+    "dev:api": "pnpm --filter @workspace/miyar-api run dev",
+    "dev:web": "pnpm --filter @workspace/miyar-capital run dev"
   },
   "devDependencies": {
     "prettier": "^3.8.4",

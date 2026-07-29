@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import type { ContactPayload } from "./schema";
+import type { ContactPayload } from "./schema.js";
 
 function escapeHtml(s: string): string {
   return s
@@ -9,12 +9,17 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-export async function sendContactEmail(payload: ContactPayload, meta: { id: string; createdAt: Date }) {
+export async function sendContactEmail(
+  payload: ContactPayload,
+  meta: { id: string; createdAt: Date },
+) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM_EMAIL;
   const to = process.env.CONTACT_TO_EMAIL;
   if (!apiKey || !from || !to) {
-    throw new Error("Resend email is not configured (RESEND_API_KEY / CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL)");
+    throw new Error(
+      "Resend email is not configured (RESEND_API_KEY / CONTACT_FROM_EMAIL / CONTACT_TO_EMAIL)",
+    );
   }
 
   const resend = new Resend(apiKey);
