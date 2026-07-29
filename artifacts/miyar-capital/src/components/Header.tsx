@@ -220,6 +220,26 @@ export function Header() {
             );
           })}
         </ul>
+        <div className="mm-auth">
+          {loginUrl ? (
+            <a href={loginUrl} className="tb-login" target="_blank" rel="noopener noreferrer">
+              {t("tb_login")}
+            </a>
+          ) : (
+            <button type="button" className="tb-login">
+              {t("tb_login")}
+            </button>
+          )}
+          {signupUrl ? (
+            <a href={signupUrl} className="tb-signup" target="_blank" rel="noopener noreferrer">
+              {t("tb_signup")}
+            </a>
+          ) : (
+            <button type="button" className="tb-signup">
+              {t("tb_signup")}
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

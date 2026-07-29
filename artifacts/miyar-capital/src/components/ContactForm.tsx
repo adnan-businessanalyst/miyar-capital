@@ -132,7 +132,13 @@ export function ContactForm({
       {error ? <p className="form-error">{error}</p> : null}
       <button
         type="submit"
-        className={variant === "ib" ? "btn btn-navy ib-submit" : undefined}
+        className={
+          variant === "ib"
+            ? "btn btn-navy ib-submit"
+            : variant === "homepage"
+              ? "btn btn-navy"
+              : undefined
+        }
         disabled={status === "loading"}
       >
         {status === "loading" ? "Sending…" : submitLabel}

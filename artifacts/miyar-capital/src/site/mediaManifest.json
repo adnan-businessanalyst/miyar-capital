@@ -235,6 +235,56 @@
       "image": "/media/hero/hero-tablet.webp"
     }
   },
+  "investment-advisory": {
+    "details-pg": {
+      "files": {
+        ".png": "/media/investment-advisory/details-pg.png"
+      },
+      "image": "/media/investment-advisory/details-pg.png"
+    },
+    "ia-bg": {
+      "files": {
+        ".mp4": "/media/investment-advisory/ia-bg.mp4"
+      },
+      "video": "/media/investment-advisory/ia-bg.mp4"
+    },
+    "ia-intro": {
+      "files": {
+        ".avif": "/media/investment-advisory/ia-intro.avif"
+      },
+      "image": "/media/investment-advisory/ia-intro.avif"
+    },
+    "ia-process-1": {
+      "files": {
+        ".avif": "/media/investment-advisory/ia-process-1.avif"
+      },
+      "image": "/media/investment-advisory/ia-process-1.avif"
+    },
+    "ia-process-2": {
+      "files": {
+        ".avif": "/media/investment-advisory/ia-process-2.avif"
+      },
+      "image": "/media/investment-advisory/ia-process-2.avif"
+    },
+    "ia-process-3": {
+      "files": {
+        ".avif": "/media/investment-advisory/ia-process-3.avif"
+      },
+      "image": "/media/investment-advisory/ia-process-3.avif"
+    },
+    "ia-process-4": {
+      "files": {
+        ".avif": "/media/investment-advisory/ia-process-4.avif"
+      },
+      "image": "/media/investment-advisory/ia-process-4.avif"
+    },
+    "ia-process-5": {
+      "files": {
+        ".avif": "/media/investment-advisory/ia-process-5.avif"
+      },
+      "image": "/media/investment-advisory/ia-process-5.avif"
+    }
+  },
   "members": {
     "member-1": {
       "files": {
