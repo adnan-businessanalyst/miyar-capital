@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/miyar-api",
+  "name": "miyar-api",
   "version": "0.0.0",
   "private": true,
   "type": "module",
