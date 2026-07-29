@@ -1,62 +1,35 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
-import { PersonCard } from "../components/PersonCard";
+import { PersonRow } from "../components/PersonRow";
 import { BOARD_MEMBERS } from "../data/people";
+import { useLanguage } from "../i18n/LanguageContext";
 import { usePeopleGridReveal } from "../hooks/usePeopleGridReveal";
 
-const CHAIRMAN =
-  BOARD_MEMBERS.find(
-    (m) => m.role.includes("Chairman") && !m.role.includes("Vice"),
-  ) ?? BOARD_MEMBERS[0];
-
 export function BoardOfDirectors() {
-  const gridRef = usePeopleGridReveal(BOARD_MEMBERS.length);
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+  const listRef = usePeopleGridReveal(BOARD_MEMBERS.length);
 
   return (
     <div className="page">
       <PageHero
-        className="page-hero--fold"
-        title="Board of Directors"
+        title={isAr ? "مجلس الإدارة" : "Board of Directors"}
         crumbs={[
-          { label: "About", href: "/who-we-are" },
-          { label: "Board of Directors" },
+          { label: isAr ? "من نحن" : "About", href: "/who-we-are" },
+          { label: isAr ? "مجلس الإدارة" : "Board of Directors" },
         ]}
-        description="An independent board that sets strategy, upholds Shariah-aligned governance, and stewards Miyar Capital for long-term client trust."
-      >
-        <div className="bod-chair">
-          <aside className="bod-chair-person">
-            <div className={`bod-chair-photo${!CHAIRMAN.photo ? " bod-chair-photo--placeholder" : ""}`}>
-              {CHAIRMAN.photo ? (
-                <img src={CHAIRMAN.photo} alt={CHAIRMAN.name} />
-              ) : (
-                <span className="bod-chair-initials" aria-hidden="true">
-                  {CHAIRMAN.initials ?? "MZ"}
-                </span>
-              )}
-            </div>
-            <div className="bod-chair-name">{CHAIRMAN.name}</div>
-            <div className="bod-chair-role">{CHAIRMAN.role}</div>
-          </aside>
-          <blockquote className="bod-chair-message">
-            <p>
-              <span className="bod-chair-mark" aria-hidden="true">
-                “
-              </span>
-              {CHAIRMAN.bio}
-            </p>
-          </blockquote>
-        </div>
-      </PageHero>
+        description={
+          isAr
+            ? "مجلس إدارة مستقل يضع الاستراتيجية ويعزز الحوكمة المتوافقة مع الشريعة ويحمي ثقة عملاء مِعيار كابيتال على المدى الطويل."
+            : "An independent board that sets strategy, upholds Shariah-aligned governance, and stewards Miyar Capital for long-term client trust."
+        }
+      />
       <section className="blk">
         <div className="wrap">
-          <div ref={gridRef} className="people-grid people-grid--board">
+          <div ref={listRef} className="people-rows">
             {BOARD_MEMBERS.map((person, i) => (
-              <PersonCard
-                key={`${person.name}-${i}`}
-                {...person}
-                variant="board"
-              />
+              <PersonRow key={`${person.name}-${i}`} {...person} />
             ))}
           </div>
         </div>
