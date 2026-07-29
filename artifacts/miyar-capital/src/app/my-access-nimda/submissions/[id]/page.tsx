@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { apiServerFetch, isAdminAuthenticatedViaApi } from "@/lib/api-server";
-import { AdminLogoutButton } from "../../AdminLogoutButton";
+import { AdminBar } from "../../AdminBar";
 import { MarkReadButton } from "./MarkReadButton";
 
 export const dynamic = "force-dynamic";
@@ -23,13 +23,13 @@ type Submission = {
 };
 
 export default async function SubmissionDetailPage({ params }: Props) {
-  if (!(await isAdminAuthenticatedViaApi())) redirect("/admin");
+  if (!(await isAdminAuthenticatedViaApi())) redirect("/my-access-nimda");
   const { id } = await params;
 
   const res = await apiServerFetch(`/api/admin/submissions/${id}`);
   if (res.status === 404) notFound();
   if (!res.ok) {
-    redirect("/admin/submissions");
+    redirect("/my-access-nimda/submissions");
   }
   const json = (await res.json()) as { submission?: Submission };
   const row = json.submission;
@@ -37,16 +37,10 @@ export default async function SubmissionDetailPage({ params }: Props) {
 
   return (
     <>
-      <div className="admin-bar">
-        <strong>Miyar Admin</strong>
-        <div>
-          <Link href="/admin/submissions">Submissions</Link>
-          <AdminLogoutButton />
-        </div>
-      </div>
+      <AdminBar />
       <div className="admin-wrap">
         <p>
-          <Link href="/admin/submissions">← Back to list</Link>
+          <Link href="/my-access-nimda/submissions">← Back to list</Link>
         </p>
         <div className="admin-card">
           <h1 style={{ marginTop: 0 }}>{row.name}</h1>

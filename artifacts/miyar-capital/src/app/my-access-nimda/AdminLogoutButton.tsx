@@ -14,7 +14,7 @@ export function AdminLogoutButton() {
           method: "POST",
           credentials: "include",
         });
-        router.push("/admin");
+        router.push("/my-access-nimda");
         router.refresh();
       }}
     >

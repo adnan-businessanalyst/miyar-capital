@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { apiServerFetch, isAdminAuthenticatedViaApi } from "@/lib/api-server";
-import { AdminLogoutButton } from "../AdminLogoutButton";
+import { AdminBar } from "../AdminBar";
 
 export const metadata = { title: "Submissions · Admin" };
 export const dynamic = "force-dynamic";
@@ -16,7 +16,7 @@ type SubmissionRow = {
 };
 
 export default async function SubmissionsPage() {
-  if (!(await isAdminAuthenticatedViaApi())) redirect("/admin");
+  if (!(await isAdminAuthenticatedViaApi())) redirect("/my-access-nimda");
 
   let rows: SubmissionRow[] = [];
   let dbError = "";
@@ -38,13 +38,7 @@ export default async function SubmissionsPage() {
 
   return (
     <>
-      <div className="admin-bar">
-        <strong>Miyar Admin</strong>
-        <div>
-          <Link href="/admin/submissions">Submissions</Link>
-          <AdminLogoutButton />
-        </div>
-      </div>
+      <AdminBar />
       <div className="admin-wrap">
         <h1>Form submissions</h1>
         <p className="admin-meta">Newest first. Public API is not exposed — this view is auth-only.</p>
@@ -74,7 +68,7 @@ export default async function SubmissionsPage() {
                     <td>{r.sourcePage}</td>
                     <td>{r.status}</td>
                     <td>
-                      <Link href={`/admin/submissions/${r.id}`}>View</Link>
+                      <Link href={`/my-access-nimda/submissions/${r.id}`}>View</Link>
                     </td>
                   </tr>
                 ))}

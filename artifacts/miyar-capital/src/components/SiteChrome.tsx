@@ -10,7 +10,7 @@ import { WhatsAppWidget } from "./WhatsAppWidget";
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || "/";
   const hideDisclaimer = pathname === "/";
-  const isAdmin = pathname.startsWith("/admin");
+  const isAdmin = pathname.startsWith("/my-access-nimda");
 
   if (isAdmin) {
     return <>{children}</>;

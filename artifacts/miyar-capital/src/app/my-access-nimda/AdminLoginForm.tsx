@@ -26,7 +26,7 @@ export function AdminLoginForm() {
       setError(json.error || "Login failed");
       return;
     }
-    router.push("/admin/submissions");
+    router.push("/my-access-nimda/submissions");
     router.refresh();
   }
 
