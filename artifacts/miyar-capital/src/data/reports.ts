@@ -12,4 +12,6 @@ export interface Report {
   fileUrl: string;
   fileUrlAr: string | null;
   hasArabicFile: boolean;
+  hasImage: boolean;
+  imageUrl: string | null;
 }

@@ -11,7 +11,9 @@ Marketing site + admin UI. Backend lives in `@workspace/miyar-api`.
 
 Browser calls **same-origin** `/api/*`. Next.js rewrites those to `API_INTERNAL_URL` (default `http://127.0.0.1:4000`) so admin cookies stay `SameSite=Lax`.
 
-Financial report PDFs and disclosures are managed in Admin (`/my-access-nimda/reports`, `/my-access-nimda/disclosures`) and served by the API.
+Financial report PDFs, disclosures, and homepage hero CTA/promo are managed in Admin
+(`/my-access-nimda/reports`, `/my-access-nimda/disclosures`, `/my-access-nimda/homepage`)
+and served by the API.
 ## Local setup
 
 ```bash

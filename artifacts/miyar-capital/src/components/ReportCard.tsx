@@ -3,6 +3,12 @@
 import type { Report } from "../data/reports";
 import { useLanguage } from "../i18n/LanguageContext";
 import { apiUrl } from "../lib/api";
+import { mediaUrl } from "../site/resolveAssetUrl";
+
+const DEFAULT_CARD_IMAGE =
+  mediaUrl("brand", "logo-nav-dark") ||
+  mediaUrl("brand", "logo-footer") ||
+  "/media/brand/logo-nav-dark.svg";
 
 export function ReportCard(report: Report) {
   const { lang } = useLanguage();
@@ -18,6 +24,12 @@ export function ReportCard(report: Report) {
   const fileUrl = useArabicFile ? report.fileUrlAr! : report.fileUrl;
   const hasFile = Boolean(fileUrl);
 
+  const thumbSrc =
+    report.hasImage && report.imageUrl
+      ? apiUrl(report.imageUrl)
+      : DEFAULT_CARD_IMAGE;
+  const isDefaultLogo = !(report.hasImage && report.imageUrl);
+
   const viewHref = hasFile ? apiUrl(fileUrl) : undefined;
   const downloadHref = hasFile
     ? apiUrl(`${fileUrl}${fileUrl.includes("?") ? "&" : "?"}download=1`)
@@ -28,23 +40,8 @@ export function ReportCard(report: Report) {
 
   return (
     <div className="report-card">
-      <div className="report-thumb">
-        <svg
-          width="34"
-          height="34"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-          <line x1="8" y1="13" x2="16" y2="13" />
-          <line x1="8" y1="17" x2="16" y2="17" />
-        </svg>
+      <div className={`report-thumb${isDefaultLogo ? " report-thumb--logo" : ""}`}>
+        <img src={thumbSrc} alt="" />
       </div>
       <div className="report-body">
         <h3 lang={isAr && report.titleAr ? "ar" : undefined}>{title}</h3>

@@ -1,50 +1,8 @@
 /**
- * Hardcoded front-page hero promotional card.
- * Edit labels, link, visibility, and styles here — not in Site Manager / CMS.
- *
- * Optional image: place `hero-card.*` in `public/media/hero/`.
+ * Optional local image for the hero promo card.
+ * Place `hero-card.*` in `public/media/hero/` — content is CMS-managed.
  */
 
 import { mediaUrl } from "./resolveAssetUrl";
 
-/** Resolved local card image URL, or empty if the file is missing. */
 export const HERO_CARD_IMAGE = mediaUrl("hero", "hero-card");
-
-export interface HeroCardConfig {
-  /** Show the promotional card in the hero. */
-  show: boolean;
-  /** Show the card image when a local asset (or this flag) is enabled. */
-  showImage: boolean;
-  href: string;
-  titleEn: string;
-  titleAr: string;
-  bodyEn: string;
-  bodyAr: string;
-  /** Empty string = use CSS default. */
-  background: string;
-  headingColor: string;
-  headingFont: string;
-  textColor: string;
-  /** Max width in px; 0 = CSS default. */
-  width: number;
-  /** Height in px; 0 = auto. */
-  height: number;
-}
-
-export const HERO_CARD: HeroCardConfig = {
-  show: true,
-  showImage: false,
-  href: "/asset-management/liquidity-fi",
-  titleEn: "Sukuk Offerings ",
-  titleAr: "عروض الصكوك",
-  bodyEn:
-    "We offer a range of Sukuk offerings to meet the needs of our clients.",
-  bodyAr:
-    "نقدم عروض مختلفة من السكوك لتلبية احتياجات عملائنا.",
-  background: "",
-  headingColor: "",
-  headingFont: "",
-  textColor: "",
-  width: 0,
-  height: 0,
-};

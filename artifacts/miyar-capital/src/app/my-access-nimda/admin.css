@@ -145,6 +145,18 @@
   border: 1px solid #0c476e;
 }
 
+.admin-check {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+  font-weight: 600;
+}
+
+.admin-check input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
 .admin-row-actions {
   display: flex;
   align-items: center;

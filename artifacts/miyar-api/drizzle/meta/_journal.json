@@ -29,6 +29,20 @@
       "when": 1753820000000,
       "tag": "0003_disclosures",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1753840000000,
+      "tag": "0004_homepage_hero",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1753860000000,
+      "tag": "0005_reports_image",
+      "breakpoints": true
     }
   ]
 }

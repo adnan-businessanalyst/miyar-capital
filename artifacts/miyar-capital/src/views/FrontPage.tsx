@@ -11,8 +11,6 @@ import {
   type LucideProps,
 } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
-import { HERO_CARD, HERO_CARD_IMAGE } from "../site/heroCard";
-import { HERO_CTA } from "../site/heroCta";
 import { HERO_TEXT } from "../site/heroText";
 import { pickLang } from "../site/types";
 import { HeroBackground } from "../components/HeroBackground";
@@ -24,6 +22,8 @@ import { MAN_ON_PHONE_IMG as contactImg } from "../site/manOnPhone";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import { ContactForm } from "../components/ContactForm";
 import type { TranslationKey } from "../i18n/translations";
+import type { HomepageHero } from "../data/homepageHero";
+import { DEFAULT_HOMEPAGE_HERO } from "../data/homepageHero";
 
 const appBg = CONTENT_IMAGES.app_bg;
 const appPhoneScreen = CONTENT_IMAGES.app_phone_screen;
@@ -213,11 +213,12 @@ function fpSectionBgClass(id: string, order: string[]): string {
   return i % 2 === 0 ? "fp-section-bg-a" : "fp-section-bg-b";
 }
 
-export function FrontPage() {
+export function FrontPage({ hero }: { hero?: HomepageHero }) {
   const router = useRouter();
   const { t, lang } = useLanguage();
   const heroWrapRef = useRef<HTMLDivElement>(null);
-  useHeroCardLoginAlign(heroWrapRef, HERO_CARD.show, lang);
+  const h = hero ?? DEFAULT_HOMEPAGE_HERO;
+  useHeroCardLoginAlign(heroWrapRef, h.promoShow, lang);
 
   const openHref = (href: string) => {
     if (/^https?:\/\//.test(href)) {
@@ -250,54 +251,24 @@ export function FrontPage() {
             <div className="wrap fp-hero-inner" ref={heroWrapRef}>
               <div className="fp-hero-text">
                 <AnimatedHero lang={lang} />
-                {HERO_CTA.show && (
+                {h.ctaShow && (
                   <button
                     className="btn btn-gold fp-round"
                     type="button"
-                    onClick={() => openHref(HERO_CTA.href)}
+                    onClick={() => openHref(h.ctaHref)}
                   >
-                    {pickLang(HERO_CTA.labelEn, HERO_CTA.labelAr, lang)}
+                    {pickLang(h.ctaLabelEn, h.ctaLabelAr, lang)}
                   </button>
                 )}
               </div>
-              {HERO_CARD.show && (
+              {h.promoShow && (
                 <aside
                   className="fp-hero-card"
-                  style={{
-                    ...(HERO_CARD.background ? { background: HERO_CARD.background } : {}),
-                    ...(HERO_CARD.width > 0
-                      ? { width: "100%", maxWidth: HERO_CARD.width }
-                      : {}),
-                    ...(HERO_CARD.height > 0
-                      ? {
-                          height: HERO_CARD.height,
-                          display: "flex",
-                          flexDirection: "column" as const,
-                        }
-                      : {}),
-                  }}
-                  onClick={() => openHref(HERO_CARD.href)}
+                  onClick={() => openHref(h.promoHref)}
                 >
-                  {HERO_CARD.showImage && HERO_CARD_IMAGE ? (
-                    <img
-                      src={HERO_CARD_IMAGE}
-                      alt={pickLang(HERO_CARD.titleEn, HERO_CARD.titleAr, lang)}
-                    />
-                  ) : null}
                   <div className="fp-hero-card-body">
-                    <h4
-                      style={{
-                        ...(HERO_CARD.headingColor ? { color: HERO_CARD.headingColor } : {}),
-                        ...(HERO_CARD.headingFont
-                          ? { fontFamily: HERO_CARD.headingFont }
-                          : {}),
-                      }}
-                    >
-                      {pickLang(HERO_CARD.titleEn, HERO_CARD.titleAr, lang)}
-                    </h4>
-                    <p style={HERO_CARD.textColor ? { color: HERO_CARD.textColor } : undefined}>
-                      {pickLang(HERO_CARD.bodyEn, HERO_CARD.bodyAr, lang)}
-                    </p>
+                    <h4>{pickLang(h.promoTitleEn, h.promoTitleAr, lang)}</h4>
+                    <p>{pickLang(h.promoBodyEn, h.promoBodyAr, lang)}</p>
                     <span className="fp-card-arrow">→</span>
                   </div>
                 </aside>

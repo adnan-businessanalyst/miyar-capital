@@ -4,8 +4,10 @@ import { isAdminAuthenticated } from "../admin/auth.js";
 import { getDb } from "../db/index.js";
 import { reports, type ReportSection } from "../db/schema.js";
 import {
+  isImageUpload,
   isPdfUpload,
   MAX_REPORT_BYTES,
+  MAX_REPORT_IMAGE_BYTES,
   reportMetaSchema,
   reportUpdateSchema,
   sanitizeDownloadName,
@@ -25,11 +27,13 @@ type ReportListItem = {
   fileSizeAr: number | null;
   mimeType: string;
   hasArabicFile: boolean;
+  hasImage: boolean;
   sortOrder: number;
   createdAt: string;
   updatedAt: string;
   fileUrl: string;
   fileUrlAr: string | null;
+  imageUrl: string | null;
 };
 
 type ReportRowMeta = {
@@ -45,6 +49,7 @@ type ReportRowMeta = {
   fileSizeAr: number | null;
   mimeType: string;
   hasArabicFile: boolean;
+  hasImage: boolean;
   sortOrder: number;
   createdAt: Date;
   updatedAt: Date;
@@ -64,11 +69,13 @@ function toListItem(row: ReportRowMeta): ReportListItem {
     fileSizeAr: row.fileSizeAr,
     mimeType: row.mimeType,
     hasArabicFile: row.hasArabicFile,
+    hasImage: row.hasImage,
     sortOrder: row.sortOrder,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
     fileUrl: `/api/reports/${row.id}/file`,
     fileUrlAr: row.hasArabicFile ? `/api/reports/${row.id}/file?lang=ar` : null,
+    imageUrl: row.hasImage ? `/api/reports/${row.id}/image` : null,
   };
 }
 
@@ -84,6 +91,7 @@ const listColumns = {
   fileSize: reports.fileSize,
   fileSizeAr: reports.fileSizeAr,
   mimeType: reports.mimeType,
+  imageSize: reports.imageSize,
   sortOrder: reports.sortOrder,
   createdAt: reports.createdAt,
   updatedAt: reports.updatedAt,
@@ -101,13 +109,28 @@ function mapListRow(row: {
   fileSize: number;
   fileSizeAr: number | null;
   mimeType: string;
+  imageSize: number | null;
   sortOrder: number;
   createdAt: Date;
   updatedAt: Date;
 }): ReportRowMeta {
   return {
-    ...row,
+    id: row.id,
+    section: row.section,
+    title: row.title,
+    titleAr: row.titleAr,
+    date: row.date,
+    dateAr: row.dateAr,
+    fileName: row.fileName,
+    fileNameAr: row.fileNameAr,
+    fileSize: row.fileSize,
+    fileSizeAr: row.fileSizeAr,
+    mimeType: row.mimeType,
     hasArabicFile: typeof row.fileSizeAr === "number" && row.fileSizeAr > 0,
+    hasImage: typeof row.imageSize === "number" && row.imageSize > 0,
+    sortOrder: row.sortOrder,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
   };
 }
 
@@ -164,6 +187,36 @@ async function pdfFromBody(
     buffer,
     uploadName,
     mimeType: raw.type || "application/pdf",
+  };
+}
+
+async function imageFromBody(
+  body: Record<string, unknown>,
+): Promise<
+  | { ok: true; buffer: Buffer; mimeType: string }
+  | { ok: true; buffer: null }
+  | { ok: false; error: string }
+> {
+  const raw = body.image;
+  if (!isUploadFile(raw)) return { ok: true, buffer: null };
+
+  const uploadName = raw.name?.trim() || "card.jpg";
+  if (!isImageUpload(raw, uploadName)) {
+    return { ok: false, error: "Card image must be JPEG, PNG, WebP, GIF, or SVG" };
+  }
+
+  const buffer = Buffer.from(await raw.arrayBuffer());
+  if (buffer.byteLength === 0) {
+    return { ok: false, error: "Uploaded image is empty" };
+  }
+  if (buffer.byteLength > MAX_REPORT_IMAGE_BYTES) {
+    return { ok: false, error: "Card image must be 5 MB or smaller" };
+  }
+
+  return {
+    ok: true,
+    buffer,
+    mimeType: raw.type || "image/jpeg",
   };
 }
 
@@ -241,6 +294,31 @@ export function registerReportRoutes(app: Hono) {
     }
   });
 
+  app.get("/api/reports/:id/image", async (c) => {
+    try {
+      const id = c.req.param("id");
+      const [row] = await getDb()
+        .select({
+          imageMimeType: reports.imageMimeType,
+          imageData: reports.imageData,
+        })
+        .from(reports)
+        .where(eq(reports.id, id))
+        .limit(1);
+
+      if (!row?.imageData || row.imageData.byteLength === 0) {
+        return c.json({ error: "Image not found" }, 404);
+      }
+
+      c.header("Content-Type", row.imageMimeType || "image/jpeg");
+      c.header("Cache-Control", "public, max-age=3600");
+      return c.body(new Uint8Array(row.imageData));
+    } catch (e) {
+      console.error("[reports] image failed", e);
+      return c.json({ error: "Image unavailable" }, 500);
+    }
+  });
+
   app.get("/api/admin/reports", async (c) => {
     if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
     try {
@@ -268,6 +346,9 @@ export function registerReportRoutes(app: Hono) {
 
       const pdfAr = await pdfFromBody(body, "fileAr", false);
       if (!pdfAr.ok) return c.json({ error: pdfAr.error }, 400);
+
+      const image = await imageFromBody(body);
+      if (!image.ok) return c.json({ error: image.error }, 400);
 
       const fileNameInput =
         fieldString(body, "fileName") || pdf.uploadName || "report.pdf";
@@ -328,6 +409,9 @@ export function registerReportRoutes(app: Hono) {
           fileSizeAr: pdfAr.buffer ? pdfAr.buffer.byteLength : null,
           fileData: pdf.buffer,
           fileDataAr: pdfAr.buffer ?? null,
+          imageMimeType: image.buffer ? image.mimeType : null,
+          imageSize: image.buffer ? image.buffer.byteLength : null,
+          imageData: image.buffer ?? null,
           sortOrder: 0,
           createdAt: now,
           updatedAt: now,
@@ -353,6 +437,8 @@ export function registerReportRoutes(app: Hono) {
       if (!pdf.ok) return c.json({ error: pdf.error }, 400);
       const pdfAr = await pdfFromBody(body, "fileAr", false);
       if (!pdfAr.ok) return c.json({ error: pdfAr.error }, 400);
+      const image = await imageFromBody(body);
+      if (!image.ok) return c.json({ error: image.error }, 400);
 
       const updateRaw: Record<string, string> = {};
       for (const key of [
@@ -417,6 +503,9 @@ export function registerReportRoutes(app: Hono) {
         fileSizeAr: number;
         fileData: Buffer;
         fileDataAr: Buffer;
+        imageMimeType: string;
+        imageSize: number;
+        imageData: Buffer;
         updatedAt: Date;
       }> = { updatedAt: new Date() };
 
@@ -438,6 +527,11 @@ export function registerReportRoutes(app: Hono) {
         patch.fileDataAr = pdfAr.buffer;
         patch.fileSizeAr = pdfAr.buffer.byteLength;
         patch.mimeTypeAr = pdfAr.mimeType || "application/pdf";
+      }
+      if (image.buffer) {
+        patch.imageData = image.buffer;
+        patch.imageSize = image.buffer.byteLength;
+        patch.imageMimeType = image.mimeType;
       }
 
       const [row] = await getDb()
