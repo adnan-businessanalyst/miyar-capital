@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 import type { JobsSettings } from "@/data/jobs";
 
 export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
@@ -26,42 +25,6 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
   const [error, setError] = useState("");
   const [ok, setOk] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    const texts: Record<string, string> = {};
-    if (tagEn.trim() && !tagAr.trim()) texts.tagEn = tagEn;
-    if (headingEn.trim() && !headingAr.trim()) texts.headingEn = headingEn;
-    if (introEn.trim() && !introAr.trim()) texts.introEn = introEn;
-    if (hrLabelEn.trim() && !hrLabelAr.trim()) texts.hrLabelEn = hrLabelEn;
-    if (applyLabelEn.trim() && !applyLabelAr.trim()) {
-      texts.applyLabelEn = applyLabelEn;
-    }
-    if (emptyEn.trim() && !emptyAr.trim()) texts.emptyEn = emptyEn;
-    if (disclaimerEn.trim() && !disclaimerAr.trim()) {
-      texts.disclaimerEn = disclaimerEn;
-    }
-    if (Object.keys(texts).length === 0) {
-      setError("Arabic fields are already filled.");
-      return;
-    }
-    setTranslating(true);
-    try {
-      const out = await translateToArabic(texts);
-      if (out.tagEn) setTagAr(out.tagEn);
-      if (out.headingEn) setHeadingAr(out.headingEn);
-      if (out.introEn) setIntroAr(out.introEn);
-      if (out.hrLabelEn) setHrLabelAr(out.hrLabelEn);
-      if (out.applyLabelEn) setApplyLabelAr(out.applyLabelEn);
-      if (out.emptyEn) setEmptyAr(out.emptyEn);
-      if (out.disclaimerEn) setDisclaimerAr(out.disclaimerEn);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -70,7 +33,7 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
     setBusy(true);
     try {
       const res = await fetch(apiUrl("/api/admin/jobs-settings"), {
-        method: "PUT",
+        method: "PATCH",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -96,15 +59,19 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
       try {
         json = raw ? (JSON.parse(raw) as { error?: string; ok?: boolean }) : {};
       } catch {
-        /* non-JSON body */
+        /* plain-text bodies like "404 Not Found" */
       }
       if (!res.ok) {
         setError(
           json.error ||
-            (raw && raw.length < 200 ? raw : null) ||
             (res.status === 401
               ? "Session expired — sign in again"
-              : `Save failed (${res.status})`),
+              : res.status === 404
+                ? "Careers API not found — is miyar-api running and up to date?"
+                : (raw && !raw.trimStart().startsWith("<") && raw.length < 200
+                    ? raw
+                    : null) ||
+                  `Save failed (${res.status})`),
         );
         return;
       }
@@ -121,8 +88,7 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
     <form className="admin-form" onSubmit={onSubmit}>
       <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Careers section settings</h2>
       <p className="admin-meta" style={{ marginTop: 0 }}>
-        HR email and homepage careers copy. Leave Arabic blank to auto-fill on
-        save.
+        HR email and homepage careers copy.
       </p>
 
       <label className="admin-form-span">
@@ -198,17 +164,7 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
         </label>
       </div>
 
-      <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Arabic · العربية</h3>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h3 className="admin-form-section">Arabic · العربية</h3>
       <div className="admin-form-grid">
         <label>
           Tag (AR)
@@ -278,7 +234,7 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
 
       {error ? <p className="form-error">{error}</p> : null}
       {ok ? <p className="admin-meta">Saved.</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Saving…" : "Save careers settings"}
       </button>
     </form>

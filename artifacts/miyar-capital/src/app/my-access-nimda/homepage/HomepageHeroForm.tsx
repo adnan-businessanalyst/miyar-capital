@@ -3,7 +3,6 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 import type { HomepageHero } from "@/data/homepageHero";
 
 export function HomepageHeroForm({ initial }: { initial: HomepageHero }) {
@@ -20,32 +19,7 @@ export function HomepageHeroForm({ initial }: { initial: HomepageHero }) {
   const [promoBodyAr, setPromoBodyAr] = useState(initial.promoBodyAr);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
   const [saved, setSaved] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    setSaved(false);
-    setTranslating(true);
-    try {
-      const texts: Record<string, string> = {};
-      if (ctaLabelEn.trim() && !ctaLabelAr.trim()) texts.ctaLabel = ctaLabelEn;
-      if (promoTitleEn.trim() && !promoTitleAr.trim()) texts.promoTitle = promoTitleEn;
-      if (promoBodyEn.trim() && !promoBodyAr.trim()) texts.promoBody = promoBodyEn;
-      if (Object.keys(texts).length === 0) {
-        setError("Arabic fields are already filled.");
-        return;
-      }
-      const out = await translateToArabic(texts);
-      if (out.ctaLabel) setCtaLabelAr(out.ctaLabel);
-      if (out.promoTitle) setPromoTitleAr(out.promoTitle);
-      if (out.promoBody) setPromoBodyAr(out.promoBody);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -95,21 +69,10 @@ export function HomepageHeroForm({ initial }: { initial: HomepageHero }) {
   return (
     <form className="admin-form" onSubmit={onSubmit}>
       <p className="admin-meta" style={{ marginTop: 0 }}>
-        Controls the homepage hero CTA button and promo card. Leave Arabic blank
-        to auto-generate on save.
+        Controls the homepage hero CTA button and promo card.
       </p>
 
-      <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Hero CTA button</h3>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h3 className="admin-form-section">Hero CTA button</h3>
       <div className="admin-form-grid">
         <label className="admin-form-span admin-check">
           <input
@@ -219,7 +182,7 @@ export function HomepageHeroForm({ initial }: { initial: HomepageHero }) {
           Saved. Homepage will use the new settings.
         </p>
       ) : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Saving…" : "Save homepage hero"}
       </button>
     </form>

@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 
 type Props = {
   id: string;
@@ -39,32 +38,6 @@ export function NewsEditForm({ id, initial }: Props) {
   const [sortOrder, setSortOrder] = useState(String(initial.sortOrder));
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    const texts: Record<string, string> = {};
-    if (title.trim() && !titleAr.trim()) texts.title = title;
-    if (date.trim() && !dateAr.trim()) texts.date = date;
-    if (blurb.trim() && !blurbAr.trim()) texts.blurb = blurb;
-    if (body.trim() && !bodyAr.trim()) texts.body = body;
-    if (Object.keys(texts).length === 0) {
-      setError("Arabic fields are already filled.");
-      return;
-    }
-    setTranslating(true);
-    try {
-      const out = await translateToArabic(texts);
-      if (out.title) setTitleAr(out.title);
-      if (out.date) setDateAr(out.date);
-      if (out.blurb) setBlurbAr(out.blurb);
-      if (out.body) setBodyAr(out.body);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -106,19 +79,6 @@ export function NewsEditForm({ id, initial }: Props) {
 
   return (
     <form className="admin-form" onSubmit={onSubmit}>
-      <div className="admin-form-section-row">
-        <p className="admin-meta" style={{ marginTop: 0 }}>
-          Leave Arabic blank to auto-generate on save, or use Generate Arabic.
-        </p>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
       <div className="admin-form-grid">
         <label>
           Title (EN)
@@ -234,7 +194,7 @@ export function NewsEditForm({ id, initial }: Props) {
         </label>
       </div>
       {error ? <p className="form-error">{error}</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Saving…" : "Save changes"}
       </button>
     </form>

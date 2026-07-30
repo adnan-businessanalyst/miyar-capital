@@ -37,16 +37,34 @@ export default async function AdminJobsPage() {
       apiServerFetch("/api/admin/jobs-settings"),
     ]);
 
-    const jobsJson = (await jobsRes.json()) as {
+    async function readJson(res: Response): Promise<{
       ok?: boolean;
       jobs?: JobRow[];
-      error?: string;
-    };
-    const settingsJson = (await settingsRes.json()) as {
-      ok?: boolean;
       settings?: JobsSettings;
       error?: string;
-    };
+    }> {
+      const raw = await res.text();
+      try {
+        return raw ? (JSON.parse(raw) as {
+          ok?: boolean;
+          jobs?: JobRow[];
+          settings?: JobsSettings;
+          error?: string;
+        }) : {};
+      } catch {
+        return {
+          error:
+            res.status === 404
+              ? "Careers API not found — restart/redeploy miyar-api so /api/admin/jobs is available."
+              : raw && raw.length < 200
+                ? raw
+                : `Invalid API response (${res.status})`,
+        };
+      }
+    }
+
+    const jobsJson = await readJson(jobsRes);
+    const settingsJson = await readJson(settingsRes);
 
     if (!jobsRes.ok) {
       dbError = jobsJson.error || "Failed to load jobs";

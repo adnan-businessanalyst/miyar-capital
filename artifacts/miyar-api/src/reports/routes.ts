@@ -12,8 +12,6 @@ import {
   reportUpdateSchema,
   sanitizeDownloadName,
 } from "./schema.js";
-import { ensureArabicFields } from "../i18n/translate.js";
-
 type ReportListItem = {
   id: string;
   section: ReportSection;
@@ -388,32 +386,16 @@ export function registerReportRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
-          title: parsed.data.title,
-          titleAr: parsed.data.titleAr || "",
-          date: parsed.data.date,
-          dateAr: parsed.data.dateAr || "",
-          fileName: parsed.data.fileName,
-          fileNameAr: parsed.data.fileNameAr || "",
-        },
-        [
-          ["title", "titleAr"],
-          ["date", "dateAr"],
-          ["fileName", "fileNameAr"],
-        ],
-      );
-
       /* If no English PDF, use the Arabic file as the default EN slot too. */
       const enBuffer = pdf.buffer ?? pdfAr.buffer;
       const enMime = pdf.buffer
         ? pdf.mimeType || "application/pdf"
         : pdfAr.mimeType || "application/pdf";
       const enName = sanitizeDownloadName(
-        filled.fileName || filled.fileNameAr || pdfAr.uploadName,
+        parsed.data.fileName || parsed.data.fileNameAr || pdfAr.uploadName,
       );
       const arName = sanitizeDownloadName(
-        filled.fileNameAr || filled.fileName || pdfAr.uploadName,
+        parsed.data.fileNameAr || parsed.data.fileName || pdfAr.uploadName,
       );
 
       const now = new Date();
@@ -421,10 +403,10 @@ export function registerReportRoutes(app: Hono) {
         .insert(reports)
         .values({
           section: parsed.data.section,
-          title: filled.title,
-          titleAr: filled.titleAr,
-          date: filled.date,
-          dateAr: filled.dateAr,
+          title: parsed.data.title,
+          titleAr: parsed.data.titleAr || "",
+          date: parsed.data.date,
+          dateAr: parsed.data.dateAr || "",
           fileName: enName,
           fileNameAr: arName,
           mimeType: enMime,
@@ -497,22 +479,6 @@ export function registerReportRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
-          title: parsed.data.title || "",
-          titleAr: parsed.data.titleAr || "",
-          date: parsed.data.date || "",
-          dateAr: parsed.data.dateAr || "",
-          fileName: parsed.data.fileName || "",
-          fileNameAr: parsed.data.fileNameAr || "",
-        },
-        [
-          ["title", "titleAr"],
-          ["date", "dateAr"],
-          ["fileName", "fileNameAr"],
-        ],
-      );
-
       const patch: Partial<{
         section: ReportSection;
         title: string;
@@ -534,13 +500,17 @@ export function registerReportRoutes(app: Hono) {
       }> = { updatedAt: new Date() };
 
       if (parsed.data.section) patch.section = parsed.data.section;
-      if (parsed.data.title) patch.title = filled.title;
-      if (filled.titleAr) patch.titleAr = filled.titleAr;
-      if (parsed.data.date) patch.date = filled.date;
-      if (filled.dateAr) patch.dateAr = filled.dateAr;
-      if (parsed.data.fileName) patch.fileName = filled.fileName;
-      if (filled.fileNameAr) {
-        patch.fileNameAr = sanitizeDownloadName(filled.fileNameAr);
+      if (parsed.data.title) patch.title = parsed.data.title;
+      if (parsed.data.titleAr !== undefined) {
+        patch.titleAr = parsed.data.titleAr || "";
+      }
+      if (parsed.data.date) patch.date = parsed.data.date;
+      if (parsed.data.dateAr !== undefined) {
+        patch.dateAr = parsed.data.dateAr || "";
+      }
+      if (parsed.data.fileName) patch.fileName = parsed.data.fileName;
+      if (parsed.data.fileNameAr) {
+        patch.fileNameAr = sanitizeDownloadName(parsed.data.fileNameAr);
       }
       if (pdf.buffer) {
         patch.fileData = pdf.buffer;

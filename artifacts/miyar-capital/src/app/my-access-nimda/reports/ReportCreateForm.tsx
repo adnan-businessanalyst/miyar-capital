@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 import type { ReportSection } from "@/data/reports";
 
 export function ReportCreateForm() {
@@ -20,36 +19,6 @@ export function ReportCreateForm() {
   const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    if (!title.trim() && !date.trim() && !(fileName || file?.name || "").trim()) {
-      setError("Enter English title, date, or file name first.");
-      return;
-    }
-    setTranslating(true);
-    try {
-      const texts: Record<string, string> = {};
-      if (title.trim() && !titleAr.trim()) texts.title = title;
-      if (date.trim() && !dateAr.trim()) texts.date = date;
-      if ((fileName || file?.name || "").trim() && !fileNameAr.trim()) {
-        texts.fileName = fileName || file?.name || "";
-      }
-      if (Object.keys(texts).length === 0) {
-        setError("Arabic fields are already filled.");
-        return;
-      }
-      const out = await translateToArabic(texts);
-      if (out.title) setTitleAr(out.title);
-      if (out.date) setDateAr(out.date);
-      if (out.fileName) setFileNameAr(out.fileName);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -131,17 +100,7 @@ export function ReportCreateForm() {
         If no image is uploaded, the Miyar logo is shown on the card.
       </p>
 
-      <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Arabic · العربية (required)</h3>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h3 className="admin-form-section">Arabic · العربية (required)</h3>
       <div className="admin-form-grid">
         <label>
           Title (AR)
@@ -237,7 +196,7 @@ export function ReportCreateForm() {
       </div>
 
       {error ? <p className="form-error">{error}</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Uploading…" : "Upload report"}
       </button>
     </form>

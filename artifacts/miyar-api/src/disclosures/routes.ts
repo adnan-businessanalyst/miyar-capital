@@ -12,8 +12,6 @@ import {
   disclosureUpdateSchema,
   MAX_DISCLOSURE_BYTES,
 } from "./schema.js";
-import { ensureArabicFields } from "../i18n/translate.js";
-
 type DisclosureListItem = {
   id: string;
   title: string;
@@ -286,32 +284,18 @@ export function registerDisclosureRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
+      const now = new Date();
+      const [row] = await getDb()
+        .insert(disclosures)
+        .values({
           title: parsed.data.title,
           titleAr: parsed.data.titleAr || "",
           body: parsed.data.body,
           bodyAr: parsed.data.bodyAr || "",
           fileName: parsed.data.fileName,
-          fileNameAr: parsed.data.fileNameAr || "",
-        },
-        [
-          ["title", "titleAr"],
-          ["body", "bodyAr"],
-          ["fileName", "fileNameAr"],
-        ],
-      );
-
-      const now = new Date();
-      const [row] = await getDb()
-        .insert(disclosures)
-        .values({
-          title: filled.title,
-          titleAr: filled.titleAr,
-          body: filled.body,
-          bodyAr: filled.bodyAr,
-          fileName: filled.fileName,
-          fileNameAr: sanitizeDownloadName(filled.fileNameAr || filled.fileName),
+          fileNameAr: sanitizeDownloadName(
+            parsed.data.fileNameAr || parsed.data.fileName,
+          ),
           mimeType: pdf.mimeType || "application/pdf",
           mimeTypeAr: pdfAr.buffer
             ? pdfAr.mimeType || "application/pdf"
@@ -378,22 +362,6 @@ export function registerDisclosureRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
-          title: parsed.data.title || "",
-          titleAr: parsed.data.titleAr || "",
-          body: parsed.data.body || "",
-          bodyAr: parsed.data.bodyAr || "",
-          fileName: parsed.data.fileName || "",
-          fileNameAr: parsed.data.fileNameAr || "",
-        },
-        [
-          ["title", "titleAr"],
-          ["body", "bodyAr"],
-          ["fileName", "fileNameAr"],
-        ],
-      );
-
       const patch: Partial<{
         title: string;
         titleAr: string;
@@ -410,13 +378,17 @@ export function registerDisclosureRoutes(app: Hono) {
         updatedAt: Date;
       }> = { updatedAt: new Date() };
 
-      if (parsed.data.title) patch.title = filled.title;
-      if (filled.titleAr) patch.titleAr = filled.titleAr;
-      if (parsed.data.body) patch.body = filled.body;
-      if (filled.bodyAr) patch.bodyAr = filled.bodyAr;
-      if (parsed.data.fileName) patch.fileName = filled.fileName;
-      if (filled.fileNameAr) {
-        patch.fileNameAr = sanitizeDownloadName(filled.fileNameAr);
+      if (parsed.data.title) patch.title = parsed.data.title;
+      if (parsed.data.titleAr !== undefined) {
+        patch.titleAr = parsed.data.titleAr || "";
+      }
+      if (parsed.data.body) patch.body = parsed.data.body;
+      if (parsed.data.bodyAr !== undefined) {
+        patch.bodyAr = parsed.data.bodyAr || "";
+      }
+      if (parsed.data.fileName) patch.fileName = parsed.data.fileName;
+      if (parsed.data.fileNameAr) {
+        patch.fileNameAr = sanitizeDownloadName(parsed.data.fileNameAr);
       }
       if (pdf.buffer) {
         patch.fileData = pdf.buffer;
