@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 
 export function CapitalMarketsAdvisory() {
-  const router = useRouter();
 
   return (
     <div className="page">
@@ -112,13 +111,11 @@ export function CapitalMarketsAdvisory() {
             Whether you are assessing readiness for a listing or planning a capital raise,
             our team can help you define the path.
           </p>
-          <a
+          <RegisterInterest
+            sourcePage="/investment-banking/capital-markets-advisory"
+            buttonLabel="START A CONVERSATION"
             className="btn btn-gold"
-            onClick={() => router.push("/investment-banking/register-interest")}
-            style={{ cursor: "pointer" }}
-          >
-            START A CONVERSATION
-          </a>
+          />
         </div>
       </section>
 

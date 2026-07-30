@@ -111,3 +111,68 @@ export const homepageHero = pgTable("homepage_hero", {
 
 export type HomepageHero = typeof homepageHero.$inferSelect;
 export type NewHomepageHero = typeof homepageHero.$inferInsert;
+
+/** Career job postings shown on the homepage. */
+export const jobPosts = pgTable("job_posts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  referenceCode: varchar("reference_code", { length: 80 }).notNull(),
+  title: varchar("title", { length: 300 }).notNull(),
+  titleAr: varchar("title_ar", { length: 300 }),
+  location: varchar("location", { length: 200 }).notNull(),
+  locationAr: varchar("location_ar", { length: 200 }),
+  employmentType: varchar("employment_type", { length: 120 }).notNull(),
+  employmentTypeAr: varchar("employment_type_ar", { length: 120 }),
+  summary: text("summary").notNull(),
+  summaryAr: text("summary_ar"),
+  emailSubject: varchar("email_subject", { length: 500 }).notNull(),
+  emailSubjectAr: varchar("email_subject_ar", { length: 500 }),
+  emailBody: text("email_body").notNull(),
+  emailBodyAr: text("email_body_ar"),
+  isPublished: boolean("is_published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+export type JobPost = typeof jobPosts.$inferSelect;
+export type NewJobPost = typeof jobPosts.$inferInsert;
+
+/** Singleton careers section settings (HR email + section copy). */
+export const jobsSettings = pgTable("jobs_settings", {
+  id: integer("id").primaryKey().default(1),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  hrEmail: varchar("hr_email", { length: 320 }).notNull().default("hr@miyarcapital.com.sa"),
+  tagEn: varchar("tag_en", { length: 120 }).notNull().default("Careers"),
+  tagAr: varchar("tag_ar", { length: 120 }).notNull().default("الوظائف"),
+  headingEn: varchar("heading_en", { length: 300 }).notNull().default("Join Miyar Capital"),
+  headingAr: varchar("heading_ar", { length: 300 }).notNull().default("انضم إلى معيار المالية"),
+  introEn: text("intro_en")
+    .notNull()
+    .default("Explore open roles and apply by emailing our Human Resources team."),
+  introAr: text("intro_ar")
+    .notNull()
+    .default("اطّلع على الوظائف الشاغرة وقدّم عبر البريد الإلكتروني لفريق الموارد البشرية."),
+  hrLabelEn: varchar("hr_label_en", { length: 120 }).notNull().default("HR email:"),
+  hrLabelAr: varchar("hr_label_ar", { length: 120 }).notNull().default("بريد الموارد البشرية:"),
+  applyLabelEn: varchar("apply_label_en", { length: 120 }).notNull().default("Apply by email"),
+  applyLabelAr: varchar("apply_label_ar", { length: 120 }).notNull().default("قدّم عبر البريد"),
+  emptyEn: text("empty_en")
+    .notNull()
+    .default("There are no open positions at this time. Please check back later."),
+  emptyAr: text("empty_ar")
+    .notNull()
+    .default("لا توجد وظائف شاغرة حاليًا. يرجى المراجعة لاحقًا."),
+  disclaimerEn: text("disclaimer_en")
+    .notNull()
+    .default(
+      "Important: the email subject and body must match exactly as provided. Applications with altered subject or body may not be processed.",
+    ),
+  disclaimerAr: text("disclaimer_ar")
+    .notNull()
+    .default(
+      "مهم: يجب أن يتطابق موضوع الرسالة ونصها تمامًا كما هو موضح. قد لا تُعالَج الطلبات ذات الموضوع أو النص المعدّل.",
+    ),
+});
+
+export type JobsSettings = typeof jobsSettings.$inferSelect;
+export type NewJobsSettings = typeof jobsSettings.$inferInsert;

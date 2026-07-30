@@ -112,7 +112,16 @@ export function InvestmentManagement() {
           </section>
         );
       case "interest":
-        return <RegisterInterest key={id} image={manOnPhone} sourcePage="/investment-management" />;
+        return (
+          <section key={id} className="blk ri" id="register">
+            <div className="wrap contact-cta">
+              <RegisterInterest
+                sourcePage="/investment-management"
+                image={manOnPhone}
+              />
+            </div>
+          </section>
+        );
       default:
         return null;
     }

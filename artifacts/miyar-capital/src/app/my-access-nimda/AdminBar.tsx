@@ -9,6 +9,7 @@ export function AdminBar() {
         <Link href="/my-access-nimda/submissions">Submissions</Link>
         <Link href="/my-access-nimda/reports">Reports</Link>
         <Link href="/my-access-nimda/disclosures">Disclosures</Link>
+        <Link href="/my-access-nimda/jobs">Jobs</Link>
         <Link href="/my-access-nimda/homepage">Homepage</Link>
         <AdminLogoutButton />
       </div>

@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 
 export function RealEstatePrivateArrangements() {
-  const router = useRouter();
 
   return (
     <div className="page">
@@ -110,13 +109,11 @@ export function RealEstatePrivateArrangements() {
             From structure design to investor placement, we manage the arrangement
             end to end.
           </p>
-          <a
+          <RegisterInterest
+            sourcePage="/investment-banking/real-estate-private-arrangements"
+            buttonLabel="START A CONVERSATION"
             className="btn btn-gold"
-            onClick={() => router.push("/investment-banking/register-interest")}
-            style={{ cursor: "pointer" }}
-          >
-            START A CONVERSATION
-          </a>
+          />
         </div>
       </section>
 

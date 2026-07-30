@@ -244,17 +244,11 @@ export const SITE_NAV: NavDoc = {
         // },
       ],
     },
-    // {
-    //   id: "insights",
-    //   labelEn: "Insights",
-    //   labelAr: "رؤى",
-    //   href: "/insights",
-    //   // children: [
-    //   //   { id: "ins-cio",  labelEn: "CIO Views",          labelAr: "رؤى مدير الاستثمار",  href: "/insights#cio" },
-    //   //   { id: "ins-fund", labelEn: "Fund Commentary",     labelAr: "تعليقات الصناديق",    href: "/insights#fund" },
-    //   //   { id: "ins-mkt",  labelEn: "Market Commentary",   labelAr: "تعليقات السوق",       href: "/insights#market" },
-    //   //   { id: "ins-res",  labelEn: "Research Notes",      labelAr: "مذكرات بحثية",        href: "/insights#research" },
-    //   // ],
-    // },
+    {
+      id: "news",
+      labelEn: "News",
+      labelAr: "الأخبار",
+      href: "/news",
+    },
   ],
 };

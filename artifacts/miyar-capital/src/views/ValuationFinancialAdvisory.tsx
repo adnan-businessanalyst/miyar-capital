@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 
 export function ValuationFinancialAdvisory() {
-  const router = useRouter();
 
   return (
     <div className="page">
@@ -109,13 +108,11 @@ export function ValuationFinancialAdvisory() {
           <p className="ib-cta-sub">
             Independent, documented analysis built for the decision in front of you.
           </p>
-          <a
+          <RegisterInterest
+            sourcePage="/investment-banking/valuation-financial-advisory"
+            buttonLabel="START A CONVERSATION"
             className="btn btn-gold"
-            onClick={() => router.push("/investment-banking/register-interest")}
-            style={{ cursor: "pointer" }}
-          >
-            START A CONVERSATION
-          </a>
+          />
         </div>
       </section>
 

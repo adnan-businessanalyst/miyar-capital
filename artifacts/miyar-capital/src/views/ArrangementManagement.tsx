@@ -23,10 +23,6 @@ export function ArrangementManagement() {
   const prevDetail = (activeDetail - 1 + cards.length) % cards.length;
   const nextDetail = (activeDetail + 1) % cards.length;
 
-  const scrollToRegister = () => {
-    document.getElementById("register")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   const goDetail = (index: number) => {
     const n = cards.length;
     setActiveDetail(((index % n) + n) % n);
@@ -59,9 +55,10 @@ export function ArrangementManagement() {
                     structuring investment opportunities that create long-term value
                     while maintaining transparency and integrity at every step.
                   </p>
-                  <button className="btn btn-outline-navy" onClick={scrollToRegister}>
-                    Register Interest
-                  </button>
+                  <RegisterInterest
+                    sourcePage="/arrangement-management"
+                    className="btn btn-outline-navy"
+                  />
                 </div>
                 <div className="arr-intro-img">
                   <img src={introImg} alt="Arrangement management" />
@@ -172,11 +169,14 @@ export function ArrangementManagement() {
         );
       case "interest":
         return (
-          <RegisterInterest
-            key={id}
-            image={manOnPhone}
-            sourcePage="/arrangement-management"
-          />
+          <section key={id} className="blk ri" id="register">
+            <div className="wrap contact-cta">
+              <RegisterInterest
+                sourcePage="/arrangement-management"
+                image={manOnPhone}
+              />
+            </div>
+          </section>
         );
       default:
         return null;

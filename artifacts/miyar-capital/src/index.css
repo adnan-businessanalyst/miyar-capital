@@ -5097,7 +5097,7 @@ body[dir="rtl"] .reg-form textarea {
   /*
    * Homepage section bands — edit these two.
    * A = light · B = soft (“light dark”).
-   * Applied to whatwedo / services / principals / why / contact / disclaimer.
+   * Applied to whatwedo / services / principals / why / contact / jobs / disclaimer.
    * (Hero, app, and footer are excluded.)
    */
   --fp-section-bg-light: #d5e0e6;
@@ -5988,6 +5988,248 @@ body[dir="rtl"] .fp-principals-right p {
   opacity: 1;
 }
 
+/* jobs */
+.fp-jobs-intro {
+  margin: 12px auto 0;
+  max-width: 40rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.fp-jobs-hr {
+  margin: 14px 0 0;
+  font-size: 0.9375rem;
+  color: var(--ink);
+}
+
+.fp-jobs-hr a {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.fp-jobs-list {
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fp-job {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+}
+
+.fp-job:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.fp-job-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.fp-job-title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1.125rem;
+  font-weight: 650;
+  color: var(--navy);
+  line-height: 1.35;
+}
+
+.fp-job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.fp-job-ref {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.02em;
+}
+
+.fp-job-summary {
+  margin: 12px 0 0;
+  max-width: 44rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.fp-job-apply {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fp-jobs-disclaimer,
+.fp-jobs-empty {
+  margin: 28px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.fp-jobs-empty {
+  text-align: center;
+  margin-top: 36px;
+}
+
+.fp-jobs-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(10, 22, 40, 0.55);
+}
+
+.fp-jobs-modal {
+  position: relative;
+  width: min(100%, 34rem);
+  max-height: min(88vh, 40rem);
+  overflow: auto;
+  padding: 28px 28px 24px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 18px 50px rgba(10, 22, 40, 0.28);
+  outline: none;
+}
+
+.fp-jobs-modal h3 {
+  margin: 0 2rem 0 0;
+  font-family: var(--sans);
+  font-size: 1.25rem;
+  font-weight: 650;
+  color: var(--navy);
+}
+
+.fp-jobs-modal-lead {
+  margin: 10px 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.fp-jobs-modal-disclaimer {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(196, 162, 90, 0.12);
+  border: 1px solid rgba(196, 162, 90, 0.35);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--navy);
+}
+
+.fp-jobs-modal-close {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fp-jobs-modal-close:hover {
+  color: var(--navy);
+  background: rgba(10, 22, 40, 0.06);
+}
+
+.fp-jobs-field {
+  display: block;
+  margin-top: 18px;
+}
+
+.fp-jobs-field > span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fp-jobs-field-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.fp-jobs-field-row code,
+.fp-jobs-field-row pre {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #f7f9fb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--ink);
+}
+
+.fp-jobs-field-row button {
+  flex-shrink: 0;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.fp-jobs-field-row button:hover {
+  border-color: var(--gold);
+}
+
+.fp-jobs-field-row--stack {
+  flex-direction: column;
+}
+
+.fp-jobs-field-row--stack button {
+  align-self: flex-start;
+}
+
+@media (max-width: 720px) {
+  .fp-job {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .fp-job-apply {
+    align-self: flex-start;
+  }
+}
+
 /* contact */
 .fp-contact {
   display: grid;
@@ -6017,14 +6259,149 @@ body[dir="rtl"] .fp-principals-right p {
 
 .fp-contact-form {
   padding: 72px 64px;
-}
-
-.fp-contact-form form,
-.fp-contact-form .fp-contact-fields {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 26px;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.contact-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: 24px;
+}
+
+/* Contact / Register Interest modal */
+.contact-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(10, 22, 40, 0.55);
+}
+
+.contact-modal {
+  position: relative;
+  width: min(100%, 28rem);
+  max-height: min(90vh, 44rem);
+  overflow: auto;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 18px 50px rgba(10, 22, 40, 0.28);
+  outline: none;
+}
+
+.contact-modal--with-media {
+  width: min(100%, 40rem);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.contact-modal-media {
+  min-height: 12rem;
+  background: var(--navy);
+}
+
+.contact-modal-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contact-modal-body {
+  padding: 28px 28px 24px;
+}
+
+.contact-modal-title {
+  margin: 0 2rem 18px 0;
+  font-family: var(--sans);
+  font-size: 1.35rem;
+  font-weight: 650;
+  color: var(--navy);
+}
+
+.contact-modal-close {
+  position: absolute;
+  top: 10px;
+  inset-inline-end: 10px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.contact-modal-close:hover {
+  color: var(--navy);
+  background: #fff;
+}
+
+.contact-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-modal-form input,
+.contact-modal-form textarea {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  width: 100%;
+}
+
+.contact-modal-form input:focus,
+.contact-modal-form textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.contact-modal-form textarea {
+  resize: vertical;
+  min-height: 6.5rem;
+}
+
+.contact-modal-form .btn {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.contact-modal-radios {
+  margin: 2px 0;
+}
+
+.contact-modal-thanks {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.contact-modal-thanks p {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .contact-modal--with-media {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-modal-media {
+    max-height: 10rem;
+  }
 }
 
 .fp-contact-form input,
@@ -8671,5 +9048,153 @@ body[dir="rtl"] .fp-principals-right p {
   .cap-text {
     padding: 32px 24px;
     border-radius: 32px;
+  }
+}
+
+/* ===== NEWS ===== */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.news-empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.news-card {
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #fff;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.news-card:hover {
+  border-color: rgba(196, 162, 90, 0.55);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(10, 22, 40, 0.08);
+}
+
+.news-card-media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+.news-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.news-card:hover .news-card-media img {
+  transform: scale(1.03);
+}
+
+.news-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 22px 24px;
+  flex: 1;
+}
+
+.news-card-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.news-card-title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--navy);
+}
+
+.news-card-blurb {
+  margin: 0;
+  font-size: 0.9063rem;
+  line-height: 1.65;
+  color: var(--ink);
+  flex: 1;
+}
+
+.news-card-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: var(--navy);
+}
+
+.news-card:hover .news-card-more {
+  color: var(--gold);
+}
+
+.news-article {
+  max-width: 48rem;
+}
+
+.news-back {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 28px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.news-back:hover {
+  color: var(--gold);
+}
+
+.news-article-media {
+  margin-bottom: 32px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  aspect-ratio: 16 / 9;
+  background: var(--navy);
+}
+
+.news-article-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.news-article-body p {
+  margin: 0 0 1.15em;
+  font-size: 1.0313rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.news-article-body p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 800px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
   }
 }

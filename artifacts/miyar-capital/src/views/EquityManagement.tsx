@@ -2,6 +2,7 @@
 
 import { ChartColumnIncreasing, Compass, Globe2, Layers } from "lucide-react";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
 const heroImg = CONTENT_IMAGES.pillar_equity;
@@ -38,7 +39,10 @@ export function EquityManagement() {
                     local, regional, and global markets, selecting opportunities that align with
                     our clients' risk appetite and investment horizon.
                   </p>
-                  <a className="btn btn-outline-navy">Register Interest</a>
+                  <RegisterInterest
+                    sourcePage="/asset-management/equity-management"
+                    className="btn btn-outline-navy"
+                  />
                 </div>
                 <div
                   className="pi-intro-img"

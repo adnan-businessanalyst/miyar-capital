@@ -1,0 +1,105 @@
+"use client";
+
+import {
+  useEffect,
+  useId,
+  useRef,
+  type ReactNode,
+} from "react";
+
+type Props = {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  children: ReactNode;
+  image?: string;
+};
+
+export function ContactModal({ open, onClose, title, children, image }: Props) {
+  const titleId = useId();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    previouslyFocused.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+      previouslyFocused.current?.focus();
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="contact-modal-backdrop"
+      role="presentation"
+      onClick={onClose}
+    >
+      <div
+        ref={panelRef}
+        className={`contact-modal${image ? " contact-modal--with-media" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          className="contact-modal-close"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          ×
+        </button>
+        {image ? (
+          <div className="contact-modal-media" aria-hidden="true">
+            <img src={image} alt="" />
+          </div>
+        ) : null}
+        <div className="contact-modal-body">
+          <h2 id={titleId} className="contact-modal-title">
+            {title}
+          </h2>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}

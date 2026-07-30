@@ -106,6 +106,12 @@ export const SITE_FOOTER: SiteFooter = {
         { id: "f-fatca", labelEn: "FATCA / CRS", labelAr: "فاتكا / المعيار الموحد" },
         { id: "f-priv", labelEn: "Privacy Policy", labelAr: "سياسة الخصوصية" },
         { id: "f-terms", labelEn: "Terms of Use", labelAr: "شروط الاستخدام" },
+        {
+          id: "f-news",
+          labelEn: "News",
+          labelAr: "الأخبار",
+          href: "/news",
+        },
       ],
     },
   ],

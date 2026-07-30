@@ -16,6 +16,7 @@ import { contactSubmissions } from "./db/schema.js";
 import { registerReportRoutes } from "./reports/routes.js";
 import { registerDisclosureRoutes } from "./disclosures/routes.js";
 import { registerHomepageRoutes } from "./homepage/routes.js";
+import { registerJobRoutes } from "./jobs/routes.js";
 
 function clientIp(c: { req: { header: (name: string) => string | undefined } }): string {
   return (
@@ -238,6 +239,7 @@ export function createApp() {
   registerReportRoutes(app);
   registerDisclosureRoutes(app);
   registerHomepageRoutes(app);
+  registerJobRoutes(app);
 
   return app;
 }
