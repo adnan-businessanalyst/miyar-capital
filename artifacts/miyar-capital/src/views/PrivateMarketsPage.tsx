@@ -1,11 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 
 export function PrivateMarketsPage() {
-  const router = useRouter();
-
   return (
     <div className="page">
 
@@ -119,13 +117,11 @@ export function PrivateMarketsPage() {
             To learn more about Private Markets and request official fund documents,
             contact our team.
           </p>
-          <a
+          <RegisterInterest
+            sourcePage="/private-markets"
+            buttonLabel="Contact Us"
             className="btn btn-gold"
-            onClick={() => router.push("/contact")}
-            style={{ cursor: "pointer" }}
-          >
-            Contact Us
-          </a>
+          />
         </div>
       </section>
 

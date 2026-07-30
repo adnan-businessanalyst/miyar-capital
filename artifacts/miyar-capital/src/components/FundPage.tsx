@@ -60,7 +60,13 @@ function ReportSection({
   );
 }
 
-export function FundPage({ fund }: { fund: FundData }) {
+export function FundPage({
+  fund,
+  sourcePage,
+}: {
+  fund: FundData;
+  sourcePage: string;
+}) {
   return (
     <div className="page">
       <PageHero title={fund.name} crumb={`Asset Management / ${fund.name}`} />
@@ -70,7 +76,11 @@ export function FundPage({ fund }: { fund: FundData }) {
       <StatSection title="Operation" stats={fund.operation} />
       <ReportSection title="Quarterly Reports" reports={fund.quarterlyReports} />
       <ReportSection title="Annual Reports" reports={fund.annualReports} />
-      <RegisterInterest sourcePage="/funds" />
+      <section className="blk ri" id="register">
+        <div className="wrap contact-cta">
+          <RegisterInterest sourcePage={sourcePage} />
+        </div>
+      </section>
     </div>
   );
 }

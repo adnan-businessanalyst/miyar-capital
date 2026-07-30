@@ -2,6 +2,7 @@
 
 import { Banknote, Landmark, Shield, Wallet } from "lucide-react";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
 const heroImg = CONTENT_IMAGES.pillar_liquidity;
@@ -39,7 +40,10 @@ export function LiquidityFI() {
                     products, structured in full compliance with Shariah principles and Capital
                     Market Authority regulations.
                   </p>
-                  <a className="btn btn-outline-navy">Register Interest</a>
+                  <RegisterInterest
+                    sourcePage="/asset-management/liquidity-fi"
+                    className="btn btn-outline-navy"
+                  />
                 </div>
                 <div
                   className="pi-intro-img"

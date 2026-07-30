@@ -1,11 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 
 export function InvestmentBanking() {
-  const router = useRouter();
-
   return (
     <div className="page">
 
@@ -244,13 +242,11 @@ export function InvestmentBanking() {
             Tell us your objective — a raise, a sale, a listing or a financing — and we
             will help you define the path.
           </p>
-          <a
+          <RegisterInterest
+            sourcePage="/investment-banking"
+            buttonLabel="START A CONVERSATION"
             className="btn btn-gold"
-            onClick={() => router.push("/investment-banking/register-interest")}
-            style={{ cursor: "pointer" }}
-          >
-            START A CONVERSATION
-          </a>
+          />
         </div>
       </section>
 

@@ -3,15 +3,13 @@
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
 
-export type ContactFormVariant = "homepage" | "register" | "ib" | "who-we-are";
+export type ContactFormVariant = "get-in-touch" | "register";
 
 type Props = {
   sourcePage: string;
   variant?: ContactFormVariant;
   className?: string;
-  showSubject?: boolean;
   submitLabel?: string;
-  thanksClassName?: string;
   thanksMessage?: string;
 };
 
@@ -26,7 +24,9 @@ declare global {
 
 async function getRecaptchaToken(): Promise<string | undefined> {
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-  if (!siteKey || typeof window === "undefined" || !window.grecaptcha) return undefined;
+  if (!siteKey || typeof window === "undefined" || !window.grecaptcha) {
+    return undefined;
+  }
   return new Promise((resolve) => {
     window.grecaptcha!.ready(() => {
       window
@@ -37,16 +37,17 @@ async function getRecaptchaToken(): Promise<string | undefined> {
   });
 }
 
+/** Shared form body used inside GetInTouch / RegisterInterest modals. */
 export function ContactForm({
   sourcePage,
   variant = "register",
-  className = "reg-form",
-  showSubject = false,
+  className = "contact-modal-form",
   submitLabel = "Send Message",
-  thanksClassName = "ri-thanks",
   thanksMessage = "Thank you — your message has been received. Our team will be in touch shortly.",
 }: Props) {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle",
+  );
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
 
@@ -76,7 +77,11 @@ export function ContactForm({
         credentials: "include",
         body: JSON.stringify(payload),
       });
-      const json = (await res.json()) as { ok?: boolean; error?: string; warning?: string };
+      const json = (await res.json()) as {
+        ok?: boolean;
+        error?: string;
+        warning?: string;
+      };
       if (!res.ok || !json.ok) {
         setStatus("error");
         setError(json.error || "Submission failed. Please try again.");
@@ -93,54 +98,58 @@ export function ContactForm({
 
   if (status === "success") {
     return (
-      <div>
-        <p className={thanksClassName}>{thanksMessage}</p>
+      <div className="contact-modal-thanks">
+        <p>{thanksMessage}</p>
         {warning ? <p className="form-warning">{warning}</p> : null}
       </div>
     );
   }
 
-  const subjectBlock =
-    showSubject || variant === "homepage" ? (
-      <div className="fp-radios">
-        <span className="fp-radios-label">Select Subject</span>
-        <label>
-          <input type="radio" name="subject" value="General Inquiry" defaultChecked /> General
-          Inquiry
-        </label>
-        <label>
-          <input type="radio" name="subject" value="Complaint" /> Complaint
-        </label>
-        <label>
-          <input type="radio" name="subject" value="Info" /> Info
-        </label>
-      </div>
-    ) : null;
-
   return (
     <form className={className} onSubmit={onSubmit} noValidate>
-      <input type="text" name="name" placeholder="Name" required autoComplete="name" />
-      <input type="email" name="email" placeholder="Email" required autoComplete="email" />
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        required
+        autoComplete="name"
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required
+        autoComplete="email"
+      />
       <input type="tel" name="phone" placeholder="Phone" autoComplete="tel" />
-      {subjectBlock}
+      {variant === "get-in-touch" ? (
+        <div className="fp-radios contact-modal-radios">
+          <span className="fp-radios-label">Select Subject</span>
+          <label>
+            <input
+              type="radio"
+              name="subject"
+              value="Inquiry"
+              defaultChecked
+            />{" "}
+            Inquiry
+          </label>
+          <label>
+            <input type="radio" name="subject" value="Complaint" /> Complaint
+          </label>
+          <label>
+            <input type="radio" name="subject" value="Info" /> Info
+          </label>
+        </div>
+      ) : null}
       <textarea
         name="message"
-        placeholder={variant === "homepage" ? "Write your message" : "Write your message"}
-        rows={variant === "ib" ? 5 : 4}
+        placeholder="Write your message"
+        rows={4}
         required
       />
       {error ? <p className="form-error">{error}</p> : null}
-      <button
-        type="submit"
-        className={
-          variant === "ib"
-            ? "btn btn-navy ib-submit"
-            : variant === "homepage"
-              ? "btn btn-navy"
-              : undefined
-        }
-        disabled={status === "loading"}
-      >
+      <button type="submit" className="btn btn-navy" disabled={status === "loading"}>
         {status === "loading" ? "Sending…" : submitLabel}
       </button>
     </form>

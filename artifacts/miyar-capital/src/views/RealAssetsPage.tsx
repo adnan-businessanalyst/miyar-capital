@@ -1,11 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 
 export function RealAssetsPage() {
-  const router = useRouter();
-
   return (
     <div className="page">
 
@@ -133,13 +131,11 @@ export function RealAssetsPage() {
         <div className="wrap eq-cta-inner">
           <h2>Speak with Our Team</h2>
           <p>To learn more about our real assets offering, contact our team.</p>
-          <a
+          <RegisterInterest
+            sourcePage="/real-assets"
+            buttonLabel="Contact Us"
             className="btn btn-gold"
-            onClick={() => router.push("/contact")}
-            style={{ cursor: "pointer" }}
-          >
-            Contact Us
-          </a>
+          />
         </div>
       </section>
 

@@ -2,6 +2,7 @@
 
 import { Building2, Construction, Network, PieChart } from "lucide-react";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
 const heroImg = CONTENT_IMAGES.pillar_real_assets;
@@ -38,7 +39,10 @@ export function RealAssets() {
                     structure, and manage real estate and other real asset opportunities with a
                     long-term, value-driven approach.
                   </p>
-                  <a className="btn btn-outline-navy">Register Interest</a>
+                  <RegisterInterest
+                    sourcePage="/asset-management/real-assets"
+                    className="btn btn-outline-navy"
+                  />
                 </div>
                 <div
                   className="pi-intro-img"

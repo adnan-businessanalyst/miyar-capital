@@ -6,15 +6,13 @@ import { ContactModal } from "./ContactModal";
 
 type Props = {
   sourcePage: string;
-  image?: string;
   buttonLabel?: string;
   className?: string;
 };
 
-export function RegisterInterest({
+export function GetInTouch({
   sourcePage,
-  image,
-  buttonLabel = "Register Interest",
+  buttonLabel = "Get In Touch",
   className = "btn btn-navy",
 }: Props) {
   const [open, setOpen] = useState(false);
@@ -31,12 +29,11 @@ export function RegisterInterest({
       <ContactModal
         open={open}
         onClose={() => setOpen(false)}
-        title="Register Interest"
-        image={image}
+        title="Contact Us"
       >
         <ContactForm
           sourcePage={sourcePage}
-          variant="register"
+          variant="get-in-touch"
           submitLabel="Send Message"
         />
       </ContactModal>

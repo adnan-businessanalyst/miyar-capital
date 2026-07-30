@@ -20,10 +20,13 @@ import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
 import { FOOTER_BG_IMAGE } from "../site/footer";
 import { MAN_ON_PHONE_IMG as contactImg } from "../site/manOnPhone";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
-import { ContactForm } from "../components/ContactForm";
+import { GetInTouch } from "../components/GetInTouch";
+import { JobsSection } from "../components/JobsSection";
 import type { TranslationKey } from "../i18n/translations";
 import type { HomepageHero } from "../data/homepageHero";
 import { DEFAULT_HOMEPAGE_HERO } from "../data/homepageHero";
+import type { JobsPageData } from "../data/jobs";
+import { EMPTY_JOBS_PAGE } from "../data/jobs";
 
 const appBg = CONTENT_IMAGES.app_bg;
 const appPhoneScreen = CONTENT_IMAGES.app_phone_screen;
@@ -193,7 +196,17 @@ function AnimatedHero({ lang }: { lang: string }) {
   );
 }
 
-const DEFAULT_ORDER = ["hero", "whatwedo", "services", "principals", "why", "contact", "disclaimer", "app"];
+const DEFAULT_ORDER = [
+  "hero",
+  "whatwedo",
+  "services",
+  "principals",
+  "why",
+  "contact",
+  "jobs",
+  "disclaimer",
+  "app",
+];
 
 /** Sections that alternate light / soft backgrounds (not hero, app, or footer). */
 const FP_BANDED_SECTIONS = new Set([
@@ -202,6 +215,7 @@ const FP_BANDED_SECTIONS = new Set([
   "principals",
   "why",
   "contact",
+  "jobs",
   "disclaimer",
 ]);
 
@@ -213,11 +227,18 @@ function fpSectionBgClass(id: string, order: string[]): string {
   return i % 2 === 0 ? "fp-section-bg-a" : "fp-section-bg-b";
 }
 
-export function FrontPage({ hero }: { hero?: HomepageHero }) {
+export function FrontPage({
+  hero,
+  jobs,
+}: {
+  hero?: HomepageHero;
+  jobs?: JobsPageData;
+}) {
   const router = useRouter();
   const { t, lang } = useLanguage();
   const heroWrapRef = useRef<HTMLDivElement>(null);
   const h = hero ?? DEFAULT_HOMEPAGE_HERO;
+  const jobsData = jobs ?? EMPTY_JOBS_PAGE;
   useHeroCardLoginAlign(heroWrapRef, h.promoShow, lang);
 
   const openHref = (href: string) => {
@@ -396,17 +417,16 @@ export function FrontPage({ hero }: { hero?: HomepageHero }) {
             <div className="fp-contact-form">
               <div className="fp-tag">{t("fp_contact_tag")}</div>
               <h2 className="fp-h2">{t("fp_contact_h")}</h2>
-              <ContactForm
+              <GetInTouch
                 sourcePage="/"
-                variant="homepage"
-                className="fp-contact-fields"
-                showSubject
-                submitLabel={t("fp_contact_send")}
-                thanksClassName="ri-thanks"
+                buttonLabel={t("fp_contact_send")}
+                className="btn btn-navy"
               />
             </div>
           </section>
         );
+      case "jobs":
+        return <JobsSection key={id} className={bg(id)} data={jobsData} />;
       case "disclaimer":
         return (
           <section key={id} className={bg(id)}>

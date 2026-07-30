@@ -12,7 +12,7 @@ import {
   type LucideProps,
 } from "lucide-react";
 import { PageHero } from "../components/PageHero";
-import { ContactForm } from "../components/ContactForm";
+import { GetInTouch } from "../components/GetInTouch";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
 const buildingImg = CONTENT_IMAGES.app_bg;
@@ -220,11 +220,8 @@ export function WhoWeAre() {
       case "interest":
         return (
           <section key={id} className="blk blk--cream">
-            <div className="wrap">
-              <div className="register">
-                <h2>Register Interest</h2>
-                <ContactForm sourcePage="/who-we-are" variant="who-we-are" className="reg-form" />
-              </div>
+            <div className="wrap contact-cta">
+              <GetInTouch sourcePage="/who-we-are" />
             </div>
           </section>
         );

@@ -65,6 +65,13 @@ export type TranslationKey =
   | "fp_contact_msg"
   | "fp_contact_send"
   | "fp_contact_form_action"
+  | "fp_jobs_modal_title"
+  | "fp_jobs_modal_lead"
+  | "fp_jobs_modal_close"
+  | "fp_jobs_label_email"
+  | "fp_jobs_label_subject"
+  | "fp_jobs_label_body"
+  | "fp_jobs_copy"
   | "fp_app_h"
   | "fp_app_p"
   | "fp_app_phone_img"
@@ -138,12 +145,20 @@ export const EN: Record<TranslationKey, string> = {
   fp_contact_email: "Email",
   fp_contact_phone: "Phone",
   fp_contact_subject: "Select Subject",
-  fp_contact_opt1: "General Inquiry",
+  fp_contact_opt1: "Inquiry",
   fp_contact_opt2: "Complaint",
   fp_contact_opt3: "Info",
   fp_contact_msg: "Write your message",
   fp_contact_send: "Send Message",
   fp_contact_form_action: "",
+  fp_jobs_modal_title: "Send your application by email",
+  fp_jobs_modal_lead:
+    "Your browser could not open an email app. Copy the details below into your email client.",
+  fp_jobs_modal_close: "Close",
+  fp_jobs_label_email: "To",
+  fp_jobs_label_subject: "Subject",
+  fp_jobs_label_body: "Body",
+  fp_jobs_copy: "Copy",
   fp_app_h: "Get Miyar App",
   fp_app_p: "Manage your investments, track performance, and access reports — anywhere, anytime, from the palm of your hand.",
   fp_app_phone_img: "",
@@ -224,6 +239,14 @@ export const AR: Record<TranslationKey, string> = {
   fp_contact_msg: "اكتب رسالتك",
   fp_contact_send: "إرسال الرسالة",
   fp_contact_form_action: "",
+  fp_jobs_modal_title: "أرسل طلبك عبر البريد الإلكتروني",
+  fp_jobs_modal_lead:
+    "تعذّر على المتصفح فتح تطبيق البريد. انسخ التفاصيل أدناه إلى برنامج البريد لديك.",
+  fp_jobs_modal_close: "إغلاق",
+  fp_jobs_label_email: "إلى",
+  fp_jobs_label_subject: "الموضوع",
+  fp_jobs_label_body: "نص الرسالة",
+  fp_jobs_copy: "نسخ",
   fp_app_h: "حمّل تطبيق معيار",
   fp_app_p: "أدر استثماراتك، وتابع الأداء، واطّلع على التقارير — في أي وقت ومن أي مكان، من راحة يدك.",
   fp_app_phone_img: "",

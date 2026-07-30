@@ -1,12 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 import { Disclaimer } from "../components/Disclaimer";
 
 export function EquityManagementPage() {
-  const router = useRouter();
-
   return (
     <div className="page">
 
@@ -120,13 +118,11 @@ export function EquityManagementPage() {
         <div className="wrap eq-cta-inner">
           <h2>Invest with Discipline and Insight</h2>
           <p>Speak with our team to explore how our equity strategies can support your long-term objectives.</p>
-          <a
+          <RegisterInterest
+            sourcePage="/equity-management"
+            buttonLabel="Contact Us"
             className="btn btn-gold"
-            onClick={() => router.push("/contact")}
-            style={{ cursor: "pointer" }}
-          >
-            Contact Us
-          </a>
+          />
         </div>
       </section>
 

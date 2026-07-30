@@ -1,10 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
 
 export function MergersAcquisitions() {
-  const router = useRouter();
 
   return (
     <div className="page">
@@ -111,13 +110,11 @@ export function MergersAcquisitions() {
             From first evaluation to completion, we manage the process on your side
             of the table.
           </p>
-          <a
+          <RegisterInterest
+            sourcePage="/investment-banking/mergers-acquisitions"
+            buttonLabel="START A CONVERSATION"
             className="btn btn-gold"
-            onClick={() => router.push("/investment-banking/register-interest")}
-            style={{ cursor: "pointer" }}
-          >
-            START A CONVERSATION
-          </a>
+          />
         </div>
       </section>
 
