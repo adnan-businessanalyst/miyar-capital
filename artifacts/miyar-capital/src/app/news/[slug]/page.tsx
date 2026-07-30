@@ -1,31 +1,29 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NewsArticle } from "@/views/NewsArticle";
-import { getNewsBySlug, listNews } from "@/data/news";
+import { fetchNewsBySlug } from "@/lib/news";
+
+export const dynamic = "force-dynamic";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return listNews().map((article) => ({ slug: article.slug }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = getNewsBySlug(slug);
-  if (!article) {
+  const data = await fetchNewsBySlug(slug);
+  if (!data) {
     return { title: "News" };
   }
   return {
-    title: article.title,
-    description: article.blurb,
+    title: data.article.title,
+    description: data.article.blurb,
   };
 }
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const article = getNewsBySlug(slug);
-  if (!article) notFound();
-  return <NewsArticle article={article} />;
+  const data = await fetchNewsBySlug(slug);
+  if (!data) notFound();
+  return <NewsArticle article={data.article} settings={data.settings} />;
 }

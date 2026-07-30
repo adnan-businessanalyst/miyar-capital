@@ -73,8 +73,11 @@ function toListItem(row: ReportRowMeta): ReportListItem {
     sortOrder: row.sortOrder,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
+    /* Default (EN) URL falls back to Arabic on the server when EN is missing. */
     fileUrl: `/api/reports/${row.id}/file`,
-    fileUrlAr: row.hasArabicFile ? `/api/reports/${row.id}/file?lang=ar` : null,
+    fileUrlAr: row.hasArabicFile
+      ? `/api/reports/${row.id}/file?lang=ar`
+      : null,
     imageUrl: row.hasImage ? `/api/reports/${row.id}/image` : null,
   };
 }
@@ -268,17 +271,28 @@ export function registerReportRoutes(app: Hono) {
 
       if (!row) return c.json({ error: "Not found" }, 404);
 
-      const fileData = arabic ? row.fileDataAr : row.fileData;
-      if (!fileData || fileData.byteLength === 0) {
-        return c.json({ error: arabic ? "Arabic file not found" : "Not found" }, 404);
+      /* Arabic is canonical. Prefer requested lang, then fall back to the other. */
+      const primary = arabic ? row.fileDataAr : row.fileData;
+      const fallback = arabic ? row.fileData : row.fileDataAr;
+      const fileData =
+        primary && primary.byteLength > 0
+          ? primary
+          : fallback && fallback.byteLength > 0
+            ? fallback
+            : null;
+      if (!fileData) {
+        return c.json({ error: "Not found" }, 404);
       }
 
-      const displayName = arabic
+      const usedArabic =
+        Boolean(arabic && primary && primary.byteLength > 0) ||
+        Boolean(!arabic && !(primary && primary.byteLength > 0) && fallback);
+      const displayName = usedArabic
         ? row.fileNameAr || row.fileName
-        : row.fileName;
-      const mimeType = arabic
+        : row.fileName || row.fileNameAr;
+      const mimeType = usedArabic
         ? row.mimeTypeAr || row.mimeType || "application/pdf"
-        : row.mimeType || "application/pdf";
+        : row.mimeType || row.mimeTypeAr || "application/pdf";
 
       const safeName = sanitizeDownloadName(displayName);
       c.header("Content-Type", mimeType);
@@ -340,22 +354,24 @@ export function registerReportRoutes(app: Hono) {
     if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
     try {
       const body = (await c.req.parseBody({ all: true })) as Record<string, unknown>;
-      const pdf = await pdfFromBody(body, "file", true);
-      if (!pdf.ok) return c.json({ error: pdf.error }, 400);
-      if (!pdf.buffer) return c.json({ error: "PDF file is required" }, 400);
 
-      const pdfAr = await pdfFromBody(body, "fileAr", false);
+      /* Arabic PDF is required (canonical). English PDF is optional. */
+      const pdfAr = await pdfFromBody(body, "fileAr", true);
       if (!pdfAr.ok) return c.json({ error: pdfAr.error }, 400);
+      if (!pdfAr.buffer) return c.json({ error: "Arabic PDF file is required" }, 400);
+
+      const pdf = await pdfFromBody(body, "file", false);
+      if (!pdf.ok) return c.json({ error: pdf.error }, 400);
 
       const image = await imageFromBody(body);
       if (!image.ok) return c.json({ error: image.error }, 400);
 
-      const fileNameInput =
-        fieldString(body, "fileName") || pdf.uploadName || "report.pdf";
       const fileNameArInput =
-        fieldString(body, "fileNameAr") ||
-        (pdfAr.buffer ? pdfAr.uploadName : "") ||
-        "";
+        fieldString(body, "fileNameAr") || pdfAr.uploadName || "report.pdf";
+      const fileNameInput =
+        fieldString(body, "fileName") ||
+        (pdf.buffer ? pdf.uploadName : "") ||
+        fileNameArInput;
       const parsed = reportMetaSchema.safeParse({
         section: fieldString(body, "section"),
         title: fieldString(body, "title"),
@@ -363,9 +379,7 @@ export function registerReportRoutes(app: Hono) {
         date: fieldString(body, "date"),
         dateAr: fieldString(body, "dateAr"),
         fileName: sanitizeDownloadName(fileNameInput),
-        fileNameAr: fileNameArInput
-          ? sanitizeDownloadName(fileNameArInput)
-          : "",
+        fileNameAr: sanitizeDownloadName(fileNameArInput),
       });
       if (!parsed.success) {
         return c.json(
@@ -390,6 +404,18 @@ export function registerReportRoutes(app: Hono) {
         ],
       );
 
+      /* If no English PDF, use the Arabic file as the default EN slot too. */
+      const enBuffer = pdf.buffer ?? pdfAr.buffer;
+      const enMime = pdf.buffer
+        ? pdf.mimeType || "application/pdf"
+        : pdfAr.mimeType || "application/pdf";
+      const enName = sanitizeDownloadName(
+        filled.fileName || filled.fileNameAr || pdfAr.uploadName,
+      );
+      const arName = sanitizeDownloadName(
+        filled.fileNameAr || filled.fileName || pdfAr.uploadName,
+      );
+
       const now = new Date();
       const [row] = await getDb()
         .insert(reports)
@@ -399,16 +425,14 @@ export function registerReportRoutes(app: Hono) {
           titleAr: filled.titleAr,
           date: filled.date,
           dateAr: filled.dateAr,
-          fileName: filled.fileName,
-          fileNameAr: sanitizeDownloadName(filled.fileNameAr || filled.fileName),
-          mimeType: pdf.mimeType || "application/pdf",
-          mimeTypeAr: pdfAr.buffer
-            ? pdfAr.mimeType || "application/pdf"
-            : null,
-          fileSize: pdf.buffer.byteLength,
-          fileSizeAr: pdfAr.buffer ? pdfAr.buffer.byteLength : null,
-          fileData: pdf.buffer,
-          fileDataAr: pdfAr.buffer ?? null,
+          fileName: enName,
+          fileNameAr: arName,
+          mimeType: enMime,
+          mimeTypeAr: pdfAr.mimeType || "application/pdf",
+          fileSize: enBuffer.byteLength,
+          fileSizeAr: pdfAr.buffer.byteLength,
+          fileData: enBuffer,
+          fileDataAr: pdfAr.buffer,
           imageMimeType: image.buffer ? image.mimeType : null,
           imageSize: image.buffer ? image.buffer.byteLength : null,
           imageData: image.buffer ?? null,

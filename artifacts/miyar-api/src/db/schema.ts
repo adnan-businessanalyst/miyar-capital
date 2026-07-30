@@ -176,3 +176,56 @@ export const jobsSettings = pgTable("jobs_settings", {
 
 export type JobsSettings = typeof jobsSettings.$inferSelect;
 export type NewJobsSettings = typeof jobsSettings.$inferInsert;
+
+/** News articles shown on /news and /news/[slug]. */
+export const newsArticles = pgTable("news_articles", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  slug: varchar("slug", { length: 200 }).notNull().unique(),
+  title: varchar("title", { length: 500 }).notNull(),
+  titleAr: varchar("title_ar", { length: 500 }),
+  date: varchar("date", { length: 80 }).notNull(),
+  dateAr: varchar("date_ar", { length: 80 }),
+  blurb: text("blurb").notNull(),
+  blurbAr: text("blurb_ar"),
+  body: text("body").notNull(),
+  bodyAr: text("body_ar"),
+  imageUrl: varchar("image_url", { length: 500 }).notNull().default(""),
+  isPublished: boolean("is_published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+export type NewsArticle = typeof newsArticles.$inferSelect;
+export type NewNewsArticle = typeof newsArticles.$inferInsert;
+
+/** Singleton news page copy (heading, empty state, labels). */
+export const newsSettings = pgTable("news_settings", {
+  id: integer("id").primaryKey().default(1),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  headingEn: varchar("heading_en", { length: 300 }).notNull().default("News"),
+  headingAr: varchar("heading_ar", { length: 300 }).notNull().default("الأخبار"),
+  introEn: text("intro_en")
+    .notNull()
+    .default("News and updates from Miyar Capital."),
+  introAr: text("intro_ar")
+    .notNull()
+    .default("أخبار وتحديثات من معيار المالية."),
+  emptyEn: text("empty_en")
+    .notNull()
+    .default("No news articles at this time."),
+  emptyAr: text("empty_ar")
+    .notNull()
+    .default("لا توجد مقالات إخبارية في الوقت الحالي."),
+  readMoreEn: varchar("read_more_en", { length: 80 }).notNull().default("Read more"),
+  readMoreAr: varchar("read_more_ar", { length: 80 }).notNull().default("اقرأ المزيد"),
+  backLabelEn: varchar("back_label_en", { length: 120 })
+    .notNull()
+    .default("Back to News"),
+  backLabelAr: varchar("back_label_ar", { length: 120 })
+    .notNull()
+    .default("العودة إلى الأخبار"),
+});
+
+export type NewsSettings = typeof newsSettings.$inferSelect;
+export type NewNewsSettings = typeof newsSettings.$inferInsert;

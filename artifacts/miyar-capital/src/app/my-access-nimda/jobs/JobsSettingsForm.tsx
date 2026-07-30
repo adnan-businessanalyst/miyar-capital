@@ -91,9 +91,21 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
           disclaimerAr,
         }),
       });
-      const json = (await res.json().catch(() => ({}))) as { error?: string };
+      const raw = await res.text();
+      let json: { error?: string; ok?: boolean } = {};
+      try {
+        json = raw ? (JSON.parse(raw) as { error?: string; ok?: boolean }) : {};
+      } catch {
+        /* non-JSON body */
+      }
       if (!res.ok) {
-        setError(json.error || "Save failed");
+        setError(
+          json.error ||
+            (raw && raw.length < 200 ? raw : null) ||
+            (res.status === 401
+              ? "Session expired — sign in again"
+              : `Save failed (${res.status})`),
+        );
         return;
       }
       setOk(true);

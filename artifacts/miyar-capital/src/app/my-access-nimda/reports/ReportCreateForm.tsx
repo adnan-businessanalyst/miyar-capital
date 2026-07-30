@@ -8,7 +8,7 @@ import type { ReportSection } from "@/data/reports";
 
 export function ReportCreateForm() {
   const router = useRouter();
-  const [section, setSection] = useState<ReportSection>("annual");
+  const [section, setSection] = useState<ReportSection>("financial");
   const [title, setTitle] = useState("");
   const [titleAr, setTitleAr] = useState("");
   const [date, setDate] = useState("");
@@ -24,7 +24,7 @@ export function ReportCreateForm() {
 
   async function generateArabic() {
     setError("");
-    if (!title.trim() && !date.trim() && !fileName.trim()) {
+    if (!title.trim() && !date.trim() && !(fileName || file?.name || "").trim()) {
       setError("Enter English title, date, or file name first.");
       return;
     }
@@ -54,8 +54,8 @@ export function ReportCreateForm() {
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
-    if (!file) {
-      setError("Please choose an English PDF file.");
+    if (!fileAr) {
+      setError("Please choose an Arabic PDF file (required).");
       return;
     }
     setBusy(true);
@@ -66,10 +66,10 @@ export function ReportCreateForm() {
       body.set("titleAr", titleAr);
       body.set("date", date);
       body.set("dateAr", dateAr);
-      body.set("fileName", fileName || file.name);
-      body.set("fileNameAr", fileNameAr || fileAr?.name || "");
-      body.set("file", file);
-      if (fileAr) body.set("fileAr", fileAr);
+      body.set("fileName", fileName || file?.name || fileAr.name);
+      body.set("fileNameAr", fileNameAr || fileAr.name);
+      body.set("fileAr", fileAr);
+      if (file) body.set("file", file);
       if (image) body.set("image", image);
 
       const res = await fetch(apiUrl("/api/admin/reports"), {
@@ -103,7 +103,8 @@ export function ReportCreateForm() {
     <form className="admin-form" onSubmit={onSubmit}>
       <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Add report</h2>
       <p className="admin-meta" style={{ marginTop: 0 }}>
-        Leave Arabic blank to auto-generate on save, or use Generate Arabic.
+        Arabic PDF is required (default). English PDF is optional — if omitted,
+        the Arabic file is used for English as well.
       </p>
       <div className="admin-form-grid">
         <label>
@@ -113,8 +114,8 @@ export function ReportCreateForm() {
             onChange={(e) => setSection(e.target.value as ReportSection)}
             required
           >
-            <option value="annual">Annual Reports</option>
             <option value="financial">Financial Reports</option>
+            <option value="annual">Annual Reports</option>
           </select>
         </label>
         <label>
@@ -130,7 +131,67 @@ export function ReportCreateForm() {
         If no image is uploaded, the Miyar logo is shown on the card.
       </p>
 
-      <h3 className="admin-form-section">English</h3>
+      <div className="admin-form-section-row">
+        <h3 className="admin-form-section">Arabic · العربية (required)</h3>
+        <button
+          type="button"
+          className="admin-btn admin-btn--ghost"
+          onClick={generateArabic}
+          disabled={busy || translating}
+        >
+          {translating ? "Generating…" : "Generate Arabic"}
+        </button>
+      </div>
+      <div className="admin-form-grid">
+        <label>
+          Title (AR)
+          <input
+            value={titleAr}
+            onChange={(e) => setTitleAr(e.target.value)}
+            maxLength={300}
+            dir="rtl"
+            lang="ar"
+            placeholder="عنوان التقرير"
+          />
+        </label>
+        <label>
+          Date (AR)
+          <input
+            value={dateAr}
+            onChange={(e) => setDateAr(e.target.value)}
+            maxLength={80}
+            dir="rtl"
+            lang="ar"
+            placeholder="٢٠٢٣"
+          />
+        </label>
+        <label>
+          File name (AR)
+          <input
+            value={fileNameAr}
+            onChange={(e) => setFileNameAr(e.target.value)}
+            maxLength={300}
+            dir="rtl"
+            lang="ar"
+            placeholder="Defaults to uploaded PDF name"
+          />
+        </label>
+        <label className="admin-form-span">
+          PDF file (AR) — required
+          <input
+            type="file"
+            accept="application/pdf,.pdf"
+            required
+            onChange={(e) => {
+              const next = e.target.files?.[0] ?? null;
+              setFileAr(next);
+              if (next && !fileNameAr) setFileNameAr(next.name);
+            }}
+          />
+        </label>
+      </div>
+
+      <h3 className="admin-form-section">English (optional)</h3>
       <div className="admin-form-grid">
         <label>
           Title (EN)
@@ -158,78 +219,18 @@ export function ReportCreateForm() {
             value={fileName}
             onChange={(e) => setFileName(e.target.value)}
             maxLength={300}
-            placeholder="Defaults to uploaded PDF name"
+            placeholder="Defaults to EN PDF name, or Arabic if EN omitted"
           />
         </label>
         <label className="admin-form-span">
-          PDF file (EN)
+          PDF file (EN, optional — Arabic used if missing)
           <input
             type="file"
             accept="application/pdf,.pdf"
-            required
             onChange={(e) => {
               const next = e.target.files?.[0] ?? null;
               setFile(next);
               if (next && !fileName) setFileName(next.name);
-            }}
-          />
-        </label>
-      </div>
-
-      <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Arabic · العربية</h3>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
-      <div className="admin-form-grid">
-        <label>
-          Title (AR)
-          <input
-            value={titleAr}
-            onChange={(e) => setTitleAr(e.target.value)}
-            maxLength={300}
-            dir="rtl"
-            lang="ar"
-            placeholder="Auto-generated if empty"
-          />
-        </label>
-        <label>
-          Date (AR)
-          <input
-            value={dateAr}
-            onChange={(e) => setDateAr(e.target.value)}
-            maxLength={80}
-            dir="rtl"
-            lang="ar"
-            placeholder="Auto-generated if empty"
-          />
-        </label>
-        <label>
-          File name (AR)
-          <input
-            value={fileNameAr}
-            onChange={(e) => setFileNameAr(e.target.value)}
-            maxLength={300}
-            dir="rtl"
-            lang="ar"
-            placeholder="Auto-generated if empty"
-          />
-        </label>
-        <label className="admin-form-span">
-          PDF file (AR, optional — English PDF used if missing)
-          <input
-            type="file"
-            accept="application/pdf,.pdf"
-            onChange={(e) => {
-              const next = e.target.files?.[0] ?? null;
-              setFileAr(next);
-              if (next && !fileNameAr) setFileNameAr(next.name);
             }}
           />
         </label>

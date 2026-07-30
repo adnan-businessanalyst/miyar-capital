@@ -108,19 +108,14 @@ export default async function AdminReportsPage() {
                       ) : null}
                     </td>
                     <td>
-                      <div>
-                        <a
-                          href={apiUrl(`${r.fileUrl}?download=1`)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          EN: {r.fileName}
-                        </a>
-                      </div>
                       {r.hasArabicFile && r.fileUrlAr ? (
                         <div>
                           <a
-                            href={apiUrl(`${r.fileUrlAr}&download=1`)}
+                            href={apiUrl(
+                              r.fileUrlAr.includes("?")
+                                ? `${r.fileUrlAr}&download=1`
+                                : `${r.fileUrlAr}?download=1`,
+                            )}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -130,6 +125,15 @@ export default async function AdminReportsPage() {
                       ) : (
                         <div className="admin-meta">No Arabic PDF</div>
                       )}
+                      <div>
+                        <a
+                          href={apiUrl(`${r.fileUrl}?download=1`)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          EN: {r.fileName}
+                        </a>
+                      </div>
                     </td>
                     <td>{formatBytes(r.fileSize)}</td>
                     <td>{r.updatedAt.replace("T", " ").slice(0, 19)}</td>

@@ -148,16 +148,6 @@ const arabicPairs = [
   ["emailBody", "emailBodyAr"],
 ] as const;
 
-const settingsArabicPairs = [
-  ["tagEn", "tagAr"],
-  ["headingEn", "headingAr"],
-  ["introEn", "introAr"],
-  ["hrLabelEn", "hrLabelAr"],
-  ["applyLabelEn", "applyLabelAr"],
-  ["emptyEn", "emptyAr"],
-  ["disclaimerEn", "disclaimerAr"],
-] as const;
-
 export function registerJobRoutes(app: Hono) {
   app.get("/api/jobs", async (c) => {
     try {
@@ -208,38 +198,41 @@ export function registerJobRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
-          tagEn: parsed.data.tagEn,
-          tagAr: parsed.data.tagAr || "",
-          headingEn: parsed.data.headingEn,
-          headingAr: parsed.data.headingAr || "",
-          introEn: parsed.data.introEn,
-          introAr: parsed.data.introAr || "",
-          hrLabelEn: parsed.data.hrLabelEn,
-          hrLabelAr: parsed.data.hrLabelAr || "",
-          applyLabelEn: parsed.data.applyLabelEn,
-          applyLabelAr: parsed.data.applyLabelAr || "",
-          emptyEn: parsed.data.emptyEn,
-          emptyAr: parsed.data.emptyAr || "",
-          disclaimerEn: parsed.data.disclaimerEn,
-          disclaimerAr: parsed.data.disclaimerAr || "",
-        },
-        [...settingsArabicPairs],
-      );
-
+      /* Save as submitted — Arabic auto-fill is via the admin "Generate Arabic" button
+         so a slow translate API cannot time out / fail the save. */
+      const data = parsed.data;
       const payload = {
-        hrEmail: parsed.data.hrEmail,
-        ...filled,
+        hrEmail: data.hrEmail,
+        tagEn: data.tagEn,
+        tagAr: data.tagAr || "",
+        headingEn: data.headingEn,
+        headingAr: data.headingAr || "",
+        introEn: data.introEn,
+        introAr: data.introAr || "",
+        hrLabelEn: data.hrLabelEn,
+        hrLabelAr: data.hrLabelAr || "",
+        applyLabelEn: data.applyLabelEn,
+        applyLabelAr: data.applyLabelAr || "",
+        emptyEn: data.emptyEn,
+        emptyAr: data.emptyAr || "",
+        disclaimerEn: data.disclaimerEn,
+        disclaimerAr: data.disclaimerAr || "",
         updatedAt: new Date(),
       };
 
-      await ensureSettings();
-      const [row] = await getDb()
-        .update(jobsSettings)
-        .set(payload)
-        .where(eq(jobsSettings.id, 1))
+      const db = getDb();
+      const [row] = await db
+        .insert(jobsSettings)
+        .values({ id: 1, ...payload })
+        .onConflictDoUpdate({
+          target: jobsSettings.id,
+          set: payload,
+        })
         .returning();
+
+      if (!row) {
+        return c.json({ error: "Could not save settings" }, 500);
+      }
 
       return c.json({ ok: true, settings: toSettingsPayload(row) });
     } catch (e) {
