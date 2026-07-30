@@ -52,7 +52,15 @@ export function createApp() {
     }),
   );
 
-  app.get("/health", (c) => c.json({ ok: true, service: "miyar-api" }));
+  app.get("/health", (c) =>
+    c.json({
+      ok: true,
+      service: "miyar-api",
+      // Bump when shipping route sets so deploys are easy to verify.
+      build: "2026-07-30-jobs-news",
+      routes: ["jobs", "news", "reports", "disclosures", "homepage"],
+    }),
+  );
 
   app.post("/api/contact", async (c) => {
     try {
