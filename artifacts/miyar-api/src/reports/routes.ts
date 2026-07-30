@@ -292,7 +292,7 @@ export function registerReportRoutes(app: Hono) {
         ? row.mimeTypeAr || row.mimeType || "application/pdf"
         : row.mimeType || row.mimeTypeAr || "application/pdf";
 
-      const safeName = sanitizeDownloadName(displayName);
+      const safeName = sanitizeDownloadName(displayName || "report.pdf");
       c.header("Content-Type", mimeType);
       c.header(
         "Content-Disposition",
