@@ -45,7 +45,30 @@ function VertMedia({
   );
 }
 
-const DEFAULT_ORDER = ["intro", "platform", "client-solutions"];
+const DEFAULT_ORDER = ["intro", "platform", "objectives", "client-solutions"];
+
+const PROCESS_STEPS = [
+  {
+    title: "Understand Objectives",
+    body: "Classification, suitability and the client's true risk and liquidity needs.",
+  },
+  {
+    title: "Define the Mandate",
+    body: "Investment policy, constraints and benchmark agreed in writing.",
+  },
+  {
+    title: "Allocate",
+    body: "Strategic and tactical allocation across the four pillars.",
+  },
+  {
+    title: "Select",
+    body: "Security, manager and opportunity selection under conviction.",
+  },
+  {
+    title: "Monitor & Report",
+    body: "Independent risk oversight, rebalancing and transparent reporting.",
+  },
+] as const;
 
 export function AssetManagement() {
   const router = useRouter();
@@ -85,9 +108,28 @@ export function AssetManagement() {
             </div>
           </section>
         );
-      case "client-solutions":
+      case "objectives":
         return (
           <section key={id} className="blk blk--cream">
+            <div className="wrap">
+              <div className="sec-head">
+                <div className="sec-tag">Investment Process</div>
+                <h2>Objectives first. Allocation second. Risk throughout.</h2>
+              </div>
+              <div className="steps">
+                {PROCESS_STEPS.map((step) => (
+                  <div className="step" key={step.title}>
+                    <h5>{step.title}</h5>
+                    <p>{step.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      case "client-solutions":
+        return (
+          <section key={id} className="blk">
             <div className="wrap">
               <div className="sec-head">
                 <div className="sec-tag">Client Solutions</div>
