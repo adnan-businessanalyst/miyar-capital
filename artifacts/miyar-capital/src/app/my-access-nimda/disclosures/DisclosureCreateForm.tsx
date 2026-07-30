@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 
 export function DisclosureCreateForm() {
   const router = useRouter();
@@ -17,36 +16,6 @@ export function DisclosureCreateForm() {
   const [fileAr, setFileAr] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    if (!title.trim() && !body.trim() && !fileName.trim()) {
-      setError("Enter English title, paragraph, or file name first.");
-      return;
-    }
-    setTranslating(true);
-    try {
-      const texts: Record<string, string> = {};
-      if (title.trim() && !titleAr.trim()) texts.title = title;
-      if (body.trim() && !bodyAr.trim()) texts.body = body;
-      if ((fileName || file?.name || "").trim() && !fileNameAr.trim()) {
-        texts.fileName = fileName || file?.name || "";
-      }
-      if (Object.keys(texts).length === 0) {
-        setError("Arabic fields are already filled.");
-        return;
-      }
-      const out = await translateToArabic(texts);
-      if (out.title) setTitleAr(out.title);
-      if (out.body) setBodyAr(out.body);
-      if (out.fileName) setFileNameAr(out.fileName);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -96,9 +65,6 @@ export function DisclosureCreateForm() {
   return (
     <form className="admin-form" onSubmit={onSubmit}>
       <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Add disclosure</h2>
-      <p className="admin-meta" style={{ marginTop: 0 }}>
-        Leave Arabic blank to auto-generate on save, or use Generate Arabic.
-      </p>
 
       <h3 className="admin-form-section">English</h3>
       <div className="admin-form-grid">
@@ -146,17 +112,7 @@ export function DisclosureCreateForm() {
         </label>
       </div>
 
-      <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Arabic · العربية</h3>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h3 className="admin-form-section">Arabic · العربية</h3>
       <div className="admin-form-grid">
         <label className="admin-form-span">
           Title (AR)
@@ -206,7 +162,7 @@ export function DisclosureCreateForm() {
       </div>
 
       {error ? <p className="form-error">{error}</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Uploading…" : "Upload disclosure"}
       </button>
     </form>

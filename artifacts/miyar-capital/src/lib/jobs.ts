@@ -47,7 +47,16 @@ function mapJob(j: ApiJob): JobPosting {
 }
 
 function mapSettings(s: Partial<JobsSettings> | undefined): JobsSettings {
-  return { ...EMPTY_JOBS_PAGE.settings, ...s };
+  const merged = { ...EMPTY_JOBS_PAGE.settings, ...s };
+  /* Keep defaults when API returns blank strings. */
+  for (const key of Object.keys(EMPTY_JOBS_PAGE.settings) as Array<
+    keyof JobsSettings
+  >) {
+    if (!String(merged[key] ?? "").trim()) {
+      merged[key] = EMPTY_JOBS_PAGE.settings[key];
+    }
+  }
+  return merged;
 }
 
 export async function fetchJobsPage(): Promise<JobsPageData> {
@@ -56,10 +65,13 @@ export async function fetchJobsPage(): Promise<JobsPageData> {
       cache: "no-store",
     });
     if (!res.ok) return EMPTY_JOBS_PAGE;
-    const json = (await res.json()) as {
-      settings?: JobsSettings;
-      jobs?: ApiJob[];
-    };
+    const raw = await res.text();
+    let json: { settings?: JobsSettings; jobs?: ApiJob[] } = {};
+    try {
+      json = raw ? (JSON.parse(raw) as typeof json) : {};
+    } catch {
+      return EMPTY_JOBS_PAGE;
+    }
     return {
       settings: mapSettings(json.settings),
       jobs: (json.jobs ?? []).map(mapJob),

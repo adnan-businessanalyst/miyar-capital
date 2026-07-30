@@ -3,7 +3,6 @@ import type { Hono } from "hono";
 import { isAdminAuthenticated } from "../admin/auth.js";
 import { getDb } from "../db/index.js";
 import { homepageHero } from "../db/schema.js";
-import { ensureArabicFields } from "../i18n/translate.js";
 import {
   DEFAULT_HOMEPAGE_HERO,
   homepageHeroSchema,
@@ -95,33 +94,17 @@ export function registerHomepageRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
-          ctaLabelEn: parsed.data.ctaLabelEn,
-          ctaLabelAr: parsed.data.ctaLabelAr || "",
-          promoTitleEn: parsed.data.promoTitleEn,
-          promoTitleAr: parsed.data.promoTitleAr || "",
-          promoBodyEn: parsed.data.promoBodyEn,
-          promoBodyAr: parsed.data.promoBodyAr || "",
-        },
-        [
-          ["ctaLabelEn", "ctaLabelAr"],
-          ["promoTitleEn", "promoTitleAr"],
-          ["promoBodyEn", "promoBodyAr"],
-        ],
-      );
-
       const values = {
         ctaShow: parsed.data.ctaShow,
         ctaHref: parsed.data.ctaHref,
-        ctaLabelEn: filled.ctaLabelEn,
-        ctaLabelAr: filled.ctaLabelAr,
+        ctaLabelEn: parsed.data.ctaLabelEn,
+        ctaLabelAr: parsed.data.ctaLabelAr || "",
         promoShow: parsed.data.promoShow,
         promoHref: parsed.data.promoHref,
-        promoTitleEn: filled.promoTitleEn,
-        promoTitleAr: filled.promoTitleAr,
-        promoBodyEn: filled.promoBodyEn,
-        promoBodyAr: filled.promoBodyAr,
+        promoTitleEn: parsed.data.promoTitleEn,
+        promoTitleAr: parsed.data.promoTitleAr || "",
+        promoBodyEn: parsed.data.promoBodyEn,
+        promoBodyAr: parsed.data.promoBodyAr || "",
         updatedAt: new Date(),
       };
 

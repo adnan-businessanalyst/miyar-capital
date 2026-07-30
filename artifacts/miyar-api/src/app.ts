@@ -47,7 +47,7 @@ export function createApp() {
         return allowed.includes(origin) ? origin : allowed[0] ?? "";
       },
       credentials: true,
-      allowMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+      allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       allowHeaders: ["Content-Type"],
     }),
   );
@@ -156,36 +156,6 @@ export function createApp() {
   app.get("/api/admin/me", (c) => {
     if (!isAdminAuthenticated(c)) return c.json({ ok: false }, 401);
     return c.json({ ok: true });
-  });
-
-  app.post("/api/admin/translate", async (c) => {
-    if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
-    try {
-      const body = (await c.req.json().catch(() => null)) as
-        | { text?: string; texts?: Record<string, string> }
-        | null;
-      const { translateEnToAr } = await import("./i18n/translate.js");
-
-      if (body?.texts && typeof body.texts === "object") {
-        const out: Record<string, string> = {};
-        for (const [key, value] of Object.entries(body.texts)) {
-          out[key] = typeof value === "string" ? await translateEnToAr(value) : "";
-        }
-        return c.json({ ok: true, texts: out });
-      }
-
-      const text = typeof body?.text === "string" ? body.text : "";
-      if (!text.trim()) {
-        return c.json({ error: "text is required" }, 400);
-      }
-      const translated = await translateEnToAr(text);
-      return c.json({ ok: true, text: translated });
-    } catch (e) {
-      return c.json(
-        { error: e instanceof Error ? e.message : "Translation failed" },
-        500,
-      );
-    }
   });
 
   app.get("/api/admin/submissions", async (c) => {

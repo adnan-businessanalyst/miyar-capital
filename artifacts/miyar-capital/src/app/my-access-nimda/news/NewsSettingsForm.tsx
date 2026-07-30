@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 import type { NewsSettings } from "@/data/news";
 
 export function NewsSettingsForm({ initial }: { initial: NewsSettings }) {
@@ -21,36 +20,6 @@ export function NewsSettingsForm({ initial }: { initial: NewsSettings }) {
   const [error, setError] = useState("");
   const [ok, setOk] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    const texts: Record<string, string> = {};
-    if (headingEn.trim() && !headingAr.trim()) texts.headingEn = headingEn;
-    if (introEn.trim() && !introAr.trim()) texts.introEn = introEn;
-    if (emptyEn.trim() && !emptyAr.trim()) texts.emptyEn = emptyEn;
-    if (readMoreEn.trim() && !readMoreAr.trim()) texts.readMoreEn = readMoreEn;
-    if (backLabelEn.trim() && !backLabelAr.trim()) {
-      texts.backLabelEn = backLabelEn;
-    }
-    if (Object.keys(texts).length === 0) {
-      setError("Arabic fields are already filled.");
-      return;
-    }
-    setTranslating(true);
-    try {
-      const out = await translateToArabic(texts);
-      if (out.headingEn) setHeadingAr(out.headingEn);
-      if (out.introEn) setIntroAr(out.introEn);
-      if (out.emptyEn) setEmptyAr(out.emptyEn);
-      if (out.readMoreEn) setReadMoreAr(out.readMoreEn);
-      if (out.backLabelEn) setBackLabelAr(out.backLabelEn);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -91,17 +60,7 @@ export function NewsSettingsForm({ initial }: { initial: NewsSettings }) {
 
   return (
     <form className="admin-form" onSubmit={onSubmit}>
-      <div className="admin-form-section-row">
-        <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>News page settings</h2>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>News page settings</h2>
       <div className="admin-form-grid">
         <label>
           Heading (EN)
@@ -201,7 +160,7 @@ export function NewsSettingsForm({ initial }: { initial: NewsSettings }) {
       </div>
       {error ? <p className="form-error">{error}</p> : null}
       {ok ? <p className="admin-meta">Settings saved.</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Saving…" : "Save settings"}
       </button>
     </form>

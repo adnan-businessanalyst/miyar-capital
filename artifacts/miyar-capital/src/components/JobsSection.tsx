@@ -163,10 +163,6 @@ export function JobsSection({
     });
   };
 
-  if (!settings.hrEmail && jobs.length === 0) {
-    return null;
-  }
-
   return (
     <section className={`blk fp-jobs ${className}`.trim()}>
       <div className="wrap">

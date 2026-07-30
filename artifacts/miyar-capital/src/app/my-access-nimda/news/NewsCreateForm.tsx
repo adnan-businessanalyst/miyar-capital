@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 
 function slugify(title: string): string {
   return title
@@ -30,32 +29,6 @@ export function NewsCreateForm() {
   const [isPublished, setIsPublished] = useState(true);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    const texts: Record<string, string> = {};
-    if (title.trim() && !titleAr.trim()) texts.title = title;
-    if (date.trim() && !dateAr.trim()) texts.date = date;
-    if (blurb.trim() && !blurbAr.trim()) texts.blurb = blurb;
-    if (body.trim() && !bodyAr.trim()) texts.body = body;
-    if (Object.keys(texts).length === 0) {
-      setError("Arabic fields are already filled, or enter English first.");
-      return;
-    }
-    setTranslating(true);
-    try {
-      const out = await translateToArabic(texts);
-      if (out.title) setTitleAr(out.title);
-      if (out.date) setDateAr(out.date);
-      if (out.blurb) setBlurbAr(out.blurb);
-      if (out.body) setBodyAr(out.body);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -112,17 +85,7 @@ export function NewsCreateForm() {
 
   return (
     <form className="admin-form" onSubmit={onSubmit}>
-      <div className="admin-form-section-row">
-        <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Add article</h2>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Add article</h2>
       <p className="admin-meta" style={{ marginTop: 0 }}>
         Body paragraphs: separate with a blank line. Image URL is a site path
         (e.g. /media/content/…).
@@ -245,7 +208,7 @@ export function NewsCreateForm() {
         </label>
       </div>
       {error ? <p className="form-error">{error}</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Saving…" : "Publish article"}
       </button>
     </form>

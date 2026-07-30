@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 
 export function JobCreateForm() {
   const router = useRouter();
@@ -23,40 +22,6 @@ export function JobCreateForm() {
   const [isPublished, setIsPublished] = useState(true);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    const texts: Record<string, string> = {};
-    if (title.trim() && !titleAr.trim()) texts.title = title;
-    if (location.trim() && !locationAr.trim()) texts.location = location;
-    if (employmentType.trim() && !employmentTypeAr.trim()) {
-      texts.employmentType = employmentType;
-    }
-    if (summary.trim() && !summaryAr.trim()) texts.summary = summary;
-    if (emailSubject.trim() && !emailSubjectAr.trim()) {
-      texts.emailSubject = emailSubject;
-    }
-    if (emailBody.trim() && !emailBodyAr.trim()) texts.emailBody = emailBody;
-    if (Object.keys(texts).length === 0) {
-      setError("Arabic fields are already filled, or enter English first.");
-      return;
-    }
-    setTranslating(true);
-    try {
-      const out = await translateToArabic(texts);
-      if (out.title) setTitleAr(out.title);
-      if (out.location) setLocationAr(out.location);
-      if (out.employmentType) setEmploymentTypeAr(out.employmentType);
-      if (out.summary) setSummaryAr(out.summary);
-      if (out.emailSubject) setEmailSubjectAr(out.emailSubject);
-      if (out.emailBody) setEmailBodyAr(out.emailBody);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -115,7 +80,6 @@ export function JobCreateForm() {
     <form className="admin-form" onSubmit={onSubmit}>
       <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Add job posting</h2>
       <p className="admin-meta" style={{ marginTop: 0 }}>
-        Leave Arabic blank to auto-generate on save, or use Generate Arabic.
         Email subject/body are what applicants must send exactly.
       </p>
 
@@ -196,17 +160,7 @@ export function JobCreateForm() {
         </label>
       </div>
 
-      <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Arabic · العربية</h3>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h3 className="admin-form-section">Arabic · العربية</h3>
       <div className="admin-form-grid">
         <label>
           Employment type (AR)
@@ -272,7 +226,7 @@ export function JobCreateForm() {
       </div>
 
       {error ? <p className="form-error">{error}</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Saving…" : "Add job posting"}
       </button>
     </form>

@@ -3,7 +3,6 @@ import type { Hono } from "hono";
 import { isAdminAuthenticated } from "../admin/auth.js";
 import { getDb } from "../db/index.js";
 import { newsArticles, newsSettings } from "../db/schema.js";
-import { ensureArabicFields } from "../i18n/translate.js";
 import {
   DEFAULT_NEWS_SETTINGS,
   newsArticleSchema,
@@ -120,13 +119,6 @@ async function ensureSettings(): Promise<NewsSettingsPayload> {
 
   return toSettingsPayload(created);
 }
-
-const arabicPairs = [
-  ["title", "titleAr"],
-  ["date", "dateAr"],
-  ["blurb", "blurbAr"],
-  ["body", "bodyAr"],
-] as const;
 
 export function registerNewsRoutes(app: Hono) {
   app.get("/api/news", async (c) => {
@@ -263,8 +255,11 @@ export function registerNewsRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
+      const now = new Date();
+      const [row] = await getDb()
+        .insert(newsArticles)
+        .values({
+          slug: parsed.data.slug,
           title: parsed.data.title,
           titleAr: parsed.data.titleAr || "",
           date: parsed.data.date,
@@ -273,16 +268,6 @@ export function registerNewsRoutes(app: Hono) {
           blurbAr: parsed.data.blurbAr || "",
           body: parsed.data.body,
           bodyAr: parsed.data.bodyAr || "",
-        },
-        [...arabicPairs],
-      );
-
-      const now = new Date();
-      const [row] = await getDb()
-        .insert(newsArticles)
-        .values({
-          slug: parsed.data.slug,
-          ...filled,
           imageUrl: parsed.data.imageUrl || "",
           isPublished: parsed.data.isPublished ?? true,
           sortOrder: parsed.data.sortOrder ?? 0,
@@ -316,30 +301,16 @@ export function registerNewsRoutes(app: Hono) {
       }
 
       const data = parsed.data;
-      const filled = await ensureArabicFields(
-        {
-          title: data.title || "",
-          titleAr: data.titleAr || "",
-          date: data.date || "",
-          dateAr: data.dateAr || "",
-          blurb: data.blurb || "",
-          blurbAr: data.blurbAr || "",
-          body: data.body || "",
-          bodyAr: data.bodyAr || "",
-        },
-        [...arabicPairs],
-      );
-
       const patch: Record<string, unknown> = { updatedAt: new Date() };
       if (data.slug !== undefined) patch.slug = data.slug;
-      if (data.title !== undefined) patch.title = filled.title;
-      if (filled.titleAr) patch.titleAr = filled.titleAr;
-      if (data.date !== undefined) patch.date = filled.date;
-      if (filled.dateAr) patch.dateAr = filled.dateAr;
-      if (data.blurb !== undefined) patch.blurb = filled.blurb;
-      if (filled.blurbAr) patch.blurbAr = filled.blurbAr;
-      if (data.body !== undefined) patch.body = filled.body;
-      if (filled.bodyAr) patch.bodyAr = filled.bodyAr;
+      if (data.title !== undefined) patch.title = data.title;
+      if (data.titleAr !== undefined) patch.titleAr = data.titleAr || "";
+      if (data.date !== undefined) patch.date = data.date;
+      if (data.dateAr !== undefined) patch.dateAr = data.dateAr || "";
+      if (data.blurb !== undefined) patch.blurb = data.blurb;
+      if (data.blurbAr !== undefined) patch.blurbAr = data.blurbAr || "";
+      if (data.body !== undefined) patch.body = data.body;
+      if (data.bodyAr !== undefined) patch.bodyAr = data.bodyAr || "";
       if (data.imageUrl !== undefined) patch.imageUrl = data.imageUrl;
       if (data.isPublished !== undefined) patch.isPublished = data.isPublished;
       if (data.sortOrder !== undefined) patch.sortOrder = data.sortOrder;

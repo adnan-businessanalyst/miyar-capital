@@ -3,7 +3,6 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { apiUrl } from "@/lib/api";
-import { translateToArabic } from "@/lib/translate";
 import type { ReportSection } from "@/data/reports";
 
 type Props = {
@@ -36,30 +35,6 @@ export function ReportEditForm({ id, initial }: Props) {
   const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [translating, setTranslating] = useState(false);
-
-  async function generateArabic() {
-    setError("");
-    setTranslating(true);
-    try {
-      const texts: Record<string, string> = {};
-      if (title.trim() && !titleAr.trim()) texts.title = title;
-      if (date.trim() && !dateAr.trim()) texts.date = date;
-      if (fileName.trim() && !fileNameAr.trim()) texts.fileName = fileName;
-      if (Object.keys(texts).length === 0) {
-        setError("Arabic fields are already filled.");
-        return;
-      }
-      const out = await translateToArabic(texts);
-      if (out.title) setTitleAr(out.title);
-      if (out.date) setDateAr(out.date);
-      if (out.fileName) setFileNameAr(out.fileName);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Translation failed");
-    } finally {
-      setTranslating(false);
-    }
-  }
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -101,7 +76,7 @@ export function ReportEditForm({ id, initial }: Props) {
     <form className="admin-form" onSubmit={onSubmit}>
       <p className="admin-meta" style={{ marginTop: 0 }}>
         Arabic PDF is the default. English PDF is optional — if missing, Arabic
-        is used. Leave Arabic text blank to auto-generate on save.
+        is used.
       </p>
       <div className="admin-form-grid">
         <label>
@@ -135,17 +110,7 @@ export function ReportEditForm({ id, initial }: Props) {
         <p className="admin-meta">No card image yet — Miyar logo is used as default.</p>
       )}
 
-      <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Arabic · العربية (default)</h3>
-        <button
-          type="button"
-          className="admin-btn admin-btn--ghost"
-          onClick={generateArabic}
-          disabled={busy || translating}
-        >
-          {translating ? "Generating…" : "Generate Arabic"}
-        </button>
-      </div>
+      <h3 className="admin-form-section">Arabic · العربية (default)</h3>
       <div className="admin-form-grid">
         <label>
           Title (AR)
@@ -232,7 +197,7 @@ export function ReportEditForm({ id, initial }: Props) {
       </div>
 
       {error ? <p className="form-error">{error}</p> : null}
-      <button className="admin-btn" type="submit" disabled={busy || translating}>
+      <button className="admin-btn" type="submit" disabled={busy}>
         {busy ? "Saving…" : "Save changes"}
       </button>
     </form>

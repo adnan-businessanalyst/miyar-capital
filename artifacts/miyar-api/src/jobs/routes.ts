@@ -1,9 +1,8 @@
 import { asc, desc, eq } from "drizzle-orm";
-import type { Hono } from "hono";
+import type { Context, Hono } from "hono";
 import { isAdminAuthenticated } from "../admin/auth.js";
 import { getDb } from "../db/index.js";
 import { jobPosts, jobsSettings } from "../db/schema.js";
-import { ensureArabicFields } from "../i18n/translate.js";
 import {
   DEFAULT_JOBS_SETTINGS,
   jobPostSchema,
@@ -139,15 +138,6 @@ async function ensureSettings(): Promise<JobsSettingsPayload> {
   return toSettingsPayload(created);
 }
 
-const arabicPairs = [
-  ["title", "titleAr"],
-  ["location", "locationAr"],
-  ["employmentType", "employmentTypeAr"],
-  ["summary", "summaryAr"],
-  ["emailSubject", "emailSubjectAr"],
-  ["emailBody", "emailBodyAr"],
-] as const;
-
 export function registerJobRoutes(app: Hono) {
   app.get("/api/jobs", async (c) => {
     try {
@@ -186,7 +176,8 @@ export function registerJobRoutes(app: Hono) {
     }
   });
 
-  app.put("/api/admin/jobs-settings", async (c) => {
+  /* PATCH preferred; PUT kept for older clients. */
+  const saveJobsSettings = async (c: Context) => {
     if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
     try {
       const json = await c.req.json().catch(() => null);
@@ -198,8 +189,6 @@ export function registerJobRoutes(app: Hono) {
         );
       }
 
-      /* Save as submitted — Arabic auto-fill is via the admin "Generate Arabic" button
-         so a slow translate API cannot time out / fail the save. */
       const data = parsed.data;
       const payload = {
         hrEmail: data.hrEmail,
@@ -221,17 +210,22 @@ export function registerJobRoutes(app: Hono) {
       };
 
       const db = getDb();
+      await ensureSettings();
       const [row] = await db
-        .insert(jobsSettings)
-        .values({ id: 1, ...payload })
-        .onConflictDoUpdate({
-          target: jobsSettings.id,
-          set: payload,
-        })
+        .update(jobsSettings)
+        .set(payload)
+        .where(eq(jobsSettings.id, 1))
         .returning();
 
       if (!row) {
-        return c.json({ error: "Could not save settings" }, 500);
+        const [inserted] = await db
+          .insert(jobsSettings)
+          .values({ id: 1, ...payload })
+          .returning();
+        if (!inserted) {
+          return c.json({ error: "Could not save settings" }, 500);
+        }
+        return c.json({ ok: true, settings: toSettingsPayload(inserted) });
       }
 
       return c.json({ ok: true, settings: toSettingsPayload(row) });
@@ -242,7 +236,10 @@ export function registerJobRoutes(app: Hono) {
         500,
       );
     }
-  });
+  };
+
+  app.patch("/api/admin/jobs-settings", saveJobsSettings);
+  app.put("/api/admin/jobs-settings", saveJobsSettings);
 
   app.get("/api/admin/jobs", async (c) => {
     if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
@@ -273,8 +270,11 @@ export function registerJobRoutes(app: Hono) {
         );
       }
 
-      const filled = await ensureArabicFields(
-        {
+      const now = new Date();
+      const [row] = await getDb()
+        .insert(jobPosts)
+        .values({
+          referenceCode: parsed.data.referenceCode,
           title: parsed.data.title,
           titleAr: parsed.data.titleAr || "",
           location: parsed.data.location,
@@ -287,16 +287,6 @@ export function registerJobRoutes(app: Hono) {
           emailSubjectAr: parsed.data.emailSubjectAr || "",
           emailBody: parsed.data.emailBody,
           emailBodyAr: parsed.data.emailBodyAr || "",
-        },
-        [...arabicPairs],
-      );
-
-      const now = new Date();
-      const [row] = await getDb()
-        .insert(jobPosts)
-        .values({
-          referenceCode: parsed.data.referenceCode,
-          ...filled,
           isPublished: parsed.data.isPublished ?? true,
           sortOrder: parsed.data.sortOrder ?? 0,
           createdAt: now,
@@ -328,42 +318,26 @@ export function registerJobRoutes(app: Hono) {
       }
 
       const data = parsed.data;
-      const filled = await ensureArabicFields(
-        {
-          title: data.title || "",
-          titleAr: data.titleAr || "",
-          location: data.location || "",
-          locationAr: data.locationAr || "",
-          employmentType: data.employmentType || "",
-          employmentTypeAr: data.employmentTypeAr || "",
-          summary: data.summary || "",
-          summaryAr: data.summaryAr || "",
-          emailSubject: data.emailSubject || "",
-          emailSubjectAr: data.emailSubjectAr || "",
-          emailBody: data.emailBody || "",
-          emailBodyAr: data.emailBodyAr || "",
-        },
-        [...arabicPairs],
-      );
-
       const patch: Record<string, unknown> = { updatedAt: new Date() };
       if (data.referenceCode !== undefined) patch.referenceCode = data.referenceCode;
-      if (data.title !== undefined) patch.title = filled.title;
-      if (filled.titleAr) patch.titleAr = filled.titleAr;
-      if (data.location !== undefined) patch.location = filled.location;
-      if (filled.locationAr) patch.locationAr = filled.locationAr;
+      if (data.title !== undefined) patch.title = data.title;
+      if (data.titleAr !== undefined) patch.titleAr = data.titleAr || "";
+      if (data.location !== undefined) patch.location = data.location;
+      if (data.locationAr !== undefined) patch.locationAr = data.locationAr || "";
       if (data.employmentType !== undefined) {
-        patch.employmentType = filled.employmentType;
+        patch.employmentType = data.employmentType;
       }
-      if (filled.employmentTypeAr) {
-        patch.employmentTypeAr = filled.employmentTypeAr;
+      if (data.employmentTypeAr !== undefined) {
+        patch.employmentTypeAr = data.employmentTypeAr || "";
       }
-      if (data.summary !== undefined) patch.summary = filled.summary;
-      if (filled.summaryAr) patch.summaryAr = filled.summaryAr;
-      if (data.emailSubject !== undefined) patch.emailSubject = filled.emailSubject;
-      if (filled.emailSubjectAr) patch.emailSubjectAr = filled.emailSubjectAr;
-      if (data.emailBody !== undefined) patch.emailBody = filled.emailBody;
-      if (filled.emailBodyAr) patch.emailBodyAr = filled.emailBodyAr;
+      if (data.summary !== undefined) patch.summary = data.summary;
+      if (data.summaryAr !== undefined) patch.summaryAr = data.summaryAr || "";
+      if (data.emailSubject !== undefined) patch.emailSubject = data.emailSubject;
+      if (data.emailSubjectAr !== undefined) {
+        patch.emailSubjectAr = data.emailSubjectAr || "";
+      }
+      if (data.emailBody !== undefined) patch.emailBody = data.emailBody;
+      if (data.emailBodyAr !== undefined) patch.emailBodyAr = data.emailBodyAr || "";
       if (data.isPublished !== undefined) patch.isPublished = data.isPublished;
       if (data.sortOrder !== undefined) patch.sortOrder = data.sortOrder;
 
