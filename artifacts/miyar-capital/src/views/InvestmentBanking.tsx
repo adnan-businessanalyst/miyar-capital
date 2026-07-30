@@ -1,9 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
 
 export function InvestmentBanking() {
+  const router = useRouter();
+
   return (
     <div className="page">
 
