@@ -17,6 +17,7 @@ import { registerReportRoutes } from "./reports/routes.js";
 import { registerDisclosureRoutes } from "./disclosures/routes.js";
 import { registerHomepageRoutes } from "./homepage/routes.js";
 import { registerJobRoutes } from "./jobs/routes.js";
+import { registerNewsRoutes } from "./news/routes.js";
 
 function clientIp(c: { req: { header: (name: string) => string | undefined } }): string {
   return (
@@ -240,6 +241,7 @@ export function createApp() {
   registerDisclosureRoutes(app);
   registerHomepageRoutes(app);
   registerJobRoutes(app);
+  registerNewsRoutes(app);
 
   return app;
 }

@@ -100,7 +100,8 @@ export function ReportEditForm({ id, initial }: Props) {
   return (
     <form className="admin-form" onSubmit={onSubmit}>
       <p className="admin-meta" style={{ marginTop: 0 }}>
-        Leave Arabic blank to auto-generate on save, or use Generate Arabic.
+        Arabic PDF is the default. English PDF is optional — if missing, Arabic
+        is used. Leave Arabic text blank to auto-generate on save.
       </p>
       <div className="admin-form-grid">
         <label>
@@ -110,8 +111,8 @@ export function ReportEditForm({ id, initial }: Props) {
             onChange={(e) => setSection(e.target.value as ReportSection)}
             required
           >
-            <option value="annual">Annual Reports</option>
             <option value="financial">Financial Reports</option>
+            <option value="annual">Annual Reports</option>
           </select>
         </label>
         <label>
@@ -134,47 +135,8 @@ export function ReportEditForm({ id, initial }: Props) {
         <p className="admin-meta">No card image yet — Miyar logo is used as default.</p>
       )}
 
-      <h3 className="admin-form-section">English</h3>
-      <div className="admin-form-grid">
-        <label>
-          Title (EN)
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            maxLength={300}
-          />
-        </label>
-        <label>
-          Date (EN)
-          <input
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-            maxLength={80}
-          />
-        </label>
-        <label>
-          File name (EN)
-          <input
-            value={fileName}
-            onChange={(e) => setFileName(e.target.value)}
-            required
-            maxLength={300}
-          />
-        </label>
-        <label className="admin-form-span">
-          Replace PDF (EN, optional)
-          <input
-            type="file"
-            accept="application/pdf,.pdf"
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          />
-        </label>
-      </div>
-
       <div className="admin-form-section-row">
-        <h3 className="admin-form-section">Arabic · العربية</h3>
+        <h3 className="admin-form-section">Arabic · العربية (default)</h3>
         <button
           type="button"
           className="admin-btn admin-btn--ghost"
@@ -221,11 +183,50 @@ export function ReportEditForm({ id, initial }: Props) {
         <label className="admin-form-span">
           {initial.hasArabicFile
             ? "Replace PDF (AR, optional)"
-            : "PDF file (AR, optional)"}
+            : "PDF file (AR) — add if missing"}
           <input
             type="file"
             accept="application/pdf,.pdf"
             onChange={(e) => setFileAr(e.target.files?.[0] ?? null)}
+          />
+        </label>
+      </div>
+
+      <h3 className="admin-form-section">English (optional PDF)</h3>
+      <div className="admin-form-grid">
+        <label>
+          Title (EN)
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            maxLength={300}
+          />
+        </label>
+        <label>
+          Date (EN)
+          <input
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+            maxLength={80}
+          />
+        </label>
+        <label>
+          File name (EN)
+          <input
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value)}
+            required
+            maxLength={300}
+          />
+        </label>
+        <label className="admin-form-span">
+          Replace PDF (EN, optional — Arabic used if none)
+          <input
+            type="file"
+            accept="application/pdf,.pdf"
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           />
         </label>
       </div>

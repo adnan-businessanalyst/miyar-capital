@@ -20,8 +20,10 @@ export function ReportCard(report: Report) {
   const fileName =
     (isAr ? report.fileNameAr : report.fileName) || report.fileName;
 
-  const useArabicFile = isAr && report.hasArabicFile && report.fileUrlAr;
-  const fileUrl = useArabicFile ? report.fileUrlAr! : report.fileUrl;
+  /* AR site → Arabic PDF when present. EN site → EN PDF, with API fallback
+     to Arabic when English was not uploaded. */
+  const preferArabic = isAr && report.hasArabicFile && report.fileUrlAr;
+  const fileUrl = preferArabic ? report.fileUrlAr! : report.fileUrl;
   const hasFile = Boolean(fileUrl);
 
   const thumbSrc =

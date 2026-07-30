@@ -23,20 +23,25 @@ export const jobPostUpdateSchema = jobPostSchema.partial();
 export type JobPostPayload = z.infer<typeof jobPostSchema>;
 
 export const jobsSettingsSchema = z.object({
-  hrEmail: z.string().trim().email().max(320),
-  tagEn: z.string().trim().min(1).max(120),
+  hrEmail: z
+    .string()
+    .trim()
+    .min(3, "HR email is required")
+    .max(320)
+    .refine((v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), "Invalid HR email"),
+  tagEn: z.string().trim().min(1, "Tag (EN) is required").max(120),
   tagAr: z.string().trim().max(120).optional().default(""),
-  headingEn: z.string().trim().min(1).max(300),
+  headingEn: z.string().trim().min(1, "Heading (EN) is required").max(300),
   headingAr: z.string().trim().max(300).optional().default(""),
-  introEn: z.string().trim().min(1).max(2000),
+  introEn: z.string().trim().min(1, "Intro (EN) is required").max(2000),
   introAr: z.string().trim().max(2000).optional().default(""),
-  hrLabelEn: z.string().trim().min(1).max(120),
+  hrLabelEn: z.string().trim().min(1, "HR label (EN) is required").max(120),
   hrLabelAr: z.string().trim().max(120).optional().default(""),
-  applyLabelEn: z.string().trim().min(1).max(120),
+  applyLabelEn: z.string().trim().min(1, "Apply label (EN) is required").max(120),
   applyLabelAr: z.string().trim().max(120).optional().default(""),
-  emptyEn: z.string().trim().min(1).max(1000),
+  emptyEn: z.string().trim().min(1, "Empty state (EN) is required").max(1000),
   emptyAr: z.string().trim().max(1000).optional().default(""),
-  disclaimerEn: z.string().trim().min(1).max(2000),
+  disclaimerEn: z.string().trim().min(1, "Disclaimer (EN) is required").max(2000),
   disclaimerAr: z.string().trim().max(2000).optional().default(""),
 });
 
