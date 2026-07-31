@@ -233,7 +233,7 @@ export function ArrangementManagement() {
                       lang,
                     )}
                   >
-                    ←
+                    {lang === "ar" ? "→" : "←"}
                   </button>
                   <button
                     type="button"
@@ -245,7 +245,7 @@ export function ArrangementManagement() {
                       lang,
                     )}
                   >
-                    →
+                    {lang === "ar" ? "←" : "→"}
                   </button>
                 </div>
               </div>

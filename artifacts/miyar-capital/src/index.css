@@ -9283,7 +9283,7 @@ body[dir="rtl"] .ab-lede-em {
 
 .fr-fund-cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 22px;
 }
@@ -9413,12 +9413,27 @@ body[dir="rtl"] .fr-fund-link span {
   transform: scaleX(-1);
 }
 
+@media (max-width: 1100px) {
+  .fr-fund-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 900px) {
   .fr-funds {
     grid-template-columns: 1fr;
     gap: 28px;
   }
   .fr-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .fr-fund-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .fr-fund-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "../i18n/LanguageContext";
 import { LazyVideo } from "./LazyVideo";
 
 export interface PillarCarouselItem {
@@ -52,6 +53,7 @@ export function PillarCarousel({
   showPillarAriaLabel,
   goToPillarAriaLabel,
 }: PillarCarouselProps) {
+  const { lang } = useLanguage();
   const [active, setActive] = useState(0);
 
   if (pillars.length === 0) return null;
@@ -145,7 +147,7 @@ export function PillarCarousel({
               onClick={prev}
               aria-label={prevAriaLabel}
             >
-              ←
+              {lang === "ar" ? "→" : "←"}
             </button>
             <button
               type="button"
@@ -153,7 +155,7 @@ export function PillarCarousel({
               onClick={next}
               aria-label={nextAriaLabel}
             >
-              →
+              {lang === "ar" ? "←" : "→"}
             </button>
           </div>
         </div>
