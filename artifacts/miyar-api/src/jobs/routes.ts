@@ -1,4 +1,4 @@
-import { asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq } from "drizzle-orm";
 import type { Context, Hono } from "hono";
 import { isAdminAuthenticated } from "../admin/auth.js";
 import { getDb } from "../db/index.js";
@@ -13,6 +13,7 @@ import {
 
 type JobListItem = {
   id: string;
+  slug: string;
   referenceCode: string;
   title: string;
   titleAr: string | null;
@@ -22,6 +23,10 @@ type JobListItem = {
   employmentTypeAr: string | null;
   summary: string;
   summaryAr: string | null;
+  description: string;
+  descriptionAr: string | null;
+  howToApply: string;
+  howToApplyAr: string | null;
   emailSubject: string;
   emailSubjectAr: string | null;
   emailBody: string;
@@ -34,6 +39,7 @@ type JobListItem = {
 
 const listColumns = {
   id: jobPosts.id,
+  slug: jobPosts.slug,
   referenceCode: jobPosts.referenceCode,
   title: jobPosts.title,
   titleAr: jobPosts.titleAr,
@@ -43,6 +49,10 @@ const listColumns = {
   employmentTypeAr: jobPosts.employmentTypeAr,
   summary: jobPosts.summary,
   summaryAr: jobPosts.summaryAr,
+  description: jobPosts.description,
+  descriptionAr: jobPosts.descriptionAr,
+  howToApply: jobPosts.howToApply,
+  howToApplyAr: jobPosts.howToApplyAr,
   emailSubject: jobPosts.emailSubject,
   emailSubjectAr: jobPosts.emailSubjectAr,
   emailBody: jobPosts.emailBody,
@@ -55,6 +65,7 @@ const listColumns = {
 
 function toListItem(row: {
   id: string;
+  slug: string;
   referenceCode: string;
   title: string;
   titleAr: string | null;
@@ -64,6 +75,10 @@ function toListItem(row: {
   employmentTypeAr: string | null;
   summary: string;
   summaryAr: string | null;
+  description: string;
+  descriptionAr: string | null;
+  howToApply: string;
+  howToApplyAr: string | null;
   emailSubject: string;
   emailSubjectAr: string | null;
   emailBody: string;
@@ -159,6 +174,27 @@ export function registerJobRoutes(app: Hono) {
         settings: DEFAULT_JOBS_SETTINGS,
         jobs: [],
       });
+    }
+  });
+
+  app.get("/api/jobs/:slug", async (c) => {
+    try {
+      const slug = c.req.param("slug");
+      const settings = await ensureSettings();
+      const [row] = await getDb()
+        .select(listColumns)
+        .from(jobPosts)
+        .where(and(eq(jobPosts.slug, slug), eq(jobPosts.isPublished, true)))
+        .limit(1);
+      if (!row) return c.json({ error: "Not found" }, 404);
+      return c.json({
+        ok: true,
+        settings,
+        job: toListItem(row),
+      });
+    } catch (e) {
+      console.error("[jobs] get by slug failed", e);
+      return c.json({ error: "Not found" }, 404);
     }
   });
 
@@ -274,6 +310,7 @@ export function registerJobRoutes(app: Hono) {
       const [row] = await getDb()
         .insert(jobPosts)
         .values({
+          slug: parsed.data.slug,
           referenceCode: parsed.data.referenceCode,
           title: parsed.data.title,
           titleAr: parsed.data.titleAr || "",
@@ -283,6 +320,10 @@ export function registerJobRoutes(app: Hono) {
           employmentTypeAr: parsed.data.employmentTypeAr || "",
           summary: parsed.data.summary,
           summaryAr: parsed.data.summaryAr || "",
+          description: parsed.data.description,
+          descriptionAr: parsed.data.descriptionAr || "",
+          howToApply: parsed.data.howToApply,
+          howToApplyAr: parsed.data.howToApplyAr || "",
           emailSubject: parsed.data.emailSubject,
           emailSubjectAr: parsed.data.emailSubjectAr || "",
           emailBody: parsed.data.emailBody,
@@ -297,10 +338,11 @@ export function registerJobRoutes(app: Hono) {
       return c.json({ ok: true, job: toListItem(row) }, 201);
     } catch (e) {
       console.error("[admin jobs] create failed", e);
-      return c.json(
-        { error: e instanceof Error ? e.message : "Could not save job" },
-        500,
-      );
+      const msg = e instanceof Error ? e.message : "Could not save job";
+      if (/unique|duplicate/i.test(msg)) {
+        return c.json({ error: "Slug already exists" }, 400);
+      }
+      return c.json({ error: msg }, 500);
     }
   });
 
@@ -319,6 +361,7 @@ export function registerJobRoutes(app: Hono) {
 
       const data = parsed.data;
       const patch: Record<string, unknown> = { updatedAt: new Date() };
+      if (data.slug !== undefined) patch.slug = data.slug;
       if (data.referenceCode !== undefined) patch.referenceCode = data.referenceCode;
       if (data.title !== undefined) patch.title = data.title;
       if (data.titleAr !== undefined) patch.titleAr = data.titleAr || "";
@@ -332,6 +375,14 @@ export function registerJobRoutes(app: Hono) {
       }
       if (data.summary !== undefined) patch.summary = data.summary;
       if (data.summaryAr !== undefined) patch.summaryAr = data.summaryAr || "";
+      if (data.description !== undefined) patch.description = data.description;
+      if (data.descriptionAr !== undefined) {
+        patch.descriptionAr = data.descriptionAr || "";
+      }
+      if (data.howToApply !== undefined) patch.howToApply = data.howToApply;
+      if (data.howToApplyAr !== undefined) {
+        patch.howToApplyAr = data.howToApplyAr || "";
+      }
       if (data.emailSubject !== undefined) patch.emailSubject = data.emailSubject;
       if (data.emailSubjectAr !== undefined) {
         patch.emailSubjectAr = data.emailSubjectAr || "";
@@ -351,10 +402,11 @@ export function registerJobRoutes(app: Hono) {
       return c.json({ ok: true, job: toListItem(row) });
     } catch (e) {
       console.error("[admin jobs] update failed", e);
-      return c.json(
-        { error: e instanceof Error ? e.message : "Could not update job" },
-        500,
-      );
+      const msg = e instanceof Error ? e.message : "Could not update job";
+      if (/unique|duplicate/i.test(msg)) {
+        return c.json({ error: "Slug already exists" }, 400);
+      }
+      return c.json({ error: msg }, 500);
     }
   });
 

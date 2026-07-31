@@ -58,7 +58,7 @@ export function createApp() {
       ok: true,
       service: "miyar-api",
       // Bump when shipping route sets so deploys are easy to verify.
-      build: "2026-07-31-funds-reports",
+      build: "2026-07-31-careers-detail",
       routes: ["jobs", "news", "reports", "disclosures", "homepage", "funds"],
     }),
   );

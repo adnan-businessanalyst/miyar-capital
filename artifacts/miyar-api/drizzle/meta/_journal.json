@@ -64,6 +64,13 @@
       "when": 1753920000000,
       "tag": "0008_fund_report_sections",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1753940000000,
+      "tag": "0009_jobs_detail",
+      "breakpoints": true
     }
   ]
 }

@@ -4,9 +4,19 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
 
+function slugify(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 200);
+}
+
 type Props = {
   id: string;
   initial: {
+    slug: string;
     referenceCode: string;
     title: string;
     titleAr: string;
@@ -16,6 +26,10 @@ type Props = {
     employmentTypeAr: string;
     summary: string;
     summaryAr: string;
+    description: string;
+    descriptionAr: string;
+    howToApply: string;
+    howToApplyAr: string;
     emailSubject: string;
     emailSubjectAr: string;
     emailBody: string;
@@ -26,6 +40,7 @@ type Props = {
 
 export function JobEditForm({ id, initial }: Props) {
   const router = useRouter();
+  const [slug, setSlug] = useState(initial.slug);
   const [referenceCode, setReferenceCode] = useState(initial.referenceCode);
   const [title, setTitle] = useState(initial.title);
   const [titleAr, setTitleAr] = useState(initial.titleAr);
@@ -37,6 +52,10 @@ export function JobEditForm({ id, initial }: Props) {
   );
   const [summary, setSummary] = useState(initial.summary);
   const [summaryAr, setSummaryAr] = useState(initial.summaryAr);
+  const [description, setDescription] = useState(initial.description);
+  const [descriptionAr, setDescriptionAr] = useState(initial.descriptionAr);
+  const [howToApply, setHowToApply] = useState(initial.howToApply);
+  const [howToApplyAr, setHowToApplyAr] = useState(initial.howToApplyAr);
   const [emailSubject, setEmailSubject] = useState(initial.emailSubject);
   const [emailSubjectAr, setEmailSubjectAr] = useState(initial.emailSubjectAr);
   const [emailBody, setEmailBody] = useState(initial.emailBody);
@@ -55,6 +74,7 @@ export function JobEditForm({ id, initial }: Props) {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          slug,
           referenceCode,
           title,
           titleAr,
@@ -64,6 +84,10 @@ export function JobEditForm({ id, initial }: Props) {
           employmentTypeAr,
           summary,
           summaryAr,
+          description,
+          descriptionAr,
+          howToApply,
+          howToApplyAr,
           emailSubject,
           emailSubjectAr,
           emailBody,
@@ -96,6 +120,13 @@ export function JobEditForm({ id, initial }: Props) {
         Visible on homepage
       </label>
 
+      <p className="admin-meta">
+        Public page:{" "}
+        <a href={`/careers/${slug}`} target="_blank" rel="noopener noreferrer">
+          /careers/{slug}
+        </a>
+      </p>
+
       <h3 className="admin-form-section">English</h3>
       <div className="admin-form-grid">
         <label>
@@ -105,6 +136,15 @@ export function JobEditForm({ id, initial }: Props) {
             onChange={(e) => setReferenceCode(e.target.value)}
             required
             maxLength={80}
+          />
+        </label>
+        <label>
+          URL slug
+          <input
+            value={slug}
+            onChange={(e) => setSlug(slugify(e.target.value))}
+            required
+            maxLength={200}
           />
         </label>
         <label>
@@ -135,12 +175,32 @@ export function JobEditForm({ id, initial }: Props) {
           />
         </label>
         <label className="admin-form-span">
-          Summary (EN)
+          Summary (EN) — homepage teaser
           <textarea
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
             required
             maxLength={5000}
+          />
+        </label>
+        <label className="admin-form-span">
+          Full description (EN) — detail page
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            maxLength={20000}
+            rows={8}
+          />
+        </label>
+        <label className="admin-form-span">
+          How to apply (EN)
+          <textarea
+            value={howToApply}
+            onChange={(e) => setHowToApply(e.target.value)}
+            required
+            maxLength={10000}
+            rows={5}
           />
         </label>
         <label className="admin-form-span">
@@ -202,6 +262,28 @@ export function JobEditForm({ id, initial }: Props) {
             value={summaryAr}
             onChange={(e) => setSummaryAr(e.target.value)}
             maxLength={5000}
+            dir="rtl"
+            lang="ar"
+          />
+        </label>
+        <label className="admin-form-span">
+          Full description (AR)
+          <textarea
+            value={descriptionAr}
+            onChange={(e) => setDescriptionAr(e.target.value)}
+            maxLength={20000}
+            rows={8}
+            dir="rtl"
+            lang="ar"
+          />
+        </label>
+        <label className="admin-form-span">
+          How to apply (AR)
+          <textarea
+            value={howToApplyAr}
+            onChange={(e) => setHowToApplyAr(e.target.value)}
+            maxLength={10000}
+            rows={5}
             dir="rtl"
             lang="ar"
           />
