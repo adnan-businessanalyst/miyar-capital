@@ -50,6 +50,20 @@
       "when": 1753880000000,
       "tag": "0006_news",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1753900000000,
+      "tag": "0007_funds_reports",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1753920000000,
+      "tag": "0008_fund_report_sections",
+      "breakpoints": true
     }
   ]
 }

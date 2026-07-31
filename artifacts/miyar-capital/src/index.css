@@ -9241,3 +9241,194 @@ body[dir="rtl"] .ab-lede-em {
     gap: 22px;
   }
 }
+
+/* ===== FUNDS REPORTS (Investor Relations) ===== */
+.fr-empty {
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+
+.fr-funds {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 36px;
+  align-items: start;
+}
+
+.fr-fund {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.fr-fund-title {
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+
+.fr-fund-desc {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+.fr-fund-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.fr-card {
+  min-width: 0;
+  padding: 14px 14px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.fr-card--link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.fr-card--link:hover {
+  border-color: rgba(68, 108, 119, 0.45);
+  transform: translateY(-1px);
+}
+
+.fr-card--detail {
+  background: #fff;
+  padding: 20px 18px 16px;
+}
+
+.fr-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.fr-file-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  max-width: 720px;
+}
+
+.fr-file-grid--multi {
+  max-width: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.fr-file-box {
+  padding: 22px 22px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.fr-file-box-date {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.fr-file-box-title {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+  margin-bottom: 16px;
+}
+
+.fr-file-box-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .fr-file-grid--multi {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fr-card-title {
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+
+.fr-card-date {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.fr-fund-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.fr-fund-link:hover {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+.fr-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+body[dir="rtl"] .fr-fund-link span {
+  transform: scaleX(-1);
+}
+
+@media (max-width: 900px) {
+  .fr-funds {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .fr-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .fr-fund {
+    padding: 22px 18px 20px;
+  }
+  .fr-fund-cards,
+  .fr-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -229,3 +229,117 @@ export const newsSettings = pgTable("news_settings", {
 
 export type NewsSettings = typeof newsSettings.$inferSelect;
 export type NewNewsSettings = typeof newsSettings.$inferInsert;
+
+/** Parent funds shown on /funds-reports. */
+export const funds = pgTable("funds", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  slug: varchar("slug", { length: 200 }).notNull().unique(),
+  title: varchar("title", { length: 300 }).notNull(),
+  titleAr: varchar("title_ar", { length: 300 }),
+  description: text("description").notNull(),
+  descriptionAr: text("description_ar"),
+  isPublished: boolean("is_published").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+export type Fund = typeof funds.$inferSelect;
+export type NewFund = typeof funds.$inferInsert;
+
+export const fundReportSectionEnum = pgEnum("fund_report_section", [
+  "voting_policy",
+  "terms_and_conditions",
+  "quarterly_disclosures",
+]);
+
+/** Report cards under a fund (/funds-reports/{slug}/reports). PDFs optional. */
+export const fundReports = pgTable("fund_reports", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  fundId: uuid("fund_id")
+    .notNull()
+    .references(() => funds.id, { onDelete: "cascade" }),
+  section: fundReportSectionEnum("section")
+    .notNull()
+    .default("quarterly_disclosures"),
+  title: varchar("title", { length: 300 }).notNull(),
+  titleAr: varchar("title_ar", { length: 300 }),
+  date: varchar("date", { length: 80 }).notNull(),
+  dateAr: varchar("date_ar", { length: 80 }),
+  fileName: varchar("file_name", { length: 300 }),
+  fileNameAr: varchar("file_name_ar", { length: 300 }),
+  mimeType: varchar("mime_type", { length: 100 }),
+  mimeTypeAr: varchar("mime_type_ar", { length: 100 }),
+  fileSize: integer("file_size"),
+  fileSizeAr: integer("file_size_ar"),
+  fileData: bytea("file_data"),
+  fileDataAr: bytea("file_data_ar"),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+export type FundReport = typeof fundReports.$inferSelect;
+export type NewFundReport = typeof fundReports.$inferInsert;
+export type FundReportSection = (typeof fundReportSectionEnum.enumValues)[number];
+
+/** Singleton /funds-reports page copy. */
+export const fundsReportsSettings = pgTable("funds_reports_settings", {
+  id: integer("id").primaryKey().default(1),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  headingEn: varchar("heading_en", { length: 300 }).notNull().default("Funds Reports"),
+  headingAr: varchar("heading_ar", { length: 300 })
+    .notNull()
+    .default("تقارير الصناديق"),
+  crumbEn: varchar("crumb_en", { length: 300 })
+    .notNull()
+    .default("Investor Relations / Funds Reports"),
+  crumbAr: varchar("crumb_ar", { length: 300 })
+    .notNull()
+    .default("علاقات المستثمرين / تقارير الصناديق"),
+  introEn: text("intro_en")
+    .notNull()
+    .default("Reports and documents for Miyar Capital investment funds."),
+  introAr: text("intro_ar")
+    .notNull()
+    .default("تقارير ومستندات صناديق معيار المالية الاستثمارية."),
+  emptyEn: text("empty_en")
+    .notNull()
+    .default("No fund reports published yet."),
+  emptyAr: text("empty_ar")
+    .notNull()
+    .default("لا توجد تقارير صناديق منشورة بعد."),
+  viewReportsEn: varchar("view_reports_en", { length: 120 })
+    .notNull()
+    .default("View all reports"),
+  viewReportsAr: varchar("view_reports_ar", { length: 120 })
+    .notNull()
+    .default("عرض جميع التقارير"),
+  childCrumbReportsEn: varchar("child_crumb_reports_en", { length: 80 })
+    .notNull()
+    .default("Reports"),
+  childCrumbReportsAr: varchar("child_crumb_reports_ar", { length: 80 })
+    .notNull()
+    .default("التقارير"),
+  votingPolicyEn: varchar("voting_policy_en", { length: 200 })
+    .notNull()
+    .default("Voting Policy"),
+  votingPolicyAr: varchar("voting_policy_ar", { length: 200 })
+    .notNull()
+    .default("سياسة التصويت"),
+  termsEn: varchar("terms_en", { length: 200 })
+    .notNull()
+    .default("Terms and Conditions"),
+  termsAr: varchar("terms_ar", { length: 200 })
+    .notNull()
+    .default("الشروط والأحكام"),
+  quarterlyEn: varchar("quarterly_en", { length: 200 })
+    .notNull()
+    .default("Quarterly Disclosures"),
+  quarterlyAr: varchar("quarterly_ar", { length: 200 })
+    .notNull()
+    .default("الإفصاحات الربعية"),
+});
+
+export type FundsReportsSettings = typeof fundsReportsSettings.$inferSelect;
+export type NewFundsReportsSettings = typeof fundsReportsSettings.$inferInsert;

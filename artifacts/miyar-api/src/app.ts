@@ -18,6 +18,7 @@ import { registerDisclosureRoutes } from "./disclosures/routes.js";
 import { registerHomepageRoutes } from "./homepage/routes.js";
 import { registerJobRoutes } from "./jobs/routes.js";
 import { registerNewsRoutes } from "./news/routes.js";
+import { registerFundRoutes } from "./funds/routes.js";
 
 function clientIp(c: { req: { header: (name: string) => string | undefined } }): string {
   return (
@@ -57,8 +58,8 @@ export function createApp() {
       ok: true,
       service: "miyar-api",
       // Bump when shipping route sets so deploys are easy to verify.
-      build: "2026-07-30-jobs-news",
-      routes: ["jobs", "news", "reports", "disclosures", "homepage"],
+      build: "2026-07-31-funds-reports",
+      routes: ["jobs", "news", "reports", "disclosures", "homepage", "funds"],
     }),
   );
 
@@ -220,6 +221,7 @@ export function createApp() {
   registerHomepageRoutes(app);
   registerJobRoutes(app);
   registerNewsRoutes(app);
+  registerFundRoutes(app);
 
   return app;
 }
