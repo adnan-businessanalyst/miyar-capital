@@ -31,7 +31,7 @@ export function FundsReports({
       />
 
       <section className="blk">
-        <div className="wrap">
+        <div className="wrap wrap--funds">
           {funds.length === 0 ? (
             <p className="fr-empty">
               {pickLang(settings.emptyEn, settings.emptyAr, lang)}

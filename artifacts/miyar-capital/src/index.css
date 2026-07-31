@@ -6242,9 +6242,14 @@ body[dir="rtl"] .fp-principals-right p {
   }
 }
 
-/* job detail (/careers/[slug]) */
+/* job detail (/careers/[slug]) — use nearly full page width */
+.wrap.job-detail {
+  max-width: min(1560px, 100%);
+  padding-inline: clamp(40px, 5vw, 88px);
+}
+
 .job-detail {
-  max-width: 44rem;
+  max-width: none;
 }
 
 .job-detail-back {
@@ -9338,6 +9343,12 @@ body[dir="rtl"] .ab-lede-em {
 }
 
 /* ===== FUNDS REPORTS (Investor Relations) ===== */
+/* ~40% more content width than default .wrap (less side padding). */
+.wrap.wrap--funds {
+  max-width: min(1680px, 100%);
+  padding-inline: clamp(40px, 5.5vw, 72px);
+}
+
 .fr-empty {
   color: var(--muted);
   font-size: 0.97rem;
