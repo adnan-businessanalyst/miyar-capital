@@ -1,11 +1,14 @@
 /**
  * Seed sample funds + sectioned report cards (idempotent by slug).
+ * Tops up existing funds to 15 listing cards when short.
  * Run: pnpm db:seed:funds
  */
-import { eq } from "drizzle-orm";
+import { asc, eq, sql } from "drizzle-orm";
 import { getDb } from "../db/index.js";
 import { fundReports, funds, fundsReportsSettings } from "../db/schema.js";
 import { DEFAULT_FUNDS_REPORTS_SETTINGS } from "./schema.js";
+
+const LISTING_CARD_TARGET = 15;
 
 type SeedCard = {
   section: "voting_policy" | "terms_and_conditions" | "quarterly_disclosures";
@@ -37,14 +40,19 @@ function makeCards(fundEn: string, fundAr: string): SeedCard[] {
   ];
 
   const quarters = [
-    { en: "Q1", ar: "الربع الأول", y: "2024", yAr: "٢٠٢٤" },
-    { en: "Q2", ar: "الربع الثاني", y: "2024", yAr: "٢٠٢٤" },
+    { en: "Q1", ar: "الربع الأول", y: "2025", yAr: "٢٠٢٥" },
+    { en: "Q4", ar: "الربع الرابع", y: "2024", yAr: "٢٠٢٤" },
     { en: "Q3", ar: "الربع الثالث", y: "2024", yAr: "٢٠٢٤" },
+    { en: "Q2", ar: "الربع الثاني", y: "2024", yAr: "٢٠٢٤" },
+    { en: "Q1", ar: "الربع الأول", y: "2024", yAr: "٢٠٢٤" },
     { en: "Q4", ar: "الربع الرابع", y: "2023", yAr: "٢٠٢٣" },
     { en: "Q3", ar: "الربع الثالث", y: "2023", yAr: "٢٠٢٣" },
     { en: "Q2", ar: "الربع الثاني", y: "2023", yAr: "٢٠٢٣" },
     { en: "Q1", ar: "الربع الأول", y: "2023", yAr: "٢٠٢٣" },
     { en: "Q4", ar: "الربع الرابع", y: "2022", yAr: "٢٠٢٢" },
+    { en: "Q3", ar: "الربع الثالث", y: "2022", yAr: "٢٠٢٢" },
+    { en: "Q2", ar: "الربع الثاني", y: "2022", yAr: "٢٠٢٢" },
+    { en: "Q1", ar: "الربع الأول", y: "2022", yAr: "٢٠٢٢" },
   ];
 
   quarters.forEach((q, i) => {
@@ -58,7 +66,7 @@ function makeCards(fundEn: string, fundAr: string): SeedCard[] {
     });
   });
 
-  return cards;
+  return cards.slice(0, LISTING_CARD_TARGET);
 }
 
 const SEED_FUNDS = [
@@ -86,6 +94,58 @@ const SEED_FUNDS = [
   },
 ];
 
+async function topUpCards(
+  fundId: string,
+  desired: SeedCard[],
+): Promise<number> {
+  const db = getDb();
+  const existing = await db
+    .select({
+      title: fundReports.title,
+      date: fundReports.date,
+      section: fundReports.section,
+    })
+    .from(fundReports)
+    .where(eq(fundReports.fundId, fundId))
+    .orderBy(asc(fundReports.sortOrder));
+
+  if (existing.length >= LISTING_CARD_TARGET) return 0;
+
+  const keys = new Set(
+    existing.map((r) => `${r.section}|${r.title}|${r.date}`),
+  );
+  const [{ maxSort }] = await db
+    .select({
+      maxSort: sql<number>`coalesce(max(${fundReports.sortOrder}), -1)`,
+    })
+    .from(fundReports)
+    .where(eq(fundReports.fundId, fundId));
+
+  let nextSort = Number(maxSort) + 1;
+  const toInsert = desired
+    .filter((card) => !keys.has(`${card.section}|${card.title}|${card.date}`))
+    .slice(0, LISTING_CARD_TARGET - existing.length)
+    .map((card) => {
+      const row = {
+        fundId,
+        section: card.section,
+        title: card.title,
+        titleAr: card.titleAr,
+        date: card.date,
+        dateAr: card.dateAr,
+        sortOrder: nextSort,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      nextSort += 1;
+      return row;
+    });
+
+  if (toInsert.length === 0) return 0;
+  await db.insert(fundReports).values(toInsert);
+  return toInsert.length;
+}
+
 async function main() {
   const db = getDb();
 
@@ -105,7 +165,12 @@ async function main() {
       .limit(1);
 
     if (existing) {
-      console.log(`skip fund (exists): ${fund.slug}`);
+      const added = await topUpCards(existing.id, fund.cards);
+      console.log(
+        added > 0
+          ? `topped up ${fund.slug}: +${added} cards`
+          : `skip fund (exists, already ${LISTING_CARD_TARGET}+ cards): ${fund.slug}`,
+      );
       continue;
     }
 

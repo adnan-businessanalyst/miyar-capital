@@ -54,7 +54,7 @@ export function FundsReports({
                       )}
                     </p>
                     <div className="fr-fund-cards">
-                      {fund.cards.map((card) => {
+                      {fund.cards.slice(0, 15).map((card) => {
                         const preferAr =
                           isAr && card.hasArabicFile && card.fileUrlAr;
                         const fileUrl = preferAr
