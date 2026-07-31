@@ -217,6 +217,12 @@ export const SITE_NAV: NavDoc = {
           labelAr: "التقارير المالية",
           href: "/financial-reports",
         },
+        {
+          id: "ir-funds",
+          labelEn: "Funds Reports",
+          labelAr: "تقارير الصناديق",
+          href: "/funds-reports",
+        },
         // {
         //   id: "ir-ann",
         //   labelEn: "Annual Reports",
