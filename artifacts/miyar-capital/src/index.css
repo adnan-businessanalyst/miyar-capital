@@ -6321,6 +6321,11 @@ body[dir="rtl"] .fp-principals-right p {
   gap: 0;
 }
 
+.fp-contact--form-only {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
 .fp-contact-media {
   display: flex;
   align-items: center;
@@ -6346,6 +6351,13 @@ body[dir="rtl"] .fp-principals-right p {
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+}
+
+.fp-contact--form-only .fp-contact-form {
+  width: min(100%, 40rem);
+  align-items: center;
+  text-align: center;
+  padding-block: 80px;
 }
 
 .contact-cta {

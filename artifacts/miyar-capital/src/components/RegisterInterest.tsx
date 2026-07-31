@@ -6,7 +6,8 @@ import { ContactModal } from "./ContactModal";
 
 type Props = {
   sourcePage: string;
-  image?: string;
+  /** Optional override; ContactModal defaults to man_on_phone. */
+  image?: string | null;
   buttonLabel?: string;
   className?: string;
 };

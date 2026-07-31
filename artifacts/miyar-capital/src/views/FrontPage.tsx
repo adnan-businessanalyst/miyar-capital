@@ -19,7 +19,6 @@ import { LazyVideo } from "../components/LazyVideo";
 import { Disclaimer } from "../components/Disclaimer";
 import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
 import { FOOTER_BG_IMAGE } from "../site/footer";
-import { MAN_ON_PHONE_IMG as contactImg } from "../site/manOnPhone";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import { GetInTouch } from "../components/GetInTouch";
 import { JobsSection } from "../components/JobsSection";
@@ -425,10 +424,7 @@ export function FrontPage({
         );
       case "contact":
         return (
-          <section key={id} className={`fp-contact ${bg(id)}`}>
-            <div className="fp-contact-media">
-              <SlotImg raw={t("fp_img_contact")} fallback={contactImg} alt="" />
-            </div>
+          <section key={id} className={`fp-contact fp-contact--form-only ${bg(id)}`}>
             <div className="fp-contact-form">
               <div className="fp-tag">{t("fp_contact_tag")}</div>
               <h2 className="fp-h2">{t("fp_contact_h")}</h2>
