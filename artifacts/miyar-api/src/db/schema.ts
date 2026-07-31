@@ -112,11 +112,12 @@ export const homepageHero = pgTable("homepage_hero", {
 export type HomepageHero = typeof homepageHero.$inferSelect;
 export type NewHomepageHero = typeof homepageHero.$inferInsert;
 
-/** Career job postings shown on the homepage. */
+/** Career job postings shown on the homepage + /careers/[slug]. */
 export const jobPosts = pgTable("job_posts", {
   id: uuid("id").defaultRandom().primaryKey(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  slug: varchar("slug", { length: 200 }).notNull().unique(),
   referenceCode: varchar("reference_code", { length: 80 }).notNull(),
   title: varchar("title", { length: 300 }).notNull(),
   titleAr: varchar("title_ar", { length: 300 }),
@@ -126,6 +127,10 @@ export const jobPosts = pgTable("job_posts", {
   employmentTypeAr: varchar("employment_type_ar", { length: 120 }),
   summary: text("summary").notNull(),
   summaryAr: text("summary_ar"),
+  description: text("description").notNull().default(""),
+  descriptionAr: text("description_ar"),
+  howToApply: text("how_to_apply").notNull().default(""),
+  howToApplyAr: text("how_to_apply_ar"),
   emailSubject: varchar("email_subject", { length: 500 }).notNull(),
   emailSubjectAr: varchar("email_subject_ar", { length: 500 }),
   emailBody: text("email_body").notNull(),

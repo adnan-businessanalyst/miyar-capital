@@ -4,8 +4,19 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { apiUrl } from "@/lib/api";
 
+function slugify(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 200);
+}
+
 export function JobCreateForm() {
   const router = useRouter();
+  const [slug, setSlug] = useState("");
+  const [slugTouched, setSlugTouched] = useState(false);
   const [referenceCode, setReferenceCode] = useState("");
   const [title, setTitle] = useState("");
   const [titleAr, setTitleAr] = useState("");
@@ -15,6 +26,10 @@ export function JobCreateForm() {
   const [employmentTypeAr, setEmploymentTypeAr] = useState("");
   const [summary, setSummary] = useState("");
   const [summaryAr, setSummaryAr] = useState("");
+  const [description, setDescription] = useState("");
+  const [descriptionAr, setDescriptionAr] = useState("");
+  const [howToApply, setHowToApply] = useState("");
+  const [howToApplyAr, setHowToApplyAr] = useState("");
   const [emailSubject, setEmailSubject] = useState("");
   const [emailSubjectAr, setEmailSubjectAr] = useState("");
   const [emailBody, setEmailBody] = useState("");
@@ -33,6 +48,7 @@ export function JobCreateForm() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          slug,
           referenceCode,
           title,
           titleAr,
@@ -42,6 +58,10 @@ export function JobCreateForm() {
           employmentTypeAr,
           summary,
           summaryAr,
+          description,
+          descriptionAr,
+          howToApply,
+          howToApplyAr,
           emailSubject,
           emailSubjectAr,
           emailBody,
@@ -54,6 +74,8 @@ export function JobCreateForm() {
         setError(json.error || "Save failed");
         return;
       }
+      setSlug("");
+      setSlugTouched(false);
       setReferenceCode("");
       setTitle("");
       setTitleAr("");
@@ -63,6 +85,10 @@ export function JobCreateForm() {
       setEmploymentTypeAr("");
       setSummary("");
       setSummaryAr("");
+      setDescription("");
+      setDescriptionAr("");
+      setHowToApply("");
+      setHowToApplyAr("");
       setEmailSubject("");
       setEmailSubjectAr("");
       setEmailBody("");
@@ -80,7 +106,8 @@ export function JobCreateForm() {
     <form className="admin-form" onSubmit={onSubmit}>
       <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Add job posting</h2>
       <p className="admin-meta" style={{ marginTop: 0 }}>
-        Email subject/body are what applicants must send exactly.
+        Public URL: /careers/&#123;slug&#125;. Email subject/body are what applicants
+        must send exactly.
       </p>
 
       <label>
@@ -104,6 +131,19 @@ export function JobCreateForm() {
           />
         </label>
         <label>
+          URL slug
+          <input
+            value={slug}
+            onChange={(e) => {
+              setSlugTouched(true);
+              setSlug(slugify(e.target.value));
+            }}
+            required
+            maxLength={200}
+            placeholder="investment-analyst"
+          />
+        </label>
+        <label>
           Employment type (EN)
           <input
             value={employmentType}
@@ -116,7 +156,10 @@ export function JobCreateForm() {
           Title (EN)
           <input
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              if (!slugTouched) setSlug(slugify(e.target.value));
+            }}
             required
             maxLength={300}
           />
@@ -131,12 +174,32 @@ export function JobCreateForm() {
           />
         </label>
         <label className="admin-form-span">
-          Summary (EN)
+          Summary (EN) — homepage teaser
           <textarea
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
             required
             maxLength={5000}
+          />
+        </label>
+        <label className="admin-form-span">
+          Full description (EN) — detail page
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            maxLength={20000}
+            rows={8}
+          />
+        </label>
+        <label className="admin-form-span">
+          How to apply (EN)
+          <textarea
+            value={howToApply}
+            onChange={(e) => setHowToApply(e.target.value)}
+            required
+            maxLength={10000}
+            rows={5}
           />
         </label>
         <label className="admin-form-span">
@@ -198,6 +261,28 @@ export function JobCreateForm() {
             value={summaryAr}
             onChange={(e) => setSummaryAr(e.target.value)}
             maxLength={5000}
+            dir="rtl"
+            lang="ar"
+          />
+        </label>
+        <label className="admin-form-span">
+          Full description (AR)
+          <textarea
+            value={descriptionAr}
+            onChange={(e) => setDescriptionAr(e.target.value)}
+            maxLength={20000}
+            rows={8}
+            dir="rtl"
+            lang="ar"
+          />
+        </label>
+        <label className="admin-form-span">
+          How to apply (AR)
+          <textarea
+            value={howToApplyAr}
+            onChange={(e) => setHowToApplyAr(e.target.value)}
+            maxLength={10000}
+            rows={5}
             dir="rtl"
             lang="ar"
           />

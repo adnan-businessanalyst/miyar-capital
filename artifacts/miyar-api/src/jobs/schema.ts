@@ -1,6 +1,17 @@
 import { z } from "zod";
 
+const slugSchema = z
+  .string()
+  .trim()
+  .min(1)
+  .max(200)
+  .regex(
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+    "Slug must be lowercase letters, numbers, and hyphens",
+  );
+
 export const jobPostSchema = z.object({
+  slug: slugSchema,
   referenceCode: z.string().trim().min(1).max(80),
   title: z.string().trim().min(1).max(300),
   titleAr: z.string().trim().max(300).optional().default(""),
@@ -10,6 +21,10 @@ export const jobPostSchema = z.object({
   employmentTypeAr: z.string().trim().max(120).optional().default(""),
   summary: z.string().trim().min(1).max(5000),
   summaryAr: z.string().trim().max(5000).optional().default(""),
+  description: z.string().trim().min(1).max(20000),
+  descriptionAr: z.string().trim().max(20000).optional().default(""),
+  howToApply: z.string().trim().min(1).max(10000),
+  howToApplyAr: z.string().trim().max(10000).optional().default(""),
   emailSubject: z.string().trim().min(1).max(500),
   emailSubjectAr: z.string().trim().max(500).optional().default(""),
   emailBody: z.string().trim().min(1).max(10000),
@@ -53,9 +68,10 @@ export const DEFAULT_JOBS_SETTINGS: JobsSettingsPayload = {
   tagAr: "الوظائف",
   headingEn: "Join Miyar Capital",
   headingAr: "انضم إلى معيار المالية",
-  introEn: "Explore open roles and apply by emailing our Human Resources team.",
+  introEn:
+    "Explore open roles and select a position for details and how to apply.",
   introAr:
-    "اطّلع على الوظائف الشاغرة وقدّم عبر البريد الإلكتروني لفريق الموارد البشرية.",
+    "اطّلع على الوظائف الشاغرة واختر وظيفة لمعرفة التفاصيل وطريقة التقديم.",
   hrLabelEn: "HR email:",
   hrLabelAr: "بريد الموارد البشرية:",
   applyLabelEn: "Apply by email",

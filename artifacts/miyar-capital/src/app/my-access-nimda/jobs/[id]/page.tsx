@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 
 type JobRow = {
   id: string;
+  slug: string;
   referenceCode: string;
   title: string;
   titleAr: string | null;
@@ -17,6 +18,10 @@ type JobRow = {
   employmentTypeAr: string | null;
   summary: string;
   summaryAr: string | null;
+  description: string;
+  descriptionAr: string | null;
+  howToApply: string;
+  howToApplyAr: string | null;
   emailSubject: string;
   emailSubjectAr: string | null;
   emailBody: string;
@@ -63,6 +68,7 @@ export default async function AdminJobEditPage({
           <JobEditForm
             id={job.id}
             initial={{
+              slug: job.slug,
               referenceCode: job.referenceCode,
               title: job.title,
               titleAr: job.titleAr ?? "",
@@ -72,6 +78,10 @@ export default async function AdminJobEditPage({
               employmentTypeAr: job.employmentTypeAr ?? "",
               summary: job.summary,
               summaryAr: job.summaryAr ?? "",
+              description: job.description ?? "",
+              descriptionAr: job.descriptionAr ?? "",
+              howToApply: job.howToApply ?? "",
+              howToApplyAr: job.howToApplyAr ?? "",
               emailSubject: job.emailSubject,
               emailSubjectAr: job.emailSubjectAr ?? "",
               emailBody: job.emailBody,
