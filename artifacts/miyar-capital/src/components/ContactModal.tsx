@@ -6,16 +6,25 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import { MAN_ON_PHONE_IMG } from "../site/manOnPhone";
 
 type Props = {
   open: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
-  image?: string;
+  /** Defaults to man_on_phone. Pass `null` to hide media. */
+  image?: string | null;
 };
 
-export function ContactModal({ open, onClose, title, children, image }: Props) {
+export function ContactModal({
+  open,
+  onClose,
+  title,
+  children,
+  image = MAN_ON_PHONE_IMG,
+}: Props) {
+  const media = image || null;
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
@@ -73,7 +82,7 @@ export function ContactModal({ open, onClose, title, children, image }: Props) {
     >
       <div
         ref={panelRef}
-        className={`contact-modal${image ? " contact-modal--with-media" : ""}`}
+        className={`contact-modal${media ? " contact-modal--with-media" : ""}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
@@ -88,9 +97,9 @@ export function ContactModal({ open, onClose, title, children, image }: Props) {
         >
           ×
         </button>
-        {image ? (
+        {media ? (
           <div className="contact-modal-media" aria-hidden="true">
-            <img src={image} alt="" />
+            <img src={media} alt="" />
           </div>
         ) : null}
         <div className="contact-modal-body">

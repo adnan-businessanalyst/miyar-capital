@@ -64,9 +64,9 @@
     },
     "man_on_phone": {
       "files": {
-        ".avif": "/media/content/man_on_phone.avif"
+        ".jpg": "/media/content/man_on_phone.jpg"
       },
-      "image": "/media/content/man_on_phone.avif"
+      "image": "/media/content/man_on_phone.jpg"
     },
     "pillar_equity": {
       "files": {
