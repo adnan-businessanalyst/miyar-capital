@@ -9,7 +9,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { DICTS, EN, type Lang, type TranslationKey } from "./translations";
+import { usePathname } from "next/navigation";
+import { DICTS, EN, type TranslationKey } from "../data/frontpage";
+import type { Lang } from "../site/types";
+import {
+  DEFAULT_LANG,
+  getLocaleFromPathname,
+  persistLocalePreference,
+} from "./locale";
 
 interface LanguageContextValue {
   lang: Lang;
@@ -20,19 +27,32 @@ interface LanguageContextValue {
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const pathname = usePathname() || "/";
+  const urlLang = getLocaleFromPathname(pathname);
+  const [lang, setLangState] = useState<Lang>(urlLang || DEFAULT_LANG);
+
+  // URL is the source of truth; keep preference in sync.
+  useEffect(() => {
+    setLangState(urlLang);
+    persistLocalePreference(urlLang);
+  }, [urlLang]);
 
   useEffect(() => {
     document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
     document.documentElement.setAttribute("lang", lang);
   }, [lang]);
 
+  const setLang = useCallback((next: Lang) => {
+    setLangState(next);
+    persistLocalePreference(next);
+  }, []);
+
   const t = useCallback(
     (key: TranslationKey) => DICTS[lang][key] ?? EN[key],
     [lang],
   );
 
-  const value = useMemo(() => ({ lang, setLang, t }), [lang, t]);
+  const value = useMemo(() => ({ lang, setLang, t }), [lang, setLang, t]);
 
   return (
     <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>

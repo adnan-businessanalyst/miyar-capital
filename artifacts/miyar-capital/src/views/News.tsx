@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PageHero } from "../components/PageHero";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useLocalePath } from "../i18n/useLocalePath";
 import { pickLang } from "../site/types";
 import type { NewsArticle, NewsSettings } from "../data/news";
 
@@ -14,6 +15,7 @@ export function News({
   articles: NewsArticle[];
 }) {
   const { lang } = useLanguage();
+  const withLocale = useLocalePath();
   const heading = pickLang(settings.headingEn, settings.headingAr, lang);
   const empty = pickLang(settings.emptyEn, settings.emptyAr, lang);
   const readMore = pickLang(settings.readMoreEn, settings.readMoreAr, lang);
@@ -43,7 +45,7 @@ export function News({
                 return (
                   <Link
                     key={article.id}
-                    href={`/news/${article.slug}`}
+                    href={withLocale(`/news/${article.slug}`)}
                     className="news-card"
                   >
                     {article.imageUrl ? (

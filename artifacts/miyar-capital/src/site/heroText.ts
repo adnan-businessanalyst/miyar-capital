@@ -24,7 +24,7 @@ export interface HeroTextConfig {
 }
 
 export const HERO_TEXT: HeroTextConfig = {
-  animationSpeedMs: 2200,
+  animationSpeedMs: 3000,
   fallbackH1En: "Your Interests First",
   fallbackH1Ar: "مصلحتك أولاً",
   fallbackPEn:
@@ -32,18 +32,18 @@ export const HERO_TEXT: HeroTextConfig = {
   fallbackPAr:
     "يحرص موظفو معيار المالية على فهم أهدافك الاستثمارية، لأننا نعتبرها حجر الأساس لكل علاقة نبنيها.",
   letters: [
-    { hEn: "Merit", hAr: "الجدارة",
+    { hEn: "Merit", hAr: "مبادئنا أولاً",
       pEn: "We believe that what motivates us is to achieve the highest return on investment, as our profitability principle is only achieved when you profit.", pAr: "مؤمنين بان ما يحفزنا هو ان نحقق العائد الاعلى على الاستثمار ، حيث ان مبدء ربحيتنا لا يتحقق الا في حال ربحك." },
-    { hEn: "Integrity", hAr: "الصدق",
+    { hEn: "Integrity", hAr: "عوائد",
       pEn: "Investment return safely matters to us more than return on investment.",
       pAr: "عودة الاستثمار بشكل أمن يهمنا اكثر من العائد على الاستثمار." },
-    { hEn: "Your Interests First", hAr: "مصلحتك أولاً",
+    { hEn: "Your Interests First", hAr: "يبدأ نجاحنا بفهم أهدافك",
       pEn: "Miyar Capital employees are keen to understand your investment goals clearly because you are the cornerstone of this relationship.",
       pAr: "يحرص موظفين معيار المالية على فهم اهدافك الاستثمارية بشكل واضح لانك عمود الاساس لهذه العلاقة." },
-    { hEn: "Alignment", hAr: "المحاذاة",
+    { hEn: "Alignment", hAr: "الأداء",
       pEn: "Performance is the first and most important standard that we are keen to provide.",
-      pAr: "الاداء هو المعيار الاول والاهم الذي نحرص على تقديمه." },
-    { hEn: "Responsibility", hAr: "المسؤولية",
+      pAr: "الأداء هو المعيار الاول والاهم الذي نحرص على تقديمه." },
+    { hEn: "Responsibility", hAr: "رؤيتنا",
       pEn: "Our vision will only be achieved with the participation of our clients and we always remember that, so our keenness to provide the best service is our passion.",
       pAr: "رؤيتنا لن تتحقق الا بمشاركة عملائنا ونحن نتذكر ذلك دائما , لذلك حرصنا على تقديم افضل خدمة هو شغفنا." },
   ],

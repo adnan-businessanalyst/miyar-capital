@@ -3,6 +3,12 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useLanguage } from "../i18n/LanguageContext";
+import {
+  persistLocalePreference,
+  stripLocalePrefix,
+  switchLocalePath,
+} from "../i18n/locale";
+import { useLocalePath } from "../i18n/useLocalePath";
 import { SITE_NAV } from "../site/nav";
 import { pickLang, type NavItem, type Lang } from "../site/types";
 import { Brand } from "./Brand";
@@ -36,9 +42,11 @@ function collectHrefs(item: NavItem): string[] {
 }
 
 export function Header() {
-  const pathname = usePathname();
+  const pathname = usePathname() || "/";
   const router = useRouter();
-  const { lang, setLang, t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const withLocale = useLocalePath();
+  const barePath = stripLocalePrefix(pathname);
   const nav = SITE_NAV;
   const [menuOpen, setMenuOpen] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -67,7 +75,7 @@ export function Header() {
 
   const go = (href?: string) => () => {
     if (!href) return;
-    if (href.startsWith("/")) router.push(href);
+    if (href.startsWith("/")) router.push(withLocale(href));
     else window.open(href, "_blank");
     setMenuOpen(false);
     setExpandedId(null);
@@ -78,7 +86,7 @@ export function Header() {
 
   const isActive = (item: NavItem): boolean => {
     const hrefs = collectHrefs(item);
-    return hrefs.some((h) => h === pathname);
+    return hrefs.some((h) => h === barePath);
   };
 
   const label = (item: { labelEn: string; labelAr: string }, l: Lang) =>
@@ -88,7 +96,11 @@ export function Header() {
 
   const loginUrl = t("tb_login_url") || undefined;
   const signupUrl = t("tb_signup_url") || undefined;
-  const toggleLang = () => setLang(lang === "en" ? "ar" : "en");
+  const toggleLang = () => {
+    const next = lang === "en" ? "ar" : "en";
+    persistLocalePreference(next);
+    router.push(switchLocalePath(pathname, next));
+  };
   const langLabel = lang === "en" ? "EN" : "ع";
 
   return (

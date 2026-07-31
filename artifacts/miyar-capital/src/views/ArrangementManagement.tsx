@@ -3,39 +3,50 @@
 import { useState } from "react";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
+import { ARRANGEMENT_MANAGEMENT } from "../data/arrangementmanagement";
+import { useLanguage } from "../i18n/LanguageContext";
 import {
-  ARRANGEMENT_DETAIL_CARDS,
-  ARRANGEMENT_SERVICES,
-} from "../data/arrangement";
-import { CONTENT_IMAGES, DETAILS_PG_IMAGE, IA_INTRO_IMAGE } from "../site/contentImages";
+  CONTENT_IMAGES,
+  DETAILS_PG_IMAGE,
+  IA_INTRO_IMAGE,
+} from "../site/contentImages";
 import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
+import { pickLang } from "../site/types";
 
 const buildingImg = CONTENT_IMAGES.app_bg;
 const introImg = IA_INTRO_IMAGE || buildingImg;
 const detailBg = DETAILS_PG_IMAGE || buildingImg;
 
-const DEFAULT_ORDER = ["hero", "intro", "services", "detail", "interest"];
+function withTitle(template: string, title: string) {
+  return template.replace("{title}", title);
+}
 
 export function ArrangementManagement() {
-  const sectionOrder = DEFAULT_ORDER;
+  const { lang } = useLanguage();
+  const data = ARRANGEMENT_MANAGEMENT;
   const [activeDetail, setActiveDetail] = useState(0);
-  const cards = ARRANGEMENT_DETAIL_CARDS;
+  const cards = data.detail.cards;
   const prevDetail = (activeDetail - 1 + cards.length) % cards.length;
   const nextDetail = (activeDetail + 1) % cards.length;
+
+  const cardTitle = (i: number) =>
+    pickLang(cards[i].titleEn, cards[i].titleAr, lang);
+  const cardBody = (i: number) =>
+    pickLang(cards[i].bodyEn, cards[i].bodyAr, lang);
 
   const goDetail = (index: number) => {
     const n = cards.length;
     setActiveDetail(((index % n) + n) % n);
   };
 
-  const renderSection = (id: string) => {
+  const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
       case "hero":
         return (
           <PageHero
             key={id}
-            title="Arrangement Management"
-            crumb="Investment Banking / Arrangement Management"
+            title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
+            crumb={pickLang(data.hero.crumbEn, data.hero.crumbAr, lang)}
           />
         );
       case "intro":
@@ -44,16 +55,18 @@ export function ArrangementManagement() {
             <div className="wrap">
               <div className="arr-intro">
                 <div className="arr-intro-text">
-                  <div className="sec-tag">Arrangement &amp; Management</div>
-                  <h2>Comprehensive Investment Management</h2>
+                  <div className="sec-tag">
+                    {pickLang(data.intro.tagEn, data.intro.tagAr, lang)}
+                  </div>
+                  <h2>
+                    {pickLang(
+                      data.intro.headingEn,
+                      data.intro.headingAr,
+                      lang,
+                    )}
+                  </h2>
                   <p>
-                    At Miyar Capital, we provide professional arrangement and
-                    management services designed to meet the diverse needs of
-                    investors and partners. Our approach is grounded in market
-                    expertise, disciplined strategy, and full compliance with the
-                    Capital Market Authority (CMA) regulations. We focus on
-                    structuring investment opportunities that create long-term value
-                    while maintaining transparency and integrity at every step.
+                    {pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   </p>
                   <RegisterInterest
                     sourcePage="/arrangement-management"
@@ -61,7 +74,14 @@ export function ArrangementManagement() {
                   />
                 </div>
                 <div className="arr-intro-img">
-                  <img src={introImg} alt="Arrangement management" />
+                  <img
+                    src={introImg}
+                    alt={pickLang(
+                      data.intro.imageAltEn,
+                      data.intro.imageAltAr,
+                      lang,
+                    )}
+                  />
                 </div>
               </div>
             </div>
@@ -72,25 +92,49 @@ export function ArrangementManagement() {
           <section key={id} className="blk blk--cream">
             <div className="wrap">
               <div className="sec-head sec-head--center">
-                <h2>Arrangement Management Services</h2>
+                <h2>
+                  {pickLang(
+                    data.services.headingEn,
+                    data.services.headingAr,
+                    lang,
+                  )}
+                </h2>
               </div>
               <div className="arr-services">
-                {ARRANGEMENT_SERVICES.map((service) => (
-                  <div className="arr-service" key={service.title}>
-                    <div className="arr-service-icon" aria-hidden="true">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                        <path d="M3 9h18M9 21V9" />
-                      </svg>
+                {data.services.items.map((service) => {
+                  const title = pickLang(
+                    service.titleEn,
+                    service.titleAr,
+                    lang,
+                  );
+                  const items =
+                    lang === "ar" ? service.itemsAr : service.itemsEn;
+                  return (
+                    <div className="arr-service" key={service.titleEn}>
+                      <div className="arr-service-icon" aria-hidden="true">
+                        <svg
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <rect x="3" y="3" width="18" height="18" rx="2" />
+                          <path d="M3 9h18M9 21V9" />
+                        </svg>
+                      </div>
+                      <h4>{title}</h4>
+                      <ul>
+                        {items.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
                     </div>
-                    <h4>{service.title}</h4>
-                    <ul>
-                      {service.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -100,23 +144,39 @@ export function ArrangementManagement() {
           <section key={id} className="detail">
             <div
               className="detail-bg"
-              style={detailBg ? { backgroundImage: `url(${detailBg})` } : undefined}
+              style={
+                detailBg ? { backgroundImage: `url(${detailBg})` } : undefined
+              }
             />
             <div className="wrap">
               <div className="detail-inner">
-                <h2>More Detailed Information</h2>
+                <h2>
+                  {pickLang(
+                    data.detail.headingEn,
+                    data.detail.headingAr,
+                    lang,
+                  )}
+                </h2>
                 <div className="detail-cards">
-                  <div className="detail-index" role="tablist" aria-label="Detail cards">
+                  <div
+                    className="detail-index"
+                    role="tablist"
+                    aria-label={pickLang(
+                      data.detail.tablistAriaEn,
+                      data.detail.tablistAriaAr,
+                      lang,
+                    )}
+                  >
                     {cards.map((card, i) => (
                       <button
-                        key={card.title}
+                        key={card.titleEn}
                         type="button"
                         role="tab"
                         aria-selected={i === activeDetail}
                         className={i === activeDetail ? "on" : undefined}
                         onClick={() => goDetail(i)}
                       >
-                        {card.title}
+                        {cardTitle(i)}
                       </button>
                     ))}
                   </div>
@@ -125,23 +185,40 @@ export function ArrangementManagement() {
                       type="button"
                       className="detail-card detail-card--peek detail-card--prev"
                       onClick={() => goDetail(prevDetail)}
-                      aria-label={`Previous: ${cards[prevDetail].title}`}
+                      aria-label={withTitle(
+                        pickLang(
+                          data.detail.prevCardAriaEn,
+                          data.detail.prevCardAriaAr,
+                          lang,
+                        ),
+                        cardTitle(prevDetail),
+                      )}
                     >
-                      <h4>{cards[prevDetail].title}</h4>
-                      <p>{cards[prevDetail].body}</p>
+                      <h4>{cardTitle(prevDetail)}</h4>
+                      <p>{cardBody(prevDetail)}</p>
                     </button>
-                    <div className="detail-card detail-card--active" role="tabpanel">
-                      <h4>{cards[activeDetail].title}</h4>
-                      <p>{cards[activeDetail].body}</p>
+                    <div
+                      className="detail-card detail-card--active"
+                      role="tabpanel"
+                    >
+                      <h4>{cardTitle(activeDetail)}</h4>
+                      <p>{cardBody(activeDetail)}</p>
                     </div>
                     <button
                       type="button"
                       className="detail-card detail-card--peek detail-card--next"
                       onClick={() => goDetail(nextDetail)}
-                      aria-label={`Next: ${cards[nextDetail].title}`}
+                      aria-label={withTitle(
+                        pickLang(
+                          data.detail.nextCardAriaEn,
+                          data.detail.nextCardAriaAr,
+                          lang,
+                        ),
+                        cardTitle(nextDetail),
+                      )}
                     >
-                      <h4>{cards[nextDetail].title}</h4>
-                      <p>{cards[nextDetail].body}</p>
+                      <h4>{cardTitle(nextDetail)}</h4>
+                      <p>{cardBody(nextDetail)}</p>
                     </button>
                   </div>
                 </div>
@@ -150,7 +227,11 @@ export function ArrangementManagement() {
                     type="button"
                     className="detail-arrow"
                     onClick={() => goDetail(activeDetail - 1)}
-                    aria-label="Previous detail card"
+                    aria-label={pickLang(
+                      data.detail.prevAriaEn,
+                      data.detail.prevAriaAr,
+                      lang,
+                    )}
                   >
                     ←
                   </button>
@@ -158,7 +239,11 @@ export function ArrangementManagement() {
                     type="button"
                     className="detail-arrow"
                     onClick={() => goDetail(activeDetail + 1)}
-                    aria-label="Next detail card"
+                    aria-label={pickLang(
+                      data.detail.nextAriaEn,
+                      data.detail.nextAriaAr,
+                      lang,
+                    )}
                   >
                     →
                   </button>
@@ -183,5 +268,9 @@ export function ArrangementManagement() {
     }
   };
 
-  return <div className="page">{sectionOrder.map((id) => renderSection(id))}</div>;
+  return (
+    <div className="page">
+      {data.sectionOrder.map((id) => renderSection(id))}
+    </div>
+  );
 }

@@ -193,13 +193,13 @@ export const SITE_NAV: NavDoc = {
         {
           id: "ib-repa",
           labelEn: "Arrangement Management",
-          labelAr: "",
+          labelAr: "إدارة المصرفية الاستثمارية",
           href: "/arrangement-management",
         },
         {
           id: "ib-repa",
           labelEn: "Investment Advisory",
-          labelAr: "",
+          labelAr: "مستشار الاستثمار",
           href: "/investment-advisory",
         },
 

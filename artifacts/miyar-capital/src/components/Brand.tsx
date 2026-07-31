@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLocalePath } from "../i18n/useLocalePath";
 import { mediaUrl } from "../site/resolveAssetUrl";
 
 interface BrandProps {
@@ -9,6 +10,7 @@ interface BrandProps {
 }
 
 export function Brand({ variant = "light", transparent = false }: BrandProps) {
+  const withLocale = useLocalePath();
   let logo: string;
   if (variant === "dark") {
     logo = mediaUrl("brand", "logo-footer");
@@ -19,7 +21,7 @@ export function Brand({ variant = "light", transparent = false }: BrandProps) {
   }
 
   return (
-    <Link href="/" className="brand brand--logo">
+    <Link href={withLocale("/")} className="brand brand--logo">
       <img className="brand-logo" src={logo} alt="Miyar Capital" />
     </Link>
   );

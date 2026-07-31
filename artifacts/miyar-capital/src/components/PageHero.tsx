@@ -2,6 +2,8 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../i18n/LanguageContext";
+import { useLocalePath } from "../i18n/useLocalePath";
 import { mediaUrl } from "../site/resolveAssetUrl";
 
 const logoSpinner = mediaUrl("brand", "logo-spinner-hero");
@@ -86,7 +88,11 @@ export function PageHero({
 }: PageHeroProps) {
   const sectionClass = ["page-hero", className].filter(Boolean).join(" ");
   const router = useRouter();
+  const { lang } = useLanguage();
+  const withLocale = useLocalePath();
   const trail = normalizeCrumbs(title, crumb, crumbs);
+  const go = (href: string) => () => router.push(withLocale(href));
+  const homeLabel = lang === "ar" ? "الرئيسية" : "Home";
 
   const [phase, setPhase] = useState<RevealPhase>(() =>
     animate && !prefersReducedMotion() ? "logo" : "done",
@@ -158,12 +164,12 @@ export function PageHero({
         {bg}
         <div className="wrap">
           <div className="crumb">
-            <a onClick={() => router.push("/")}>Home</a>
+            <a onClick={go("/")}>{homeLabel}</a>
             {trail.map((item) => (
               <span key={`${item.label}-${item.href ?? ""}`}>
                 {" / "}
                 {item.href ? (
-                  <a onClick={() => router.push(item.href!)}>{item.label}</a>
+                  <a onClick={go(item.href)}>{item.label}</a>
                 ) : (
                   item.label
                 )}
@@ -223,12 +229,12 @@ export function PageHero({
 
       <div className="wrap">
         <div className="crumb">
-          <a onClick={() => router.push("/")}>Home</a>
+          <a onClick={go("/")}>{homeLabel}</a>
           {trail.map((item) => (
             <span key={`${item.label}-${item.href ?? ""}`}>
               {" / "}
               {item.href ? (
-                <a onClick={() => router.push(item.href!)}>{item.label}</a>
+                <a onClick={go(item.href)}>{item.label}</a>
               ) : (
                 item.label
               )}
