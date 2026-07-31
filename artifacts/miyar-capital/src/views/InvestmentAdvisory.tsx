@@ -5,32 +5,36 @@ import type { LucideIcon } from "lucide-react";
 import { LazyVideo } from "../components/LazyVideo";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
-import { ADVISORY_PILLARS, ADVISORY_STEPS } from "../data/advisory";
-import { IA_BG } from "../site/contentImages";
+import {
+  INVESTMENT_ADVISORY,
+  type InvestmentAdvisoryIconId,
+} from "../data/investmentadvisory";
+import { useLanguage } from "../i18n/LanguageContext";
+import { IA_BG, IA_PROCESS_IMAGES } from "../site/contentImages";
 import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
+import { pickLang } from "../site/types";
 
-const DEFAULT_ORDER = ["hero", "pillars", "process", "interest"];
-
-const PILLAR_ICONS: Record<(typeof ADVISORY_PILLARS)[number]["icon"], LucideIcon> = {
+const PILLAR_ICONS: Record<InvestmentAdvisoryIconId, LucideIcon> = {
   priority: Star,
   trust: ShieldCheck,
   partnership: Handshake,
 };
 
 export function InvestmentAdvisory() {
-  const sectionOrder = DEFAULT_ORDER;
+  const { lang } = useLanguage();
+  const data = INVESTMENT_ADVISORY;
   const bgVideo = IA_BG.video;
   const bgImage = IA_BG.image;
   const hasBg = Boolean(bgVideo || bgImage);
 
-  const renderSection = (id: string) => {
+  const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
       case "hero":
         return (
           <PageHero
             key={id}
-            title="Investment Advisory"
-            crumb="Investment Banking / Investment Advisory"
+            title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
+            crumb={pickLang(data.hero.crumbEn, data.hero.crumbAr, lang)}
           />
         );
       case "pillars":
@@ -47,7 +51,11 @@ export function InvestmentAdvisory() {
                         className="advisory-card-video"
                         src={bgVideo}
                         poster={bgImage || undefined}
-                        aria-label="Investment advisory background"
+                        aria-label={pickLang(
+                          data.intro.backgroundAriaEn,
+                          data.intro.backgroundAriaAr,
+                          lang,
+                        )}
                       />
                     ) : (
                       <img className="advisory-card-img" src={bgImage} alt="" />
@@ -55,22 +63,33 @@ export function InvestmentAdvisory() {
                   </div>
                 ) : null}
                 <div className="advisory-card-body">
-                  <h2>Investment Advisory</h2>
+                  <h2>
+                    {pickLang(
+                      data.intro.headingEn,
+                      data.intro.headingAr,
+                      lang,
+                    )}
+                  </h2>
                   <p>
-                    Miyar Capital believes the first step in investment advisory
-                    services is to understand the client's needs, objectives, and
-                    constraints.
+                    {pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   </p>
                   <div className="adv-pillars">
-                    {ADVISORY_PILLARS.map((pillar) => {
+                    {data.pillars.map((pillar) => {
                       const Icon = PILLAR_ICONS[pillar.icon];
+                      const title = pickLang(
+                        pillar.titleEn,
+                        pillar.titleAr,
+                        lang,
+                      );
                       return (
-                        <div className="adv-pillar" key={pillar.title}>
+                        <div className="adv-pillar" key={pillar.titleEn}>
                           <div className="adv-icon" aria-hidden="true">
                             <Icon />
                           </div>
-                          <h4>{pillar.title}</h4>
-                          <p>{pillar.text}</p>
+                          <h4>{title}</h4>
+                          <p>
+                            {pickLang(pillar.bodyEn, pillar.bodyAr, lang)}
+                          </p>
                         </div>
                       );
                     })}
@@ -85,15 +104,27 @@ export function InvestmentAdvisory() {
           <section key={id} className="blk blk--cream">
             <div className="wrap">
               <div className="timeline">
-                {ADVISORY_STEPS.map((step, i) => {
+                {data.steps.map((step, i) => {
                   const textFirst = i % 2 === 0;
+                  const body = pickLang(step.bodyEn, step.bodyAr, lang);
+                  const alt = pickLang(step.altEn, step.altAr, lang);
+                  const img = IA_PROCESS_IMAGES[step.imageKey];
                   const media = (
-                    <div className={`tl-media${textFirst ? "" : " tl-media--rev"}`} key="media">
-                      <div className="tl-img"><img src={step.img} alt={step.alt ?? `Advisory step ${step.n}`} /></div>
+                    <div
+                      className={`tl-media${textFirst ? "" : " tl-media--rev"}`}
+                      key="media"
+                    >
+                      <div className="tl-img">
+                        <img src={img} alt={alt} />
+                      </div>
                       <div className="tl-num">{step.n}</div>
                     </div>
                   );
-                  const text = <div className="tl-text" key="text"><p>{step.text}</p></div>;
+                  const text = (
+                    <div className="tl-text" key="text">
+                      <p>{body}</p>
+                    </div>
+                  );
                   return (
                     <div className="tl-row" key={step.n}>
                       {textFirst ? [text, media] : [media, text]}
@@ -121,5 +152,9 @@ export function InvestmentAdvisory() {
     }
   };
 
-  return <div className="page">{sectionOrder.map((id) => renderSection(id))}</div>;
+  return (
+    <div className="page">
+      {data.sectionOrder.map((id) => renderSection(id))}
+    </div>
+  );
 }

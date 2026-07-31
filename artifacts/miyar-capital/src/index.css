@@ -8445,25 +8445,52 @@ body[dir="rtl"] .fp-principals-right p {
 /* Opening paragraph with drop cap */
 .ab-lede {
   font-family: var(--serif);
-  font-size: 1.18rem;
+  font-size: clamp(1.05rem, 2.4vw, 1.18rem);
   color: var(--navy);
   margin-bottom: 22px;
-  line-height: 1.5;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.ab-lede-em {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1.55em;
+  line-height: 1.15;
+  color: inherit;
+}
+/* Keep Arabic lede on the body Arabic face — avoid Montserrat/--serif
+   and avoid weight 800 (falls through to Noto Kufi). */
+body[dir="rtl"] .ab-lede,
+body[dir="rtl"] .ab-lede-em {
+  font-family: var(--ar);
 }
 .ab-drop {
-  font-size: 3.6rem;
-  float: left;
-  line-height: .88;
-  padding: 4px 12px 2px 0;
+  font-size: clamp(2.4rem, 7vw, 3.6rem);
+  /* Follow writing direction: left in LTR, right in RTL (معيار). */
+  float: inline-start;
+  line-height: 0.88;
+  padding-block: 4px 2px;
+  padding-inline: 0 0.28em;
   color: var(--gold);
   font-family: var(--serif);
   font-weight: 700;
 }
+@supports not (float: inline-start) {
+  .ab-drop {
+    float: left;
+  }
+  [dir="rtl"] .ab-drop {
+    float: right;
+    padding-left: 0.28em;
+    padding-right: 0;
+  }
+}
 .ab-two-col p + p {
   margin-top: 16px;
   color: var(--muted);
-  font-size: .97rem;
+  font-size: clamp(0.92rem, 2.1vw, 0.97rem);
   line-height: 1.75;
+  overflow-wrap: anywhere;
 }
 
 /* Image placeholder — navy pinstripe */
@@ -8545,7 +8572,9 @@ body[dir="rtl"] .fp-principals-right p {
   font-size: 1rem;
   font-weight: 600;
   color: var(--navy);
-  text-align: right;
+  text-align: end;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 /* ── Values strip ── */
@@ -8609,6 +8638,20 @@ body[dir="rtl"] .fp-principals-right p {
   .ab-two-col { grid-template-columns: 1fr; gap: 40px; }
   .ab-values { grid-template-columns: 1fr; }
   .ab-img-ph { aspect-ratio: 16 / 9; }
+  .wwa-story .ab-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .ab-two-col { gap: 28px; }
+  .ab-drop {
+    font-size: clamp(2rem, 12vw, 2.6rem);
+    padding-inline-end: 0.2em;
+  }
+  .wwa-story .ab-facts {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════

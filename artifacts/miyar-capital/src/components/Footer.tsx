@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useLocalePath } from "../i18n/useLocalePath";
 import { FOOTER_BG_IMAGE, SITE_FOOTER } from "../site/footer";
 import { pickLang } from "../site/types";
 import { Brand } from "./Brand";
 
 export function Footer() {
   const { lang, t } = useLanguage();
+  const withLocale = useLocalePath();
   const footer = SITE_FOOTER;
 
   const address = pickLang(footer.addressEn, footer.addressAr, lang);
@@ -58,7 +60,7 @@ export function Footer() {
                 }
                 if (link.href.startsWith("/")) {
                   return (
-                    <Link key={link.id} href={link.href}>
+                    <Link key={link.id} href={withLocale(link.href)}>
                       {label}
                     </Link>
                   );

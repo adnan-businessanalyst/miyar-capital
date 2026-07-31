@@ -11,6 +11,7 @@ import {
   type LucideProps,
 } from "lucide-react";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useLocalePath } from "../i18n/useLocalePath";
 import { HERO_TEXT } from "../site/heroText";
 import { pickLang } from "../site/types";
 import { HeroBackground } from "../components/HeroBackground";
@@ -22,7 +23,7 @@ import { MAN_ON_PHONE_IMG as contactImg } from "../site/manOnPhone";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import { GetInTouch } from "../components/GetInTouch";
 import { JobsSection } from "../components/JobsSection";
-import type { TranslationKey } from "../i18n/translations";
+import type { TranslationKey } from "../data/frontpage";
 import type { HomepageHero } from "../data/homepageHero";
 import { DEFAULT_HOMEPAGE_HERO } from "../data/homepageHero";
 import type { JobsPageData } from "../data/jobs";
@@ -143,10 +144,17 @@ function WhyAccordion({ t }: { t: TFn }) {
   );
 }
 
-const MIYAR_LETTERS = ["M", "I", "Y", "A", "R"];
+const MIYAR_LETTERS_EN = ["M", "I", "Y", "A", "R"];
+/** Same 5-letter structure as MIYAR → معيار */
+const MIYAR_LETTERS_AR = ["م", "ع", "ي", "ا", "ر"];
+const CAPITAL_EN = "CAPITAL";
+const CAPITAL_AR = "المالية";
 
 function AnimatedHero({ lang }: { lang: string }) {
   const FADE_MS = 300;
+  const isAr = lang === "ar";
+  const letters = isAr ? MIYAR_LETTERS_AR : MIYAR_LETTERS_EN;
+  const capital = isAr ? CAPITAL_AR : CAPITAL_EN;
   const [litIdx, setLitIdx] = useState(0);
   const [displayIdx, setDisplayIdx] = useState(0);
   const [fading, setFading] = useState(false);
@@ -156,14 +164,14 @@ function AnimatedHero({ lang }: { lang: string }) {
     const id = setInterval(() => {
       setFading(true);
       setTimeout(() => {
-        pos = (pos + 1) % MIYAR_LETTERS.length;
+        pos = (pos + 1) % letters.length;
         setLitIdx(pos);
         setDisplayIdx(pos);
         setFading(false);
       }, FADE_MS);
     }, HERO_TEXT.animationSpeedMs);
     return () => clearInterval(id);
-  }, []);
+  }, [letters.length]);
 
   const data = HERO_TEXT.letters[displayIdx] ?? {
     hEn: "",
@@ -172,21 +180,23 @@ function AnimatedHero({ lang }: { lang: string }) {
     pAr: "",
   };
   const h1Text =
-    (lang === "ar" ? data.hAr : data.hEn) ||
-    (lang === "ar" ? HERO_TEXT.fallbackH1Ar : HERO_TEXT.fallbackH1En);
+    (isAr ? data.hAr : data.hEn) ||
+    (isAr ? HERO_TEXT.fallbackH1Ar : HERO_TEXT.fallbackH1En);
   const pText =
-    (lang === "ar" ? data.pAr : data.pEn) ||
-    (lang === "ar" ? HERO_TEXT.fallbackPAr : HERO_TEXT.fallbackPEn);
+    (isAr ? data.pAr : data.pEn) ||
+    (isAr ? HERO_TEXT.fallbackPAr : HERO_TEXT.fallbackPEn);
 
   return (
     <>
-      <span className="fp-eyebrow">
-        {MIYAR_LETTERS.map((char, i) => (
-          <span key={i} className={litIdx === i ? "fp-ey-lit" : undefined}>
+      <span className="fp-eyebrow" lang={isAr ? "ar" : "en"} dir={isAr ? "rtl" : "ltr"}>
+        {letters.map((char, i) => (
+          <span key={`${char}-${i}`} className={litIdx === i ? "fp-ey-lit" : undefined}>
             {char}
           </span>
         ))}
-        <span className="fp-ey-static">{"\u00A0CAPITAL"}</span>
+        <span className="fp-ey-static">
+          {isAr ? `${capital}\u00A0` : `\u00A0${capital}`}
+        </span>
       </span>
       <div className={`fp-hero-swap${fading ? " is-fading" : ""}`}>
         <h1>{h1Text}</h1>
@@ -236,6 +246,7 @@ export function FrontPage({
 }) {
   const router = useRouter();
   const { t, lang } = useLanguage();
+  const withLocale = useLocalePath();
   const heroWrapRef = useRef<HTMLDivElement>(null);
   const h = hero ?? DEFAULT_HOMEPAGE_HERO;
   const jobsData = jobs ?? EMPTY_JOBS_PAGE;
@@ -249,6 +260,10 @@ export function FrontPage({
     if (href.startsWith("#")) {
       const el = document.getElementById(href.slice(1));
       el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    if (href.startsWith("/")) {
+      router.push(withLocale(href));
       return;
     }
     router.push(href);
@@ -306,7 +321,7 @@ export function FrontPage({
               <p className="fp-wwd-lead">{t("fp_wwd_lead")}</p>
               <a
                 className="fp-wwd-link"
-                href="/who-we-are"
+                href={withLocale("/who-we-are")}
                 onClick={(e) => {
                   e.preventDefault();
                   followLink(t("fp_wwd_link_url"), "/who-we-are");

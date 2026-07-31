@@ -1,5 +1,11 @@
-export type Lang = "en" | "ar";
+import type { Lang } from "../site/types";
 
+export type { Lang };
+
+/**
+ * Front-page (and a few shared chrome) EN/AR strings.
+ * Looked up via `t(key)` from LanguageContext.
+ */
 export type TranslationKey =
   | "reg"
   | "tb_login"
@@ -186,8 +192,8 @@ export const AR: Record<TranslationKey, string> = {
   nav_insights: "رؤى",
   nav_ir: "علاقات المستثمرين",
   am_h: "إدارة أصول منظّمة حول أهداف المستثمر — عبر أربع ركائز.",
-  fp_wwd_tag: "مستقلة · سعودية · مرخصة من هيئة السوق المالية",
-  fp_wwd_h: "استثمار قائم على المبادئ، مبني على القناعة — لا على رفوف المنتجات.",
+  fp_wwd_tag: "شركة سعودية مستقلة و مرخصة من هيئة السوق المالية",
+  fp_wwd_h: "استثمار قائم على المبادئ، مبني على القناعة — لا على منتجات عامة.",
   fp_wwd_lead: "معيار المالية شركة استثمارية سعودية مستقلة تدير رؤوس الأموال عبر أربعة مجالات متكاملة، وتقدم المشورة للشركات والمساهمين في الصفقات التي ترسم مستقبلهم.",
   fp_wwd_link: "من نحن",
   fp_wwd_link_url: "/who-we-are",

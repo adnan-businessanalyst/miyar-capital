@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { PageHero } from "../components/PageHero";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useLocalePath } from "../i18n/useLocalePath";
 import { pickLang } from "../site/types";
 import type { NewsArticle as NewsArticleData, NewsSettings } from "../data/news";
 
@@ -14,6 +15,7 @@ export function NewsArticle({
   settings: NewsSettings;
 }) {
   const { lang } = useLanguage();
+  const withLocale = useLocalePath();
   const heading = pickLang(settings.headingEn, settings.headingAr, lang);
   const title = pickLang(article.title, article.titleAr ?? "", lang);
   const date = pickLang(article.date, article.dateAr ?? "", lang);
@@ -35,7 +37,7 @@ export function NewsArticle({
 
       <section className="blk">
         <div className="wrap news-article">
-          <Link href="/news" className="news-back">
+          <Link href={withLocale("/news")} className="news-back">
             ← {backLabel}
           </Link>
 

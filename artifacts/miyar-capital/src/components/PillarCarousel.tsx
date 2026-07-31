@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
 import { LazyVideo } from "./LazyVideo";
 
-interface Pillar {
+export interface PillarCarouselItem {
   num: string;
   title: string;
   body: string;
@@ -13,40 +12,16 @@ interface Pillar {
   video: string;
 }
 
-const PILLARS: Pillar[] = [
-  {
-    num: "I",
-    title: "Liquidity & Fixed Income",
-    body: "Murabaha and money-market solutions engineered for capital preservation and stable, risk-conscious returns.",
-    href: "/product",
-    image: CONTENT_IMAGES.pillar_liquidity,
-    video: CONTENT_VIDEOS.pillar_liquidity,
-  },
-  {
-    num: "II",
-    title: "Equity Management",
-    body: "Saudi and regional equity strategies built on a disciplined process for long-term value creation.",
-    href: "/asset-management",
-    image: CONTENT_IMAGES.pillar_equity,
-    video: CONTENT_VIDEOS.pillar_equity,
-  },
-  {
-    num: "III",
-    title: "Real Assets",
-    body: "Real estate income and development funds offering resilience and diversification for a portfolio.",
-    href: "/asset-management",
-    image: CONTENT_IMAGES.pillar_real_assets,
-    video: CONTENT_VIDEOS.pillar_real_assets,
-  },
-  {
-    num: "IV",
-    title: "Private Markets",
-    body: "Private equity and private credit strategies for qualified and institutional investors.",
-    href: "/private-markets",
-    image: CONTENT_IMAGES.pillar_private_markets,
-    video: CONTENT_VIDEOS.pillar_private_markets,
-  },
-];
+interface PillarCarouselProps {
+  pillars: PillarCarouselItem[];
+  onNavigate: (href: string) => void;
+  prevAriaLabel: string;
+  nextAriaLabel: string;
+  /** Use `{title}` placeholder. */
+  showPillarAriaLabel: string;
+  /** Use `{title}` placeholder. */
+  goToPillarAriaLabel: string;
+}
 
 function getOffset(index: number, active: number, length: number) {
   let diff = index - active;
@@ -56,22 +31,34 @@ function getOffset(index: number, active: number, length: number) {
   return diff;
 }
 
-function roleForOffset(offset: number): "active" | "thumb-left" | "thumb-right" | "hidden" {
+function roleForOffset(
+  offset: number,
+): "active" | "thumb-left" | "thumb-right" | "hidden" {
   if (offset === 0) return "active";
   if (offset === -1) return "thumb-left";
   if (offset === 1) return "thumb-right";
   return "hidden";
 }
 
-interface PillarCarouselProps {
-  onNavigate: (href: string) => void;
+function withTitle(template: string, title: string) {
+  return template.replace("{title}", title);
 }
 
-export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
+export function PillarCarousel({
+  pillars,
+  onNavigate,
+  prevAriaLabel,
+  nextAriaLabel,
+  showPillarAriaLabel,
+  goToPillarAriaLabel,
+}: PillarCarouselProps) {
   const [active, setActive] = useState(0);
 
+  if (pillars.length === 0) return null;
+
   const select = (index: number) => {
-    const normalized = ((index % PILLARS.length) + PILLARS.length) % PILLARS.length;
+    const normalized =
+      ((index % pillars.length) + pillars.length) % pillars.length;
     setActive(normalized);
   };
 
@@ -82,8 +69,8 @@ export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
     <div className="pcar">
       <div className="pcar-stage">
         <div className="pcar-pillwrap">
-          {PILLARS.map((p, i) => {
-            const offset = getOffset(i, active, PILLARS.length);
+          {pillars.map((p, i) => {
+            const offset = getOffset(i, active, pillars.length);
             const role = roleForOffset(offset);
             const isActive = role === "active";
             const isThumb = role === "thumb-left" || role === "thumb-right";
@@ -106,7 +93,11 @@ export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
                 }}
                 role={isThumb ? "button" : undefined}
                 tabIndex={isThumb ? 0 : undefined}
-                aria-label={isThumb ? `Show ${p.title}` : undefined}
+                aria-label={
+                  isThumb
+                    ? withTitle(showPillarAriaLabel, p.title)
+                    : undefined
+                }
               >
                 {useVideo ? (
                   <LazyVideo
@@ -134,7 +125,7 @@ export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
                       if (isActive) onNavigate(p.href);
                     }}
                     tabIndex={isActive ? 0 : -1}
-                    aria-label={`Go to ${p.title}`}
+                    aria-label={withTitle(goToPillarAriaLabel, p.title)}
                     aria-hidden={!isActive}
                   >
                     <span className="pcar-caption-label">{p.title}</span>
@@ -148,17 +139,27 @@ export function PillarCarousel({ onNavigate }: PillarCarouselProps) {
           })}
 
           <div className="pcar-arrows">
-            <button type="button" className="pcar-arrow" onClick={prev} aria-label="Previous pillar">
+            <button
+              type="button"
+              className="pcar-arrow"
+              onClick={prev}
+              aria-label={prevAriaLabel}
+            >
               ←
             </button>
-            <button type="button" className="pcar-arrow" onClick={next} aria-label="Next pillar">
+            <button
+              type="button"
+              className="pcar-arrow"
+              onClick={next}
+              aria-label={nextAriaLabel}
+            >
               →
             </button>
           </div>
         </div>
 
         <ul className="pcar-list">
-          {PILLARS.map((pl, i) => (
+          {pillars.map((pl, i) => (
             <li key={pl.num}>
               <button
                 type="button"
