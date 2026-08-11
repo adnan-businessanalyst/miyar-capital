@@ -84,7 +84,7 @@ export const SITE_NAV: NavDoc = {
           id: "am-real",
           labelEn: "Real Assets",
           labelAr: "الأصول الحقيقية",
-          href: "/real-assets",
+          href: "/asset-management/real-assets",
         },
         {
           id: "am-pm",
