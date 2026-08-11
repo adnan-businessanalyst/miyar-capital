@@ -1,27 +1,55 @@
 "use client";
 
-import { ChartColumnIncreasing, Compass, Globe2, Layers } from "lucide-react";
+import {
+  ChartColumnIncreasing,
+  Globe2,
+  type LucideIcon,
+} from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
+import { RichText } from "../components/RichText";
+import {
+  EQUITY_MANAGEMENT,
+  type EquityManagementOfferIconId,
+} from "../data/equitymanagement";
+import { useLanguage } from "../i18n/LanguageContext";
 import { CONTENT_IMAGES } from "../site/contentImages";
+import { pickLang } from "../site/types";
 
 const heroImg = CONTENT_IMAGES.pillar_equity;
 
-const DEFAULT_ORDER = ["intro", "offer", "what-we-offer"];
+const OFFER_ICONS: Record<EquityManagementOfferIconId, LucideIcon> = {
+  local: ChartColumnIncreasing,
+  regional: Globe2,
+};
 
 export function EquityManagement() {
-  const sectionOrder = DEFAULT_ORDER;
+  const { lang } = useLanguage();
+  const data = EQUITY_MANAGEMENT;
 
-  const renderSection = (id: string) => {
+  const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
       case "intro":
         return (
           <PageHero
             key={id}
-            title="Research-led. Conviction-driven. Built for long-term growth."
+            title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
             crumbs={[
-              { label: "Asset Management", href: "/asset-management" },
-              { label: "Equity Management" },
+              {
+                label: pickLang(
+                  data.hero.crumbAmEn,
+                  data.hero.crumbAmAr,
+                  lang,
+                ),
+                href: "/asset-management",
+              },
+              {
+                label: pickLang(
+                  data.hero.crumbPageEn,
+                  data.hero.crumbPageAr,
+                  lang,
+                ),
+              },
             ]}
           />
         );
@@ -31,14 +59,25 @@ export function EquityManagement() {
             <div className="wrap">
               <div className="pi-intro">
                 <div className="pi-intro-text">
-                  <span className="pi-intro-eyebrow">The Four Pillars</span>
-                  <h2>Equity Management</h2>
-                  <p>
-                    Our equity management strategies combine rigorous research with disciplined
-                    portfolio construction to pursue long-term capital growth. We invest across
-                    local, regional, and global markets, selecting opportunities that align with
-                    our clients' risk appetite and investment horizon.
-                  </p>
+                  <span className="pi-intro-eyebrow">
+                    {pickLang(
+                      data.intro.eyebrowEn,
+                      data.intro.eyebrowAr,
+                      lang,
+                    )}
+                  </span>
+                  <h2>
+                    {pickLang(
+                      data.intro.headingEn,
+                      data.intro.headingAr,
+                      lang,
+                    )}
+                  </h2>
+                  <RichText
+                    as="div"
+                    className="eq-rich"
+                    html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
+                  />
                   <RegisterInterest
                     sourcePage="/asset-management/equity-management"
                     className="btn btn-outline-navy"
@@ -57,37 +96,69 @@ export function EquityManagement() {
           <section key={id} className="blk">
             <div className="wrap">
               <div className="sec-head sec-head--center">
-                <h2 className="sec-head-navy">What We Offer</h2>
+                <h2 className="sec-head-navy">
+                  {pickLang(
+                    data.offers.headingEn,
+                    data.offers.headingAr,
+                    lang,
+                  )}
+                </h2>
               </div>
-              <div className="svc-grid svc-grid--4">
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <ChartColumnIncreasing strokeWidth={1.5} />
-                  </div>
-                  <h4>Local Equities</h4>
-                  <p>Deep expertise in the Saudi and GCC equity markets.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Globe2 strokeWidth={1.5} />
-                  </div>
-                  <h4>Regional &amp; Global Equities</h4>
-                  <p>Diversified exposure to broader regional and international markets.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Compass strokeWidth={1.5} />
-                  </div>
-                  <h4>Thematic Strategies</h4>
-                  <p>Focused strategies built around long-term structural growth themes.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Layers strokeWidth={1.5} />
-                  </div>
-                  <h4>Active Portfolio Management</h4>
-                  <p>Ongoing research and rebalancing to manage risk and capture opportunity.</p>
-                </div>
+              <div className="svc-grid svc-grid--2">
+                {data.offers.items.map((item) => {
+                  const Icon = OFFER_ICONS[item.icon];
+                  return (
+                    <div className="svc svc--dark" key={item.titleEn}>
+                      <div className="si" aria-hidden="true">
+                        <Icon strokeWidth={1.5} />
+                      </div>
+                      <h4>
+                        {pickLang(item.titleEn, item.titleAr, lang)}
+                      </h4>
+                      <RichText
+                        as="div"
+                        className="eq-rich"
+                        html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        );
+      case "examples":
+        return (
+          <section key={id} className="blk blk--cream">
+            <div className="wrap">
+              <div className="sec-head sec-head--center">
+                <h2 className="sec-head-navy">
+                  {pickLang(
+                    data.examples.headingEn,
+                    data.examples.headingAr,
+                    lang,
+                  )}
+                </h2>
+                <p className="eq-examples-intro">
+                  {pickLang(
+                    data.examples.introEn,
+                    data.examples.introAr,
+                    lang,
+                  )}
+                </p>
+              </div>
+              <div className="eq-examples-grid">
+                {data.examples.items.map((item) => (
+                  <article className="eq-example" key={item.titleEn}>
+                    <div className="eq-example-sector">
+                      {pickLang(item.sectorEn, item.sectorAr, lang)}
+                    </div>
+                    <h3>
+                      {pickLang(item.titleEn, item.titleAr, lang)}
+                    </h3>
+                    <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
+                  </article>
+                ))}
               </div>
             </div>
           </section>
@@ -97,5 +168,9 @@ export function EquityManagement() {
     }
   };
 
-  return <div className="page">{sectionOrder.map((id) => renderSection(id))}</div>;
+  return (
+    <div className="page">
+      {data.sectionOrder.map((id) => renderSection(id))}
+    </div>
+  );
 }

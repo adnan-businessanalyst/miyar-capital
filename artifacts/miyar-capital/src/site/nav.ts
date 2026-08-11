@@ -77,8 +77,8 @@ export const SITE_NAV: NavDoc = {
         {
           id: "am-eq",
           labelEn: "Equity Management",
-          labelAr: "إدارة الأسهم",
-          href: "/equity-management",
+          labelAr: "أسهم الملكية الخاصة",
+          href: "/asset-management/equity-management",
         },
         {
           id: "am-real",
