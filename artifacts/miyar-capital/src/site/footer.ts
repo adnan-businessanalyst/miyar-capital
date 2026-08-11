@@ -79,7 +79,12 @@ export const SITE_FOOTER: SiteFooter = {
           labelAr: "الأسواق الخاصة",
           href: "/asset-management/private-markets",
         },
-        { id: "f-dpm", labelEn: "DPM", labelAr: "الإدارة التقديرية", href: "/dpm" },
+        {
+          id: "f-dpm",
+          labelEn: "DPM",
+          labelAr: "الإدارة التقديرية",
+          href: "/asset-management/dpm",
+        },
       ],
     },
     {

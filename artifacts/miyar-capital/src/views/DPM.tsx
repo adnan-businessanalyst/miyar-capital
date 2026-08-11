@@ -1,102 +1,143 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
+import { RegisterInterest } from "../components/RegisterInterest";
+import { RichText } from "../components/RichText";
+import { DPM_PAGE } from "../data/dpm";
+import { useLanguage } from "../i18n/LanguageContext";
+import { pickLang } from "../site/types";
 
-const DEFAULT_ORDER = ["intro", "mandates", "cycle"];
+const SOURCE_PAGE = "/asset-management/dpm";
 
 export function DPM() {
-  const sectionOrder = DEFAULT_ORDER;
+  const { lang } = useLanguage();
+  const data = DPM_PAGE;
 
-  const renderSection = (id: string) => {
+  const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
       case "intro":
         return (
           <PageHero
             key={id}
-            title="Portfolios managed to your policy — not to a product shelf."
+            title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
             crumbs={[
-              { label: "Asset Management", href: "/asset-management" },
-              { label: "Discretionary Portfolio Management" },
+              {
+                label: pickLang(
+                  data.hero.crumbAmEn,
+                  data.hero.crumbAmAr,
+                  lang,
+                ),
+                href: "/asset-management",
+              },
+              {
+                label: pickLang(
+                  data.hero.crumbPageEn,
+                  data.hero.crumbPageAr,
+                  lang,
+                ),
+              },
             ]}
           />
         );
+
       case "mandates":
         return (
           <section key={id} className="blk">
             <div className="wrap">
               <div className="sec-head">
-                <div className="sec-tag">DPM</div>
-                <h2>Mandate types.</h2>
-                <p>
-                  Each mandate begins with a written Investment Policy Statement and a
-                  documented suitability assessment before any capital is deployed.
-                </p>
+                <div className="sec-tag">
+                  {pickLang(
+                    data.mandates.tagEn,
+                    data.mandates.tagAr,
+                    lang,
+                  )}
+                </div>
+                <h2>
+                  {pickLang(
+                    data.mandates.headingEn,
+                    data.mandates.headingAr,
+                    lang,
+                  )}
+                </h2>
+                <RichText
+                  as="p"
+                  html={pickLang(
+                    data.mandates.leadEn,
+                    data.mandates.leadAr,
+                    lang,
+                  )}
+                />
               </div>
               <div className="pillars">
-                <div className="pillar">
-                  <div className="pn" aria-hidden="true">A</div>
-                  <h4>Liquidity Management</h4>
-                  <p>Cash and money-market mandates for treasuries.</p>
-                </div>
-                <div className="pillar">
-                  <div className="pn" aria-hidden="true">B</div>
-                  <h4>Income Portfolios</h4>
-                  <p>Fixed-income and yield-oriented mandates.</p>
-                </div>
-                <div className="pillar">
-                  <div className="pn" aria-hidden="true">C</div>
-                  <h4>Saudi Equity</h4>
-                  <p>Active equity mandates under conviction.</p>
-                </div>
-                <div className="pillar">
-                  <div className="pn" aria-hidden="true">D</div>
-                  <h4>Multi-Asset</h4>
-                  <p>Diversified across all four pillars.</p>
-                </div>
+                {data.mandates.items.map((item) => (
+                  <div className="pillar" key={item.num}>
+                    <div className="pn" aria-hidden="true">
+                      {item.num}
+                    </div>
+                    <h4>
+                      {pickLang(item.titleEn, item.titleAr, lang)}
+                    </h4>
+                    <RichText
+                      as="p"
+                      html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </section>
         );
+
       case "cycle":
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
               <div className="sec-head">
-                <div className="sec-tag">The Cycle</div>
-                <h2>How a mandate runs.</h2>
+                <div className="sec-tag">
+                  {pickLang(data.cycle.tagEn, data.cycle.tagAr, lang)}
+                </div>
+                <h2>
+                  {pickLang(
+                    data.cycle.headingEn,
+                    data.cycle.headingAr,
+                    lang,
+                  )}
+                </h2>
               </div>
               <div className="steps">
-                <div className="step">
-                  <h5>Classify</h5>
-                  <p>Client classification &amp; KYC.</p>
-                </div>
-                <div className="step">
-                  <h5>IPS</h5>
-                  <p>Written investment policy.</p>
-                </div>
-                <div className="step">
-                  <h5>Deploy</h5>
-                  <p>Allocation across pillars.</p>
-                </div>
-                <div className="step">
-                  <h5>Review</h5>
-                  <p>Scheduled review cycle.</p>
-                </div>
-                <div className="step">
-                  <h5>Report</h5>
-                  <p>Transparent CMA-aligned reporting.</p>
-                </div>
+                {data.cycle.steps.map((step) => (
+                  <div className="step" key={step.titleEn}>
+                    <h5>
+                      {pickLang(step.titleEn, step.titleAr, lang)}
+                    </h5>
+                    <RichText
+                      as="p"
+                      html={pickLang(step.bodyEn, step.bodyAr, lang)}
+                    />
+                  </div>
+                ))}
               </div>
               <div className="section-cta">
-                <a className="btn btn-navy" href="#">Request a Portfolio Consultation</a>
+                <RegisterInterest
+                  sourcePage={SOURCE_PAGE}
+                  buttonLabel={pickLang(
+                    data.cycle.ctaEn,
+                    data.cycle.ctaAr,
+                    lang,
+                  )}
+                  className="btn btn-navy"
+                />
               </div>
             </div>
           </section>
         );
+
       default:
         return null;
     }
   };
 
-  return <div className="page">{sectionOrder.map((id) => renderSection(id))}</div>;
+  return (
+    <div className="page">{data.sectionOrder.map(renderSection)}</div>
+  );
 }
