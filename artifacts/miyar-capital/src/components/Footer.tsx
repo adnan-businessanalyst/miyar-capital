@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { FaApple, FaGooglePlay } from "react-icons/fa";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useLocalePath } from "../i18n/useLocalePath";
 import { FOOTER_BG_IMAGE, SITE_FOOTER } from "../site/footer";
@@ -8,10 +10,17 @@ import { pickLang } from "../site/types";
 import { Brand } from "./Brand";
 import { Disclaimer } from "./Disclaimer";
 
+function isHomePath(pathname: string): boolean {
+  const p = pathname.replace(/\/+$/, "") || "/";
+  return p === "/" || p === "/en";
+}
+
 export function Footer() {
-  const { lang, t } = useLanguage();
+  const { lang } = useLanguage();
   const withLocale = useLocalePath();
+  const pathname = usePathname() || "/";
   const footer = SITE_FOOTER;
+  const showAppStores = !isHomePath(pathname);
 
   const address = pickLang(footer.addressEn, footer.addressAr, lang);
   const overlay = Math.max(0, Math.min(100, footer.overlayOpacity)) / 100;
@@ -50,6 +59,54 @@ export function Footer() {
                 </span>
               ))}
             </div>
+            {showAppStores && footer.appStores.length > 0 ? (
+              <div className="footer-stores">
+                {footer.appStores.map((store) => (
+                  <a
+                    key={store.id}
+                    className="footer-store-btn"
+                    href={store.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={pickLang(store.labelEn, store.labelAr, lang)}
+                  >
+                    {store.id === "apple" ? (
+                      <FaApple aria-hidden="true" />
+                    ) : (
+                      <FaGooglePlay aria-hidden="true" />
+                    )}
+                    <span>
+                      <small>
+                        {store.id === "apple"
+                          ? lang === "ar"
+                            ? "حمّل من"
+                            : "Download on the"
+                          : lang === "ar"
+                            ? "حمّل من"
+                            : "Get it on"}
+                      </small>
+                      {store.id === "apple" ? "App Store" : "Google Play"}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            ) : null}
+            {footer.social.length > 0 ? (
+              <div className="footer-social">
+                {footer.social.map((item) => (
+                  <a
+                    key={item.id}
+                    className="footer-social-link"
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={pickLang(item.labelEn, item.labelAr, lang)}
+                  >
+                    <img src={item.icon} alt="" width={31} height={31} />
+                  </a>
+                ))}
+              </div>
+            ) : null}
           </div>
           {footer.columns.map((col) => (
             <div key={col.id}>
@@ -85,9 +142,6 @@ export function Footer() {
           <span>
             {pickLang(footer.bottomRightEn, footer.bottomRightAr, lang)}
           </span>
-          {/* <span> */}
-            {/* {pickLang(footer.bottomLeftEn, footer.bottomLeftAr, lang)} */}
-          {/* </span> */}
         </div>
       </div>
     </footer>

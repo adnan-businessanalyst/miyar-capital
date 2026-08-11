@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { SiteChrome } from "@/components/SiteChrome";
 import { SITE_META } from "@/site/defaults";
+import "@emran-alhaddad/saudi-riyal-font/index.css";
 import "@/index.css";
 
 export const metadata: Metadata = {

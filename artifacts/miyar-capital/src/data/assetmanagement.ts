@@ -146,7 +146,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "Murabaha and money-market solutions engineered for capital preservation and stable, risk-conscious returns.",
         bodyAr:
           "حلول المرابحة وأسواق النقد المصممة للحفاظ على رأس المال وتحقيق عوائد مستقرة واعية بالمخاطر.",
-        href: "/product",
+        href: "/asset-management/liquidity-fi",
       },
       {
         num: "II",
@@ -179,7 +179,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "Private equity and private credit strategies for qualified and institutional investors.",
         bodyAr:
           "استراتيجيات ملكية خاصة وتمويل خاص للمستثمرين المؤهلين والمؤسسيين.",
-        href: "/private-markets",
+        href: "/asset-management/private-markets",
       },
     ],
     prevAriaEn: "Previous pillar",

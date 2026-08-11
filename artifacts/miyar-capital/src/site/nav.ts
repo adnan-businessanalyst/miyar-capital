@@ -90,7 +90,7 @@ export const SITE_NAV: NavDoc = {
           id: "am-pm",
           labelEn: "Private Markets",
           labelAr: "الأسواق الخاصة",
-          href: "/private-markets",
+          href: "/asset-management/private-markets",
         },
         {
           id: "am-grp2",
