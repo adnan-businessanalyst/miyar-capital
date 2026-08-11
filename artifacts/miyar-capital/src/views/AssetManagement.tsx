@@ -8,28 +8,14 @@ import {
   PillarCarousel,
   type PillarCarouselItem,
 } from "../components/PillarCarousel";
-import { LazyVideo } from "../components/LazyVideo";
+import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
+import { Steps } from "../components/Steps";
 import {
   ASSET_MANAGEMENT,
-  type AssetManagementMediaId,
   type AssetManagementPillarMediaId,
 } from "../data/assetmanagement";
 import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
 import { pickLang } from "../site/types";
-
-const VERT_MEDIA: Record<
-  AssetManagementMediaId,
-  { image: string; video: string }
-> = {
-  dpm: {
-    image: CONTENT_IMAGES.client_dpm,
-    video: CONTENT_VIDEOS.client_dpm,
-  },
-  ifo: {
-    image: CONTENT_IMAGES.client_ifo,
-    video: CONTENT_VIDEOS.client_ifo,
-  },
-};
 
 const PILLAR_MEDIA: Record<
   AssetManagementPillarMediaId,
@@ -52,37 +38,6 @@ const PILLAR_MEDIA: Record<
     video: CONTENT_VIDEOS.pillar_private_markets,
   },
 };
-
-function VertMedia({
-  image,
-  video,
-  label,
-}: {
-  image: string;
-  video: string;
-  label: string;
-}) {
-  return (
-    <div
-      className={`vert-media${video || image ? " has-media" : ""}`}
-      style={
-        !video && image ? { backgroundImage: `url(${image})` } : undefined
-      }
-    >
-      {video ? (
-        <LazyVideo
-          className="vert-media-video"
-          src={video}
-          poster={image || undefined}
-          aria-label={label}
-        />
-      ) : null}
-      <span className="vert-media-arrow" aria-hidden="true">
-        →
-      </span>
-    </div>
-  );
-}
 
 export function AssetManagement() {
   const router = useRouter();
@@ -181,17 +136,12 @@ export function AssetManagement() {
                   )}
                 </h2>
               </div>
-              <div className="steps">
-                {data.process.steps.map((step) => {
-                  const title = pickLang(step.titleEn, step.titleAr, lang);
-                  return (
-                    <div className="step" key={step.titleEn}>
-                      <h5>{title}</h5>
-                      <p>{pickLang(step.bodyEn, step.bodyAr, lang)}</p>
-                    </div>
-                  );
-                })}
-              </div>
+              <Steps
+                items={data.process.steps.map((step) => ({
+                  title: pickLang(step.titleEn, step.titleAr, lang),
+                  body: pickLang(step.bodyEn, step.bodyAr, lang),
+                }))}
+              />
             </div>
           </section>
         );
@@ -215,51 +165,15 @@ export function AssetManagement() {
                   )}
                 </h2>
               </div>
-              <div className="verticals">
-                {data.clientSolutions.items.map((item, index) => {
-                  const title = pickLang(item.titleEn, item.titleAr, lang);
-                  const mediaLabel = pickLang(
-                    item.mediaLabelEn,
-                    item.mediaLabelAr,
-                    lang,
-                  );
-                  const media = VERT_MEDIA[item.id];
-                  const imgLeft = index % 2 === 0;
-                  const mediaEl = (
-                    <VertMedia
-                      image={media.image}
-                      video={media.video}
-                      label={mediaLabel}
-                    />
-                  );
-                  const contentEl = (
-                    <div className="vert-content">
-                      <div className="vnum">{item.num}</div>
-                      <h3 className="vert-h3-hover-ul">{title}</h3>
-                      <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
-                    </div>
-                  );
-                  return (
-                    <div
-                      key={item.id}
-                      className={`vert ${imgLeft ? "vert--img-left" : "vert--img-right"}`}
-                      onClick={() => window.open(item.href, "_blank")}
-                    >
-                      {imgLeft ? (
-                        <>
-                          {mediaEl}
-                          {contentEl}
-                        </>
-                      ) : (
-                        <>
-                          {contentEl}
-                          {mediaEl}
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+              <PrimaryCardClickableGrid
+                items={data.clientSolutions.items.map((item) => ({
+                  id: item.id,
+                  badge: item.num,
+                  title: pickLang(item.titleEn, item.titleAr, lang),
+                  body: pickLang(item.bodyEn, item.bodyAr, lang),
+                  href: item.href,
+                }))}
+              />
             </div>
           </section>
         );

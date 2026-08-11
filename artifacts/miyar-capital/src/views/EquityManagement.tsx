@@ -1,10 +1,7 @@
 "use client";
 
-import {
-  ChartColumnIncreasing,
-  Globe2,
-  type LucideIcon,
-} from "lucide-react";
+import { Globe2, MapPinned, type LucideIcon } from "lucide-react";
+import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { MetaFacts } from "../components/MetaFacts";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
@@ -21,7 +18,7 @@ import { pickLang } from "../site/types";
 const INTRO_MEDIA_BASENAME = "pe-intro";
 
 const OFFER_ICONS: Record<EquityManagementOfferIconId, LucideIcon> = {
-  local: ChartColumnIncreasing,
+  local: MapPinned,
   regional: Globe2,
 };
 
@@ -111,26 +108,25 @@ export function EquityManagement() {
                   )}
                 </h2>
               </div>
-              <div className="svc-grid svc-grid--2">
+              <PrimaryCardGrid>
                 {data.offers.items.map((item) => {
                   const Icon = OFFER_ICONS[item.icon];
                   return (
-                    <div className="svc svc--dark" key={item.titleEn}>
-                      <div className="si" aria-hidden="true">
-                        <Icon strokeWidth={1.5} />
-                      </div>
-                      <h4>
-                        {pickLang(item.titleEn, item.titleAr, lang)}
-                      </h4>
+                    <PrimaryCard
+                      key={item.titleEn}
+                      logo
+                      icon={<Icon strokeWidth={1.5} />}
+                      title={pickLang(item.titleEn, item.titleAr, lang)}
+                    >
                       <RichText
                         as="div"
                         className="eq-rich"
                         html={pickLang(item.bodyEn, item.bodyAr, lang)}
                       />
-                    </div>
+                    </PrimaryCard>
                   );
                 })}
-              </div>
+              </PrimaryCardGrid>
             </div>
           </section>
         );

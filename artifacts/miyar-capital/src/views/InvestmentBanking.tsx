@@ -1,13 +1,36 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import {
+  Building2,
+  Calculator,
+  CandlestickChart,
+  Combine,
+  FileSearch,
+  Handshake,
+  Landmark,
+  type LucideIcon,
+} from "lucide-react";
+import type { ReactNode } from "react";
 import { PageHero } from "../components/PageHero";
+import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterest } from "../components/RegisterInterest";
+import { Steps } from "../components/Steps";
 import { INVESTMENT_BANKING } from "../data/investmentbanking";
 import { useLanguage } from "../i18n/LanguageContext";
-import { useLocalePath } from "../i18n/useLocalePath";
 import { pickLang } from "../site/types";
-import type { ReactNode } from "react";
+
+const PRODUCT_ICONS: Record<string, LucideIcon> = {
+  "/investment-banking/capital-markets-advisory": CandlestickChart,
+  "/investment-banking/mergers-acquisitions": Combine,
+  "/investment-banking/debt-financing-arrangement": Landmark,
+  "/investment-banking/valuation-financial-advisory": Calculator,
+  "/investment-banking/real-estate-private-arrangements": Building2,
+};
+
+const ADVISE_ICONS: Record<string, LucideIcon> = {
+  "Standalone Advisory": FileSearch,
+  "Transaction Advisory": Handshake,
+};
 
 function emphasizeWords(text: string, words: string[]): ReactNode {
   if (words.length === 0) return text;
@@ -25,8 +48,6 @@ function emphasizeWords(text: string, words: string[]): ReactNode {
 }
 
 export function InvestmentBanking() {
-  const router = useRouter();
-  const withLocale = useLocalePath();
   const { lang } = useLanguage();
   const data = INVESTMENT_BANKING;
 
@@ -97,16 +118,20 @@ export function InvestmentBanking() {
                   <p key={para.slice(0, 40)}>{para}</p>
                 ))}
               </div>
-              <div className="ib-adv-grid">
-                {data.advise.cards.map((card) => (
-                  <div className="ib-adv-card" key={card.titleEn}>
-                    <h3>
-                      {pickLang(card.titleEn, card.titleAr, lang)}
-                    </h3>
-                    <p>{pickLang(card.bodyEn, card.bodyAr, lang)}</p>
-                  </div>
-                ))}
-              </div>
+              <PrimaryCardGrid columns={2}>
+                {data.advise.cards.map((card) => {
+                  const Icon = ADVISE_ICONS[card.titleEn];
+                  return (
+                    <PrimaryCard
+                      key={card.titleEn}
+                      icon={Icon ? <Icon strokeWidth={1.5} /> : undefined}
+                      title={pickLang(card.titleEn, card.titleAr, lang)}
+                    >
+                      <p>{pickLang(card.bodyEn, card.bodyAr, lang)}</p>
+                    </PrimaryCard>
+                  );
+                })}
+              </PrimaryCardGrid>
             </div>
           </section>
         );
@@ -121,17 +146,13 @@ export function InvestmentBanking() {
               <h2 className="ib-h2">
                 {pickLang(data.method.headingEn, data.method.headingAr, lang)}
               </h2>
-              <div className="ib-num-grid">
-                {data.method.steps.map((step) => (
-                  <div className="ib-num-card" key={step.num}>
-                    <span className="ib-num">{step.num}</span>
-                    <h3>
-                      {pickLang(step.titleEn, step.titleAr, lang)}
-                    </h3>
-                    <p>{pickLang(step.bodyEn, step.bodyAr, lang)}</p>
-                  </div>
-                ))}
-              </div>
+              <Steps
+                items={data.method.steps.map((step) => ({
+                  num: step.num,
+                  title: pickLang(step.titleEn, step.titleAr, lang),
+                  body: pickLang(step.bodyEn, step.bodyAr, lang),
+                }))}
+              />
             </div>
           </section>
         );
@@ -171,27 +192,26 @@ export function InvestmentBanking() {
                   lang,
                 )}
               </h2>
-              <div className="ib-products-grid">
-                {data.products.items.map((item) => (
-                  <div
-                    key={item.href}
-                    className="ib-product-card"
-                    onClick={() => router.push(withLocale(item.href))}
-                  >
-                    <h3>
-                      {pickLang(item.titleEn, item.titleAr, lang)}
-                    </h3>
-                    <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
-                    <span className="ib-more">
-                      {pickLang(
+              <PrimaryCardGrid columns={3}>
+                {data.products.items.map((item) => {
+                  const Icon = PRODUCT_ICONS[item.href];
+                  return (
+                    <PrimaryCard
+                      key={item.href}
+                      href={item.href}
+                      icon={Icon ? <Icon strokeWidth={1.5} /> : undefined}
+                      title={pickLang(item.titleEn, item.titleAr, lang)}
+                      cta={pickLang(
                         data.products.viewServiceEn,
                         data.products.viewServiceAr,
                         lang,
                       )}
-                    </span>
-                  </div>
-                ))}
-              </div>
+                    >
+                      <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
+                    </PrimaryCard>
+                  );
+                })}
+              </PrimaryCardGrid>
             </div>
           </section>
         );
@@ -209,17 +229,13 @@ export function InvestmentBanking() {
                   lang,
                 )}
               </h2>
-              <div className="ib-timeline">
-                {data.lifecycle.steps.map((step) => (
-                  <div className="ib-step" key={step.num}>
-                    <div className="ib-step-dot">{step.num}</div>
-                    <h3>
-                      {pickLang(step.titleEn, step.titleAr, lang)}
-                    </h3>
-                    <p>{pickLang(step.bodyEn, step.bodyAr, lang)}</p>
-                  </div>
-                ))}
-              </div>
+              <Steps
+                items={data.lifecycle.steps.map((step) => ({
+                  num: step.num,
+                  title: pickLang(step.titleEn, step.titleAr, lang),
+                  body: pickLang(step.bodyEn, step.bodyAr, lang),
+                }))}
+              />
             </div>
           </section>
         );
