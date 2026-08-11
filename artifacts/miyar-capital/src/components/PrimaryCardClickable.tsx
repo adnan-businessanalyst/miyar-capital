@@ -15,7 +15,7 @@ export interface PrimaryCardClickableItem {
   badge?: string;
   /** Lucide (or other) icon node. */
   icon?: ReactNode;
-  /** Bottom-corner arrow; defaults to true when href is non-empty. */
+  /** Bottom-left corner arrow; defaults to true when href is non-empty. */
   showArrow?: boolean;
 }
 

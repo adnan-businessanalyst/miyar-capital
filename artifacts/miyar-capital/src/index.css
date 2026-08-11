@@ -2082,7 +2082,8 @@ body[dir="rtl"] .pcar-card.is-active .pcar-caption:focus-visible .pcar-caption-a
   }
 }
 
-.primary-card > *:not(.primary-card-watermark) {
+/* Keep content above watermark; exclude absolutely positioned chrome */
+.primary-card > *:not(.primary-card-watermark):not(.primary-card-clickable-arrow) {
   position: relative;
   z-index: 1;
 }
@@ -2662,24 +2663,26 @@ html[dir="rtl"] .primary-card-title::after {
   margin-inline: auto;
 }
 
-a.primary-card-clickable {
+a.primary-card.primary-card-clickable {
   text-decoration: none;
   color: inherit;
 }
 
-a.primary-card-clickable.primary-card-clickable--arrow {
-  padding-bottom: calc(var(--pc-pad-y) + 2.75rem);
+a.primary-card.primary-card-clickable.primary-card-clickable--arrow {
+  padding-bottom: calc(var(--pc-pad-y) + var(--pc-icon-box) + 0.75rem);
 }
 
-.primary-card-clickable-arrow {
+/* Higher specificity than `.primary-card > *` so absolute positioning wins */
+.primary-card.primary-card-clickable .primary-card-clickable-arrow {
   position: absolute;
   z-index: 2;
-  /* Physical bottom-left in LTR and RTL */
+  top: auto;
+  right: auto;
   bottom: var(--pc-pad-y);
   left: var(--pc-pad-x);
-  right: auto;
   width: var(--pc-icon-box);
   height: var(--pc-icon-box);
+  margin: 0;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2704,14 +2707,12 @@ a.primary-card-clickable.primary-card-clickable--arrow {
   pointer-events: none;
 }
 
-html[dir="rtl"] .primary-card-clickable-arrow,
-body[dir="rtl"] .primary-card-clickable-arrow {
-  left: var(--pc-pad-x);
-  right: auto;
+html[dir="rtl"] .primary-card.primary-card-clickable .primary-card-clickable-arrow,
+body[dir="rtl"] .primary-card.primary-card-clickable .primary-card-clickable-arrow {
   transform: scaleX(-1);
 }
 
-.primary-card-clickable:hover .primary-card-clickable-arrow {
+.primary-card.primary-card-clickable:hover .primary-card-clickable-arrow {
   background:
     linear-gradient(145deg, #f0e2b8 0%, #d4b46a 48%, #b8963e 100%);
   color: var(--navy-deep);
@@ -2724,22 +2725,22 @@ body[dir="rtl"] .primary-card-clickable-arrow {
   transform: translateY(-2px);
 }
 
-html[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow,
-body[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow {
+html[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickable-arrow,
+body[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickable-arrow {
   transform: scaleX(-1) translateY(-2px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .primary-card-clickable-arrow,
-  .primary-card-clickable:hover .primary-card-clickable-arrow {
+  .primary-card.primary-card-clickable .primary-card-clickable-arrow,
+  .primary-card.primary-card-clickable:hover .primary-card-clickable-arrow {
     transition: none;
     transform: none;
   }
 
-  html[dir="rtl"] .primary-card-clickable-arrow,
-  html[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow,
-  body[dir="rtl"] .primary-card-clickable-arrow,
-  body[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow {
+  html[dir="rtl"] .primary-card.primary-card-clickable .primary-card-clickable-arrow,
+  html[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickable-arrow,
+  body[dir="rtl"] .primary-card.primary-card-clickable .primary-card-clickable-arrow,
+  body[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickable-arrow {
     transform: scaleX(-1);
   }
 }
