@@ -168,7 +168,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "Real estate income and development funds offering resilience and diversification for a portfolio.",
         bodyAr:
           "صناديق دخل وتطوير عقاري توفّر مرونة وتنويعاً للمحفظة.",
-        href: "/asset-management",
+        href: "/asset-management/real-assets",
       },
       {
         num: "IV",
