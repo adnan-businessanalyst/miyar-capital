@@ -1,28 +1,90 @@
 "use client";
 
-import { Building2, Construction, Network, PieChart } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
-import { CONTENT_IMAGES } from "../site/contentImages";
+import { RichText } from "../components/RichText";
+import {
+  REAL_ASSETS,
+  type RealAssetsListCard,
+} from "../data/realassets";
+import { useResolvedMedia } from "../hooks/useResolvedMedia";
+import { useLanguage } from "../i18n/LanguageContext";
+import { pickLang } from "../site/types";
 
-const heroImg = CONTENT_IMAGES.pillar_real_assets;
+/** Basename under public/media/content/ — any image extension. */
+const INTRO_MEDIA_BASENAME = "ra-intro";
 
-const DEFAULT_ORDER = ["intro", "offer", "what-we-offer"];
+const LIST_CARD_BASENAME: Record<RealAssetsListCard["media"], string> = {
+  architecture: "ra-diversity",
+  geo: "ra-geo-network",
+};
+
+function RealAssetsListCardView({ card }: { card: RealAssetsListCard }) {
+  const { lang } = useLanguage();
+  const media = useResolvedMedia("content", LIST_CARD_BASENAME[card.media]);
+
+  return (
+    <article className="ra-premium-card">
+      <div
+        className={`ra-premium-card-media ra-premium-card-media--${card.media}`}
+        style={media ? { backgroundImage: `url(${media})` } : undefined}
+      >
+        <div className="ra-premium-card-media-overlay" aria-hidden="true" />
+        <h3 className="ra-premium-card-title">
+          {pickLang(card.titleEn, card.titleAr, lang)}
+        </h3>
+      </div>
+      <ul className="ra-premium-card-list">
+        {card.items.map((item) => (
+          <li key={item.labelEn}>
+            <span className="ra-premium-card-marker" aria-hidden="true" />
+            <span className="ra-premium-card-label">
+              {pickLang(item.labelEn, item.labelAr, lang)}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
 
 export function RealAssets() {
-  const sectionOrder = DEFAULT_ORDER;
+  const { lang } = useLanguage();
+  const data = REAL_ASSETS;
+  const introImg = useResolvedMedia("content", INTRO_MEDIA_BASENAME);
 
-  const renderSection = (id: string) => {
+  const renderListCard = (card: RealAssetsListCard) => (
+    <RealAssetsListCardView key={card.titleEn} card={card} />
+  );
+
+  const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
       case "intro":
         return (
           <PageHero
             key={id}
-            title="Tangible assets. Durable returns. Inflation resilience."
+            title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
             crumbs={[
-              { label: "Asset Management", href: "/asset-management" },
-              { label: "Real Assets" },
+              {
+                label: pickLang(
+                  data.hero.crumbAmEn,
+                  data.hero.crumbAmAr,
+                  lang,
+                ),
+                href: "/asset-management",
+              },
+              {
+                label: pickLang(
+                  data.hero.crumbPageEn,
+                  data.hero.crumbPageAr,
+                  lang,
+                ),
+              },
             ]}
+            meta={data.hero.meta.map((m) => ({
+              label: pickLang(m.labelEn, m.labelAr, lang),
+              value: pickLang(m.valueEn, m.valueAr, lang),
+            }))}
           />
         );
       case "offer":
@@ -31,14 +93,25 @@ export function RealAssets() {
             <div className="wrap">
               <div className="pi-intro">
                 <div className="pi-intro-text">
-                  <span className="pi-intro-eyebrow">The Four Pillars</span>
-                  <h2>Real Assets</h2>
-                  <p>
-                    Real assets offer clients access to tangible, income-generating investments
-                    that diversify portfolios and provide a hedge against inflation. We source,
-                    structure, and manage real estate and other real asset opportunities with a
-                    long-term, value-driven approach.
-                  </p>
+                  <span className="pi-intro-eyebrow">
+                    {pickLang(
+                      data.intro.eyebrowEn,
+                      data.intro.eyebrowAr,
+                      lang,
+                    )}
+                  </span>
+                  <h2>
+                    {pickLang(
+                      data.intro.headingEn,
+                      data.intro.headingAr,
+                      lang,
+                    )}
+                  </h2>
+                  <RichText
+                    as="div"
+                    className="eq-rich"
+                    html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
+                  />
                   <RegisterInterest
                     sourcePage="/asset-management/real-assets"
                     className="btn btn-outline-navy"
@@ -46,49 +119,22 @@ export function RealAssets() {
                 </div>
                 <div
                   className="pi-intro-img"
-                  style={{ backgroundImage: `url(${heroImg})` }}
+                  style={
+                    introImg
+                      ? { backgroundImage: `url(${introImg})` }
+                      : undefined
+                  }
                 />
               </div>
             </div>
           </section>
         );
-      case "what-we-offer":
+      case "diversification":
         return (
-          <section key={id} className="blk">
-            <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2 className="sec-head-navy">What We Offer</h2>
-              </div>
-              <div className="svc-grid svc-grid--4">
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Building2 strokeWidth={1.5} />
-                  </div>
-                  <h4>Income-Generating Real Estate</h4>
-                  <p>Access to stabilized properties offering steady, recurring income.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Construction strokeWidth={1.5} />
-                  </div>
-                  <h4>Development Opportunities</h4>
-                  <p>Selective participation in value-add and development-stage real estate.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Network strokeWidth={1.5} />
-                  </div>
-                  <h4>Infrastructure</h4>
-                  <p>Exposure to essential infrastructure assets with long-term stability.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <PieChart strokeWidth={1.5} />
-                  </div>
-                  <h4>Portfolio Diversification</h4>
-                  <p>Real assets that reduce correlation with traditional financial markets.</p>
-                </div>
-              </div>
+          <section key={id} className="blk ra-premium-section">
+            <div className="wrap ra-premium-cards">
+              {renderListCard(data.geography)}
+              {renderListCard(data.diversification)}
             </div>
           </section>
         );
@@ -97,5 +143,9 @@ export function RealAssets() {
     }
   };
 
-  return <div className="page">{sectionOrder.map((id) => renderSection(id))}</div>;
+  return (
+    <div className="page">
+      {data.sectionOrder.map((id) => renderSection(id))}
+    </div>
+  );
 }

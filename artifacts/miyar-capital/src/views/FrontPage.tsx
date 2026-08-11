@@ -16,7 +16,6 @@ import { HERO_TEXT } from "../site/heroText";
 import { pickLang } from "../site/types";
 import { HeroBackground } from "../components/HeroBackground";
 import { LazyVideo } from "../components/LazyVideo";
-import { Disclaimer } from "../components/Disclaimer";
 import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
 import { FOOTER_BG_IMAGE } from "../site/footer";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
@@ -213,7 +212,6 @@ const DEFAULT_ORDER = [
   "why",
   "contact",
   "jobs",
-  "disclaimer",
   "app",
 ];
 
@@ -225,7 +223,6 @@ const FP_BANDED_SECTIONS = new Set([
   "why",
   "contact",
   "jobs",
-  "disclaimer",
 ]);
 
 function fpSectionBgClass(id: string, order: string[]): string {
@@ -438,12 +435,6 @@ export function FrontPage({
         );
       case "jobs":
         return <JobsSection key={id} className={bg(id)} data={jobsData} />;
-      case "disclaimer":
-        return (
-          <section key={id} className={bg(id)}>
-            <Disclaimer />
-          </section>
-        );
       case "app":
         return (
           <section key={id} className="fp-app">

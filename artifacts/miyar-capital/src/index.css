@@ -1910,6 +1910,170 @@ body[dir="rtl"] .pcar-card.is-active .pcar-caption:focus-visible .pcar-caption-a
   }
 }
 
+/* Real Assets — premium institutional list cards */
+.ra-premium-section {
+  --ra-gold: #d7b66a;
+  --ra-teal: #446c77;
+  background: #e6ecef;
+}
+
+.ra-premium-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.75rem, 3.5vw, 2.75rem);
+  max-width: 80rem;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.ra-premium-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, #0e4a72 0%, #0c476e 42%, #08263d 100%);
+  box-shadow: 0 10px 28px rgba(7, 30, 51, 0.1);
+  border: 1px solid rgba(215, 182, 106, 0.14);
+  color: #fff;
+  text-align: start;
+}
+
+.ra-premium-card-media {
+  position: relative;
+  flex: 0 0 34%;
+  min-height: clamp(11.5rem, 22vw, 14.5rem);
+  background-color: #071e33;
+  background-size: cover;
+  background-position: center;
+  isolation: isolate;
+}
+
+.ra-premium-card-media-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 30, 51, 0.45) 0%,
+      rgba(12, 71, 110, 0.55) 42%,
+      rgba(8, 38, 61, 0.92) 100%
+    );
+  pointer-events: none;
+}
+
+.ra-premium-card-media--architecture .ra-premium-card-media-overlay {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 30, 51, 0.62) 0%,
+      rgba(12, 71, 110, 0.72) 40%,
+      rgba(8, 38, 61, 0.96) 100%
+    );
+}
+
+.ra-premium-card-media--geo {
+  background-color: #0a3350;
+  background-size: cover;
+}
+
+.ra-premium-card-media--geo .ra-premium-card-media-overlay {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(7, 30, 51, 0.25) 0%,
+      rgba(12, 71, 110, 0.35) 45%,
+      rgba(8, 38, 61, 0.88) 100%
+    );
+}
+
+.ra-premium-card-title {
+  position: absolute;
+  z-index: 2;
+  inset-inline: 1.75rem 1.75rem;
+  bottom: 1.35rem;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.85rem, 2.4vw, 2.35rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  text-align: start;
+  letter-spacing: 0.01em;
+}
+
+.ra-premium-card-list {
+  list-style: none;
+  margin: 0;
+  padding: 1.15rem clamp(1.75rem, 3vw, 2.15rem) 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1 1 auto;
+}
+
+.ra-premium-card-list li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ra-premium-card-list li:last-child {
+  border-bottom: none;
+}
+
+.ra-premium-card-marker {
+  flex: 0 0 0.75rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  rotate: 45deg;
+  border: 1.5px solid #e0c47a;
+  background:
+    linear-gradient(
+      145deg,
+      #6d949e 0%,
+      #446c77 48%,
+      #2a454d 100%
+    );
+  box-shadow:
+    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.35),
+    inset -1.5px -1.5px 0 rgba(0, 0, 0, 0.28),
+    1px 2px 3px rgba(0, 0, 0, 0.4),
+    0 0 5px rgba(215, 182, 106, 0.25);
+}
+
+.ra-premium-card-label {
+  flex: 1;
+  min-width: 0;
+  font-size: clamp(1.05rem, 1.2vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+@media (max-width: 900px) {
+  .ra-premium-cards {
+    grid-template-columns: 1fr;
+    max-width: 35rem;
+  }
+
+  .ra-premium-card-title {
+    font-size: clamp(1.65rem, 6vw, 1.9rem);
+  }
+
+  .ra-premium-card-label {
+    font-size: clamp(1rem, 3.8vw, 1.1rem);
+  }
+}
+
 @media (max-width: 1100px) {
   .svc-grid--4 {
     grid-template-columns: repeat(2, 1fr);
@@ -2166,15 +2330,11 @@ body[dir="rtl"] .tplnote {
   color: var(--navy-deep);
 }
 
-/* disclosure / footer */
+/* Page-level compliance bands (product / private markets) */
 .disclaimer {
   background: var(--section-bg-soft);
   border-top: 1px solid var(--line);
   padding: 30px 0;
-}
-
-.fp .disclaimer {
-  background: transparent;
 }
 
 .disclaimer .wrap {
@@ -2186,6 +2346,31 @@ body[dir="rtl"] .tplnote {
 
 .disclaimer b {
   color: var(--navy);
+  font-weight: 600;
+}
+
+/* Site-wide regulatory disclaimer inside footer */
+.site-footer .disclaimer,
+.site-footer-disclaimer {
+  background: transparent;
+  border: none;
+  padding: 18px 0 0;
+  margin: 0;
+}
+
+.site-footer .disclaimer p,
+.site-footer-disclaimer p {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #7e93a6;
+  line-height: 1.7;
+  font-weight: 300;
+  text-align: start;
+}
+
+.site-footer .disclaimer b,
+.site-footer-disclaimer b {
+  color: rgba(215, 182, 106, 0.9);
   font-weight: 600;
 }
 
