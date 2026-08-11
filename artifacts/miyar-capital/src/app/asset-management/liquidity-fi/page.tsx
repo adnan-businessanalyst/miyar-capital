@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LiquidityFI } from "@/views/LiquidityFI";
 
 export const metadata: Metadata = {
-  title: "Liquidity & Fixed Income",
+  title: "Miyar Murabaha Fund",
 };
 
 export default function Page() {

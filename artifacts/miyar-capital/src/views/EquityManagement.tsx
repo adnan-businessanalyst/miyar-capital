@@ -13,11 +13,12 @@ import {
   EQUITY_MANAGEMENT,
   type EquityManagementOfferIconId,
 } from "../data/equitymanagement";
+import { useResolvedMedia } from "../hooks/useResolvedMedia";
 import { useLanguage } from "../i18n/LanguageContext";
-import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
-const heroImg = CONTENT_IMAGES.pillar_equity;
+/** Basename under public/media/content/ — any image extension. */
+const INTRO_MEDIA_BASENAME = "pe-intro";
 
 const OFFER_ICONS: Record<EquityManagementOfferIconId, LucideIcon> = {
   local: ChartColumnIncreasing,
@@ -27,6 +28,7 @@ const OFFER_ICONS: Record<EquityManagementOfferIconId, LucideIcon> = {
 export function EquityManagement() {
   const { lang } = useLanguage();
   const data = EQUITY_MANAGEMENT;
+  const introImg = useResolvedMedia("content", INTRO_MEDIA_BASENAME);
 
   const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
@@ -86,7 +88,11 @@ export function EquityManagement() {
                 </div>
                 <div
                   className="pi-intro-img"
-                  style={{ backgroundImage: `url(${heroImg})` }}
+                  style={
+                    introImg
+                      ? { backgroundImage: `url(${introImg})` }
+                      : undefined
+                  }
                 />
               </div>
             </div>
@@ -186,17 +192,20 @@ export function EquityManagement() {
                     },
                   ];
                   return (
-                    <article className="eq-example" key={item.titleEn}>
+                    <article
+                      className="svc svc--dark eq-example"
+                      key={item.titleEn}
+                    >
                       <div className="eq-example-sector">
                         {pickLang(item.sectorEn, item.sectorAr, lang)}
                       </div>
-                      <h3>
+                      <h4>
                         {pickLang(item.titleEn, item.titleAr, lang)}
-                      </h3>
+                      </h4>
                       <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
                       <MetaFacts
                         items={meta}
-                        tone="light"
+                        tone="dark"
                         layout="stack"
                         className="eq-example-meta"
                       />

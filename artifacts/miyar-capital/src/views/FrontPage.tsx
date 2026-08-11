@@ -21,6 +21,7 @@ import { FOOTER_BG_IMAGE } from "../site/footer";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import { GetInTouch } from "../components/GetInTouch";
 import { JobsSection } from "../components/JobsSection";
+import { SarText } from "../components/SarText";
 import type { TranslationKey } from "../data/frontpage";
 import type { HomepageHero } from "../data/homepageHero";
 import { DEFAULT_HOMEPAGE_HERO } from "../data/homepageHero";
@@ -330,16 +331,28 @@ export function FrontPage({
               </a>
               <div className="fp-wwd-pillars">
                 <div className="fp-wwd-pillar">
-                  <div className="fp-wwd-pillar-n">{t("fp_wwd_p1_n")}</div>
-                  <div className="fp-wwd-pillar-l">{t("fp_wwd_p1_l")}</div>
+                  <div className="fp-wwd-pillar-n">
+                    <SarText text={t("fp_wwd_p1_n")} />
+                  </div>
+                  <div className="fp-wwd-pillar-l">
+                    <SarText text={t("fp_wwd_p1_l")} />
+                  </div>
                 </div>
                 <div className="fp-wwd-pillar">
-                  <div className="fp-wwd-pillar-n">{t("fp_wwd_p2_n")}</div>
-                  <div className="fp-wwd-pillar-l">{t("fp_wwd_p2_l")}</div>
+                  <div className="fp-wwd-pillar-n">
+                    <SarText text={t("fp_wwd_p2_n")} />
+                  </div>
+                  <div className="fp-wwd-pillar-l">
+                    <SarText text={t("fp_wwd_p2_l")} />
+                  </div>
                 </div>
                 <div className="fp-wwd-pillar">
-                  <div className="fp-wwd-pillar-n">{t("fp_wwd_p3_n")}</div>
-                  <div className="fp-wwd-pillar-l">{t("fp_wwd_p3_l")}</div>
+                  <div className="fp-wwd-pillar-n">
+                    <SarText text={t("fp_wwd_p3_n")} />
+                  </div>
+                  <div className="fp-wwd-pillar-l">
+                    <SarText text={t("fp_wwd_p3_l")} />
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,102 +1,110 @@
 "use client";
 
-import { Banknote, Landmark, Shield, Wallet } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
-import { CONTENT_IMAGES } from "../site/contentImages";
+import { RichText } from "../components/RichText";
+import { LIQUIDITY_FI } from "../data/liquidityfi";
+import { useLanguage } from "../i18n/LanguageContext";
+import { pickLang } from "../site/types";
 
-const heroImg = CONTENT_IMAGES.pillar_liquidity;
-
-const DEFAULT_ORDER = ["intro", "offer", "what-we-offer"];
+const SOURCE_PAGE = "/asset-management/liquidity-fi";
 
 export function LiquidityFI() {
-  const sectionOrder = DEFAULT_ORDER;
+  const { lang } = useLanguage();
+  const data = LIQUIDITY_FI;
 
-  const renderSection = (id: string) => {
-    switch (id) {
-      case "intro":
-        return (
-          <PageHero
-            key={id}
-            title="Capital preserved. Returns made predictable."
-            crumbs={[
-              { label: "Asset Management", href: "/asset-management" },
-              { label: "Liquidity & Fixed Income Solutions" },
-            ]}
-          />
-        );
-      case "offer":
-        return (
-          <section key={id} className="blk blk--cream">
-            <div className="wrap">
-              <div className="pi-intro">
-                <div className="pi-intro-text">
-                  <span className="pi-intro-eyebrow">The Four Pillars</span>
-                  <h2>Liquidity &amp; Fixed Income Solutions</h2>
-                  <p>
-                    We help clients preserve capital and generate stable, predictable returns
-                    through disciplined liquidity and fixed income management. Our strategies
-                    span money market instruments, Sukuk, and short- to long-term fixed income
-                    products, structured in full compliance with Shariah principles and Capital
-                    Market Authority regulations.
-                  </p>
-                  <RegisterInterest
-                    sourcePage="/asset-management/liquidity-fi"
-                    className="btn btn-outline-navy"
-                  />
-                </div>
-                <div
-                  className="pi-intro-img"
-                  style={{ backgroundImage: `url(${heroImg})` }}
+  return (
+    <div className="page">
+      <PageHero
+        title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
+        crumbs={[
+          {
+            label: pickLang(data.hero.crumbAmEn, data.hero.crumbAmAr, lang),
+            href: "/asset-management",
+          },
+          {
+            label: pickLang(
+              data.hero.crumbPageEn,
+              data.hero.crumbPageAr,
+              lang,
+            ),
+          },
+        ]}
+        meta={data.hero.meta.map((item) => ({
+          label: pickLang(item.labelEn, item.labelAr, lang),
+          value: pickLang(item.valueEn, item.valueAr, lang),
+        }))}
+      />
+
+      <div className="wrap">
+        <div className="prod-body">
+          <div>
+            {data.body.map((block) => (
+              <div key={block.headingEn}>
+                <h3>
+                  {pickLang(block.headingEn, block.headingAr, lang)}
+                </h3>
+                <RichText
+                  as="p"
+                  html={pickLang(block.bodyEn, block.bodyAr, lang)}
                 />
               </div>
-            </div>
-          </section>
-        );
-      case "what-we-offer":
-        return (
-          <section key={id} className="blk">
-            <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2 className="sec-head-navy">What We Offer</h2>
+            ))}
+          </div>
+          <div className="fact-card">
+            <h4>
+              {pickLang(data.facts.headingEn, data.facts.headingAr, lang)}
+            </h4>
+            {data.facts.rows.map((row) => (
+              <div className="frow" key={row.labelEn}>
+                <span className="fk">
+                  {pickLang(row.labelEn, row.labelAr, lang)}
+                </span>
+                <RichText
+                  as="span"
+                  className="fv"
+                  html={pickLang(row.valueEn, row.valueAr, lang)}
+                />
               </div>
-              <div className="svc-grid svc-grid--4">
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Wallet strokeWidth={1.5} />
-                  </div>
-                  <h4>Money Market Solutions</h4>
-                  <p>Short-term instruments designed for capital preservation and liquidity.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Landmark strokeWidth={1.5} />
-                  </div>
-                  <h4>Sukuk &amp; Fixed Income</h4>
-                  <p>Access to local, regional, and global Shariah-compliant fixed income opportunities.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Banknote strokeWidth={1.5} />
-                  </div>
-                  <h4>Cash Management</h4>
-                  <p>Efficient management of surplus cash for optimal, low-risk returns.</p>
-                </div>
-                <div className="svc svc--dark">
-                  <div className="si" aria-hidden="true">
-                    <Shield strokeWidth={1.5} />
-                  </div>
-                  <h4>Capital Preservation</h4>
-                  <p>Strategies built around protecting principal while pursuing steady income.</p>
-                </div>
-              </div>
-            </div>
-          </section>
-        );
-      default:
-        return null;
-    }
-  };
+            ))}
+            <span className="dlbtn">
+              <RichText
+                as="span"
+                html={pickLang(
+                  data.facts.primaryCtaEn,
+                  data.facts.primaryCtaAr,
+                  lang,
+                )}
+              />
+            </span>
+            <RegisterInterest
+              sourcePage={SOURCE_PAGE}
+              buttonLabel={pickLang(
+                data.facts.secondaryCtaEn,
+                data.facts.secondaryCtaAr,
+                lang,
+              )}
+              className="dlbtn dlbtn--ghost"
+            />
+          </div>
+        </div>
+      </div>
 
-  return <div className="page">{sectionOrder.map((id) => renderSection(id))}</div>;
+      <div className="disclaimer">
+        <div className="wrap">
+          <b>
+            {pickLang(data.disclaimer.leadEn, data.disclaimer.leadAr, lang)}
+          </b>{" "}
+          <RichText
+            as="span"
+            html={pickLang(
+              data.disclaimer.bodyEn,
+              data.disclaimer.bodyAr,
+              lang,
+            )}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }

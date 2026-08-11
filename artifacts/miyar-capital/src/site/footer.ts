@@ -12,6 +12,22 @@ import { mediaUrl } from "./resolveAssetUrl";
 /** Resolved URL for the local footer background image, or empty if missing. */
 export const FOOTER_BG_IMAGE = mediaUrl("footer", "footer-bg");
 
+export interface FooterAppStore {
+  id: "apple" | "google";
+  labelEn: string;
+  labelAr: string;
+  href: string;
+}
+
+export interface FooterSocial {
+  id: string;
+  labelEn: string;
+  labelAr: string;
+  href: string;
+  /** Absolute or site-relative icon URL (SVG). */
+  icon: string;
+}
+
 export interface SiteFooter extends FooterDoc {
   /** Solid footer base colour (shows behind / without the image). */
   backgroundColor: string;
@@ -21,6 +37,9 @@ export interface SiteFooter extends FooterDoc {
   disclaimerLabelAr: string;
   disclaimerEn: string;
   disclaimerAr: string;
+  /** App store badge links — hidden on the homepage footer. */
+  appStores: FooterAppStore[];
+  social: FooterSocial[];
 }
 
 export const SITE_FOOTER: SiteFooter = {
@@ -40,7 +59,7 @@ export const SITE_FOOTER: SiteFooter = {
           id: "f-liq",
           labelEn: "Liquidity & FI Solutions",
           labelAr: "حلول السيولة والدخل الثابت",
-          href: "/product",
+          href: "/asset-management/liquidity-fi",
         },
         {
           id: "f-eq",
@@ -58,7 +77,7 @@ export const SITE_FOOTER: SiteFooter = {
           id: "f-pm",
           labelEn: "Private Markets",
           labelAr: "الأسواق الخاصة",
-          href: "/private-markets",
+          href: "/asset-management/private-markets",
         },
         { id: "f-dpm", labelEn: "DPM", labelAr: "الإدارة التقديرية", href: "/dpm" },
       ],
@@ -119,4 +138,41 @@ export const SITE_FOOTER: SiteFooter = {
     "Arabic is the primary regulatory language · العربية هي لغة الإفصاح الأساسية",
   bottomRightAr:
     "العربية هي لغة الإفصاح الأساسية · Arabic is the primary regulatory language",
+  appStores: [
+    {
+      id: "apple",
+      labelEn: "Download on the App Store",
+      labelAr: "حمّل من App Store",
+      href: "https://apps.apple.com/us/app/miyar-capital/id6743315158",
+    },
+    {
+      id: "google",
+      labelEn: "Get it on Google Play",
+      labelAr: "حمّل من Google Play",
+      href: "https://play.google.com/store/apps/details?id=com.miyarcapital.app",
+    },
+  ],
+  social: [
+    {
+      id: "x",
+      labelEn: "X",
+      labelAr: "X",
+      href: "https://x.com/miyarcapital",
+      icon: "https://miyarcapital.com.sa/assets/icons/TwitterX.svg",
+    },
+    {
+      id: "linkedin",
+      labelEn: "LinkedIn",
+      labelAr: "لينكدإن",
+      href: "https://www.linkedin.com/company/miyar-capital",
+      icon: "https://miyarcapital.com.sa/assets/icons/Linkedin.svg",
+    },
+    {
+      id: "instagram",
+      labelEn: "Instagram",
+      labelAr: "إنستغرام",
+      href: "https://www.instagram.com/miyarcapital",
+      icon: "https://miyarcapital.com.sa/assets/icons/Instagram.svg",
+    },
+  ],
 };
