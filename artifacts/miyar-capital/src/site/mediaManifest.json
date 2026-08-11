@@ -64,25 +64,15 @@
     },
     "man_on_phone": {
       "files": {
-        ".jpg": "/media/content/man_on_phone.jpg"
+        ".webp": "/media/content/man_on_phone.webp"
       },
-      "image": "/media/content/man_on_phone.jpg"
+      "image": "/media/content/man_on_phone.webp"
     },
-    "pillar_equity": {
+    "pe-intro": {
       "files": {
-        ".mp4": "/media/content/pillar_equity.mp4",
-        ".webp": "/media/content/pillar_equity.webp"
+        ".webp": "/media/content/pe-intro.webp"
       },
-      "video": "/media/content/pillar_equity.mp4",
-      "image": "/media/content/pillar_equity.webp"
-    },
-    "pillar_liquidity": {
-      "files": {
-        ".mp4": "/media/content/pillar_liquidity.mp4",
-        ".webp": "/media/content/pillar_liquidity.webp"
-      },
-      "video": "/media/content/pillar_liquidity.mp4",
-      "image": "/media/content/pillar_liquidity.webp"
+      "image": "/media/content/pe-intro.webp"
     },
     "pillar_private_markets": {
       "files": {
@@ -108,21 +98,21 @@
     },
     "ra-diversity": {
       "files": {
-        ".png": "/media/content/ra-diversity.png"
+        ".webp": "/media/content/ra-diversity.webp"
       },
-      "image": "/media/content/ra-diversity.png"
+      "image": "/media/content/ra-diversity.webp"
     },
     "ra-geo-network": {
       "files": {
-        ".png": "/media/content/ra-geo-network.png"
+        ".webp": "/media/content/ra-geo-network.webp"
       },
-      "image": "/media/content/ra-geo-network.png"
+      "image": "/media/content/ra-geo-network.webp"
     },
     "ra-intro": {
       "files": {
-        ".jpg": "/media/content/ra-intro.jpg"
+        ".webp": "/media/content/ra-intro.webp"
       },
-      "image": "/media/content/ra-intro.jpg"
+      "image": "/media/content/ra-intro.webp"
     },
     "service-asset-management": {
       "files": {
@@ -353,6 +343,14 @@
         ".webp": "/media/page-hero/page-hero-bg.webp"
       },
       "image": "/media/page-hero/page-hero-bg.webp"
+    }
+  },
+  "_root": {
+    "pe-equity": {
+      "files": {
+        ".png": "/media/pe-equity.png"
+      },
+      "image": "/media/pe-equity.png"
     }
   }
 }
