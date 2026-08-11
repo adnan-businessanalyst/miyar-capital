@@ -1798,8 +1798,94 @@ body[dir="rtl"] .pcar-card.is-active .pcar-caption:focus-visible .pcar-caption-a
   border: none;
 }
 
+.svc-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .svc-grid--4 {
   grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 700px) {
+  .svc-grid--2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Equity Management — examples of investments */
+.eq-rich {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.eq-rich br {
+  display: block;
+  content: "";
+  margin-top: 0.75em;
+}
+
+.pi-intro-text .eq-rich {
+  margin: 0 0 1.5rem;
+}
+
+.svc .eq-rich {
+  margin: 0;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.eq-examples-intro {
+  margin: 12px auto 0;
+  max-width: 40rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.eq-examples-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 36px;
+}
+
+.eq-example {
+  padding: 28px 24px 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.eq-example-sector {
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.eq-example h3 {
+  margin: 0 0 12px;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.3;
+}
+
+.eq-example p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .eq-examples-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 1100px) {

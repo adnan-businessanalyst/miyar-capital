@@ -157,7 +157,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "Saudi and regional equity strategies built on a disciplined process for long-term value creation.",
         bodyAr:
           "استراتيجيات أسهم سعودية وإقليمية مبنية على عملية منضبطة لخلق قيمة طويلة الأجل.",
-        href: "/asset-management",
+        href: "/asset-management/equity-management",
       },
       {
         num: "III",
