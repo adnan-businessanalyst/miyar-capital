@@ -256,7 +256,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "تفويضات مخصّصة مبنية حول سياسة استثمار مكتوبة واحتياجات السيولة والأفق الزمني — المحرك الأساسي لنمو الأصول المدارة.",
         mediaLabelEn: "Discretionary Portfolio Management",
         mediaLabelAr: "الإدارة التقديرية للمحافظ",
-        href: "https://www.google.com",
+        href: "/asset-management/dpm",
       },
       {
         id: "ifo",
@@ -269,7 +269,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "حلول متعددة الأصول وتفويضات استشارية وهياكل أوقاف لمجموعات رأس مال متطورة.",
         mediaLabelEn: "Institutional and Family Office",
         mediaLabelAr: "المؤسسات والمكاتب العائلية",
-        href: "https://www.google.com",
+        href: "/asset-management/institutional-family-office",
       },
     ],
   },
