@@ -790,7 +790,8 @@ section.blk {
   color: var(--gold);
   text-transform: uppercase;
   font-weight: 600;
-  margin-bottom: 18px;
+  margin: 0 0 18px;
+  line-height: 1.4;
 }
 
 .sec-head h2 {
@@ -1653,12 +1654,12 @@ body[dir="rtl"] .pcar-card.is-active .pcar-caption:focus-visible .pcar-caption-a
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(201, 169, 98, 0.2) 6%,
-    rgba(224, 196, 122, 0.95) 50%,
-    rgba(201, 169, 98, 0.2) 94%,
+    rgba(138, 106, 46, 0.45) 6%,
+    rgba(168, 130, 55, 0.95) 50%,
+    rgba(138, 106, 46, 0.45) 94%,
     transparent 100%
   );
-  box-shadow: 0 0 12px rgba(201, 169, 98, 0.4);
+  box-shadow: 0 0 10px rgba(100, 72, 24, 0.45);
   /* Desktop: horizontal through card centers */
   top: 50%;
   inset-inline: calc(100% / var(--steps-count, 5) / 2);
@@ -1765,9 +1766,9 @@ body[dir="rtl"] .pcar-card.is-active .pcar-caption:focus-visible .pcar-caption-a
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(201, 169, 98, 0.25) 8%,
-      rgba(224, 196, 122, 0.95) 50%,
-      rgba(201, 169, 98, 0.25) 92%,
+      rgba(138, 106, 46, 0.5) 8%,
+      rgba(168, 130, 55, 0.95) 50%,
+      rgba(138, 106, 46, 0.5) 92%,
       transparent 100%
     );
   }
@@ -2655,81 +2656,30 @@ html[dir="rtl"] .primary-card-title::after {
   color: #c7d2dc;
 }
 
-/* Primary card clickable — dark linked card with badge + arrow */
-.primary-card-clickable-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2.25rem;
-  max-width: 75%;
+/* Primary card clickable — PrimaryCard shell + optional corner arrow */
+.primary-card-clickable-grid.primary-card-grid--2 {
+  max-width: min(75%, 56rem);
   margin-inline: auto;
 }
 
 a.primary-card-clickable {
-  display: flex;
-  flex-direction: column;
   text-decoration: none;
   color: inherit;
-  cursor: pointer;
-  position: relative;
-  min-height: 22rem;
-  padding-bottom: 4.5rem;
 }
 
-.primary-card-clickable h4 {
-  font-size: 1.54375rem;
-}
-
-.primary-card-clickable p {
-  font-size: 1.05rem;
-}
-
-.primary-card-clickable-badge {
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.35rem;
-  font-family: var(--serif);
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f3e6c0;
-  border: 1.5px solid rgba(224, 196, 122, 0.75);
-  background:
-    linear-gradient(
-      145deg,
-      #6d949e 0%,
-      #446c77 48%,
-      #2a454d 100%
-    );
-  box-shadow:
-    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.35),
-    inset -1.5px -1.5px 0 rgba(0, 0, 0, 0.28),
-    0 3px 6px rgba(0, 0, 0, 0.35),
-    0 6px 14px rgba(0, 0, 0, 0.22),
-    0 0 8px rgba(215, 182, 106, 0.28);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease;
-}
-
-.primary-card-clickable:hover .primary-card-clickable-badge {
-  background:
-    linear-gradient(
-      145deg,
-      #7aa3ad 0%,
-      #4f7c87 48%,
-      #355760 100%
-    );
-  border-color: rgba(232, 213, 163, 0.9);
-  transform: scale(1.08) translateY(-1px);
+a.primary-card-clickable.primary-card-clickable--arrow {
+  padding-bottom: calc(var(--pc-pad-y) + 2.75rem);
 }
 
 .primary-card-clickable-arrow {
   position: absolute;
-  inset-inline-end: 1.35rem;
-  bottom: 1.35rem;
-  width: 2.75rem;
-  height: 2.75rem;
+  z-index: 2;
+  /* Physical bottom-left in LTR and RTL */
+  bottom: var(--pc-pad-y);
+  left: var(--pc-pad-x);
+  right: auto;
+  width: var(--pc-icon-box);
+  height: var(--pc-icon-box);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -2754,7 +2704,10 @@ a.primary-card-clickable {
   pointer-events: none;
 }
 
-html[dir="rtl"] .primary-card-clickable-arrow {
+html[dir="rtl"] .primary-card-clickable-arrow,
+body[dir="rtl"] .primary-card-clickable-arrow {
+  left: var(--pc-pad-x);
+  right: auto;
   transform: scaleX(-1);
 }
 
@@ -2771,29 +2724,12 @@ html[dir="rtl"] .primary-card-clickable-arrow {
   transform: translateY(-2px);
 }
 
-html[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow {
+html[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow,
+body[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow {
   transform: scaleX(-1) translateY(-2px);
 }
 
-@media (max-width: 700px) {
-  .primary-card-clickable-grid {
-    grid-template-columns: 1fr;
-    max-width: 100%;
-    gap: 1.5rem;
-  }
-
-  .primary-card-clickable {
-    min-height: 18rem;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .svc,
-  .svc:hover,
-  .svc .si,
-  .svc:hover .si,
-  .primary-card-clickable-badge,
-  .primary-card-clickable:hover .primary-card-clickable-badge,
   .primary-card-clickable-arrow,
   .primary-card-clickable:hover .primary-card-clickable-arrow {
     transition: none;
@@ -2801,7 +2737,9 @@ html[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow {
   }
 
   html[dir="rtl"] .primary-card-clickable-arrow,
-  html[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow {
+  html[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow,
+  body[dir="rtl"] .primary-card-clickable-arrow,
+  body[dir="rtl"] .primary-card-clickable:hover .primary-card-clickable-arrow {
     transform: scaleX(-1);
   }
 }
@@ -8408,14 +8346,17 @@ body[dir="rtl"] .fp-principals-right p {
 
 /* ── Investment Banking pages ─────────────────────────────────────── */
 .ib-h2 {
+  display: block;
   font-family: var(--serif);
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 400;
   color: var(--navy);
-  margin-bottom: 24px;
+  margin: 0 0 24px;
   letter-spacing: -0.01em;
 }
-.ib-lead p {
+.ib-lead p,
+.ib-lead .ib-lead-line {
+  display: block;
   font-size: 1rem;
   color: var(--muted);
   line-height: 1.75;
@@ -8423,7 +8364,8 @@ body[dir="rtl"] .fp-principals-right p {
   max-width: 72ch;
   margin-bottom: 16px;
 }
-.ib-lead p:last-child { margin-bottom: 0; }
+.ib-lead p:last-child,
+.ib-lead .ib-lead-line:last-child { margin-bottom: 0; }
 .ib-lead strong { color: var(--navy); font-weight: 600; }
 
 /* Two-column split: lead text + fact panel */
