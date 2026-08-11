@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
+import { MetaFacts, type MetaFact } from "./MetaFacts";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useLocalePath } from "../i18n/useLocalePath";
 import { mediaUrl } from "../site/resolveAssetUrl";
@@ -16,10 +17,8 @@ export interface PageHeroCrumb {
 
 export type PageHeroChip = string | { lead: string; text: string };
 
-export interface PageHeroMeta {
-  label: string;
-  value: string;
-}
+/** @deprecated Prefer `MetaFact` from `./MetaFacts`. */
+export type PageHeroMeta = MetaFact;
 
 export interface PageHeroProps {
   /** Main heading (required). */
@@ -202,14 +201,7 @@ export function PageHero({
           ) : null}
 
           {meta && meta.length > 0 ? (
-            <div className="ph-meta">
-              {meta.map((m) => (
-                <div className="ph-meta-item" key={m.label}>
-                  <div className="ph-meta-label">{m.label}</div>
-                  <div className="ph-meta-value">{m.value}</div>
-                </div>
-              ))}
-            </div>
+            <MetaFacts items={meta} tone="dark" layout="row" />
           ) : null}
         </div>
       </section>
@@ -277,14 +269,12 @@ export function PageHero({
         ) : null}
 
         {meta && meta.length > 0 ? (
-          <div className={`ph-meta ph-reveal${revealed ? " is-in" : ""}`}>
-            {meta.map((m) => (
-              <div className="ph-meta-item" key={m.label}>
-                <div className="ph-meta-label">{m.label}</div>
-                <div className="ph-meta-value">{m.value}</div>
-              </div>
-            ))}
-          </div>
+          <MetaFacts
+            items={meta}
+            tone="dark"
+            layout="row"
+            className={`ph-reveal${revealed ? " is-in" : ""}`}
+          />
         ) : null}
       </div>
     </section>

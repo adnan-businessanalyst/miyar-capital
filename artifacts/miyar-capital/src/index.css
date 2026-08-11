@@ -1851,6 +1851,8 @@ body[dir="rtl"] .pcar-card.is-active .pcar-caption:focus-visible .pcar-caption-a
 }
 
 .eq-example {
+  display: flex;
+  flex-direction: column;
   padding: 28px 24px 24px;
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -1880,6 +1882,26 @@ body[dir="rtl"] .pcar-card.is-active .pcar-caption:focus-visible .pcar-caption-a
   font-size: 0.95rem;
   line-height: 1.7;
   color: var(--muted);
+  flex: 1;
+}
+
+.eq-example-meta {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  width: 100%;
+}
+
+.eq-example-meta.meta-facts--stack {
+  gap: 14px;
+}
+
+.eq-example-meta .meta-fact-label {
+  font-size: 0.72rem;
+}
+
+.eq-example-meta .meta-fact-value {
+  font-size: 0.95rem;
 }
 
 @media (max-width: 900px) {
@@ -2903,25 +2925,62 @@ footer .bottom {
   font-weight: 600;
 }
 
-.page-hero .ph-meta {
+/* Shared label-over-value facts (hero, cards, etc.) */
+.meta-facts {
   display: flex;
-  gap: 42px;
-  margin-top: 34px;
   flex-wrap: wrap;
+  gap: 42px;
 }
 
-.page-hero .ph-meta-label {
+.meta-facts--row {
+  flex-direction: row;
+}
+
+.meta-facts--stack {
+  flex-direction: column;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.meta-facts--grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 20px;
+}
+
+.meta-fact-label {
   font-size: 0.6563rem;
   letter-spacing: 0.16em;
-  color: #8ba0b3;
   text-transform: uppercase;
+  font-weight: 500;
 }
 
-.page-hero .ph-meta-value {
-  font-size: 1rem;
-  color: #fff;
+.meta-fact-value {
   margin-top: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.meta-facts--dark .meta-fact-label {
+  color: #8ba0b3;
+}
+
+.meta-facts--dark .meta-fact-value {
+  color: #fff;
   font-weight: 500;
+}
+
+.meta-facts--light .meta-fact-label {
+  color: var(--muted);
+}
+
+.meta-facts--light .meta-fact-value {
+  color: var(--navy);
+}
+
+.page-hero .meta-facts {
+  margin-top: 34px;
 }
 
 /* Miyar Hero Reveal (only when .page-hero--animate / animate={true}) */

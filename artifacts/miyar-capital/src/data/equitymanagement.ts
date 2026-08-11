@@ -29,6 +29,18 @@ export interface EquityManagementExampleItem {
   sectorAr: string;
   bodyEn: string;
   bodyAr: string;
+  /** سنة الاستحواذ */
+  acquisitionYearEn: string;
+  acquisitionYearAr: string;
+  /** نسبة الاستحواذ */
+  stakeEn: string;
+  stakeAr: string;
+  /** النطاق الجغرافي */
+  geographyEn: string;
+  geographyAr: string;
+  /** المرحلة */
+  stageEn: string;
+  stageAr: string;
 }
 
 export interface EquityManagementContent {
@@ -59,6 +71,16 @@ export interface EquityManagementContent {
     headingAr: string;
     introEn: string;
     introAr: string;
+    labels: {
+      acquisitionYearEn: string;
+      acquisitionYearAr: string;
+      stakeEn: string;
+      stakeAr: string;
+      geographyEn: string;
+      geographyAr: string;
+      stageEn: string;
+      stageAr: string;
+    };
     items: EquityManagementExampleItem[];
   };
 }
@@ -118,6 +140,16 @@ export const EQUITY_MANAGEMENT: EquityManagementContent = {
       "Illustrative examples of the types of private equity opportunities we evaluate and pursue for our clients.",
     introAr:
       "أمثلة توضيحية لأنواع فرص الملكية الخاصة التي ندرسها ونسعى إليها لصالح عملائنا.",
+    labels: {
+      acquisitionYearEn: "Acquisition year",
+      acquisitionYearAr: "سنة الاستحواذ",
+      stakeEn: "Stake",
+      stakeAr: "نسبة الاستحواذ",
+      geographyEn: "Geographic scope",
+      geographyAr: "النطاق الجغرافي",
+      stageEn: "Stage",
+      stageAr: "المرحلة",
+    },
     items: [
       {
         titleEn: "Growth Platform",
@@ -128,6 +160,14 @@ export const EQUITY_MANAGEMENT: EquityManagementContent = {
           "Selective participation in growth-stage companies with scalable models, strong unit economics, and clear paths to value creation.",
         bodyAr:
           "مشاركة انتقائية في شركات مرحلة النمو ذات نماذج قابلة للتوسع، واقتصاديات وحدة قوية، ومسارات واضحة لخلق القيمة.",
+        acquisitionYearEn: "2024",
+        acquisitionYearAr: "٢٠٢٤",
+        stakeEn: "Minority",
+        stakeAr: "حصة أقلية",
+        geographyEn: "Saudi Arabia",
+        geographyAr: "المملكة العربية السعودية",
+        stageEn: "Growth",
+        stageAr: "نمو",
       },
       {
         titleEn: "Sector Consolidation",
@@ -138,6 +178,14 @@ export const EQUITY_MANAGEMENT: EquityManagementContent = {
           "Investments that support operational improvement and consolidation in resilient sectors with long-term demand drivers.",
         bodyAr:
           "استثمارات تدعم التحسين التشغيلي والتوحيد في قطاعات مرنة ذات محركات طلب تخدم الأجل الطويل.",
+        acquisitionYearEn: "2023",
+        acquisitionYearAr: "٢٠٢٣",
+        stakeEn: "Majority",
+        stakeAr: "حصة أغلبية",
+        geographyEn: "GCC",
+        geographyAr: "دول مجلس التعاون",
+        stageEn: "Buyout",
+        stageAr: "استحواذ",
       },
       {
         titleEn: "Infrastructure-Linked Opportunity",
@@ -148,6 +196,14 @@ export const EQUITY_MANAGEMENT: EquityManagementContent = {
           "Opportunities aligned with structural economic transformation themes, where disciplined capital can support durable growth.",
         bodyAr:
           "فرص متوائمة مع موضوعات التحول الاقتصادي الهيكلي، حيث يمكن لرأس المال المنضبط أن يدعم نموًا مستدامًا.",
+        acquisitionYearEn: "2025",
+        acquisitionYearAr: "٢٠٢٥",
+        stakeEn: "Co-investment",
+        stakeAr: "استثمار مشترك",
+        geographyEn: "Regional",
+        geographyAr: "إقليمي",
+        stageEn: "Expansion",
+        stageAr: "توسع",
       },
     ],
   },

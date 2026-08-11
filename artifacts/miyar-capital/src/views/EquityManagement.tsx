@@ -5,6 +5,7 @@ import {
   Globe2,
   type LucideIcon,
 } from "lucide-react";
+import { MetaFacts } from "../components/MetaFacts";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { RichText } from "../components/RichText";
@@ -148,17 +149,60 @@ export function EquityManagement() {
                 </p>
               </div>
               <div className="eq-examples-grid">
-                {data.examples.items.map((item) => (
-                  <article className="eq-example" key={item.titleEn}>
-                    <div className="eq-example-sector">
-                      {pickLang(item.sectorEn, item.sectorAr, lang)}
-                    </div>
-                    <h3>
-                      {pickLang(item.titleEn, item.titleAr, lang)}
-                    </h3>
-                    <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
-                  </article>
-                ))}
+                {data.examples.items.map((item) => {
+                  const labels = data.examples.labels;
+                  const meta = [
+                    {
+                      label: pickLang(
+                        labels.acquisitionYearEn,
+                        labels.acquisitionYearAr,
+                        lang,
+                      ),
+                      value: pickLang(
+                        item.acquisitionYearEn,
+                        item.acquisitionYearAr,
+                        lang,
+                      ),
+                    },
+                    {
+                      label: pickLang(labels.stakeEn, labels.stakeAr, lang),
+                      value: pickLang(item.stakeEn, item.stakeAr, lang),
+                    },
+                    {
+                      label: pickLang(
+                        labels.geographyEn,
+                        labels.geographyAr,
+                        lang,
+                      ),
+                      value: pickLang(
+                        item.geographyEn,
+                        item.geographyAr,
+                        lang,
+                      ),
+                    },
+                    {
+                      label: pickLang(labels.stageEn, labels.stageAr, lang),
+                      value: pickLang(item.stageEn, item.stageAr, lang),
+                    },
+                  ];
+                  return (
+                    <article className="eq-example" key={item.titleEn}>
+                      <div className="eq-example-sector">
+                        {pickLang(item.sectorEn, item.sectorAr, lang)}
+                      </div>
+                      <h3>
+                        {pickLang(item.titleEn, item.titleAr, lang)}
+                      </h3>
+                      <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
+                      <MetaFacts
+                        items={meta}
+                        tone="light"
+                        layout="stack"
+                        className="eq-example-meta"
+                      />
+                    </article>
+                  );
+                })}
               </div>
             </div>
           </section>

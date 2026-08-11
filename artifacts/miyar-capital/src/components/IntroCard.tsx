@@ -1,9 +1,16 @@
+"use client";
+
+import { CONTACT } from "../data/contact";
+import { useLanguage } from "../i18n/LanguageContext";
+import { pickLang } from "../site/types";
+
 interface IntroCardProps {
   image: string;
   alt?: string;
 }
 
 export function IntroCard({ image, alt = "Asset Management" }: IntroCardProps) {
+  const { lang } = useLanguage();
   const scrollToRegister = () => {
     document
       .getElementById("register")
@@ -28,7 +35,11 @@ export function IntroCard({ image, alt = "Asset Management" }: IntroCardProps) {
               className="btn btn-outline-navy"
               onClick={scrollToRegister}
             >
-              Register Interest
+              {pickLang(
+                CONTACT.registerButtonEn,
+                CONTACT.registerButtonAr,
+                lang,
+              )}
             </button>
           </div>
           <div className="arr-intro-img">
