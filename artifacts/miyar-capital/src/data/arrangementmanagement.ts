@@ -10,7 +10,14 @@ export type ArrangementManagementSectionId =
   | "detail"
   | "interest";
 
+export type ArrangementServiceIconId =
+  | "business"
+  | "financial"
+  | "debt"
+  | "capital";
+
 export interface ArrangementManagementService {
+  icon: ArrangementServiceIconId;
   titleEn: string;
   titleAr: string;
   itemsEn: string[];
@@ -108,24 +115,28 @@ export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
     headingAr: "خدمات إدارة المصرفية الاستثمارية",
     items: [
       {
+        icon: "business",
         titleEn: "Business Consultations",
         titleAr: "الاستشارات التجارية",
         itemsEn: SHARED_ITEMS_EN,
         itemsAr: SHARED_ITEMS_AR,
       },
       {
+        icon: "financial",
         titleEn: "Financial Consulting",
         titleAr: "الاستشارات المالية",
         itemsEn: SHARED_ITEMS_EN,
         itemsAr: SHARED_ITEMS_AR,
       },
       {
+        icon: "debt",
         titleEn: "Debt Advisory",
         titleAr: "استشارات الدين",
         itemsEn: SHARED_ITEMS_EN,
         itemsAr: SHARED_ITEMS_AR,
       },
       {
+        icon: "capital",
         titleEn: "Capital Markets",
         titleAr: "أسواق المال",
         itemsEn: SHARED_ITEMS_EN,

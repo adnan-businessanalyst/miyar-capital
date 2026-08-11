@@ -1,9 +1,20 @@
 "use client";
 
+import {
+  Briefcase,
+  CandlestickChart,
+  CircleDollarSign,
+  Landmark,
+  type LucideIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { PageHero } from "../components/PageHero";
+import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterest } from "../components/RegisterInterest";
-import { ARRANGEMENT_MANAGEMENT } from "../data/arrangementmanagement";
+import {
+  ARRANGEMENT_MANAGEMENT,
+  type ArrangementServiceIconId,
+} from "../data/arrangementmanagement";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
   CONTENT_IMAGES,
@@ -12,6 +23,13 @@ import {
 } from "../site/contentImages";
 import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
 import { pickLang } from "../site/types";
+
+const SERVICE_ICONS: Record<ArrangementServiceIconId, LucideIcon> = {
+  business: Briefcase,
+  financial: CircleDollarSign,
+  debt: Landmark,
+  capital: CandlestickChart,
+};
 
 const buildingImg = CONTENT_IMAGES.app_bg;
 const introImg = IA_INTRO_IMAGE || buildingImg;
@@ -100,42 +118,30 @@ export function ArrangementManagement() {
                   )}
                 </h2>
               </div>
-              <div className="arr-services">
+              <PrimaryCardGrid columns={4}>
                 {data.services.items.map((service) => {
-                  const title = pickLang(
-                    service.titleEn,
-                    service.titleAr,
-                    lang,
-                  );
+                  const Icon = SERVICE_ICONS[service.icon];
                   const items =
                     lang === "ar" ? service.itemsAr : service.itemsEn;
                   return (
-                    <div className="arr-service" key={service.titleEn}>
-                      <div className="arr-service-icon" aria-hidden="true">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <rect x="3" y="3" width="18" height="18" rx="2" />
-                          <path d="M3 9h18M9 21V9" />
-                        </svg>
-                      </div>
-                      <h4>{title}</h4>
+                    <PrimaryCard
+                      key={service.titleEn}
+                      icon={<Icon strokeWidth={1.5} />}
+                      title={pickLang(
+                        service.titleEn,
+                        service.titleAr,
+                        lang,
+                      )}
+                    >
                       <ul>
                         {items.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
                       </ul>
-                    </div>
+                    </PrimaryCard>
                   );
                 })}
-              </div>
+              </PrimaryCardGrid>
             </div>
           </section>
         );

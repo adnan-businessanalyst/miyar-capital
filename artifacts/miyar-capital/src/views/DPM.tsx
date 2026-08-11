@@ -1,8 +1,10 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
+import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { RichText } from "../components/RichText";
+import { Steps } from "../components/Steps";
 import { DPM_PAGE } from "../data/dpm";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
@@ -68,22 +70,20 @@ export function DPM() {
                   )}
                 />
               </div>
-              <div className="pillars">
+              <PrimaryCardGrid columns={4}>
                 {data.mandates.items.map((item) => (
-                  <div className="pillar" key={item.num}>
-                    <div className="pn" aria-hidden="true">
-                      {item.num}
-                    </div>
-                    <h4>
-                      {pickLang(item.titleEn, item.titleAr, lang)}
-                    </h4>
+                  <PrimaryCard
+                    key={item.num}
+                    badge={item.num}
+                    title={pickLang(item.titleEn, item.titleAr, lang)}
+                  >
                     <RichText
                       as="p"
                       html={pickLang(item.bodyEn, item.bodyAr, lang)}
                     />
-                  </div>
+                  </PrimaryCard>
                 ))}
-              </div>
+              </PrimaryCardGrid>
             </div>
           </section>
         );
@@ -104,19 +104,12 @@ export function DPM() {
                   )}
                 </h2>
               </div>
-              <div className="steps">
-                {data.cycle.steps.map((step) => (
-                  <div className="step" key={step.titleEn}>
-                    <h5>
-                      {pickLang(step.titleEn, step.titleAr, lang)}
-                    </h5>
-                    <RichText
-                      as="p"
-                      html={pickLang(step.bodyEn, step.bodyAr, lang)}
-                    />
-                  </div>
-                ))}
-              </div>
+              <Steps
+                items={data.cycle.steps.map((step) => ({
+                  title: pickLang(step.titleEn, step.titleAr, lang),
+                  body: pickLang(step.bodyEn, step.bodyAr, lang),
+                }))}
+              />
               <div className="section-cta">
                 <RegisterInterest
                   sourcePage={SOURCE_PAGE}

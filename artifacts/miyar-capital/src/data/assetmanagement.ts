@@ -9,8 +9,6 @@ export type AssetManagementSectionId =
   | "objectives"
   | "client-solutions";
 
-export type AssetManagementMediaId = "dpm" | "ifo";
-
 export type AssetManagementPillarMediaId =
   | "liquidity"
   | "equity"
@@ -42,14 +40,12 @@ export interface AssetManagementStep {
 }
 
 export interface AssetManagementVertical {
-  id: AssetManagementMediaId;
+  id: string;
   num: string;
   titleEn: string;
   titleAr: string;
   bodyEn: string;
   bodyAr: string;
-  mediaLabelEn: string;
-  mediaLabelAr: string;
   href: string;
 }
 
@@ -254,8 +250,6 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "Bespoke mandates built around a written investment policy, liquidity needs and horizon — the firm's primary engine for AUM growth.",
         bodyAr:
           "تفويضات مخصّصة مبنية حول سياسة استثمار مكتوبة واحتياجات السيولة والأفق الزمني — المحرك الأساسي لنمو الأصول المدارة.",
-        mediaLabelEn: "Discretionary Portfolio Management",
-        mediaLabelAr: "الإدارة التقديرية للمحافظ",
         href: "/asset-management/dpm",
       },
       {
@@ -267,8 +261,6 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
           "Multi-asset solutions, advisory mandates and endowment / waqf structures for sophisticated pools of capital.",
         bodyAr:
           "حلول متعددة الأصول وتفويضات استشارية وهياكل أوقاف لمجموعات رأس مال متطورة.",
-        mediaLabelEn: "Institutional and Family Office",
-        mediaLabelAr: "المؤسسات والمكاتب العائلية",
         href: "/asset-management/institutional-family-office",
       },
     ],

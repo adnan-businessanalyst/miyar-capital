@@ -11,6 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { PageHero } from "../components/PageHero";
+import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { RichText } from "../components/RichText";
 import {
@@ -126,26 +127,28 @@ export function InstitutionalFamilyOffice() {
                 )}
               </p>
 
-              <div className="svc-grid svc-grid--4">
+              <PrimaryCardGrid columns={4}>
                 {data.overview.serveItems.map((item) => {
                   const Icon = ICONS[item.icon];
                   return (
-                    <div className="svc" key={item.titleEn}>
-                      <div className="si" aria-hidden="true">
-                        <Icon strokeWidth={1.5} />
-                      </div>
-                      <RichText
-                        as="h4"
-                        html={pickLang(item.titleEn, item.titleAr, lang)}
-                      />
+                    <PrimaryCard
+                      key={item.titleEn}
+                      icon={<Icon strokeWidth={1.5} />}
+                      title={
+                        <RichText
+                          as="span"
+                          html={pickLang(item.titleEn, item.titleAr, lang)}
+                        />
+                      }
+                    >
                       <RichText
                         as="p"
                         html={pickLang(item.bodyEn, item.bodyAr, lang)}
                       />
-                    </div>
+                    </PrimaryCard>
                   );
                 })}
-              </div>
+              </PrimaryCardGrid>
 
               <h3 className="ifo-h3" style={{ marginTop: "64px" }}>
                 {pickLang(
@@ -195,25 +198,23 @@ export function InstitutionalFamilyOffice() {
                 )}
               </p>
 
-              <div className="svc-grid">
+              <PrimaryCardGrid columns={3}>
                 {data.engagement.items.map((item) => {
                   const Icon = ICONS[item.icon];
                   return (
-                    <div className="svc" key={item.titleEn}>
-                      <div className="si" aria-hidden="true">
-                        <Icon strokeWidth={1.5} />
-                      </div>
-                      <h4>
-                        {pickLang(item.titleEn, item.titleAr, lang)}
-                      </h4>
+                    <PrimaryCard
+                      key={item.titleEn}
+                      icon={<Icon strokeWidth={1.5} />}
+                      title={pickLang(item.titleEn, item.titleAr, lang)}
+                    >
                       <RichText
                         as="p"
                         html={pickLang(item.bodyEn, item.bodyAr, lang)}
                       />
-                    </div>
+                    </PrimaryCard>
                   );
                 })}
-              </div>
+              </PrimaryCardGrid>
 
               <div className="ifo-gov-block">
                 <RichText
