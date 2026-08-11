@@ -106,6 +106,24 @@
       },
       "image": "/media/content/private_offers.webp"
     },
+    "ra-diversity": {
+      "files": {
+        ".png": "/media/content/ra-diversity.png"
+      },
+      "image": "/media/content/ra-diversity.png"
+    },
+    "ra-geo-network": {
+      "files": {
+        ".png": "/media/content/ra-geo-network.png"
+      },
+      "image": "/media/content/ra-geo-network.png"
+    },
+    "ra-intro": {
+      "files": {
+        ".jpg": "/media/content/ra-intro.jpg"
+      },
+      "image": "/media/content/ra-intro.jpg"
+    },
     "service-asset-management": {
       "files": {
         ".webp": "/media/content/service-asset-management.webp"

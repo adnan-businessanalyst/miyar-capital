@@ -6,6 +6,7 @@ import { useLocalePath } from "../i18n/useLocalePath";
 import { FOOTER_BG_IMAGE, SITE_FOOTER } from "../site/footer";
 import { pickLang } from "../site/types";
 import { Brand } from "./Brand";
+import { Disclaimer } from "./Disclaimer";
 
 export function Footer() {
   const { lang, t } = useLanguage();
@@ -79,12 +80,14 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="footer-reg">{t("reg")}</div>
+        <Disclaimer className="site-footer-disclaimer" />
         <div className="bottom">
-          <span>{pickLang(footer.bottomLeftEn, footer.bottomLeftAr, lang)}</span>
           <span>
             {pickLang(footer.bottomRightEn, footer.bottomRightAr, lang)}
           </span>
+          {/* <span> */}
+            {/* {pickLang(footer.bottomLeftEn, footer.bottomLeftAr, lang)} */}
+          {/* </span> */}
         </div>
       </div>
     </footer>

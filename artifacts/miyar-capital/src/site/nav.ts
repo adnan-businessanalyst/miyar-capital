@@ -83,7 +83,7 @@ export const SITE_NAV: NavDoc = {
         {
           id: "am-real",
           labelEn: "Real Assets",
-          labelAr: "الأصول الحقيقية",
+          labelAr: "الأصول العقارية",
           href: "/asset-management/real-assets",
         },
         {
@@ -110,30 +110,30 @@ export const SITE_NAV: NavDoc = {
           labelAr: "المؤسسات والمكاتب العائلية",
           href: "/asset-management/institutional-family-office",
         },
-        {
-          id: "am-grp3",
-          labelEn: "ORIGINAL",
-          labelAr: "حلول الاستثمار",
-          group: true,
-        },
-        {
-          id: "am-im",
-          labelEn: "Investment Management",
-          labelAr: "إدارة الاستثمار",
-          href: "/investment-management",
-        },
-        {
-          id: "am-seq",
-          labelEn: "Saudi Equity Fund",
-          labelAr: "صندوق الأسهم السعودية",
-          href: "/saudi-equity-fund",
-        },
-        {
-          id: "am-mur",
-          labelEn: "Murabaha Fund",
-          labelAr: "صندوق المرابحة",
-          href: "/murabaha-fund",
-        },
+        // {
+        //   id: "am-grp3",
+        //   labelEn: "ORIGINAL",
+        //   labelAr: "حلول الاستثمار",
+        //   group: true,
+        // },
+        // {
+        //   id: "am-im",
+        //   labelEn: "Investment Management",
+        //   labelAr: "إدارة الاستثمار",
+        //   href: "/investment-management",
+        // },
+        // {
+        //   id: "am-seq",
+        //   labelEn: "Saudi Equity Fund",
+        //   labelAr: "صندوق الأسهم السعودية",
+        //   href: "/saudi-equity-fund",
+        // },
+        // {
+        //   id: "am-mur",
+        //   labelEn: "Murabaha Fund",
+        //   labelAr: "صندوق المرابحة",
+        //   href: "/murabaha-fund",
+        // },
       ],
     },
     {

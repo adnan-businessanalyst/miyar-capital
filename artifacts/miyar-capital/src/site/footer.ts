@@ -17,6 +17,10 @@ export interface SiteFooter extends FooterDoc {
   backgroundColor: string;
   /** 0–100 dark overlay over the background image for text contrast. */
   overlayOpacity: number;
+  disclaimerLabelEn: string;
+  disclaimerLabelAr: string;
+  disclaimerEn: string;
+  disclaimerAr: string;
 }
 
 export const SITE_FOOTER: SiteFooter = {
@@ -41,13 +45,13 @@ export const SITE_FOOTER: SiteFooter = {
         {
           id: "f-eq",
           labelEn: "Equity Management",
-          labelAr: "إدارة الأسهم",
+          labelAr: "أسهم لأصول الملكية",
           href: "/asset-management",
         },
         {
           id: "f-real",
           labelEn: "Real Assets",
-          labelAr: "الأصول الحقيقية",
+          labelAr: "الأصول العقارية",
           href: "/asset-management",
         },
         {
@@ -66,33 +70,21 @@ export const SITE_FOOTER: SiteFooter = {
       links: [
         {
           id: "f-cm",
-          labelEn: "Capital Markets",
-          labelAr: "أسواق المال",
+          labelEn: "Investment Banking",
+          labelAr: "المصرفية الاستثمارية",
           href: "/investment-banking",
         },
         {
           id: "f-ma",
-          labelEn: "M&A",
-          labelAr: "الاندماج والاستحواذ",
-          href: "/investment-banking",
+          labelEn: "Arrangement Management",
+          labelAr: "إدارة المصرفية الإستثمارية",
+          href: "/arrangement-management",
         },
         {
           id: "f-debt",
-          labelEn: "Debt Advisory",
-          labelAr: "استشارات الديون",
-          href: "/investment-banking",
-        },
-        {
-          id: "f-val",
-          labelEn: "Valuation",
-          labelAr: "التقييم",
-          href: "/investment-banking",
-        },
-        {
-          id: "f-reg",
-          labelEn: "Register Interest",
-          labelAr: "تسجيل الاهتمام",
-          href: "/investment-banking",
+          labelEn: "Investment Advisory",
+          labelAr: "مستشار الإستثمار",
+          href: "/investment-advisory",
         },
       ],
     },
@@ -115,6 +107,12 @@ export const SITE_FOOTER: SiteFooter = {
       ],
     },
   ],
+  disclaimerLabelEn: "Regulatory.",
+  disclaimerLabelAr: "تنظيمي.",
+  disclaimerEn:
+    "Miyar Capital is authorised and regulated by the Capital Market Authority (CMA), licence No. 21216-32, for arranging, advising, managing investments and operating funds. Content on this site is for information only and does not constitute an offer of securities or investment advice. Investment products are offered solely through their official, Compliance-approved documents.",
+  disclaimerAr:
+    "معيار كابيتال مرخّصة ومنظمة من هيئة السوق المالية (ترخيص رقم 21216-32) في أعمال الترتيب والمشورة وإدارة الاستثمارات وتشغيل الصناديق. المحتوى على هذا الموقع لأغراض معلوماتية فقط ولا يُعد عرضاً لأوراق مالية أو مشورة استثمارية. تُقدَّم المنتجات الاستثمارية فقط عبر مستنداتها الرسمية المعتمدة من الالتزام.",
   bottomLeftEn: "© 2026 Miyar Capital. All rights reserved.",
   bottomLeftAr: "© 2026 معيار كابيتال. جميع الحقوق محفوظة.",
   bottomRightEn:

@@ -23,6 +23,10 @@ export const CONTENT_IMAGES = {
   pillar_liquidity: content("pillar_liquidity"),
   pillar_private_markets: content("pillar_private_markets"),
   pillar_real_assets: content("pillar_real_assets"),
+  /** Real Assets diversity card header — any of .svg/.avif/.webp/.jpg/.jpeg/.png */
+  ra_diversity: content("ra-diversity"),
+  /** Real Assets geographic card header — any of .svg/.avif/.webp/.jpg/.jpeg/.png */
+  ra_geo_network: content("ra-geo-network"),
   private_offers: content("private_offers"),
   service_asset_management: content("service-asset-management"),
   service_investment_banking: content("service-investment-banking"),
