@@ -21,22 +21,34 @@ export type PageHeroChip = string | { lead: string; text: string };
 export type PageHeroMeta = MetaFact;
 
 export interface PageHeroProps {
-  /** Main heading (required). */
-  title: string;
+  /**
+   * Main heading (`h1`). Omit or pass empty to leave the title slot blank.
+   */
+  title?: string;
   /**
    * Simple trail after Home, e.g. `"About Us"` → Home / About Us.
-   * Ignored when `crumbs` is provided. Defaults to `title`.
+   * Ignored when `crumbs` is provided. Falls back to `title` when set.
    */
   crumb?: string;
   /** Full crumb trail after Home (use for linked middle segments). */
   crumbs?: PageHeroCrumb[];
   /** Small uppercase badge above the title. */
   badge?: string;
-  /** Supporting line under the title. */
+  /**
+   * Supporting line under the title (`p.ph-desc`).
+   * Prefer this over `description`. Omit or empty → blank slot.
+   */
+  subtitle?: string;
+  /**
+   * @deprecated Use `subtitle`. Still accepted for existing call sites.
+   */
   description?: string;
-  /** Pill chips under the description. */
+  /** Pill chips under the subtitle. */
   chips?: PageHeroChip[];
-  /** Label/value meta row (funds, product facts). */
+  /**
+   * Label/value meta row via `MetaFacts`.
+   * Omit or pass an empty list → blank slot (component not rendered).
+   */
   meta?: PageHeroMeta[];
   /** Optional hero background image (defaults to page-hero-bg.*). */
   backgroundImage?: string;
@@ -45,7 +57,7 @@ export interface PageHeroProps {
    * Default false — identical to the static hero (no logo / typing / delays).
    */
   animate?: boolean;
-  /** Optional content rendered below the description (e.g. featured quote). */
+  /** Optional content rendered below the subtitle (e.g. featured quote). */
   children?: ReactNode;
   /** Extra class on the hero section (e.g. page-hero--fold). */
   className?: string;
@@ -56,13 +68,18 @@ type RevealPhase = "logo" | "typing" | "done";
 const LOGO_MS = 3800;
 const TYPE_MS = 42;
 
+function textOrEmpty(value: string | undefined | null): string {
+  return typeof value === "string" ? value.trim() : "";
+}
+
 function normalizeCrumbs(
   title: string,
   crumb: string | undefined,
   crumbs: PageHeroCrumb[] | undefined,
 ): PageHeroCrumb[] {
   if (crumbs && crumbs.length > 0) return crumbs;
-  return [{ label: crumb ?? title }];
+  const label = textOrEmpty(crumb) || title;
+  return label ? [{ label }] : [];
 }
 
 function prefersReducedMotion(): boolean {
@@ -72,11 +89,19 @@ function prefersReducedMotion(): boolean {
   );
 }
 
+function filterMeta(meta: PageHeroMeta[] | undefined): MetaFact[] {
+  if (!meta || meta.length === 0) return [];
+  return meta.filter(
+    (item) => textOrEmpty(item.label) && textOrEmpty(item.value),
+  );
+}
+
 export function PageHero({
   title,
   crumb,
   crumbs,
   badge,
+  subtitle,
   description,
   chips,
   meta,
@@ -89,22 +114,26 @@ export function PageHero({
   const router = useRouter();
   const { lang } = useLanguage();
   const withLocale = useLocalePath();
-  const trail = normalizeCrumbs(title, crumb, crumbs);
+
+  const titleText = textOrEmpty(title);
+  const subtitleText = textOrEmpty(subtitle) || textOrEmpty(description);
+  const metaItems = filterMeta(meta);
+  const trail = normalizeCrumbs(titleText, crumb, crumbs);
   const go = (href: string) => () => router.push(withLocale(href));
   const homeLabel = lang === "ar" ? "الرئيسية" : "Home";
 
   const [phase, setPhase] = useState<RevealPhase>(() =>
-    animate && !prefersReducedMotion() ? "logo" : "done",
+    animate && titleText && !prefersReducedMotion() ? "logo" : "done",
   );
   const [typed, setTyped] = useState(() =>
-    animate && !prefersReducedMotion() ? "" : title,
+    animate && titleText && !prefersReducedMotion() ? "" : titleText,
   );
   const [logoIn, setLogoIn] = useState(false);
 
   useEffect(() => {
-    if (!animate || prefersReducedMotion()) {
+    if (!animate || !titleText || prefersReducedMotion()) {
       setPhase("done");
-      setTyped(title);
+      setTyped(titleText);
       return;
     }
 
@@ -119,24 +148,24 @@ export function PageHero({
       cancelAnimationFrame(raf);
       window.clearTimeout(toTyping);
     };
-  }, [animate, title]);
+  }, [animate, titleText]);
 
   useEffect(() => {
-    if (phase !== "typing") return;
+    if (phase !== "typing" || !titleText) return;
 
     let i = 0;
     setTyped("");
     const id = window.setInterval(() => {
       i += 1;
-      setTyped(title.slice(0, i));
-      if (i >= title.length) {
+      setTyped(titleText.slice(0, i));
+      if (i >= titleText.length) {
         window.clearInterval(id);
         window.setTimeout(() => setPhase("done"), 280);
       }
     }, TYPE_MS);
 
     return () => window.clearInterval(id);
-  }, [phase, title]);
+  }, [phase, titleText]);
 
   const revealed = phase === "done";
   const showLogo = animate && phase === "logo";
@@ -156,52 +185,59 @@ export function PageHero({
     <div className="ph-bg" aria-hidden="true" />
   );
 
-  /* ── Static hero (default): unchanged from pre-animate PageHero ── */
+  const crumbEl = (
+    <div className="crumb">
+      <a onClick={go("/")}>{homeLabel}</a>
+      {trail.map((item) => (
+        <span key={`${item.label}-${item.href ?? ""}`}>
+          {" / "}
+          {item.href ? (
+            <a onClick={go(item.href)}>{item.label}</a>
+          ) : (
+            item.label
+          )}
+        </span>
+      ))}
+    </div>
+  );
+
+  const chipsEl =
+    chips && chips.length > 0 ? (
+      <div className="ph-chips">
+        {chips.map((chip, i) =>
+          typeof chip === "string" ? (
+            <div className="ph-chip" key={`${chip}-${i}`}>
+              {chip}
+            </div>
+          ) : (
+            <div className="ph-chip" key={`${chip.lead}-${i}`}>
+              <strong>{chip.lead}</strong> {chip.text}
+            </div>
+          ),
+        )}
+      </div>
+    ) : null;
+
+  /* ── Static hero (default) ── */
   if (!animate) {
     return (
       <section className={sectionClass}>
         {bg}
         <div className="wrap">
-          <div className="crumb">
-            <a onClick={go("/")}>{homeLabel}</a>
-            {trail.map((item) => (
-              <span key={`${item.label}-${item.href ?? ""}`}>
-                {" / "}
-                {item.href ? (
-                  <a onClick={go(item.href)}>{item.label}</a>
-                ) : (
-                  item.label
-                )}
-              </span>
-            ))}
-          </div>
+          {crumbEl}
 
           {badge ? <div className="ph-badge">{badge}</div> : null}
 
-          <h1>{title}</h1>
+          {titleText ? <h1>{titleText}</h1> : null}
 
-          {description ? <p className="ph-desc">{description}</p> : null}
+          {subtitleText ? <p className="ph-desc">{subtitleText}</p> : null}
 
           {children}
 
-          {chips && chips.length > 0 ? (
-            <div className="ph-chips">
-              {chips.map((chip, i) =>
-                typeof chip === "string" ? (
-                  <div className="ph-chip" key={`${chip}-${i}`}>
-                    {chip}
-                  </div>
-                ) : (
-                  <div className="ph-chip" key={`${chip.lead}-${i}`}>
-                    <strong>{chip.lead}</strong> {chip.text}
-                  </div>
-                ),
-              )}
-            </div>
-          ) : null}
+          {chipsEl}
 
-          {meta && meta.length > 0 ? (
-            <MetaFacts items={meta} tone="dark" layout="row" />
+          {metaItems.length > 0 ? (
+            <MetaFacts items={metaItems} tone="dark" layout="row" />
           ) : null}
         </div>
       </section>
@@ -215,41 +251,43 @@ export function PageHero({
 
       {showLogo ? (
         <div className={`ph-logo${logoIn ? " is-in" : ""}`} aria-hidden="true">
-          <img className="ph-logo-img" src={logoSpinner} alt="" width={200} height={200} />
+          <img
+            className="ph-logo-img"
+            src={logoSpinner}
+            alt=""
+            width={200}
+            height={200}
+          />
         </div>
       ) : null}
 
       <div className="wrap">
-        <div className="crumb">
-          <a onClick={go("/")}>{homeLabel}</a>
-          {trail.map((item) => (
-            <span key={`${item.label}-${item.href ?? ""}`}>
-              {" / "}
-              {item.href ? (
-                <a onClick={go(item.href)}>{item.label}</a>
-              ) : (
-                item.label
-              )}
-            </span>
-          ))}
-        </div>
+        {crumbEl}
 
         {badge ? (
-          <div className={`ph-badge ph-reveal${revealed ? " is-in" : ""}`}>{badge}</div>
+          <div className={`ph-badge ph-reveal${revealed ? " is-in" : ""}`}>
+            {badge}
+          </div>
         ) : null}
 
-        <div className="ph-heading-wrap">
-          <h1 className="ph-typewriter-ghost" aria-hidden="true">
-            {title}
-          </h1>
-          <h1 className="ph-typed" aria-label={title}>
-            {typed}
-            {showCursor ? <span className="ph-cursor" aria-hidden="true" /> : null}
-          </h1>
-        </div>
+        {titleText ? (
+          <div className="ph-heading-wrap">
+            <h1 className="ph-typewriter-ghost" aria-hidden="true">
+              {titleText}
+            </h1>
+            <h1 className="ph-typed" aria-label={titleText}>
+              {typed}
+              {showCursor ? (
+                <span className="ph-cursor" aria-hidden="true" />
+              ) : null}
+            </h1>
+          </div>
+        ) : null}
 
-        {description ? (
-          <p className={`ph-desc ph-reveal${revealed ? " is-in" : ""}`}>{description}</p>
+        {subtitleText ? (
+          <p className={`ph-desc ph-reveal${revealed ? " is-in" : ""}`}>
+            {subtitleText}
+          </p>
         ) : null}
 
         {chips && chips.length > 0 ? (
@@ -268,9 +306,9 @@ export function PageHero({
           </div>
         ) : null}
 
-        {meta && meta.length > 0 ? (
+        {metaItems.length > 0 ? (
           <MetaFacts
-            items={meta}
+            items={metaItems}
             tone="dark"
             layout="row"
             className={`ph-reveal${revealed ? " is-in" : ""}`}
