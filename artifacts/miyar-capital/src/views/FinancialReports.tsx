@@ -2,6 +2,7 @@
 
 import { PageHero } from "../components/PageHero";
 import { ReportCard } from "../components/ReportCard";
+import { SectionHead } from "../components/SectionHead";
 import { FINANCIAL_REPORTS } from "../data/financialreports";
 import type { Report } from "../data/reports";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -38,15 +39,13 @@ export function FinancialReports({
       ) : null}
       <section className="blk">
         <div className="wrap">
-          <div className="sec-head">
-            <h2>
-              {pickLang(
-                data.annual.headingEn,
-                data.annual.headingAr,
-                lang,
-              )}
-            </h2>
-          </div>
+          <SectionHead
+            title={pickLang(
+              data.annual.headingEn,
+              data.annual.headingAr,
+              lang,
+            )}
+          />
           {annualReports.length === 0 ? (
             <p style={{ color: "var(--muted)", marginTop: 8 }}>
               {pickLang(data.annual.emptyEn, data.annual.emptyAr, lang)}
@@ -62,15 +61,13 @@ export function FinancialReports({
       </section>
       <section className="blk blk--cream">
         <div className="wrap">
-          <div className="sec-head">
-            <h2>
-              {pickLang(
-                data.financial.headingEn,
-                data.financial.headingAr,
-                lang,
-              )}
-            </h2>
-          </div>
+          <SectionHead
+            title={pickLang(
+              data.financial.headingEn,
+              data.financial.headingAr,
+              lang,
+            )}
+          />
           {financialReports.length === 0 ? (
             <p style={{ color: "var(--muted)", marginTop: 8 }}>
               {pickLang(

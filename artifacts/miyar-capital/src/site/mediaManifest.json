@@ -46,20 +46,10 @@
       "video": "/media/content/app-phone-screen.mp4",
       "image": "/media/content/app-phone-screen.webp"
     },
-    "client-dpm": {
-      "files": {
-        ".mp4": "/media/content/client-dpm.mp4",
-        ".webp": "/media/content/client-dpm.webp"
-      },
-      "video": "/media/content/client-dpm.mp4",
-      "image": "/media/content/client-dpm.webp"
-    },
     "client-ifo": {
       "files": {
-        ".mp4": "/media/content/client-ifo.mp4",
         ".webp": "/media/content/client-ifo.webp"
       },
-      "video": "/media/content/client-ifo.mp4",
       "image": "/media/content/client-ifo.webp"
     },
     "man_on_phone": {
@@ -109,36 +99,6 @@
         ".webp": "/media/content/service-investment-banking.webp"
       },
       "image": "/media/content/service-investment-banking.webp"
-    },
-    "wm-independent-thinking": {
-      "files": {
-        ".webp": "/media/content/wm-independent-thinking.webp"
-      },
-      "image": "/media/content/wm-independent-thinking.webp"
-    },
-    "wm-long-term-partnership": {
-      "files": {
-        ".webp": "/media/content/wm-long-term-partnership.webp"
-      },
-      "image": "/media/content/wm-long-term-partnership.webp"
-    },
-    "wm-tailored-strategies": {
-      "files": {
-        ".webp": "/media/content/wm-tailored-strategies.webp"
-      },
-      "image": "/media/content/wm-tailored-strategies.webp"
-    },
-    "wm-transparent-reporting": {
-      "files": {
-        ".webp": "/media/content/wm-transparent-reporting.webp"
-      },
-      "image": "/media/content/wm-transparent-reporting.webp"
-    },
-    "wm-understanding-goals": {
-      "files": {
-        ".svg": "/media/content/wm-understanding-goals.svg"
-      },
-      "image": "/media/content/wm-understanding-goals.svg"
     }
   },
   "executives": {

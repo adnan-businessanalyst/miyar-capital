@@ -17,7 +17,7 @@ export type FactsheetProps = {
   primaryCta?: string;
   /** Optional href for the primary CTA. */
   primaryCtaHref?: string;
-  /** Secondary action node (e.g. RegisterInterest). */
+  /** Secondary action node. */
   secondaryCta?: ReactNode;
   className?: string;
 };

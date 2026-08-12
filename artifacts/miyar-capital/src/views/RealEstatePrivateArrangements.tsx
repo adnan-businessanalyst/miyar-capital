@@ -1,7 +1,8 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 
 export function RealEstatePrivateArrangements() {
 
@@ -24,8 +25,7 @@ export function RealEstatePrivateArrangements() {
         <div className="wrap">
           <div className="ib-split">
             <div>
-              <div className="sec-tag">OVERVIEW</div>
-              <h2 className="ib-h2">What We Do</h2>
+              <SectionHead title="OVERVIEW" subtitle="What We Do" />
               <div className="ib-lead">
                 <p>
                   We structure and arrange investment opportunities in real estate and
@@ -58,8 +58,7 @@ export function RealEstatePrivateArrangements() {
       {/* ── Core Capabilities ──────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap">
-          <div className="sec-tag">CORE CAPABILITIES</div>
-          <h2 className="ib-h2">How We Support Clients</h2>
+          <SectionHead title="CORE CAPABILITIES" subtitle="How We Support Clients" />
           <div className="ib-num-grid">
             <div className="ib-num-card">
               <span className="ib-num">01</span>
@@ -101,19 +100,14 @@ export function RealEstatePrivateArrangements() {
       {/* ── CTA ────────────────────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap ib-cta">
-          <div className="sec-tag">GET IN TOUCH</div>
-          <h2 className="ib-h2">
-            Explore a real-estate or private-market arrangement
-          </h2>
+          <SectionHead
+            title="GET IN TOUCH"
+            subtitle="Explore a real-estate or private-market arrangement"
+          />
           <p className="ib-cta-sub">
             From structure design to investor placement, we manage the arrangement
             end to end.
           </p>
-          <RegisterInterest
-            sourcePage="/investment-banking/real-estate-private-arrangements"
-            buttonLabel="START A CONVERSATION"
-            className="btn btn-gold"
-          />
         </div>
       </section>
 
@@ -134,6 +128,11 @@ export function RealEstatePrivateArrangements() {
         </div>
       </section>
 
+      <RegisterInterestSection
+        sourcePage="/investment-banking/real-estate-private-arrangements"
+        pageTitleEn="Real Estate & Private Arrangements"
+        pageTitleAr="الترتيبات العقارية والخاصة"
+      />
     </div>
   );
 }

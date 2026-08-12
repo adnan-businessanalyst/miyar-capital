@@ -1,7 +1,8 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 
 export function MergersAcquisitions() {
 
@@ -24,8 +25,7 @@ export function MergersAcquisitions() {
         <div className="wrap">
           <div className="ib-split">
             <div>
-              <div className="sec-tag">OVERVIEW</div>
-              <h2 className="ib-h2">What We Do</h2>
+              <SectionHead title="OVERVIEW" subtitle="What We Do" />
               <div className="ib-lead">
                 <p>
                   We advise clients across the full transaction cycle — from identifying
@@ -58,8 +58,7 @@ export function MergersAcquisitions() {
       {/* ── Core Capabilities ──────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap">
-          <div className="sec-tag">CORE CAPABILITIES</div>
-          <h2 className="ib-h2">How We Support Clients</h2>
+          <SectionHead title="CORE CAPABILITIES" subtitle="How We Support Clients" />
           <div className="ib-num-grid">
             <div className="ib-num-card">
               <span className="ib-num">01</span>
@@ -104,17 +103,14 @@ export function MergersAcquisitions() {
       {/* ── CTA ────────────────────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap ib-cta">
-          <div className="sec-tag">GET IN TOUCH</div>
-          <h2 className="ib-h2">Discuss a transaction with our team</h2>
+          <SectionHead
+            title="GET IN TOUCH"
+            subtitle="Discuss a transaction with our team"
+          />
           <p className="ib-cta-sub">
             From first evaluation to completion, we manage the process on your side
             of the table.
           </p>
-          <RegisterInterest
-            sourcePage="/investment-banking/mergers-acquisitions"
-            buttonLabel="START A CONVERSATION"
-            className="btn btn-gold"
-          />
         </div>
       </section>
 
@@ -135,6 +131,11 @@ export function MergersAcquisitions() {
         </div>
       </section>
 
+      <RegisterInterestSection
+        sourcePage="/investment-banking/mergers-acquisitions"
+        pageTitleEn="Mergers & Acquisitions"
+        pageTitleAr="الاندماج والاستحواذ"
+      />
     </div>
   );
 }

@@ -10,6 +10,7 @@ export interface StepItem {
 
 /**
  * Numbered process cards with a connecting line.
+ * Semantic ordered list: each card title is an `<li>`; body is a nested sub-bullet.
  * Desktop: horizontal line through card centers.
  * Small screens: stacked cards with a vertical line top → bottom.
  */
@@ -35,13 +36,17 @@ export function Steps({
           const num = item.num ?? String(index + 1).padStart(2, "0");
           return (
             <li key={`${num}-${item.title}`} className="steps-item">
-              <article className="svc svc--dark steps-card">
+              <div className="svc svc--dark steps-card">
                 <div className="steps-num" aria-hidden="true">
                   <span>{num}</span>
                 </div>
                 <h4>{item.title}</h4>
-                <RichText as="p" html={item.body} />
-              </article>
+                <ul className="steps-sub">
+                  <li>
+                    <RichText as="p" html={item.body} />
+                  </li>
+                </ul>
+              </div>
             </li>
           );
         })}

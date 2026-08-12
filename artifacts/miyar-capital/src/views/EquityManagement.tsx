@@ -4,8 +4,9 @@ import { Globe2, MapPinned, type LucideIcon } from "lucide-react";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { MetaFacts } from "../components/MetaFacts";
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { SectionHead } from "../components/SectionHead";
 import {
   EQUITY_MANAGEMENT,
   type EquityManagementOfferIconId,
@@ -59,28 +60,22 @@ export function EquityManagement() {
             <div className="wrap">
               <div className="pi-intro">
                 <div className="pi-intro-text">
-                  <span className="pi-intro-eyebrow">
-                    {pickLang(
+                  <SectionHead
+                    title={pickLang(
                       data.intro.eyebrowEn,
                       data.intro.eyebrowAr,
                       lang,
                     )}
-                  </span>
-                  <h2>
-                    {pickLang(
+                    subtitle={pickLang(
                       data.intro.headingEn,
                       data.intro.headingAr,
                       lang,
                     )}
-                  </h2>
+                  />
                   <RichText
                     as="div"
                     className="eq-rich"
                     html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
-                  />
-                  <RegisterInterest
-                    sourcePage="/asset-management/equity-management"
-                    className="btn btn-outline-navy"
                   />
                 </div>
                 <div
@@ -99,15 +94,14 @@ export function EquityManagement() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2 className="sec-head-navy">
-                  {pickLang(
-                    data.offers.headingEn,
-                    data.offers.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+              <SectionHead
+                center
+                title={pickLang(
+                  data.offers.headingEn,
+                  data.offers.headingAr,
+                  lang,
+                )}
+              />
               <PrimaryCardGrid>
                 {data.offers.items.map((item) => {
                   const Icon = OFFER_ICONS[item.icon];
@@ -134,22 +128,19 @@ export function EquityManagement() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2 className="sec-head-navy">
-                  {pickLang(
-                    data.examples.headingEn,
-                    data.examples.headingAr,
-                    lang,
-                  )}
-                </h2>
-                <p className="eq-examples-intro">
-                  {pickLang(
-                    data.examples.introEn,
-                    data.examples.introAr,
-                    lang,
-                  )}
-                </p>
-              </div>
+              <SectionHead
+                center
+                title={pickLang(
+                  data.examples.headingEn,
+                  data.examples.headingAr,
+                  lang,
+                )}
+                subtitle={pickLang(
+                  data.examples.introEn,
+                  data.examples.introAr,
+                  lang,
+                )}
+              />
               <div className="eq-examples-grid">
                 {data.examples.items.map((item) => {
                   const labels = data.examples.labels;
@@ -220,6 +211,11 @@ export function EquityManagement() {
   return (
     <div className="page">
       {data.sectionOrder.map((id) => renderSection(id))}
+      <RegisterInterestSection
+        sourcePage="/asset-management/equity-management"
+        pageTitleEn="Equity Management"
+        pageTitleAr="إدارة الأسهم"
+      />
     </div>
   );
 }

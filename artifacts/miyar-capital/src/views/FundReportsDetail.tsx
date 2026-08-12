@@ -1,6 +1,7 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
+import { SectionHead } from "../components/SectionHead";
 import {
   FUND_REPORT_SECTIONS,
   sectionHeading,
@@ -165,9 +166,7 @@ export function FundReportsDetail({
             className={`blk${index % 2 === 1 ? " blk--cream" : ""}`}
           >
             <div className="wrap">
-              <div className="sec-head">
-                <h2>{heading}</h2>
-              </div>
+              <SectionHead title={heading} />
               {cards.length === 0 ? (
                 <p className="fr-empty">
                   {pickLang(settings.emptyEn, settings.emptyAr, lang)}

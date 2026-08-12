@@ -2,6 +2,7 @@
 
 import { PageHero } from "../components/PageHero";
 import { Accordion, type AccordionItem } from "../components/Accordion";
+import { SectionHead } from "../components/SectionHead";
 import type { Disclosure } from "../data/disclosures";
 import { useLanguage } from "../i18n/LanguageContext";
 import { apiUrl } from "../lib/api";
@@ -37,9 +38,10 @@ export function Disclosures({ disclosures, loadError }: DisclosuresProps) {
 
       <section className="blk">
         <div className="wrap">
-          <div className="sec-head sec-head--center">
-            <h2>{isAr ? "الإفصاحات" : "Disclosures"}</h2>
-          </div>
+          <SectionHead
+            center
+            title={isAr ? "الإفصاحات" : "Disclosures"}
+          />
           {loadError ? (
             <p style={{ color: "#b42318" }}>{loadError}</p>
           ) : items.length === 0 ? (

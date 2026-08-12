@@ -38,8 +38,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [urlLang]);
 
   useEffect(() => {
-    document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+    const dir = lang === "ar" ? "rtl" : "ltr";
     document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("dir", dir);
+    document.body.setAttribute("dir", dir);
   }, [lang]);
 
   const setLang = useCallback((next: Lang) => {

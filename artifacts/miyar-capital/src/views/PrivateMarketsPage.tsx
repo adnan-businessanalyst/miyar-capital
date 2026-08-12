@@ -2,8 +2,9 @@
 
 import { Fragment } from "react";
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { SectionHead } from "../components/SectionHead";
 import { UnderConstructionOverlay } from "../components/UnderConstructionOverlay";
 import { PRIVATE_MARKETS } from "../data/privatemarkets";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -48,13 +49,13 @@ export function PrivateMarketsPage() {
             <div className="wrap">
               <div className="eq-approach">
                 <div className="eq-col">
-                  <h2>
-                    {pickLang(
+                  <SectionHead
+                    title={pickLang(
                       data.overview.approachHeadingEn,
                       data.overview.approachHeadingAr,
                       lang,
                     )}
-                  </h2>
+                  />
                   <RichText
                     as="p"
                     html={pickLang(
@@ -65,13 +66,13 @@ export function PrivateMarketsPage() {
                   />
                 </div>
                 <div className="eq-col">
-                  <h2>
-                    {pickLang(
+                  <SectionHead
+                    title={pickLang(
                       data.overview.productHeadingEn,
                       data.overview.productHeadingAr,
                       lang,
                     )}
-                  </h2>
+                  />
                   <dl className="eq-fact-list">
                     {data.overview.facts.map((fact) => (
                       <Fragment key={fact.labelEn}>
@@ -95,13 +96,13 @@ export function PrivateMarketsPage() {
           <section key={id} className="blk">
             <div className="wrap">
               <div className="eq-cap-head">
-                <h2>
-                  {pickLang(
+                <SectionHead
+                  title={pickLang(
                     data.capabilities.headingEn,
                     data.capabilities.headingAr,
                     lang,
                   )}
-                </h2>
+                />
               </div>
             </div>
 
@@ -135,21 +136,13 @@ export function PrivateMarketsPage() {
         return (
           <section key={id} className="blk eq-cta">
             <div className="wrap eq-cta-inner">
-              <h2>
-                {pickLang(data.cta.headingEn, data.cta.headingAr, lang)}
-              </h2>
+              <SectionHead
+                center
+                title={pickLang(data.cta.headingEn, data.cta.headingAr, lang)}
+              />
               <RichText
                 as="p"
                 html={pickLang(data.cta.bodyEn, data.cta.bodyAr, lang)}
-              />
-              <RegisterInterest
-                sourcePage={SOURCE_PAGE}
-                buttonLabel={pickLang(
-                  data.cta.buttonEn,
-                  data.cta.buttonAr,
-                  lang,
-                )}
-                className="btn btn-gold"
               />
             </div>
           </section>
@@ -177,6 +170,11 @@ export function PrivateMarketsPage() {
     <div className="page page--under-construction">
       <UnderConstructionOverlay />
       {data.sectionOrder.map(renderSection)}
+      <RegisterInterestSection
+        sourcePage={SOURCE_PAGE}
+        pageTitleEn="Private Markets"
+        pageTitleAr="الأسواق الخاصة"
+      />
     </div>
   );
 }

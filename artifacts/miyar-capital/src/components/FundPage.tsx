@@ -1,6 +1,5 @@
 import { PageHero } from "./PageHero";
 import { IntroCard } from "./IntroCard";
-import { RegisterInterest } from "./RegisterInterest";
 import { StatIcon } from "./StatIcon";
 import type { FundData, FundReport, FundStat } from "../data/funds";
 import { CONTENT_IMAGES } from "../site/contentImages";
@@ -60,13 +59,7 @@ function ReportSection({
   );
 }
 
-export function FundPage({
-  fund,
-  sourcePage,
-}: {
-  fund: FundData;
-  sourcePage: string;
-}) {
+export function FundPage({ fund }: { fund: FundData }) {
   return (
     <div className="page">
       <PageHero title={fund.name} crumb={`Asset Management / ${fund.name}`} />
@@ -76,11 +69,6 @@ export function FundPage({
       <StatSection title="Operation" stats={fund.operation} />
       <ReportSection title="Quarterly Reports" reports={fund.quarterlyReports} />
       <ReportSection title="Annual Reports" reports={fund.annualReports} />
-      <section className="blk ri" id="register">
-        <div className="wrap contact-cta">
-          <RegisterInterest sourcePage={sourcePage} />
-        </div>
-      </section>
     </div>
   );
 }

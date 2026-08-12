@@ -1,13 +1,13 @@
+/**
+ * reCAPTCHA verification.
+ * When RECAPTCHA_SECRET_KEY is unset, verification is skipped (to be configured later).
+ */
 export async function verifyRecaptcha(
   token: string | undefined,
   ip?: string | null,
 ): Promise<boolean> {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
   if (!secret) {
-    if (process.env.NODE_ENV === "production") {
-      console.warn("[contact] RECAPTCHA_SECRET_KEY missing in production");
-      return false;
-    }
     return true;
   }
   if (!token) return false;

@@ -3,6 +3,7 @@
 import { CONTACT } from "../data/contact";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
+import { SectionHead } from "./SectionHead";
 
 interface IntroCardProps {
   image: string;
@@ -22,8 +23,11 @@ export function IntroCard({ image, alt = "Asset Management" }: IntroCardProps) {
       <div className="wrap">
         <div className="arr-intro">
           <div className="arr-intro-text">
-            <div className="sec-tag">Investment Management</div>
-            <h2>Guided by Expertise. Built on Trust.</h2>
+            <SectionHead
+              className="arr-intro-head"
+              title="Investment Management"
+              subtitle="Guided by Expertise. Built on Trust."
+            />
             <p>
               We focus on delivering sustainable returns through disciplined
               analysis, professional management, and continuous market

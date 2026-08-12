@@ -12,29 +12,33 @@ import {
 
 export const submissionStatusEnum = pgEnum("submission_status", ["new", "read"]);
 
-export const contactSubmissions = pgTable("contact_submissions", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
-  name: varchar("name", { length: 200 }).notNull(),
-  email: varchar("email", { length: 320 }).notNull(),
-  phone: varchar("phone", { length: 80 }),
-  subject: varchar("subject", { length: 200 }),
-  message: text("message").notNull(),
-  sourcePage: varchar("source_page", { length: 300 }).notNull(),
-  status: submissionStatusEnum("status").default("new").notNull(),
-  ip: varchar("ip", { length: 80 }),
-  userAgent: text("user_agent"),
-});
-
-export type ContactSubmission = typeof contactSubmissions.$inferSelect;
-export type NewContactSubmission = typeof contactSubmissions.$inferInsert;
-
-/** PDF bytes stored in Postgres (survives Railway redeploys without a volume). */
+/** Binary bytes stored in Postgres (survives Railway redeploys without a volume). */
 const bytea = customType<{ data: Buffer; driverData: Buffer }>({
   dataType() {
     return "bytea";
   },
 });
+
+export const contactSubmissions = pgTable("contact_submissions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  name: varchar("name", { length: 200 }).notNull(),
+  email: varchar("email", { length: 320 }),
+  phone: varchar("phone", { length: 80 }).notNull(),
+  subject: varchar("subject", { length: 200 }),
+  message: text("message").notNull(),
+  sourcePage: varchar("source_page", { length: 300 }).notNull(),
+  pageTitle: varchar("page_title", { length: 300 }),
+  status: submissionStatusEnum("status").default("new").notNull(),
+  ip: varchar("ip", { length: 80 }),
+  userAgent: text("user_agent"),
+  attachmentName: varchar("attachment_name", { length: 120 }),
+  attachmentMime: varchar("attachment_mime", { length: 80 }),
+  attachmentData: bytea("attachment_data"),
+});
+
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+export type NewContactSubmission = typeof contactSubmissions.$inferInsert;
 
 export const reportSectionEnum = pgEnum("report_section", ["annual", "financial"]);
 
@@ -181,6 +185,40 @@ export const jobsSettings = pgTable("jobs_settings", {
 
 export type JobsSettings = typeof jobsSettings.$inferSelect;
 export type NewJobsSettings = typeof jobsSettings.$inferInsert;
+
+/**
+ * Job applications from the careers Apply form.
+ * CV bytes are stored in Postgres; scan_* fields are ready for an antivirus/malware scanner.
+ */
+export const jobApplications = pgTable("job_applications", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  firstName: varchar("first_name", { length: 200 }).notNull(),
+  lastName: varchar("last_name", { length: 200 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 80 }).notNull(),
+  message: text("message").notNull(),
+  jobId: uuid("job_id"),
+  jobSlug: varchar("job_slug", { length: 200 }).notNull(),
+  jobTitle: varchar("job_title", { length: 300 }).notNull(),
+  jobReference: varchar("job_reference", { length: 80 }).notNull(),
+  sourcePage: varchar("source_page", { length: 300 }).notNull(),
+  status: submissionStatusEnum("status").default("new").notNull(),
+  ip: varchar("ip", { length: 80 }),
+  userAgent: text("user_agent"),
+  cvName: varchar("cv_name", { length: 120 }).notNull(),
+  cvMime: varchar("cv_mime", { length: 80 }).notNull(),
+  cvSize: integer("cv_size").notNull(),
+  cvData: bytea("cv_data").notNull(),
+  /** pending | clean | infected | skipped | error — scanner pipeline. */
+  scanStatus: varchar("scan_status", { length: 40 }).notNull().default("skipped"),
+  scanDetail: text("scan_detail"),
+  scanProvider: varchar("scan_provider", { length: 80 }),
+  scannedAt: timestamp("scanned_at", { withTimezone: true }),
+});
+
+export type JobApplication = typeof jobApplications.$inferSelect;
+export type NewJobApplication = typeof jobApplications.$inferInsert;
 
 /** News articles shown on /news and /news/[slug]. */
 export const newsArticles = pgTable("news_articles", {

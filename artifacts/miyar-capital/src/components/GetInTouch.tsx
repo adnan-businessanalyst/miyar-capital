@@ -9,25 +9,17 @@ import { ContactModal } from "./ContactModal";
 
 type Props = {
   sourcePage: string;
-  /** Optional override; defaults to bilingual Get In Touch CTA. */
-  buttonLabel?: string;
-  className?: string;
 };
 
-export function GetInTouch({
-  sourcePage,
-  buttonLabel,
-  className = "btn btn-navy",
-}: Props) {
+/** Consistent Get In Touch CTA button + modal (EN / AR). */
+export function GetInTouch({ sourcePage }: Props) {
   const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
-  const label =
-    buttonLabel ??
-    pickLang(
-      CONTACT.getInTouchButtonEn,
-      CONTACT.getInTouchButtonAr,
-      lang,
-    );
+  const label = pickLang(
+    CONTACT.getInTouchButtonEn,
+    CONTACT.getInTouchButtonAr,
+    lang,
+  );
   const title = pickLang(
     CONTACT.contactModalTitleEn,
     CONTACT.contactModalTitleAr,
@@ -38,7 +30,7 @@ export function GetInTouch({
     <>
       <button
         type="button"
-        className={className}
+        className="btn btn-navy cta-btn"
         onClick={() => setOpen(true)}
       >
         {label}

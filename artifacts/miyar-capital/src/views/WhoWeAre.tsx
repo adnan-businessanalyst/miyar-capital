@@ -11,9 +11,9 @@ import {
   Target,
   type LucideProps,
 } from "lucide-react";
-import { GetInTouch } from "../components/GetInTouch";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
+import { SectionHead } from "../components/SectionHead";
 import { useLanguage } from "../i18n/LanguageContext";
 import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
@@ -117,15 +117,14 @@ export function WhoWeAre() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2>
-                  {pickLang(
-                    data.methodology.headingEn,
-                    data.methodology.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+              <SectionHead
+                center
+                title={pickLang(
+                  data.methodology.headingEn,
+                  data.methodology.headingAr,
+                  lang,
+                )}
+              />
               <div className="method-grid">
                 {data.methodology.items.map((item) => {
                   const Icon = ICONS[item.icon];
@@ -148,22 +147,19 @@ export function WhoWeAre() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2>
-                  {pickLang(
-                    data.principles.headingEn,
-                    data.principles.headingAr,
-                    lang,
-                  )}
-                </h2>
-                <p>
-                  {pickLang(
-                    data.principles.subEn,
-                    data.principles.subAr,
-                    lang,
-                  )}
-                </p>
-              </div>
+              <SectionHead
+                center
+                title={pickLang(
+                  data.principles.headingEn,
+                  data.principles.headingAr,
+                  lang,
+                )}
+                subtitle={pickLang(
+                  data.principles.subEn,
+                  data.principles.subAr,
+                  lang,
+                )}
+              />
               <PrimaryCardGrid columns={4}>
                 {data.principles.items.map((item) => {
                   const Icon = ICONS[item.icon];
@@ -178,14 +174,6 @@ export function WhoWeAre() {
                   );
                 })}
               </PrimaryCardGrid>
-            </div>
-          </section>
-        );
-      case "interest":
-        return (
-          <section key={id} className="blk blk--cream">
-            <div className="wrap contact-cta">
-              <GetInTouch sourcePage="/who-we-are" />
             </div>
           </section>
         );

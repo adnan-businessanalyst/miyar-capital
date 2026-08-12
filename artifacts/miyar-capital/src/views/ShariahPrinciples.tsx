@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { PageHero } from "../components/PageHero";
+import { SectionHead } from "../components/SectionHead";
 
 const PRINCIPLES = [
   {
@@ -90,8 +91,10 @@ export function ShariahPrinciples() {
         <div className="wrap">
           {/* Section heading */}
           <div className="shr-head shr-reveal">
-            <div className="sec-tag">SIX CORE PRINCIPLES</div>
-            <h2 className="shr-h2">The framework behind every decision</h2>
+            <SectionHead
+              title="SIX CORE PRINCIPLES"
+              subtitle="The framework behind every decision"
+            />
             <div className="shr-rule">
               <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 1 L15.2 4.8 L20 4 L19.2 8.8 L23 12 L19.2 15.2 L20 20 L15.2 19.2 L12 23 L8.8 19.2 L4 20 L4.8 15.2 L1 12 L4.8 8.8 L4 4 L8.8 4.8 Z" fill="var(--gold)"/>

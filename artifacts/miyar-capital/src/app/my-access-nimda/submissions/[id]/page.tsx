@@ -12,14 +12,17 @@ type Submission = {
   id: string;
   createdAt: string;
   name: string;
-  email: string;
+  email: string | null;
   phone: string | null;
   subject: string | null;
   message: string;
   sourcePage: string;
+  pageTitle?: string | null;
   status: string;
   ip: string | null;
   userAgent: string | null;
+  hasAttachment?: boolean;
+  attachmentName?: string | null;
 };
 
 export default async function SubmissionDetailPage({ params }: Props) {
@@ -52,7 +55,11 @@ export default async function SubmissionDetailPage({ params }: Props) {
               <tr>
                 <th>Email</th>
                 <td>
-                  <a href={`mailto:${row.email}`}>{row.email}</a>
+                  {row.email ? (
+                    <a href={`mailto:${row.email}`}>{row.email}</a>
+                  ) : (
+                    "—"
+                  )}
                 </td>
               </tr>
               <tr>
@@ -62,6 +69,30 @@ export default async function SubmissionDetailPage({ params }: Props) {
               <tr>
                 <th>Subject</th>
                 <td>{row.subject || "—"}</td>
+              </tr>
+              <tr>
+                <th>Page</th>
+                <td>{row.pageTitle || "—"}</td>
+              </tr>
+              <tr>
+                <th>Source path</th>
+                <td>{row.sourcePage || "—"}</td>
+              </tr>
+              <tr>
+                <th>Attachment</th>
+                <td>
+                  {row.hasAttachment && row.attachmentName ? (
+                    <a
+                      href={`/api/admin/submissions/${row.id}/attachment`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {row.attachmentName}
+                    </a>
+                  ) : (
+                    "—"
+                  )}
+                </td>
               </tr>
               <tr>
                 <th>IP</th>

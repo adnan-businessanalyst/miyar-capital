@@ -1,7 +1,8 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 
 export function DebtFinancingArrangement() {
 
@@ -24,8 +25,7 @@ export function DebtFinancingArrangement() {
         <div className="wrap">
           <div className="ib-split">
             <div>
-              <div className="sec-tag">OVERVIEW</div>
-              <h2 className="ib-h2">What We Do</h2>
+              <SectionHead title="OVERVIEW" subtitle="What We Do" />
               <div className="ib-lead">
                 <p>
                   We advise companies on how to finance growth, projects and
@@ -57,8 +57,7 @@ export function DebtFinancingArrangement() {
       {/* ── Core Capabilities ──────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap">
-          <div className="sec-tag">CORE CAPABILITIES</div>
-          <h2 className="ib-h2">How We Support Clients</h2>
+          <SectionHead title="CORE CAPABILITIES" subtitle="How We Support Clients" />
           <div className="ib-num-grid">
             <div className="ib-num-card">
               <span className="ib-num">01</span>
@@ -103,17 +102,14 @@ export function DebtFinancingArrangement() {
       {/* ── CTA ────────────────────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap ib-cta">
-          <div className="sec-tag">GET IN TOUCH</div>
-          <h2 className="ib-h2">Talk to us about your financing requirements</h2>
+          <SectionHead
+            title="GET IN TOUCH"
+            subtitle="Talk to us about your financing requirements"
+          />
           <p className="ib-cta-sub">
             We help you define the right financing strategy and arrange it through
             to closing.
           </p>
-          <RegisterInterest
-            sourcePage="/investment-banking/debt-financing-arrangement"
-            buttonLabel="START A CONVERSATION"
-            className="btn btn-gold"
-          />
         </div>
       </section>
 
@@ -134,6 +130,11 @@ export function DebtFinancingArrangement() {
         </div>
       </section>
 
+      <RegisterInterestSection
+        sourcePage="/investment-banking/debt-financing-arrangement"
+        pageTitleEn="Debt Financing Arrangement"
+        pageTitleAr="ترتيب تمويل الديون"
+      />
     </div>
   );
 }

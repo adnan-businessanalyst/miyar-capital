@@ -135,12 +135,17 @@ export function PillarCarousel({
   /** After a slide change, ignore hover-enter until the pointer leaves the card. */
   const suppressHoverPlay = useRef(false);
 
-  if (pillars.length === 0) return null;
-
   const playLogo = () => {
     if (prefersReducedMotion()) return;
     setLogoPlayToken((t) => t + 1);
   };
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
+    setLogoPlayToken(1);
+  }, []);
+
+  if (pillars.length === 0) return null;
 
   const select = (index: number) => {
     const normalized =
@@ -170,6 +175,42 @@ export function PillarCarousel({
   return (
     <div className="pcar">
       <div className="pcar-stage">
+        <aside className="pcar-aside">
+          <ul className="pcar-list">
+            {pillars.map((pl, i) => (
+              <li key={pl.num}>
+                <button
+                  type="button"
+                  className={`pcar-list-item${i === active ? " is-active" : ""}`}
+                  onClick={() => select(i)}
+                >
+                  <span className="pcar-list-num">{pl.num}</span>
+                  <span className="pcar-list-title">{pl.title}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="pcar-arrows">
+            <button
+              type="button"
+              className="pcar-arrow"
+              onClick={prev}
+              aria-label={prevAriaLabel}
+            >
+              {lang === "ar" ? "→" : "←"}
+            </button>
+            <button
+              type="button"
+              className="pcar-arrow"
+              onClick={next}
+              aria-label={nextAriaLabel}
+            >
+              {lang === "ar" ? "←" : "→"}
+            </button>
+          </div>
+        </aside>
+
         <div className="pcar-pillwrap">
           {pillars.map((p, i) => {
             const offset = getOffset(i, active, pillars.length);
@@ -218,7 +259,7 @@ export function PillarCarousel({
                       <span className="pcar-panel">
                         <p className="pcar-panel-body">{p.body}</p>
                         <span className="pcar-panel-go" aria-hidden="true">
-                          →
+                          {lang === "ar" ? "←" : "→"}
                         </span>
                       </span>
                     </a>
@@ -228,42 +269,6 @@ export function PillarCarousel({
             );
           })}
         </div>
-
-        <aside className="pcar-aside">
-          <ul className="pcar-list">
-            {pillars.map((pl, i) => (
-              <li key={pl.num}>
-                <button
-                  type="button"
-                  className={`pcar-list-item${i === active ? " is-active" : ""}`}
-                  onClick={() => select(i)}
-                >
-                  <span className="pcar-list-num">{pl.num}</span>
-                  <span className="pcar-list-title">{pl.title}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <div className="pcar-arrows">
-            <button
-              type="button"
-              className="pcar-arrow"
-              onClick={prev}
-              aria-label={prevAriaLabel}
-            >
-              {lang === "ar" ? "→" : "←"}
-            </button>
-            <button
-              type="button"
-              className="pcar-arrow"
-              onClick={next}
-              aria-label={nextAriaLabel}
-            >
-              {lang === "ar" ? "←" : "→"}
-            </button>
-          </div>
-        </aside>
       </div>
     </div>
   );

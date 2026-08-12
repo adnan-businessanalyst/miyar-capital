@@ -22,6 +22,8 @@ import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import { GetInTouch } from "../components/GetInTouch";
 import { JobsSection } from "../components/JobsSection";
 import { SarText } from "../components/SarText";
+import { SectionHead } from "../components/SectionHead";
+import { CONTACT } from "../data/contact";
 import type { TranslationKey } from "../data/frontpage";
 import type { HomepageHero } from "../data/homepageHero";
 import { DEFAULT_HOMEPAGE_HERO } from "../data/homepageHero";
@@ -92,6 +94,18 @@ function WhyAccordion({ t }: { t: TFn }) {
   const [open, setOpen] = useState(0);
   return (
     <div className="fp-why-layout">
+      {/* List first: left in EN (LTR), right in AR (RTL). */}
+      <ul className="fp-why-list">
+        {WHY_CARDS.map((card, i) => (
+          <li
+            key={i}
+            className={open === i ? "is-active" : undefined}
+            onClick={() => setOpen(i)}
+          >
+            {t(card.h)}
+          </li>
+        ))}
+      </ul>
       <div
         className="fp-why-acc"
         style={
@@ -108,7 +122,6 @@ function WhyAccordion({ t }: { t: TFn }) {
               className={`fp-why-item${open === i ? " is-open" : ""}`}
               onClick={() => setOpen(i)}
             >
-              <span className="fp-why-item-num">0{i + 1}</span>
               <span className="fp-why-icon" aria-hidden="true">
                 <span className="fp-why-icon-extrude">
                   <Icon strokeWidth={1.5} />
@@ -128,17 +141,6 @@ function WhyAccordion({ t }: { t: TFn }) {
           );
         })}
       </div>
-      <ul className="fp-why-list">
-        {WHY_CARDS.map((card, i) => (
-          <li
-            key={i}
-            className={open === i ? "is-active" : undefined}
-            onClick={() => setOpen(i)}
-          >
-            {t(card.h)}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
@@ -396,7 +398,6 @@ export function FrontPage({
                 <div className="fp-service" onClick={() => followLink(t("fp_svc_ib_url"), "/investment-banking")}>
                   <SlotImg raw={t("fp_img_svc_ib")} fallback={ibImg} alt="Investment Banking" />
                   <div className="fp-service-cap">
-                    <span className="fp-service-num" aria-hidden="true">01</span>
                     <h3>{t("fp_svc_ib")}</h3>
                     <p>{t("fp_svc_ib_p")}</p>
                     <span className="fp-service-link">
@@ -408,7 +409,6 @@ export function FrontPage({
                 <div className="fp-service" onClick={() => followLink(t("fp_svc_am_url"), "/asset-management")}>
                   <SlotImg raw={t("fp_img_svc_am")} fallback={amImg} alt="Asset Management" />
                   <div className="fp-service-cap">
-                    <span className="fp-service-num" aria-hidden="true">02</span>
                     <h3>{t("fp_svc_am")}</h3>
                     <p>{t("fp_svc_am_p")}</p>
                     <span className="fp-service-link">
@@ -436,13 +436,20 @@ export function FrontPage({
         return (
           <section key={id} className={`fp-contact fp-contact--form-only ${bg(id)}`}>
             <div className="fp-contact-form">
-              <div className="fp-tag">{t("fp_contact_tag")}</div>
-              <h2 className="fp-h2">{t("fp_contact_h")}</h2>
-              <GetInTouch
-                sourcePage="/"
-                buttonLabel={t("fp_contact_send")}
-                className="btn btn-navy"
+              <SectionHead
+                center
+                title={pickLang(
+                  CONTACT.getInTouchSectionTitleEn,
+                  CONTACT.getInTouchSectionTitleAr,
+                  lang,
+                )}
+                subtitle={pickLang(
+                  CONTACT.getInTouchSectionSubtitleEn,
+                  CONTACT.getInTouchSectionSubtitleAr,
+                  lang,
+                )}
               />
+              <GetInTouch sourcePage="/" />
             </div>
           </section>
         );

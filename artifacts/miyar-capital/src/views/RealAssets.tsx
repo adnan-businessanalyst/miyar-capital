@@ -1,8 +1,9 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { SectionHead } from "../components/SectionHead";
 import {
   REAL_ASSETS,
   type RealAssetsListCard,
@@ -93,28 +94,22 @@ export function RealAssets() {
             <div className="wrap">
               <div className="pi-intro">
                 <div className="pi-intro-text">
-                  <span className="pi-intro-eyebrow">
-                    {pickLang(
+                  <SectionHead
+                    title={pickLang(
                       data.intro.eyebrowEn,
                       data.intro.eyebrowAr,
                       lang,
                     )}
-                  </span>
-                  <h2>
-                    {pickLang(
+                    subtitle={pickLang(
                       data.intro.headingEn,
                       data.intro.headingAr,
                       lang,
                     )}
-                  </h2>
+                  />
                   <RichText
                     as="div"
                     className="eq-rich"
                     html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
-                  />
-                  <RegisterInterest
-                    sourcePage="/asset-management/real-assets"
-                    className="btn btn-outline-navy"
                   />
                 </div>
                 <div
@@ -146,6 +141,11 @@ export function RealAssets() {
   return (
     <div className="page">
       {data.sectionOrder.map((id) => renderSection(id))}
+      <RegisterInterestSection
+        sourcePage="/asset-management/real-assets"
+        pageTitleEn="Real Assets"
+        pageTitleAr="الأصول الحقيقية"
+      />
     </div>
   );
 }

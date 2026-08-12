@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { PageHero } from "../components/PageHero";
+import { SectionHead } from "../components/SectionHead";
 
 export function GovernanceIndependence() {
   useEffect(() => {
@@ -39,8 +40,10 @@ export function GovernanceIndependence() {
       {/* ── Six pillars ─────────────────────────────────────────────────── */}
       <section className="blk">
         <div className="wrap">
-          <div className="sec-tag">OUR FRAMEWORK</div>
-          <h2 className="ib-h2" style={{ marginBottom: 40 }}>Six pillars of governance</h2>
+          <SectionHead
+            title="OUR FRAMEWORK"
+            subtitle="Six pillars of governance"
+          />
           <div className="gov-grid">
 
             <div className="gov-item gov-reveal">
