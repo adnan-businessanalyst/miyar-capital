@@ -11,11 +11,12 @@ import {
   Target,
   type LucideProps,
 } from "lucide-react";
-import { PageHero } from "../components/PageHero";
 import { GetInTouch } from "../components/GetInTouch";
+import { PageHero } from "../components/PageHero";
+import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
+import { useLanguage } from "../i18n/LanguageContext";
 import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
-import { useLanguage } from "../i18n/LanguageContext";
 import {
   WHO_WE_ARE,
   type WhoWeAreIconId,
@@ -163,21 +164,20 @@ export function WhoWeAre() {
                   )}
                 </p>
               </div>
-              <div className="principles">
+              <PrimaryCardGrid columns={4}>
                 {data.principles.items.map((item) => {
                   const Icon = ICONS[item.icon];
-                  const title = pickLang(item.titleEn, item.titleAr, lang);
                   return (
-                    <div className="principle" key={item.titleEn}>
-                      <div className="pi" aria-hidden="true">
-                        <Icon className="pi-icon" strokeWidth={1.6} />
-                      </div>
-                      <h4>{title}</h4>
+                    <PrimaryCard
+                      key={item.titleEn}
+                      icon={<Icon strokeWidth={1.5} />}
+                      title={pickLang(item.titleEn, item.titleAr, lang)}
+                    >
                       <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
-                    </div>
+                    </PrimaryCard>
                   );
                 })}
-              </div>
+              </PrimaryCardGrid>
             </div>
           </section>
         );
