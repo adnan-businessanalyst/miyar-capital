@@ -227,6 +227,23 @@ export function PillarCarousel({
               </div>
             );
           })}
+        </div>
+
+        <aside className="pcar-aside">
+          <ul className="pcar-list">
+            {pillars.map((pl, i) => (
+              <li key={pl.num}>
+                <button
+                  type="button"
+                  className={`pcar-list-item${i === active ? " is-active" : ""}`}
+                  onClick={() => select(i)}
+                >
+                  <span className="pcar-list-num">{pl.num}</span>
+                  <span className="pcar-list-title">{pl.title}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
 
           <div className="pcar-arrows">
             <button
@@ -246,22 +263,7 @@ export function PillarCarousel({
               {lang === "ar" ? "←" : "→"}
             </button>
           </div>
-        </div>
-
-        <ul className="pcar-list">
-          {pillars.map((pl, i) => (
-            <li key={pl.num}>
-              <button
-                type="button"
-                className={`pcar-list-item${i === active ? " is-active" : ""}`}
-                onClick={() => select(i)}
-              >
-                <span className="pcar-list-num">{pl.num}</span>
-                <span className="pcar-list-title">{pl.title}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
+        </aside>
       </div>
     </div>
   );
