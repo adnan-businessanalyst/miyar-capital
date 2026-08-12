@@ -1,8 +1,17 @@
 import { and, asc, desc, eq } from "drizzle-orm";
 import type { Context, Hono } from "hono";
 import { isAdminAuthenticated } from "../admin/auth.js";
+import { rateLimit } from "../contact/rateLimit.js";
+import { verifyRecaptcha } from "../contact/recaptcha.js";
 import { getDb } from "../db/index.js";
-import { jobPosts, jobsSettings } from "../db/schema.js";
+import { jobApplications, jobPosts, jobsSettings } from "../db/schema.js";
+import {
+  isJobApplyEmailConfigured,
+  sendJobApplyEmail,
+} from "./applyMail.js";
+import { parseJobApplyFields } from "./applySchema.js";
+import { validateJobCv } from "./cv.js";
+import { scanUpload } from "./scan.js";
 import {
   DEFAULT_JOBS_SETTINGS,
   jobPostSchema,
@@ -10,6 +19,16 @@ import {
   jobsSettingsSchema,
   type JobsSettingsPayload,
 } from "./schema.js";
+
+function clientIp(c: {
+  req: { header: (name: string) => string | undefined };
+}): string {
+  return (
+    c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
+    c.req.header("x-real-ip") ||
+    "unknown"
+  );
+}
 
 type JobListItem = {
   id: string;
@@ -455,5 +474,289 @@ export function registerJobRoutes(app: Hono) {
         500,
       );
     }
+  });
+
+  // ── Public Apply form ───────────────────────────────────────────────
+  app.post("/api/jobs/apply", async (c) => {
+    try {
+      const ip = clientIp(c);
+      const limited = rateLimit(`job-apply:${ip}`);
+      if (!limited.ok) {
+        c.header("Retry-After", String(limited.retryAfterSec));
+        return c.json(
+          { ok: false, error: "Too many requests. Please try again shortly." },
+          429,
+        );
+      }
+
+      const contentType = c.req.header("content-type") || "";
+      if (!contentType.includes("multipart/form-data")) {
+        return c.json(
+          { ok: false, error: "Multipart form data with a PDF CV is required." },
+          400,
+        );
+      }
+
+      const body = await c.req.parseBody({ all: true });
+      const fields: Record<string, unknown> = {};
+      let rawFile: File | null = null;
+
+      for (const [key, value] of Object.entries(body)) {
+        if (key === "cv" || key === "attachment") {
+          if (value instanceof File) rawFile = value;
+          else if (Array.isArray(value)) {
+            const first = value.find((v) => v instanceof File);
+            if (first instanceof File) rawFile = first;
+          }
+          continue;
+        }
+        if (typeof value === "string") fields[key] = value;
+        else if (Array.isArray(value) && typeof value[0] === "string") {
+          fields[key] = value[0];
+        }
+      }
+
+      const parsed = parseJobApplyFields(fields);
+      if (!parsed.success) {
+        return c.json(
+          {
+            ok: false,
+            error: parsed.error.issues[0]?.message ?? "Invalid form data",
+          },
+          400,
+        );
+      }
+      const payload = parsed.data;
+
+      const cvResult = await validateJobCv(rawFile, rawFile?.name);
+      if (!cvResult.ok) {
+        return c.json({ ok: false, error: cvResult.error }, 400);
+      }
+      const cv = cvResult.cv;
+
+      const scan = await scanUpload({
+        buffer: cv.buffer,
+        fileName: cv.fileName,
+        mimeType: cv.mimeType,
+      });
+      if (scan.status === "infected") {
+        return c.json(
+          {
+            ok: false,
+            error: "CV rejected by security scan. Please upload a clean PDF.",
+          },
+          400,
+        );
+      }
+
+      const captchaOk = await verifyRecaptcha(payload.recaptchaToken, ip);
+      if (!captchaOk) {
+        return c.json(
+          { ok: false, error: "Captcha verification failed. Please try again." },
+          400,
+        );
+      }
+
+      // Confirm job exists / is published when slug matches.
+      const db = getDb();
+      const [job] = await db
+        .select({
+          id: jobPosts.id,
+          slug: jobPosts.slug,
+          title: jobPosts.title,
+          referenceCode: jobPosts.referenceCode,
+          isPublished: jobPosts.isPublished,
+        })
+        .from(jobPosts)
+        .where(eq(jobPosts.slug, payload.jobSlug))
+        .limit(1);
+
+      if (!job || !job.isPublished) {
+        return c.json(
+          { ok: false, error: "This job posting is not available." },
+          400,
+        );
+      }
+
+      const createdAt = new Date();
+      const scannedAt = scan.status === "clean" ? createdAt : null;
+
+      const [row] = await db
+        .insert(jobApplications)
+        .values({
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          email: payload.email,
+          phone: payload.phone,
+          message: payload.message,
+          jobId: job.id,
+          jobSlug: job.slug,
+          jobTitle: payload.jobTitle.trim() || job.title,
+          jobReference: payload.jobReference.trim() || job.referenceCode,
+          sourcePage: payload.sourcePage,
+          status: "new",
+          ip,
+          userAgent: c.req.header("user-agent")?.slice(0, 500) ?? null,
+          createdAt,
+          cvName: cv.fileName,
+          cvMime: cv.mimeType,
+          cvSize: cv.size,
+          cvData: cv.buffer,
+          scanStatus: scan.status,
+          scanDetail: scan.detail ?? null,
+          scanProvider: scan.provider ?? null,
+          scannedAt,
+        })
+        .returning({
+          id: jobApplications.id,
+          createdAt: jobApplications.createdAt,
+        });
+
+      if (isJobApplyEmailConfigured()) {
+        try {
+          await sendJobApplyEmail(
+            {
+              ...payload,
+              jobTitle: payload.jobTitle.trim() || job.title,
+              jobReference: payload.jobReference.trim() || job.referenceCode,
+            },
+            { id: row.id, createdAt: row.createdAt },
+            cv,
+            scan,
+          );
+        } catch (mailErr) {
+          console.error("[job-apply] email failed", mailErr);
+          return c.json({
+            ok: true,
+            id: row.id,
+            warning:
+              "Saved, but email notification failed. Our team can still see your application.",
+          });
+        }
+      }
+
+      return c.json({ ok: true, id: row.id });
+    } catch (err) {
+      console.error("[job-apply] error", err);
+      const message =
+        err instanceof Error && err.message.includes("DATABASE_URL")
+          ? "Form service is temporarily unavailable."
+          : "Something went wrong. Please try again.";
+      return c.json({ ok: false, error: message }, 500);
+    }
+  });
+
+  // ── Admin applications ──────────────────────────────────────────────
+  app.get("/api/admin/applications", async (c) => {
+    if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
+    try {
+      const rows = await getDb()
+        .select({
+          id: jobApplications.id,
+          createdAt: jobApplications.createdAt,
+          firstName: jobApplications.firstName,
+          lastName: jobApplications.lastName,
+          email: jobApplications.email,
+          phone: jobApplications.phone,
+          jobTitle: jobApplications.jobTitle,
+          jobReference: jobApplications.jobReference,
+          jobSlug: jobApplications.jobSlug,
+          status: jobApplications.status,
+          scanStatus: jobApplications.scanStatus,
+          cvName: jobApplications.cvName,
+        })
+        .from(jobApplications)
+        .orderBy(desc(jobApplications.createdAt))
+        .limit(200);
+      return c.json({
+        ok: true,
+        applications: rows.map((r) => ({
+          ...r,
+          createdAt: r.createdAt.toISOString(),
+          name: `${r.firstName} ${r.lastName}`.trim(),
+        })),
+      });
+    } catch (e) {
+      console.error("[admin applications] list failed", e);
+      return c.json(
+        { error: e instanceof Error ? e.message : "Database unavailable" },
+        500,
+      );
+    }
+  });
+
+  app.get("/api/admin/applications/:id", async (c) => {
+    if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
+    const id = c.req.param("id");
+    const [row] = await getDb()
+      .select({
+        id: jobApplications.id,
+        createdAt: jobApplications.createdAt,
+        firstName: jobApplications.firstName,
+        lastName: jobApplications.lastName,
+        email: jobApplications.email,
+        phone: jobApplications.phone,
+        message: jobApplications.message,
+        jobId: jobApplications.jobId,
+        jobSlug: jobApplications.jobSlug,
+        jobTitle: jobApplications.jobTitle,
+        jobReference: jobApplications.jobReference,
+        sourcePage: jobApplications.sourcePage,
+        status: jobApplications.status,
+        ip: jobApplications.ip,
+        userAgent: jobApplications.userAgent,
+        cvName: jobApplications.cvName,
+        cvMime: jobApplications.cvMime,
+        cvSize: jobApplications.cvSize,
+        scanStatus: jobApplications.scanStatus,
+        scanDetail: jobApplications.scanDetail,
+        scanProvider: jobApplications.scanProvider,
+        scannedAt: jobApplications.scannedAt,
+      })
+      .from(jobApplications)
+      .where(eq(jobApplications.id, id))
+      .limit(1);
+    if (!row) return c.json({ error: "Not found" }, 404);
+    return c.json({
+      ok: true,
+      application: {
+        ...row,
+        createdAt: row.createdAt.toISOString(),
+        scannedAt: row.scannedAt?.toISOString() ?? null,
+        name: `${row.firstName} ${row.lastName}`.trim(),
+      },
+    });
+  });
+
+  app.get("/api/admin/applications/:id/cv", async (c) => {
+    if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
+    const id = c.req.param("id");
+    const [row] = await getDb()
+      .select({
+        cvName: jobApplications.cvName,
+        cvMime: jobApplications.cvMime,
+        cvData: jobApplications.cvData,
+      })
+      .from(jobApplications)
+      .where(eq(jobApplications.id, id))
+      .limit(1);
+    if (!row?.cvData || !row.cvName) {
+      return c.json({ error: "Not found" }, 404);
+    }
+    const safeName = row.cvName.replace(/[/\\?%*:|"<>]/g, "_");
+    c.header("Content-Type", row.cvMime || "application/pdf");
+    c.header("Content-Disposition", `attachment; filename="${safeName}"`);
+    c.header("X-Content-Type-Options", "nosniff");
+    return c.body(new Uint8Array(row.cvData));
+  });
+
+  app.post("/api/admin/applications/:id/read", async (c) => {
+    if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
+    const id = c.req.param("id");
+    await getDb()
+      .update(jobApplications)
+      .set({ status: "read" })
+      .where(eq(jobApplications.id, id));
+    return c.json({ ok: true });
   });
 }

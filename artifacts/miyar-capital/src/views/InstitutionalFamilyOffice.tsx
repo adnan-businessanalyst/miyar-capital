@@ -12,8 +12,9 @@ import {
 } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { SectionHead } from "../components/SectionHead";
 import { UnderConstructionOverlay } from "../components/UnderConstructionOverlay";
 import {
   INSTITUTIONAL_FAMILY_OFFICE,
@@ -79,18 +80,14 @@ export function InstitutionalFamilyOffice() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="sec-tag">
-                {pickLang(data.overview.tagEn, data.overview.tagAr, lang)}
-              </div>
-              <div className="sec-head">
-                <h2>
-                  {pickLang(
-                    data.overview.headingEn,
-                    data.overview.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+              <SectionHead
+                title={pickLang(data.overview.tagEn, data.overview.tagAr, lang)}
+                subtitle={pickLang(
+                  data.overview.headingEn,
+                  data.overview.headingAr,
+                  lang,
+                )}
+              />
               <p className="ifo-gold-sub">
                 {pickLang(data.overview.subEn, data.overview.subAr, lang)}
               </p>
@@ -175,22 +172,18 @@ export function InstitutionalFamilyOffice() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-tag">
-                {pickLang(
+              <SectionHead
+                title={pickLang(
                   data.engagement.tagEn,
                   data.engagement.tagAr,
                   lang,
                 )}
-              </div>
-              <div className="sec-head">
-                <h2>
-                  {pickLang(
-                    data.engagement.headingEn,
-                    data.engagement.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+                subtitle={pickLang(
+                  data.engagement.headingEn,
+                  data.engagement.headingAr,
+                  lang,
+                )}
+              />
               <p className="ifo-gold-sub">
                 {pickLang(
                   data.engagement.subEn,
@@ -236,17 +229,6 @@ export function InstitutionalFamilyOffice() {
                 />
               </div>
 
-              <div style={{ marginTop: "40px" }}>
-                <RegisterInterest
-                  sourcePage={SOURCE_PAGE}
-                  buttonLabel={pickLang(
-                    data.engagement.ctaEn,
-                    data.engagement.ctaAr,
-                    lang,
-                  )}
-                  className="btn btn-gold"
-                />
-              </div>
             </div>
           </section>
         );
@@ -297,6 +279,11 @@ export function InstitutionalFamilyOffice() {
     <div className="page page--under-construction">
       <UnderConstructionOverlay />
       {data.sectionOrder.map(renderSection)}
+      <RegisterInterestSection
+        sourcePage={SOURCE_PAGE}
+        pageTitleEn="Institutional & Family Office"
+        pageTitleAr="المؤسسات والمكاتب العائلية"
+      />
     </div>
   );
 }

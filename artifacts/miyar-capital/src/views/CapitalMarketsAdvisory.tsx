@@ -1,7 +1,8 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 
 export function CapitalMarketsAdvisory() {
 
@@ -24,8 +25,7 @@ export function CapitalMarketsAdvisory() {
         <div className="wrap">
           <div className="ib-split">
             <div>
-              <div className="sec-tag">OVERVIEW</div>
-              <h2 className="ib-h2">What We Do</h2>
+              <SectionHead title="OVERVIEW" subtitle="What We Do" />
               <div className="ib-lead">
                 <p>
                   We advise companies preparing to access the capital markets, whether
@@ -59,8 +59,7 @@ export function CapitalMarketsAdvisory() {
       {/* ── Core Capabilities ──────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap">
-          <div className="sec-tag">CORE CAPABILITIES</div>
-          <h2 className="ib-h2">How We Support Clients</h2>
+          <SectionHead title="CORE CAPABILITIES" subtitle="How We Support Clients" />
           <div className="ib-num-grid">
             <div className="ib-num-card">
               <span className="ib-num">01</span>
@@ -105,17 +104,14 @@ export function CapitalMarketsAdvisory() {
       {/* ── CTA ────────────────────────────────────────────────────────── */}
       <section className="blk blk--cream">
         <div className="wrap ib-cta">
-          <div className="sec-tag">GET IN TOUCH</div>
-          <h2 className="ib-h2">Start a conversation about your capital markets plans</h2>
+          <SectionHead
+            title="GET IN TOUCH"
+            subtitle="Start a conversation about your capital markets plans"
+          />
           <p className="ib-cta-sub">
             Whether you are assessing readiness for a listing or planning a capital raise,
             our team can help you define the path.
           </p>
-          <RegisterInterest
-            sourcePage="/investment-banking/capital-markets-advisory"
-            buttonLabel="START A CONVERSATION"
-            className="btn btn-gold"
-          />
         </div>
       </section>
 
@@ -136,6 +132,11 @@ export function CapitalMarketsAdvisory() {
         </div>
       </section>
 
+      <RegisterInterestSection
+        sourcePage="/investment-banking/capital-markets-advisory"
+        pageTitleEn="Capital Markets Advisory"
+        pageTitleAr="استشارات أسواق المال"
+      />
     </div>
   );
 }

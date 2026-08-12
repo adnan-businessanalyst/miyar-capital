@@ -2,6 +2,7 @@
 
 import { PageHero } from "../components/PageHero";
 import { Accordion, type AccordionItem } from "../components/Accordion";
+import { SectionHead } from "../components/SectionHead";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
 const agreementImg = CONTENT_IMAGES.service_asset_management;
@@ -35,8 +36,11 @@ export function FATCA() {
             <div className="wrap">
               <div className="arr-intro">
                 <div className="arr-intro-text">
-                  <div className="sec-tag">FATCA</div>
-                  <h2>The Foreign Account Tax Compliance Act</h2>
+                  <SectionHead
+                    className="arr-intro-head"
+                    title="FATCA"
+                    subtitle="The Foreign Account Tax Compliance Act"
+                  />
                   <p>
                     FATCA, which came into effect on July 1, 2014, is a legislative
                     law enacted by the United States. It was established to combat
@@ -79,9 +83,10 @@ export function FATCA() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2>CRS and FATCA: What You Need to Know</h2>
-              </div>
+              <SectionHead
+                center
+                title="CRS and FATCA: What You Need to Know"
+              />
               <Accordion items={FAQ} numbered />
               <p className="fatca-note">
                 For more information about the FATCA law and how it affects you,

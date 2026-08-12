@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { CONTACT } from "@/data/contact";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { apiUrl } from "@/lib/api";
@@ -14,7 +14,16 @@ type Props = {
   className?: string;
   submitLabel?: string;
   thanksMessage?: string;
+  /** Required for register interest — shown as a read-only page field. */
+  pageTitleEn?: string;
+  pageTitleAr?: string;
 };
+
+const MESSAGE_MIN = 20;
+const MESSAGE_MAX = 300;
+const IMAGE_MAX_BYTES = 2 * 1024 * 1024;
+const IMAGE_ACCEPT = "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp";
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 declare global {
   interface Window {
@@ -40,6 +49,31 @@ async function getRecaptchaToken(): Promise<string | undefined> {
   });
 }
 
+function isAllowedImageFile(file: File): boolean {
+  if (!/\.(jpe?g|png|webp)$/i.test(file.name)) return false;
+  if (!file.type) return true;
+  return (
+    file.type === "image/jpeg" ||
+    file.type === "image/png" ||
+    file.type === "image/webp"
+  );
+}
+
+function RequiredMark() {
+  return (
+    <span className="contact-required" aria-hidden="true">
+      *
+    </span>
+  );
+}
+
+function buildRegisterMessage(
+  template: string,
+  pageTitle: string,
+): string {
+  return template.replace(/\{pageTitle\}/g, pageTitle);
+}
+
 /** Shared form body used inside GetInTouch / RegisterInterest modals. */
 export function ContactForm({
   sourcePage,
@@ -47,9 +81,23 @@ export function ContactForm({
   className = "contact-modal-form",
   submitLabel,
   thanksMessage,
+  pageTitleEn = "",
+  pageTitleAr = "",
 }: Props) {
   const { lang } = useLanguage();
   const copy = CONTACT;
+  const isGetInTouch = variant === "get-in-touch";
+  const isRegister = variant === "register";
+  const pageTitle = pickLang(pageTitleEn, pageTitleAr, lang);
+  const defaultRegisterMessage = buildRegisterMessage(
+    pickLang(
+      copy.registerMessageTemplateEn,
+      copy.registerMessageTemplateAr,
+      lang,
+    ),
+    pageTitle,
+  );
+
   const resolvedSubmit =
     submitLabel ?? pickLang(copy.submitEn, copy.submitAr, lang);
   const resolvedThanks =
@@ -60,33 +108,170 @@ export function ContactForm({
   );
   const [error, setError] = useState("");
   const [warning, setWarning] = useState("");
+  const [subject, setSubject] = useState<"Complaint" | "Inquiry" | "Info">(
+    "Inquiry",
+  );
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState(
+    isRegister ? defaultRegisterMessage : "",
+  );
+  const [messageTouched, setMessageTouched] = useState(false);
+  const [fileName, setFileName] = useState("");
+  const [attachOk, setAttachOk] = useState(true);
+
+  useEffect(() => {
+    if (!isRegister || messageTouched) return;
+    setMessage(defaultRegisterMessage);
+  }, [defaultRegisterMessage, isRegister, messageTouched]);
+
+  const messageLen = message.trim().length;
+  const messageLenOk =
+    messageLen >= MESSAGE_MIN && messageLen <= MESSAGE_MAX;
+  const messageOutOfRange = !messageLenOk;
+
+  const isValid = useMemo(() => {
+    const n = name.trim();
+    const e = email.trim();
+    const p = phone.trim();
+
+    if (e && !EMAIL_RE.test(e)) return false;
+    if (!n || !p) return false;
+    if (!messageLenOk) return false;
+
+    if (isGetInTouch) {
+      if (!attachOk) return false;
+      return true;
+    }
+
+    if (!pageTitle.trim()) return false;
+    return true;
+  }, [attachOk, email, isGetInTouch, messageLenOk, name, pageTitle, phone]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isValid || status === "loading") return;
+
     setStatus("loading");
     setError("");
     setWarning("");
 
     const form = e.currentTarget;
     const data = new FormData(form);
-    const subjectRaw = data.get("subject");
-    const payload = {
-      name: String(data.get("name") ?? ""),
-      email: String(data.get("email") ?? ""),
-      phone: String(data.get("phone") ?? ""),
-      subject: typeof subjectRaw === "string" ? subjectRaw : "",
-      message: String(data.get("message") ?? ""),
-      sourcePage,
-      recaptchaToken: await getRecaptchaToken(),
-    };
+    const nameVal = name.trim();
+    const emailVal = email.trim();
+    const phoneVal = phone.trim();
+    const messageVal = message.trim();
+    const subjectRaw = String(data.get("subject") ?? subject);
+    const file = data.get("attachment");
+
+    if (!nameVal) {
+      setStatus("error");
+      setError(pickLang(copy.errorNameEn, copy.errorNameAr, lang));
+      return;
+    }
+    if (!phoneVal) {
+      setStatus("error");
+      setError(pickLang(copy.errorPhoneEn, copy.errorPhoneAr, lang));
+      return;
+    }
+    if (emailVal && !EMAIL_RE.test(emailVal)) {
+      setStatus("error");
+      setError(pickLang(copy.errorEmailEn, copy.errorEmailAr, lang));
+      return;
+    }
+
+    if (
+      messageVal.length < MESSAGE_MIN ||
+      messageVal.length > MESSAGE_MAX
+    ) {
+      setStatus("error");
+      setError(pickLang(copy.errorMessageLenEn, copy.errorMessageLenAr, lang));
+      return;
+    }
+
+    if (isGetInTouch) {
+      if (
+        subjectRaw !== "Complaint" &&
+        subjectRaw !== "Inquiry" &&
+        subjectRaw !== "Info"
+      ) {
+        setStatus("error");
+        setError(pickLang(copy.errorSubjectEn, copy.errorSubjectAr, lang));
+        return;
+      }
+      if (file instanceof File && file.size > 0) {
+        if (subjectRaw !== "Complaint") {
+          setStatus("error");
+          setError(
+            pickLang(
+              copy.errorAttachmentSubjectEn,
+              copy.errorAttachmentSubjectAr,
+              lang,
+            ),
+          );
+          return;
+        }
+        if (file.size > IMAGE_MAX_BYTES || !isAllowedImageFile(file)) {
+          setStatus("error");
+          setError(
+            pickLang(copy.errorAttachmentEn, copy.errorAttachmentAr, lang),
+          );
+          return;
+        }
+      }
+    } else if (!pageTitle.trim()) {
+      setStatus("error");
+      setError(pickLang(copy.errorGenericEn, copy.errorGenericAr, lang));
+      return;
+    }
+
+    const token = await getRecaptchaToken();
 
     try {
-      const res = await fetch(apiUrl("/api/contact"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-      });
+      let res: Response;
+      if (isGetInTouch) {
+        const body = new FormData();
+        body.set("variant", "get-in-touch");
+        body.set("name", nameVal);
+        body.set("email", emailVal);
+        body.set("phone", phoneVal);
+        body.set("subject", subjectRaw);
+        body.set("message", messageVal);
+        body.set("sourcePage", sourcePage);
+        if (token) body.set("recaptchaToken", token);
+        if (
+          subjectRaw === "Complaint" &&
+          file instanceof File &&
+          file.size > 0
+        ) {
+          body.set("attachment", file);
+        }
+        res = await fetch(apiUrl("/api/contact"), {
+          method: "POST",
+          credentials: "include",
+          body,
+        });
+      } else {
+        res = await fetch(apiUrl("/api/contact"), {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            variant: "register",
+            name: nameVal,
+            email: emailVal,
+            phone: phoneVal,
+            subject: "",
+            message: messageVal,
+            sourcePage,
+            pageTitle: pageTitle.trim(),
+            recaptchaToken: token,
+          }),
+        });
+      }
+
       const json = (await res.json()) as {
         ok?: boolean;
         error?: string;
@@ -103,6 +288,14 @@ export function ContactForm({
       if (json.warning) setWarning(json.warning);
       setStatus("success");
       form.reset();
+      setSubject("Inquiry");
+      setName("");
+      setEmail("");
+      setPhone("");
+      setMessage(isRegister ? defaultRegisterMessage : "");
+      setMessageTouched(false);
+      setFileName("");
+      setAttachOk(true);
     } catch {
       setStatus("error");
       setError(pickLang(copy.errorNetworkEn, copy.errorNetworkAr, lang));
@@ -118,63 +311,200 @@ export function ContactForm({
     );
   }
 
+  const canSubmit = isValid && status !== "loading";
+
   return (
     <form className={className} onSubmit={onSubmit} noValidate>
-      <input
-        type="text"
-        name="name"
-        placeholder={pickLang(copy.nameEn, copy.nameAr, lang)}
-        required
-        autoComplete="name"
-      />
-      <input
-        type="email"
-        name="email"
-        placeholder={pickLang(copy.emailEn, copy.emailAr, lang)}
-        required
-        autoComplete="email"
-      />
-      <input
-        type="tel"
-        name="phone"
-        placeholder={pickLang(copy.phoneEn, copy.phoneAr, lang)}
-        autoComplete="tel"
-      />
-      {variant === "get-in-touch" ? (
-        <div className="fp-radios contact-modal-radios">
-          <span className="fp-radios-label">
-            {pickLang(copy.subjectLabelEn, copy.subjectLabelAr, lang)}
+      {isRegister ? (
+        <label className="contact-field">
+          <span className="contact-field-label">
+            {pickLang(copy.pageTitleLabelEn, copy.pageTitleLabelAr, lang)}
           </span>
-          <label>
-            <input
-              type="radio"
-              name="subject"
-              value="Inquiry"
-              defaultChecked
-            />{" "}
-            {pickLang(copy.subjectInquiryEn, copy.subjectInquiryAr, lang)}
+          <input
+            type="text"
+            name="pageTitle"
+            value={pageTitle}
+            readOnly
+            disabled
+            tabIndex={-1}
+            className="contact-field-readonly"
+            aria-readonly="true"
+          />
+        </label>
+      ) : null}
+      <label className="contact-field">
+        <span className="contact-field-label">
+          {pickLang(copy.nameEn, copy.nameAr, lang)}
+          <RequiredMark />
+        </span>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={(ev) => setName(ev.target.value)}
+          placeholder={pickLang(copy.nameEn, copy.nameAr, lang)}
+          required
+          aria-required="true"
+          autoComplete="name"
+          maxLength={200}
+        />
+      </label>
+      <label className="contact-field">
+        <span className="contact-field-label">
+          {isGetInTouch
+            ? pickLang(copy.emailOptionalEn, copy.emailOptionalAr, lang)
+            : pickLang(copy.emailEn, copy.emailAr, lang)}
+        </span>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={(ev) => setEmail(ev.target.value)}
+          placeholder={
+            isGetInTouch
+              ? pickLang(copy.emailOptionalEn, copy.emailOptionalAr, lang)
+              : pickLang(copy.emailEn, copy.emailAr, lang)
+          }
+          autoComplete="email"
+          maxLength={320}
+        />
+      </label>
+      <label className="contact-field">
+        <span className="contact-field-label">
+          {pickLang(copy.phoneEn, copy.phoneAr, lang)}
+          <RequiredMark />
+        </span>
+        <input
+          type="tel"
+          name="phone"
+          value={phone}
+          onChange={(ev) => setPhone(ev.target.value)}
+          placeholder={pickLang(copy.phoneEn, copy.phoneAr, lang)}
+          required
+          aria-required="true"
+          autoComplete="tel"
+          maxLength={80}
+        />
+      </label>
+      {isGetInTouch ? (
+        <fieldset className="fp-radios contact-modal-radios">
+          <legend className="fp-radios-label">
+            {pickLang(copy.subjectLabelEn, copy.subjectLabelAr, lang)}
+            <RequiredMark />
+          </legend>
+          <div className="contact-modal-radio-row">
+            <label>
+              <input
+                type="radio"
+                name="subject"
+                value="Complaint"
+                checked={subject === "Complaint"}
+                onChange={() => setSubject("Complaint")}
+              />{" "}
+              {pickLang(copy.subjectComplaintEn, copy.subjectComplaintAr, lang)}
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="subject"
+                value="Inquiry"
+                checked={subject === "Inquiry"}
+                onChange={() => {
+                  setSubject("Inquiry");
+                  setFileName("");
+                  setAttachOk(true);
+                }}
+              />{" "}
+              {pickLang(copy.subjectInquiryEn, copy.subjectInquiryAr, lang)}
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="subject"
+                value="Info"
+                checked={subject === "Info"}
+                onChange={() => {
+                  setSubject("Info");
+                  setFileName("");
+                  setAttachOk(true);
+                }}
+              />{" "}
+              {pickLang(copy.subjectInfoEn, copy.subjectInfoAr, lang)}
+            </label>
+          </div>
+        </fieldset>
+      ) : null}
+      <div className="contact-modal-message">
+        <label className="contact-field">
+          <span className="contact-field-label">
+            {pickLang(copy.messageEn, copy.messageAr, lang)}
+            <RequiredMark />
+          </span>
+          <textarea
+            name="message"
+            value={message}
+            onChange={(ev) => {
+              setMessageTouched(true);
+              setMessage(ev.target.value);
+            }}
+            placeholder={pickLang(copy.messageEn, copy.messageAr, lang)}
+            rows={3}
+            required
+            aria-required="true"
+            aria-invalid={messageOutOfRange ? true : undefined}
+          />
+        </label>
+        <span
+          className="contact-modal-charcount"
+          data-out-of-range={messageOutOfRange ? "true" : "false"}
+        >
+          {messageLen}/{MESSAGE_MAX}
+        </span>
+      </div>
+      {isGetInTouch && subject === "Complaint" ? (
+        <div className="contact-modal-attach">
+          <label className="contact-modal-attach-label" htmlFor="contact-attachment">
+            {pickLang(copy.attachmentLabelEn, copy.attachmentLabelAr, lang)}
           </label>
-          <label>
-            <input type="radio" name="subject" value="Complaint" />{" "}
-            {pickLang(copy.subjectComplaintEn, copy.subjectComplaintAr, lang)}
-          </label>
-          <label>
-            <input type="radio" name="subject" value="Info" />{" "}
-            {pickLang(copy.subjectInfoEn, copy.subjectInfoAr, lang)}
-          </label>
+          <input
+            id="contact-attachment"
+            type="file"
+            name="attachment"
+            accept={IMAGE_ACCEPT}
+            onChange={(ev) => {
+              const f = ev.target.files?.[0];
+              if (!f) {
+                setFileName("");
+                setAttachOk(true);
+                setError("");
+                return;
+              }
+              if (f.size > IMAGE_MAX_BYTES || !isAllowedImageFile(f)) {
+                setError(
+                  pickLang(copy.errorAttachmentEn, copy.errorAttachmentAr, lang),
+                );
+                ev.target.value = "";
+                setFileName("");
+                setAttachOk(true);
+                return;
+              }
+              setFileName(f.name);
+              setAttachOk(true);
+              setError("");
+            }}
+          />
+          <p className="contact-modal-attach-hint">
+            {pickLang(copy.attachmentHintEn, copy.attachmentHintAr, lang)}
+            {fileName ? ` — ${fileName}` : ""}
+          </p>
         </div>
       ) : null}
-      <textarea
-        name="message"
-        placeholder={pickLang(copy.messageEn, copy.messageAr, lang)}
-        rows={4}
-        required
-      />
       {error ? <p className="form-error">{error}</p> : null}
       <button
         type="submit"
         className="btn btn-navy"
-        disabled={status === "loading"}
+        disabled={!canSubmit}
+        aria-disabled={!canSubmit}
       >
         {status === "loading"
           ? pickLang(copy.sendingEn, copy.sendingAr, lang)

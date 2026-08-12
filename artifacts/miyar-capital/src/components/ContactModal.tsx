@@ -6,6 +6,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import { useLanguage } from "../i18n/LanguageContext";
 import { MAN_ON_PHONE_IMG } from "../site/manOnPhone";
 
 type Props = {
@@ -24,6 +25,8 @@ export function ContactModal({
   children,
   image = MAN_ON_PHONE_IMG,
 }: Props) {
+  const { lang } = useLanguage();
+  const dir = lang === "ar" ? "rtl" : "ltr";
   const media = image || null;
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -87,27 +90,38 @@ export function ContactModal({
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
+        dir={dir}
+        lang={lang}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           className="contact-modal-close"
           onClick={onClose}
-          aria-label="Close"
+          aria-label={lang === "ar" ? "إغلاق" : "Close"}
         >
           ×
         </button>
         {media ? (
-          <div className="contact-modal-media" aria-hidden="true">
-            <img src={media} alt="" />
+          <div className="contact-modal-layout">
+            <div className="contact-modal-media" aria-hidden="true">
+              <img src={media} alt="" />
+            </div>
+            <div className="contact-modal-body">
+              <h2 id={titleId} className="contact-modal-title">
+                {title}
+              </h2>
+              {children}
+            </div>
           </div>
-        ) : null}
-        <div className="contact-modal-body">
-          <h2 id={titleId} className="contact-modal-title">
-            {title}
-          </h2>
-          {children}
-        </div>
+        ) : (
+          <div className="contact-modal-body">
+            <h2 id={titleId} className="contact-modal-title">
+              {title}
+            </h2>
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -14,7 +14,8 @@ import type { ReactNode } from "react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { INVESTMENT_BANKING } from "../data/investmentbanking";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -80,16 +81,18 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="sec-tag">
-                {pickLang(data.overview.tagEn, data.overview.tagAr, lang)}
-              </div>
-              <h2 className="ib-h2">
-                {pickLang(
+              <SectionHead
+                title={pickLang(
+                  data.overview.tagEn,
+                  data.overview.tagAr,
+                  lang,
+                )}
+                subtitle={pickLang(
                   data.overview.headingEn,
                   data.overview.headingAr,
                   lang,
                 )}
-              </h2>
+              />
               <div className="ib-lead">
                 {paras.map((para, i) => (
                   <p key={para.slice(0, 40)}>
@@ -108,12 +111,14 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <h2 className="sec-tag">
-                {pickLang(data.advise.tagEn, data.advise.tagAr, lang)}
-              </h2>
-              <h3 className="ib-h2">
-                {pickLang(data.advise.headingEn, data.advise.headingAr, lang)}
-              </h3>
+              <SectionHead
+                title={pickLang(data.advise.tagEn, data.advise.tagAr, lang)}
+                subtitle={pickLang(
+                  data.advise.headingEn,
+                  data.advise.headingAr,
+                  lang,
+                )}
+              />
               <div className="ib-lead">
                 {paras.map((para, i) =>
                   i === paras.length - 1 ? (
@@ -147,12 +152,14 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <h2 className="sec-tag">
-                {pickLang(data.method.tagEn, data.method.tagAr, lang)}
-              </h2>
-              <span className="ib-h2">
-                {pickLang(data.method.headingEn, data.method.headingAr, lang)}
-              </span>
+              <SectionHead
+                title={pickLang(data.method.tagEn, data.method.tagAr, lang)}
+                subtitle={pickLang(
+                  data.method.headingEn,
+                  data.method.headingAr,
+                  lang,
+                )}
+              />
               <Steps
                 items={data.method.steps.map((step) => ({
                   num: step.num,
@@ -167,16 +174,14 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <h2 className="sec-tag">
-                {pickLang(data.execute.tagEn, data.execute.tagAr, lang)}
-              </h2>
-              <span className="ib-h2">
-                {pickLang(
+              <SectionHead
+                title={pickLang(data.execute.tagEn, data.execute.tagAr, lang)}
+                subtitle={pickLang(
                   data.execute.headingEn,
                   data.execute.headingAr,
                   lang,
                 )}
-              </span>
+              />
               <div className="ib-lead">
                 <p>
                   {pickLang(data.execute.bodyEn, data.execute.bodyAr, lang)}
@@ -189,16 +194,18 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <h2 className="sec-tag">
-                {pickLang(data.products.tagEn, data.products.tagAr, lang)}
-              </h2>
-              <span className="ib-h2">
-                {pickLang(
+              <SectionHead
+                title={pickLang(
+                  data.products.tagEn,
+                  data.products.tagAr,
+                  lang,
+                )}
+                subtitle={pickLang(
                   data.products.headingEn,
                   data.products.headingAr,
                   lang,
                 )}
-              </span>
+              />
               <PrimaryCardClickableGrid
                 columns={3}
                 items={data.products.items.map((item) => {
@@ -220,16 +227,18 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <h2 className="sec-tag">
-                {pickLang(data.lifecycle.tagEn, data.lifecycle.tagAr, lang)}
-              </h2>
-              <span className="ib-h2">
-                {pickLang(
+              <SectionHead
+                title={pickLang(
+                  data.lifecycle.tagEn,
+                  data.lifecycle.tagAr,
+                  lang,
+                )}
+                subtitle={pickLang(
                   data.lifecycle.headingEn,
                   data.lifecycle.headingAr,
                   lang,
                 )}
-              </span>
+              />
               <Steps
                 items={data.lifecycle.steps.map((step) => ({
                   num: step.num,
@@ -244,24 +253,17 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="blk">
             <div className="wrap ib-cta">
-              <div className="sec-tag">
-                {pickLang(data.cta.tagEn, data.cta.tagAr, lang)}
-              </div>
-              <h2 className="ib-h2">
-                {pickLang(data.cta.headingEn, data.cta.headingAr, lang)}
-              </h2>
+              <SectionHead
+                title={pickLang(data.cta.tagEn, data.cta.tagAr, lang)}
+                subtitle={pickLang(
+                  data.cta.headingEn,
+                  data.cta.headingAr,
+                  lang,
+                )}
+              />
               <p className="ib-cta-sub">
                 {pickLang(data.cta.bodyEn, data.cta.bodyAr, lang)}
               </p>
-              <RegisterInterest
-                sourcePage="/investment-banking"
-                buttonLabel={pickLang(
-                  data.cta.buttonEn,
-                  data.cta.buttonAr,
-                  lang,
-                )}
-                className="btn btn-gold"
-              />
             </div>
           </section>
         );
@@ -270,9 +272,13 @@ export function InvestmentBanking() {
         return (
           <section key={id} className="ib-notes">
             <div className="wrap">
-              <h3>
-                {pickLang(data.notes.headingEn, data.notes.headingAr, lang)}
-              </h3>
+              <SectionHead
+                title={pickLang(
+                  data.notes.headingEn,
+                  data.notes.headingAr,
+                  lang,
+                )}
+              />
               <ol>
                 {items.map((item) => (
                   <li key={item.slice(0, 48)}>{item}</li>
@@ -293,6 +299,11 @@ export function InvestmentBanking() {
   return (
     <div className="page">
       {data.sectionOrder.map((id) => renderSection(id))}
+      <RegisterInterestSection
+        sourcePage="/investment-banking"
+        pageTitleEn="Investment Banking"
+        pageTitleAr="الخدمات المصرفية الاستثمارية"
+      />
     </div>
   );
 }

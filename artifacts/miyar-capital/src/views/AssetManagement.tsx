@@ -9,6 +9,8 @@ import {
   type PillarCarouselItem,
 } from "../components/PillarCarousel";
 import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { ASSET_MANAGEMENT } from "../data/assetmanagement";
 import { pickLang } from "../site/types";
@@ -51,14 +53,14 @@ export function AssetManagement() {
           <section key={id} className="blk">
             <div className="wrap">
               <div className="plat-split">
-                <h2>
+                <h2 className="sec-title">
                   {pickLang(
                     data.platform.headingEn,
                     data.platform.headingAr,
                     lang,
                   )}
                 </h2>
-                <p>
+                <p className="sec-sub">
                   {pickLang(data.platform.bodyEn, data.platform.bodyAr, lang)}
                 </p>
               </div>
@@ -93,18 +95,14 @@ export function AssetManagement() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-head">
-                <div className="sec-tag">
-                  {pickLang(data.process.tagEn, data.process.tagAr, lang)}
-                </div>
-                <h2>
-                  {pickLang(
-                    data.process.headingEn,
-                    data.process.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+              <SectionHead
+                title={pickLang(data.process.tagEn, data.process.tagAr, lang)}
+                subtitle={pickLang(
+                  data.process.headingEn,
+                  data.process.headingAr,
+                  lang,
+                )}
+              />
               <Steps
                 items={data.process.steps.map((step) => ({
                   title: pickLang(step.titleEn, step.titleAr, lang),
@@ -118,22 +116,18 @@ export function AssetManagement() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="sec-head">
-                <div className="sec-tag">
-                  {pickLang(
-                    data.clientSolutions.tagEn,
-                    data.clientSolutions.tagAr,
-                    lang,
-                  )}
-                </div>
-                <h2>
-                  {pickLang(
-                    data.clientSolutions.headingEn,
-                    data.clientSolutions.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+              <SectionHead
+                title={pickLang(
+                  data.clientSolutions.tagEn,
+                  data.clientSolutions.tagAr,
+                  lang,
+                )}
+                subtitle={pickLang(
+                  data.clientSolutions.headingEn,
+                  data.clientSolutions.headingAr,
+                  lang,
+                )}
+              />
               <PrimaryCardClickableGrid
                 items={data.clientSolutions.items.map((item) => ({
                   id: item.id,
@@ -154,6 +148,11 @@ export function AssetManagement() {
   return (
     <div className="page">
       {data.sectionOrder.map((id) => renderSection(id))}
+      <RegisterInterestSection
+        sourcePage="/asset-management"
+        pageTitleEn="Asset Management"
+        pageTitleAr="إدارة الأصول"
+      />
     </div>
   );
 }

@@ -2,11 +2,11 @@
 
 import { LazyVideo } from "../components/LazyVideo";
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 import { INVESTMENT_ADVISORY } from "../data/investmentadvisory";
 import { useLanguage } from "../i18n/LanguageContext";
 import { IA_BG, IA_PROCESS_IMAGES } from "../site/contentImages";
-import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
 import { pickLang } from "../site/types";
 
 export function InvestmentAdvisory() {
@@ -52,13 +52,13 @@ export function InvestmentAdvisory() {
                   </div>
                 ) : null}
                 <div className="advisory-card-body">
-                  <h2>
-                    {pickLang(
+                  <SectionHead
+                    title={pickLang(
                       data.intro.headingEn,
                       data.intro.headingAr,
                       lang,
                     )}
-                  </h2>
+                  />
                   <p>
                     {pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   </p>
@@ -125,16 +125,7 @@ export function InvestmentAdvisory() {
           </section>
         );
       case "interest":
-        return (
-          <section key={id} className="blk ri" id="register">
-            <div className="wrap contact-cta">
-              <RegisterInterest
-                sourcePage="/investment-advisory"
-                image={manOnPhone}
-              />
-            </div>
-          </section>
-        );
+        return null;
       default:
         return null;
     }
@@ -143,6 +134,11 @@ export function InvestmentAdvisory() {
   return (
     <div className="page">
       {data.sectionOrder.map((id) => renderSection(id))}
+      <RegisterInterestSection
+        sourcePage="/investment-advisory"
+        pageTitleEn="Investment Advisory"
+        pageTitleAr="الاستشارات الاستثمارية"
+      />
     </div>
   );
 }

@@ -60,7 +60,7 @@ export interface WhoWeAreContent {
   };
   /** Section keys rendered on the page, in order. */
   sectionOrder: Array<
-    "hero" | "story" | "profile" | "methodology" | "principles" | "interest"
+    "hero" | "story" | "profile" | "methodology" | "principles"
   >;
 }
 
@@ -192,5 +192,5 @@ export const WHO_WE_ARE: WhoWeAreContent = {
       },
     ],
   },
-  sectionOrder: ["hero", "story", "methodology", "principles", "interest"],
+  sectionOrder: ["hero", "story", "methodology", "principles"],
 };

@@ -10,6 +10,8 @@ import {
 import { useState } from "react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { SectionHead } from "../components/SectionHead";
 import {
   ARRANGEMENT_MANAGEMENT,
   type ArrangementServiceIconId,
@@ -71,16 +73,15 @@ export function ArrangementManagement() {
             <div className="wrap">
               <div className="arr-intro">
                 <div className="arr-intro-text">
-                  <div className="sec-tag">
-                    {pickLang(data.intro.tagEn, data.intro.tagAr, lang)}
-                  </div>
-                  <h2>
-                    {pickLang(
+                  <SectionHead
+                    className="arr-intro-head"
+                    title={pickLang(data.intro.tagEn, data.intro.tagAr, lang)}
+                    subtitle={pickLang(
                       data.intro.headingEn,
                       data.intro.headingAr,
                       lang,
                     )}
-                  </h2>
+                  />
                   <p>
                     {pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   </p>
@@ -103,15 +104,14 @@ export function ArrangementManagement() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2>
-                  {pickLang(
-                    data.services.headingEn,
-                    data.services.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+              <SectionHead
+                center
+                title={pickLang(
+                  data.services.headingEn,
+                  data.services.headingAr,
+                  lang,
+                )}
+              />
               <PrimaryCardGrid columns={4}>
                 {data.services.items.map((service) => {
                   const Icon = SERVICE_ICONS[service.icon];
@@ -194,14 +194,14 @@ export function ArrangementManagement() {
                         cardTitle(prevDetail),
                       )}
                     >
-                      <h4>{cardTitle(prevDetail)}</h4>
+                      <h3>{cardTitle(prevDetail)}</h3>
                       <p>{cardBody(prevDetail)}</p>
                     </button>
                     <div
                       className="detail-card detail-card--active"
                       role="tabpanel"
                     >
-                      <h4>{cardTitle(activeDetail)}</h4>
+                      <h3>{cardTitle(activeDetail)}</h3>
                       <p>{cardBody(activeDetail)}</p>
                     </div>
                     <button
@@ -217,7 +217,7 @@ export function ArrangementManagement() {
                         cardTitle(nextDetail),
                       )}
                     >
-                      <h4>{cardTitle(nextDetail)}</h4>
+                      <h3>{cardTitle(nextDetail)}</h3>
                       <p>{cardBody(nextDetail)}</p>
                     </button>
                   </div>
@@ -253,16 +253,7 @@ export function ArrangementManagement() {
           </section>
         );
       case "interest":
-        return (
-          <section
-            key={id}
-            className="blk ri"
-            id="register"
-            aria-hidden="true"
-          >
-            <div className="wrap contact-cta" />
-          </section>
-        );
+        return null;
       default:
         return null;
     }
@@ -271,6 +262,11 @@ export function ArrangementManagement() {
   return (
     <div className="page">
       {data.sectionOrder.map((id) => renderSection(id))}
+      <RegisterInterestSection
+        sourcePage="/arrangement-management"
+        pageTitleEn="Arrangement Management"
+        pageTitleAr="إدارة الترتيبات"
+      />
     </div>
   );
 }

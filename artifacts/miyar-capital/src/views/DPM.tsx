@@ -2,8 +2,9 @@
 
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { DPM_PAGE } from "../data/dpm";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -46,30 +47,25 @@ export function DPM() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="sec-head">
-                <div className="sec-tag">
-                  {pickLang(
-                    data.mandates.tagEn,
-                    data.mandates.tagAr,
-                    lang,
-                  )}
-                </div>
-                <h2>
-                  {pickLang(
-                    data.mandates.headingEn,
-                    data.mandates.headingAr,
-                    lang,
-                  )}
-                </h2>
-                <RichText
-                  as="p"
-                  html={pickLang(
-                    data.mandates.leadEn,
-                    data.mandates.leadAr,
-                    lang,
-                  )}
-                />
-              </div>
+              <SectionHead
+                title={pickLang(
+                  data.mandates.tagEn,
+                  data.mandates.tagAr,
+                  lang,
+                )}
+                subtitle={pickLang(
+                  data.mandates.headingEn,
+                  data.mandates.headingAr,
+                  lang,
+                )}
+              />
+              <p className="dpm-lead">
+                {pickLang(
+                  data.mandates.leadEn,
+                  data.mandates.leadAr,
+                  lang,
+                )}
+              </p>
               <PrimaryCardGrid columns={4}>
                 {data.mandates.items.map((item) => (
                   <PrimaryCard
@@ -92,35 +88,20 @@ export function DPM() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-head">
-                <div className="sec-tag">
-                  {pickLang(data.cycle.tagEn, data.cycle.tagAr, lang)}
-                </div>
-                <h2>
-                  {pickLang(
-                    data.cycle.headingEn,
-                    data.cycle.headingAr,
-                    lang,
-                  )}
-                </h2>
-              </div>
+              <SectionHead
+                title={pickLang(data.cycle.tagEn, data.cycle.tagAr, lang)}
+                subtitle={pickLang(
+                  data.cycle.headingEn,
+                  data.cycle.headingAr,
+                  lang,
+                )}
+              />
               <Steps
                 items={data.cycle.steps.map((step) => ({
                   title: pickLang(step.titleEn, step.titleAr, lang),
                   body: pickLang(step.bodyEn, step.bodyAr, lang),
                 }))}
               />
-              <div className="section-cta">
-                <RegisterInterest
-                  sourcePage={SOURCE_PAGE}
-                  buttonLabel={pickLang(
-                    data.cycle.ctaEn,
-                    data.cycle.ctaAr,
-                    lang,
-                  )}
-                  className="btn btn-navy"
-                />
-              </div>
             </div>
           </section>
         );
@@ -131,6 +112,13 @@ export function DPM() {
   };
 
   return (
-    <div className="page">{data.sectionOrder.map(renderSection)}</div>
+    <div className="page">
+      {data.sectionOrder.map(renderSection)}
+      <RegisterInterestSection
+        sourcePage={SOURCE_PAGE}
+        pageTitleEn="Discretionary Portfolio Management"
+        pageTitleAr="إدارة المحافظ التقديرية"
+      />
+    </div>
   );
 }

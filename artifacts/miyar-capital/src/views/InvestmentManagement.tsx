@@ -2,14 +2,13 @@
 
 import { PageHero } from "../components/PageHero";
 import { IntroCard } from "../components/IntroCard";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { SectionHead } from "../components/SectionHead";
 import { DMP_FEATURES, IM_SERVICES, PORTFOLIO_TYPES } from "../data/investmentManagement";
-import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
 import { CONTENT_IMAGES } from "../site/contentImages";
 
 const signingImg = CONTENT_IMAGES.service_asset_management;
 
-const DEFAULT_ORDER = ["hero", "intro", "services", "portfolios", "table", "interest"];
+const DEFAULT_ORDER = ["hero", "intro", "services", "portfolios", "table"];
 
 export function InvestmentManagement() {
   const sectionOrder = DEFAULT_ORDER;
@@ -30,9 +29,7 @@ export function InvestmentManagement() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2>Our Services</h2>
-              </div>
+              <SectionHead center title="Our Services" />
               <div className="im-services">
                 {IM_SERVICES.map((service) => (
                   <div className="im-service" key={service.title}>
@@ -81,9 +78,7 @@ export function InvestmentManagement() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="sec-head sec-head--center">
-                <h2>Private Investment Portfolio Types</h2>
-              </div>
+              <SectionHead center title="Private Investment Portfolio Types" />
               <div className="ptable-wrap">
                 <table className="ptable">
                   <thead>
@@ -108,17 +103,6 @@ export function InvestmentManagement() {
                   </tbody>
                 </table>
               </div>
-            </div>
-          </section>
-        );
-      case "interest":
-        return (
-          <section key={id} className="blk ri" id="register">
-            <div className="wrap contact-cta">
-              <RegisterInterest
-                sourcePage="/investment-management"
-                image={manOnPhone}
-              />
             </div>
           </section>
         );

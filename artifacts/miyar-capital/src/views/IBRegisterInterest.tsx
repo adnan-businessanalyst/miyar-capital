@@ -1,7 +1,7 @@
 "use client";
 
 import { PageHero } from "../components/PageHero";
-import { RegisterInterest } from "../components/RegisterInterest";
+import { RegisterInterestSection } from "../components/RegisterInterestSection";
 
 export function IBRegisterInterest() {
   return (
@@ -13,11 +13,11 @@ export function IBRegisterInterest() {
           { label: "Register Interest" },
         ]}
       />
-      <section className="blk blk--cream">
-        <div className="wrap contact-cta">
-          <RegisterInterest sourcePage="/investment-banking/register-interest" />
-        </div>
-      </section>
+      <RegisterInterestSection
+        sourcePage="/investment-banking/register-interest"
+        pageTitleEn="Investment Banking"
+        pageTitleAr="الخدمات المصرفية الاستثمارية"
+      />
     </div>
   );
 }
