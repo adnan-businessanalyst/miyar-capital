@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { RichText } from "../components/RichText";
+import { UnderConstructionOverlay } from "../components/UnderConstructionOverlay";
 import { PRIVATE_MARKETS } from "../data/privatemarkets";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
@@ -173,6 +174,9 @@ export function PrivateMarketsPage() {
   };
 
   return (
-    <div className="page">{data.sectionOrder.map(renderSection)}</div>
+    <div className="page page--under-construction">
+      <UnderConstructionOverlay />
+      {data.sectionOrder.map(renderSection)}
+    </div>
   );
 }

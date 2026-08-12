@@ -14,6 +14,7 @@ import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { RichText } from "../components/RichText";
+import { UnderConstructionOverlay } from "../components/UnderConstructionOverlay";
 import {
   INSTITUTIONAL_FAMILY_OFFICE,
   type IfoIconId,
@@ -293,6 +294,9 @@ export function InstitutionalFamilyOffice() {
   };
 
   return (
-    <div className="page">{data.sectionOrder.map(renderSection)}</div>
+    <div className="page page--under-construction">
+      <UnderConstructionOverlay />
+      {data.sectionOrder.map(renderSection)}
+    </div>
   );
 }
