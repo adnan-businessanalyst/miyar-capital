@@ -74,7 +74,7 @@ const SEED_ARTICLES = [
       "في الربع الأول، ركّزت المحافظ على أدوات عالية الجودة وإدارة مدة دقيقة وهياكل متوافقة مع الشريعة ومتماشية مع معايير هيئة السوق المالية.",
       "نواصل تحسين أطر التخصيص بحيث تكمّل شرائح السيولة تعرضات الأسهم والأسواق الخاصة ذات الأفق الأطول ضمن تفويضات العملاء.",
     ].join("\n\n"),
-    imageUrl: "/media/content/pillar_liquidity.webp",
+    imageUrl: "/media/content/service-asset-management.webp",
     sortOrder: 2,
   },
   {
@@ -97,7 +97,7 @@ const SEED_ARTICLES = [
       "تعمل معيار المالية مع المستثمرين المؤهلين لتقييم الترتيبات الخاصة التي تناسب الأهداف طويلة الأجل والأهلية التنظيمية.",
       "تظل وثائق الصندوق الرسمية وتقييمات الملاءمة أساس أي نقاش حول الأسواق الخاصة — هذا التحديث معلوماتي ولا يشكّل عرضًا.",
     ].join("\n\n"),
-    imageUrl: "/media/content/pillar_private_markets.webp",
+    imageUrl: "/media/content/private_offers.webp",
     sortOrder: 3,
   },
 ] as const;

@@ -35,10 +35,6 @@ TARGETS: dict[str, int] = {
     "app-phone-screen": 1280,
     "client-dpm": 1280,
     "client-ifo": 1280,
-    "pillar_private_markets": 1280,
-    "pillar_real_assets": 720,
-    "pillar_equity": 1280,
-    "pillar_liquidity": 1280,
 }
 
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp", ".avif"}

@@ -101,7 +101,7 @@ We continue to refine allocation frameworks so that liquidity sleeves complement
 في الربع الأول، ركّزت المحافظ على أدوات عالية الجودة وإدارة مدة دقيقة وهياكل متوافقة مع الشريعة ومتماشية مع معايير هيئة السوق المالية.
 
 نواصل تحسين أطر التخصيص بحيث تكمّل شرائح السيولة تعرضات الأسهم والأسواق الخاصة ذات الأفق الأطول ضمن تفويضات العملاء.',
-	'/media/content/pillar_liquidity.webp',
+	'/media/content/service-asset-management.webp',
 	true,
 	2
 ),
@@ -123,7 +123,7 @@ Official fund documents and suitability assessments remain the foundation of any
 تعمل معيار المالية مع المستثمرين المؤهلين لتقييم الترتيبات الخاصة التي تناسب الأهداف طويلة الأجل والأهلية التنظيمية.
 
 تظل وثائق الصندوق الرسمية وتقييمات الملاءمة أساس أي نقاش حول الأسواق الخاصة — هذا التحديث معلوماتي ولا يشكّل عرضًا.',
-	'/media/content/pillar_private_markets.webp',
+	'/media/content/private_offers.webp',
 	true,
 	3
 )

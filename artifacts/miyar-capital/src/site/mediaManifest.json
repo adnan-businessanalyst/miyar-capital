@@ -74,22 +74,6 @@
       },
       "image": "/media/content/pe-intro.webp"
     },
-    "pillar_private_markets": {
-      "files": {
-        ".mp4": "/media/content/pillar_private_markets.mp4",
-        ".webp": "/media/content/pillar_private_markets.webp"
-      },
-      "video": "/media/content/pillar_private_markets.mp4",
-      "image": "/media/content/pillar_private_markets.webp"
-    },
-    "pillar_real_assets": {
-      "files": {
-        ".mp4": "/media/content/pillar_real_assets.mp4",
-        ".webp": "/media/content/pillar_real_assets.webp"
-      },
-      "video": "/media/content/pillar_real_assets.mp4",
-      "image": "/media/content/pillar_real_assets.webp"
-    },
     "private_offers": {
       "files": {
         ".webp": "/media/content/private_offers.webp"

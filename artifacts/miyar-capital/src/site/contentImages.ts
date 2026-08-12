@@ -19,10 +19,6 @@ export const CONTENT_IMAGES = {
   app_phone_screen: content("app-phone-screen"),
   client_dpm: content("client-dpm"),
   client_ifo: content("client-ifo"),
-  pillar_equity: content("pillar_equity"),
-  pillar_liquidity: content("pillar_liquidity"),
-  pillar_private_markets: content("pillar_private_markets"),
-  pillar_real_assets: content("pillar_real_assets"),
   /** Real Assets diversity card header — any of .svg/.avif/.webp/.jpg/.jpeg/.png */
   ra_diversity: content("ra-diversity"),
   /** Real Assets geographic card header — any of .svg/.avif/.webp/.jpg/.jpeg/.png */
@@ -76,8 +72,4 @@ export const CONTENT_VIDEOS = {
   app_phone_screen: contentVideo("app-phone-screen"),
   client_dpm: contentVideo("client-dpm"),
   client_ifo: contentVideo("client-ifo"),
-  pillar_equity: contentVideo("pillar_equity"),
-  pillar_liquidity: contentVideo("pillar_liquidity"),
-  pillar_private_markets: contentVideo("pillar_private_markets"),
-  pillar_real_assets: contentVideo("pillar_real_assets"),
 } as const;
