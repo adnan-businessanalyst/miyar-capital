@@ -9,12 +9,6 @@ export type AssetManagementSectionId =
   | "objectives"
   | "client-solutions";
 
-export type AssetManagementPillarMediaId =
-  | "liquidity"
-  | "equity"
-  | "real_assets"
-  | "private_markets";
-
 export interface AssetManagementMeta {
   labelEn: string;
   labelAr: string;
@@ -24,7 +18,6 @@ export interface AssetManagementMeta {
 
 export interface AssetManagementPillar {
   num: string;
-  media: AssetManagementPillarMediaId;
   titleEn: string;
   titleAr: string;
   bodyEn: string;
@@ -135,7 +128,6 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
     pillars: [
       {
         num: "I",
-        media: "liquidity",
         titleEn: "Liquidity & Fixed Income",
         titleAr: "السيولة والدخل الثابت",
         bodyEn:
@@ -146,7 +138,6 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
       },
       {
         num: "II",
-        media: "equity",
         titleEn: "Equity Management",
         titleAr: "إدارة الأسهم",
         bodyEn:
@@ -157,7 +148,6 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
       },
       {
         num: "III",
-        media: "real_assets",
         titleEn: "Real Assets",
         titleAr: "الأصول الحقيقية",
         bodyEn:
@@ -168,7 +158,6 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
       },
       {
         num: "IV",
-        media: "private_markets",
         titleEn: "Private Markets",
         titleAr: "الأسواق الخاصة",
         bodyEn:

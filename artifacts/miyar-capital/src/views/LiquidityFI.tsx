@@ -1,5 +1,6 @@
 "use client";
 
+import { Factsheet } from "../components/Factsheet";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
 import { RichText } from "../components/RichText";
@@ -51,42 +52,30 @@ export function LiquidityFI() {
               </div>
             ))}
           </div>
-          <div className="fact-card">
-            <h4>
-              {pickLang(data.facts.headingEn, data.facts.headingAr, lang)}
-            </h4>
-            {data.facts.rows.map((row) => (
-              <div className="frow" key={row.labelEn}>
-                <span className="fk">
-                  {pickLang(row.labelEn, row.labelAr, lang)}
-                </span>
-                <RichText
-                  as="span"
-                  className="fv"
-                  html={pickLang(row.valueEn, row.valueAr, lang)}
-                />
-              </div>
-            ))}
-            <span className="dlbtn">
-              <RichText
-                as="span"
-                html={pickLang(
-                  data.facts.primaryCtaEn,
-                  data.facts.primaryCtaAr,
+          <Factsheet
+            title={pickLang(data.facts.headingEn, data.facts.headingAr, lang)}
+            rows={data.facts.rows.map((row) => ({
+              label: pickLang(row.labelEn, row.labelAr, lang),
+              value: pickLang(row.valueEn, row.valueAr, lang),
+            }))}
+            primaryCta={pickLang(
+              data.facts.primaryCtaEn,
+              data.facts.primaryCtaAr,
+              lang,
+            )}
+            secondaryCta={
+              <RegisterInterest
+                sourcePage={SOURCE_PAGE}
+                buttonLabel={pickLang(
+                  data.facts.secondaryCtaEn,
+                  data.facts.secondaryCtaAr,
                   lang,
                 )}
+                variant="secondary"
+                fullWidth
               />
-            </span>
-            <RegisterInterest
-              sourcePage={SOURCE_PAGE}
-              buttonLabel={pickLang(
-                data.facts.secondaryCtaEn,
-                data.facts.secondaryCtaAr,
-                lang,
-              )}
-              className="dlbtn dlbtn--ghost"
-            />
-          </div>
+            }
+          />
         </div>
       </div>
 

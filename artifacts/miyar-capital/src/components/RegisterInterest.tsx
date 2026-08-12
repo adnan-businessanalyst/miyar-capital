@@ -6,6 +6,7 @@ import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
 import { ContactForm } from "./ContactForm";
 import { ContactModal } from "./ContactModal";
+import { SecondaryButton } from "./SecondaryButton";
 
 type Props = {
   sourcePage: string;
@@ -14,13 +15,18 @@ type Props = {
   /** Optional override; defaults to bilingual Register Interest CTA. */
   buttonLabel?: string;
   className?: string;
+  /** Use SecondaryButton chrome (rounded outline). */
+  variant?: "default" | "secondary";
+  fullWidth?: boolean;
 };
 
 export function RegisterInterest({
   sourcePage,
   image,
   buttonLabel,
-  className = "btn btn-navy",
+  className,
+  variant = "default",
+  fullWidth = false,
 }: Props) {
   const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -36,16 +42,27 @@ export function RegisterInterest({
     CONTACT.registerModalTitleAr,
     lang,
   );
+  const openModal = () => setOpen(true);
 
   return (
     <>
-      <button
-        type="button"
-        className={className}
-        onClick={() => setOpen(true)}
-      >
-        {label}
-      </button>
+      {variant === "secondary" ? (
+        <SecondaryButton
+          fullWidth={fullWidth}
+          className={className}
+          onClick={openModal}
+        >
+          {label}
+        </SecondaryButton>
+      ) : (
+        <button
+          type="button"
+          className={className ?? "btn btn-navy"}
+          onClick={openModal}
+        >
+          {label}
+        </button>
+      )}
       <ContactModal
         open={open}
         onClose={() => setOpen(false)}

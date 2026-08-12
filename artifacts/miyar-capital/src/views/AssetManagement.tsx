@@ -10,34 +10,8 @@ import {
 } from "../components/PillarCarousel";
 import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
 import { Steps } from "../components/Steps";
-import {
-  ASSET_MANAGEMENT,
-  type AssetManagementPillarMediaId,
-} from "../data/assetmanagement";
-import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
+import { ASSET_MANAGEMENT } from "../data/assetmanagement";
 import { pickLang } from "../site/types";
-
-const PILLAR_MEDIA: Record<
-  AssetManagementPillarMediaId,
-  { image: string; video: string }
-> = {
-  liquidity: {
-    image: CONTENT_IMAGES.pillar_liquidity,
-    video: CONTENT_VIDEOS.pillar_liquidity,
-  },
-  equity: {
-    image: CONTENT_IMAGES.pillar_equity,
-    video: CONTENT_VIDEOS.pillar_equity,
-  },
-  real_assets: {
-    image: CONTENT_IMAGES.pillar_real_assets,
-    video: CONTENT_VIDEOS.pillar_real_assets,
-  },
-  private_markets: {
-    image: CONTENT_IMAGES.pillar_private_markets,
-    video: CONTENT_VIDEOS.pillar_private_markets,
-  },
-};
 
 export function AssetManagement() {
   const router = useRouter();
@@ -45,17 +19,12 @@ export function AssetManagement() {
   const withLocale = useLocalePath();
   const data = ASSET_MANAGEMENT;
 
-  const pillars: PillarCarouselItem[] = data.platform.pillars.map((p) => {
-    const media = PILLAR_MEDIA[p.media];
-    return {
-      num: p.num,
-      title: pickLang(p.titleEn, p.titleAr, lang),
-      body: pickLang(p.bodyEn, p.bodyAr, lang),
-      href: p.href,
-      image: media.image,
-      video: media.video,
-    };
-  });
+  const pillars: PillarCarouselItem[] = data.platform.pillars.map((p) => ({
+    num: p.num,
+    title: pickLang(p.titleEn, p.titleAr, lang),
+    body: pickLang(p.bodyEn, p.bodyAr, lang),
+    href: p.href,
+  }));
 
   const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
