@@ -1033,10 +1033,10 @@ section.blk {
 .plat-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
+  gap: clamp(1.25rem, 2.5vw, 2.75rem);
   align-items: end;
-  margin-bottom: 56px;
-  padding-inline: clamp(24px, 6vw, 72px);
+  margin-bottom: clamp(1.75rem, 1.05rem + 2.8vw, 3.85rem);
+  padding-inline: clamp(1rem, 2vw + 0.75rem, 4.5rem);
 }
 
 .plat-split h2 {
@@ -1047,7 +1047,7 @@ section.blk {
   line-height: 1.2;
   letter-spacing: -0.01em;
   max-width: 18ch;
-  justify-self: start;
+  justify-self: end;
 }
 
 .plat-split p {
@@ -1056,15 +1056,16 @@ section.blk {
   font-weight: 300;
   line-height: 1.7;
   max-width: 36ch;
-  justify-self: end;
+  justify-self: start;
   align-self: center;
 }
 
 @media (max-width: 800px) {
   .plat-split {
     grid-template-columns: 1fr;
-    gap: 20px;
-    padding-inline: clamp(12px, 4vw, 28px);
+    gap: clamp(0.85rem, 2.5vw, 1.25rem);
+    margin-bottom: clamp(1.25rem, 0.875rem + 2.1vw, 1.95rem);
+    padding-inline: clamp(0.75rem, 3vw, 1.75rem);
   }
 
   .plat-split h2,
@@ -1076,7 +1077,7 @@ section.blk {
 
 /* pillar carousel — fluid tokens for fonts, spacing, and dimensions */
 .pcar {
-  --pcar-stage-gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  --pcar-stage-gap: clamp(1.75rem, 1rem + 2.5vw, 3.5rem);
   --pcar-list-col: clamp(11.5rem, 18vw + 2rem, 16.25rem);
   --pcar-list-gap: clamp(0.15rem, 0.1rem + 0.2vw, 0.25rem);
   --pcar-list-item-pad-y: clamp(0.75rem, 0.55rem + 0.9vw, 1.125rem);
@@ -1096,6 +1097,10 @@ section.blk {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 100%;
+  padding-top: clamp(0.175rem, 0.07rem + 0.56vw, 0.7rem);
+  margin-bottom: clamp(1.75rem, 1.1rem + 3vw, 4rem);
+  box-sizing: border-box;
 }
 
 .pcar-stage {
@@ -1708,12 +1713,21 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
 }
 
 /* Layout only — spacing tokens still fluid */
+@media (max-width: 1100px) {
+  .pcar {
+    --pcar-stage-gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    --pcar-list-col: clamp(10.5rem, 16vw + 1.5rem, 14.5rem);
+  }
+}
+
 @media (max-width: 900px) {
   .pcar {
-    --pcar-stage-gap: clamp(1.25rem, 3vw, 1.75rem);
+    --pcar-stage-gap: clamp(1rem, 0.75rem + 2vw, 1.5rem);
     --pcar-list-item-pad-y: clamp(0.5rem, 0.4rem + 0.6vw, 0.75rem);
     --pcar-list-item-pad-x: 0;
     --pcar-list-item-gap: clamp(0.5rem, 0.35rem + 0.7vw, 0.75rem);
+    padding-top: 0;
+    margin-bottom: clamp(1.15rem, 0.85rem + 2vw, 2.25rem);
   }
 
   .pcar-stage {
@@ -4315,6 +4329,417 @@ footer .footer-social-link:hover {
 .people-grid--board {
   grid-template-columns: repeat(4, 1fr);
   gap: 28px 22px;
+}
+
+/* ===== CORPORATE HIERARCHY (Executive Team) ===== */
+.hierarchy-sec {
+  overflow-x: clip;
+}
+
+.hierarchy {
+  --hier-gap: clamp(0.55rem, 0.35rem + 1vw, 1.15rem);
+  --hier-node-w: clamp(8.25rem, 6.5rem + 4vw, 11.5rem);
+  --hier-photo: clamp(3rem, 2.5rem + 1.6vw, 4.25rem);
+  --hier-level-pad: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  --hier-card-min-h: clamp(10.5rem, 9rem + 3.5vw, 13.5rem);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.hierarchy-title {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto clamp(1.75rem, 1.25rem + 2.2vw, 3rem);
+  padding-bottom: clamp(0.7rem, 0.55rem + 0.6vw, 1rem);
+  font-family: var(--serif);
+  font-size: clamp(2.13rem, 1.67rem + 2.07vw, 3.16rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.hierarchy-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: clamp(5.5rem, 4.25rem + 6vw, 9rem);
+  height: clamp(0.18rem, 0.12rem + 0.2vw, 0.28rem);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #d4b46a 0%,
+    rgba(212, 180, 106, 0.4) 100%
+  );
+  transform: translateX(-50%);
+}
+
+.hierarchy-chart {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  container-type: inline-size;
+  container-name: hierarchy;
+}
+
+.hierarchy-levels {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  border-radius: clamp(0.85rem, 0.65rem + 0.8vw, 1.25rem);
+  overflow: clip;
+}
+
+.hierarchy-level {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: clamp(1.35rem, 1rem + 1.5vw, 2.25rem)
+    clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  box-sizing: border-box;
+}
+
+.hierarchy-level:not(.is-first) {
+  border-top: 2px solid rgba(12, 71, 110, 0.22);
+  box-shadow: inset 0 1px 0 rgba(212, 180, 106, 0.45);
+}
+
+/* Level band backgrounds — barely-there tints */
+.hierarchy-level[data-level="1"] {
+  background: rgba(12, 71, 110, 0.04);
+}
+
+.hierarchy-level[data-level="2"] {
+  background: rgba(12, 71, 110, 0.028);
+}
+
+.hierarchy-level[data-level="3"] {
+  background: rgba(12, 71, 110, 0.018);
+}
+
+.hierarchy-level[data-level="4"] {
+  background: rgba(12, 71, 110, 0.01);
+}
+
+.hierarchy-level[data-level="5"] {
+  background: rgba(12, 71, 110, 0.008);
+}
+
+.hierarchy-level[data-level="6"] {
+  background: rgba(12, 71, 110, 0.006);
+}
+
+.hierarchy-level[data-level="7"] {
+  background: rgba(12, 71, 110, 0.004);
+}
+
+.hierarchy-level[data-level="8"] {
+  background: rgba(12, 71, 110, 0.002);
+}
+
+.hierarchy-level-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--hier-gap);
+  width: 100%;
+  max-width: min(72rem, 100%);
+}
+
+.hierarchy-level.is-first .hierarchy-level-row {
+  width: auto;
+  max-width: none;
+}
+
+.hierarchy-level-item {
+  display: flex;
+  flex: 0 1 var(--hier-node-w);
+  width: var(--hier-node-w);
+  max-width: 100%;
+  min-width: min(100%, var(--hier-node-w));
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.hierarchy-level.is-first .hierarchy-level-item {
+  margin-inline: auto;
+  flex: 0 1 var(--hier-node-w);
+}
+
+.hierarchy-card {
+  width: 100%;
+  min-height: var(--hier-card-min-h);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(0.5rem, 0.35rem + 0.55vw, 0.75rem);
+  padding: clamp(0.75rem, 0.55rem + 0.8vw, 1.15rem)
+    clamp(0.55rem, 0.4rem + 0.55vw, 0.9rem);
+  text-align: center;
+  border: 1px solid rgba(212, 180, 106, 0.4);
+  border-radius: clamp(0.75rem, 0.55rem + 0.8vw, 1.15rem);
+  color: #fff;
+  box-shadow: 0 clamp(0.45rem, 0.3rem + 0.7vw, 0.9rem)
+    clamp(1rem, 0.75rem + 1.3vw, 2rem) rgba(12, 71, 110, 0.22);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+/* Card shades — near-uniform navy with quiet steps */
+.hierarchy-card[data-level="1"] {
+  background: linear-gradient(165deg, #0c476e 0%, #072a42 100%);
+  border-color: rgba(212, 180, 106, 0.45);
+  box-shadow: 0 clamp(0.5rem, 0.35rem + 0.8vw, 1rem)
+    clamp(1.25rem, 0.9rem + 1.5vw, 2.25rem) rgba(12, 71, 110, 0.18);
+}
+
+.hierarchy-card[data-level="2"] {
+  background: linear-gradient(165deg, #0f4f78 0%, #09314c 100%);
+}
+
+.hierarchy-card[data-level="3"] {
+  background: linear-gradient(165deg, #125682 0%, #0b3854 100%);
+}
+
+.hierarchy-card[data-level="4"] {
+  background: linear-gradient(165deg, #155d8a 0%, #0d3e5c 100%);
+}
+
+.hierarchy-card[data-level="5"] {
+  background: linear-gradient(165deg, #186492 0%, #0f4464 100%);
+}
+
+.hierarchy-card[data-level="6"] {
+  background: linear-gradient(165deg, #1b6b98 0%, #114a6c 100%);
+}
+
+.hierarchy-card[data-level="7"] {
+  background: linear-gradient(165deg, #1e72a0 0%, #135074 100%);
+}
+
+.hierarchy-card[data-level="8"],
+.hierarchy-card:not([data-level]) {
+  background: linear-gradient(165deg, #2278a6 0%, #15557a 100%);
+}
+
+.hierarchy-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 180, 106, 0.75);
+}
+
+.hierarchy-card-media {
+  width: var(--hier-photo);
+  height: var(--hier-photo);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(243, 230, 192, 0.75);
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.hierarchy-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.hierarchy-card-media.is-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #1a6a9a, #061f33);
+}
+
+.hierarchy-card-initials {
+  font-family: var(--sans);
+  font-size: clamp(0.85rem, 0.75rem + 0.4vw, 1.05rem);
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.hierarchy-card-body {
+  min-width: 0;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.hierarchy-card-name {
+  margin: 0 0 0.2rem;
+  font-family: var(--serif);
+  font-size: clamp(0.875rem, 0.8rem + 0.35vw, 1.05rem);
+  font-weight: 575;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.hierarchy-card-title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(0.6875rem, 0.625rem + 0.3vw, 0.8125rem);
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(243, 230, 192, 0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hierarchy-card {
+    transition: none;
+  }
+
+  .hierarchy-card:hover {
+    transform: none;
+  }
+}
+
+/* Tablet: tighter cards, more wrap room */
+@media (max-width: 1100px) {
+  .hierarchy {
+    --hier-node-w: clamp(7.75rem, 6.25rem + 3.5vw, 10rem);
+    --hier-level-pad: clamp(1.15rem, 0.85rem + 1.2vw, 1.75rem);
+    --hier-card-min-h: clamp(10rem, 8.75rem + 3vw, 12rem);
+  }
+}
+
+/* Compact / phone: horizontal cards, full-width stack per level */
+@media (max-width: 720px) {
+  .hierarchy {
+    --hier-gap: clamp(0.65rem, 0.5rem + 1vw, 0.95rem);
+    --hier-level-pad: clamp(1rem, 0.75rem + 1.5vw, 1.5rem);
+    --hier-card-min-h: clamp(5.25rem, 4.75rem + 2vw, 6.25rem);
+  }
+
+  .hierarchy-title {
+    margin-inline: 0 auto;
+    margin-bottom: clamp(1.35rem, 1.1rem + 1.5vw, 2rem);
+    text-align: start;
+  }
+
+  .hierarchy-title::after {
+    left: 0;
+    transform: none;
+  }
+
+  html[dir="rtl"] .hierarchy-title::after,
+  body[dir="rtl"] .hierarchy-title::after {
+    left: auto;
+    right: 0;
+  }
+
+  .hierarchy-levels {
+    align-items: stretch;
+  }
+
+  .hierarchy-level {
+    align-items: stretch;
+  }
+
+  .hierarchy-level-row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: none;
+  }
+
+  .hierarchy-level-item {
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .hierarchy-level.is-first .hierarchy-level-item {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .hierarchy-card {
+    flex-direction: row;
+    text-align: start;
+    gap: clamp(0.7rem, 0.5rem + 1.2vw, 1rem);
+    padding: clamp(0.75rem, 0.6rem + 1vw, 1.05rem);
+  }
+
+  .hierarchy-card-body {
+    text-align: start;
+    justify-content: center;
+  }
+
+  .hierarchy-card-name {
+    font-size: clamp(0.9375rem, 0.85rem + 0.5vw, 1.1rem);
+  }
+
+  .hierarchy-card-title {
+    font-size: clamp(0.75rem, 0.7rem + 0.35vw, 0.875rem);
+  }
+
+  .hierarchy-card-media {
+    width: clamp(3.25rem, 2.85rem + 2vw, 4.25rem);
+    height: clamp(3.25rem, 2.85rem + 2vw, 4.25rem);
+  }
+}
+
+/* Narrow phones */
+@media (max-width: 420px) {
+  .hierarchy {
+    --hier-level-pad: 0.9rem;
+    --hier-gap: 0.6rem;
+  }
+
+  .hierarchy-card {
+    padding: 0.7rem 0.65rem;
+  }
+}
+
+/* Container-driven tweaks when the chart itself is narrow */
+@container hierarchy (max-width: 640px) {
+  .hierarchy-level-row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    max-width: none;
+  }
+
+  .hierarchy-level-item,
+  .hierarchy-level.is-first .hierarchy-level-item {
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .hierarchy-card {
+    min-height: clamp(5.25rem, 4.75rem + 2vw, 6.25rem);
+    flex-direction: row;
+    text-align: start;
+  }
+
+  .hierarchy-card-body {
+    text-align: start;
+    justify-content: center;
+  }
 }
 
 /* ===== PEOPLE ROWS (Board / Executive) ===== */
