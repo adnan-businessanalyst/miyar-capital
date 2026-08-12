@@ -1,24 +1,13 @@
 "use client";
 
-import { Handshake, ShieldCheck, Star } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import { LazyVideo } from "../components/LazyVideo";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterest } from "../components/RegisterInterest";
-import {
-  INVESTMENT_ADVISORY,
-  type InvestmentAdvisoryIconId,
-} from "../data/investmentadvisory";
+import { INVESTMENT_ADVISORY } from "../data/investmentadvisory";
 import { useLanguage } from "../i18n/LanguageContext";
 import { IA_BG, IA_PROCESS_IMAGES } from "../site/contentImages";
 import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
 import { pickLang } from "../site/types";
-
-const PILLAR_ICONS: Record<InvestmentAdvisoryIconId, LucideIcon> = {
-  priority: Star,
-  trust: ShieldCheck,
-  partnership: Handshake,
-};
 
 export function InvestmentAdvisory() {
   const { lang } = useLanguage();
@@ -75,7 +64,6 @@ export function InvestmentAdvisory() {
                   </p>
                   <div className="adv-pillars">
                     {data.pillars.map((pillar) => {
-                      const Icon = PILLAR_ICONS[pillar.icon];
                       const title = pickLang(
                         pillar.titleEn,
                         pillar.titleAr,
@@ -83,9 +71,6 @@ export function InvestmentAdvisory() {
                       );
                       return (
                         <div className="adv-pillar" key={pillar.titleEn}>
-                          <div className="adv-icon" aria-hidden="true">
-                            <Icon />
-                          </div>
                           <h4>{title}</h4>
                           <p>
                             {pickLang(pillar.bodyEn, pillar.bodyAr, lang)}
@@ -106,6 +91,7 @@ export function InvestmentAdvisory() {
               <div className="timeline">
                 {data.steps.map((step, i) => {
                   const textFirst = i % 2 === 0;
+                  const stepNum = String(Number.parseInt(step.n, 10));
                   const body = pickLang(step.bodyEn, step.bodyAr, lang);
                   const alt = pickLang(step.altEn, step.altAr, lang);
                   const img = IA_PROCESS_IMAGES[step.imageKey];
@@ -117,11 +103,13 @@ export function InvestmentAdvisory() {
                       <div className="tl-img">
                         <img src={img} alt={alt} />
                       </div>
-                      <div className="tl-num">{step.n}</div>
                     </div>
                   );
                   const text = (
                     <div className="tl-text" key="text">
+                      <div className="tl-num" aria-hidden="true">
+                        {stepNum}
+                      </div>
                       <p>{body}</p>
                     </div>
                   );
