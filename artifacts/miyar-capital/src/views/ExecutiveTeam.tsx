@@ -1,7 +1,9 @@
 "use client";
 
+import { CorporateHierarchy } from "../components/CorporateHierarchy";
 import { PageHero } from "../components/PageHero";
 import { PersonRow } from "../components/PersonRow";
+import { CORPORATE_HIERARCHY_MEMBERS } from "../data/hierarchy";
 import { EXECUTIVE_TEAM } from "../data/people";
 import { useLanguage } from "../i18n/LanguageContext";
 import { usePeopleGridReveal } from "../hooks/usePeopleGridReveal";
@@ -25,11 +27,16 @@ export function ExecutiveTeam() {
             : "Seasoned leaders in finance, governance, and Islamic investment — guiding Miyar Capital's strategy and day-to-day operations."
         }
       />
+      <section className="blk hierarchy-sec">
+        <div className="wrap">
+          <CorporateHierarchy members={CORPORATE_HIERARCHY_MEMBERS} />
+        </div>
+      </section>
       <section className="blk">
         <div className="wrap">
           <div ref={listRef} className="people-rows">
             {EXECUTIVE_TEAM.map((person, i) => (
-              <PersonRow key={`${person.name}-${i}`} {...person} />
+              <PersonRow key={`${person.id ?? person.name}-${i}`} {...person} />
             ))}
           </div>
         </div>
