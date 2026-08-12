@@ -73,6 +73,32 @@ export function Header() {
     };
   }, [pathname]);
 
+  useEffect(() => {
+    setMenuOpen(false);
+    setExpandedId(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onResize = () => {
+      if (window.matchMedia("(min-width: 1025px)").matches) {
+        setMenuOpen(false);
+        setExpandedId(null);
+      }
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [menuOpen]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [menuOpen]);
+
   const go = (href?: string) => () => {
     if (!href) return;
     if (href.startsWith("/")) router.push(withLocale(href));
@@ -111,7 +137,7 @@ export function Header() {
     >
       <div className="wrap">
         <div className="nav">
-          <Brand transparent={transparent} />
+          <Brand transparent={transparent && !menuOpen} />
           <nav>
             <ul>
               {nav.items.map((item) => (
@@ -159,7 +185,7 @@ export function Header() {
             </div>
             <button
               type="button"
-              className="lang-globe"
+              className="lang-globe lang-globe--desktop"
               onClick={toggleLang}
               aria-label={lang === "en" ? "Switch to Arabic" : "التبديل إلى الإنجليزية"}
             >
@@ -251,6 +277,17 @@ export function Header() {
               {t("tb_signup")}
             </button>
           )}
+        </div>
+        <div className="mm-lang">
+          <button
+            type="button"
+            className="lang-globe"
+            onClick={toggleLang}
+            aria-label={lang === "en" ? "Switch to Arabic" : "التبديل إلى الإنجليزية"}
+          >
+            <GlobeIcon />
+            <span className="lang-globe-label">{langLabel}</span>
+          </button>
         </div>
       </div>
     </header>
