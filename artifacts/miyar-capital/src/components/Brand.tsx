@@ -21,8 +21,14 @@ export function Brand({ variant = "light", transparent = false }: BrandProps) {
   }
 
   return (
-    <Link href={withLocale("/")} className="brand brand--logo">
-      <img className="brand-logo" src={logo} alt="Miyar Capital" />
+    <Link href={withLocale("/")} className="brand brand--logo" aria-label="Miyar Capital">
+      <img
+        className="brand-logo"
+        src={logo}
+        alt="Miyar Capital"
+        decoding="async"
+        sizes="(max-width: 1024px) 62vw, (max-width: 1280px) 40vw, 204px"
+      />
     </Link>
   );
 }

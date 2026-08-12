@@ -23,6 +23,13 @@
    */
   --section-bg-light: #d5e0e6;
   --section-bg-soft: #ffffff;
+
+  /* Sticky chrome — fluid across viewports */
+  --topbar-h: 30px;
+  --nav-h: clamp(3.5rem, 3.1rem + 1.6vw, 4.625rem);
+  --nav-logo-h: clamp(1.625rem, 1.2rem + 1.8vw, 2.5rem);
+  --nav-logo-max-w: min(52vw, 12.75rem);
+  --chrome-h: calc(var(--topbar-h) + var(--nav-h));
 }
 
 * {
@@ -407,7 +414,7 @@ body.nav-transparent .topbar .reg {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 30px;
+  height: var(--topbar-h);
 }
 
 .topbar .reg {
@@ -481,6 +488,11 @@ header {
   transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
 }
 
+/* Give the logo room on small screens (site .wrap padding is generous). */
+header > .wrap {
+  padding-inline: clamp(0.875rem, 0.35rem + 2.8vw, 170px);
+}
+
 header.header--transparent {
   background: transparent !important;
   backdrop-filter: none !important;
@@ -509,7 +521,9 @@ header.header--transparent .nav-toggle span {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 74px;
+  gap: clamp(0.5rem, 0.25rem + 1vw, 1.25rem);
+  height: var(--nav-h);
+  min-width: 0;
 }
 
 .brand {
@@ -517,6 +531,7 @@ header.header--transparent .nav-toggle span {
   align-items: center;
   gap: 13px;
   cursor: pointer;
+  min-width: 0;
 }
 
 .brand .mark {
@@ -569,30 +584,60 @@ header.header--transparent .nav-toggle span {
   display: block;
   height: 40px;
   width: auto;
+  max-width: 100%;
   object-fit: contain;
+  object-position: left center;
+}
+
+body[dir="rtl"] .brand-logo {
+  object-position: right center;
+}
+
+/* Nav logo scales with viewport; footer keeps its own mark size. */
+header .brand--logo {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: var(--nav-logo-max-w);
+}
+
+header .brand-logo {
+  height: var(--nav-logo-h);
+  width: auto;
+  max-width: 100%;
 }
 
 footer .brand-logo {
-  height: 46px;
+  height: clamp(2.25rem, 2rem + 1vw, 2.875rem);
+  max-width: min(100%, 14rem);
+}
+
+header .nav > nav {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  gap: 22px;
+  flex-wrap: nowrap;
+  gap: clamp(0.4rem, 0.1rem + 1.15vw, 1.375rem);
   align-items: center;
+  min-width: 0;
 }
 
 nav ul li {
   position: relative;
+  flex: 0 0 auto;
 }
 
 nav ul li > a {
-  font-size: 0.8438rem;
+  font-size: clamp(0.6875rem, 0.58rem + 0.42vw, 0.8438rem);
   font-weight: 500;
   color: var(--nav-link-color);
   letter-spacing: 0.02em;
-  padding: 26px 0;
+  padding: calc(var(--nav-h) * 0.32) 0;
   display: inline-block;
   cursor: pointer;
   white-space: nowrap;
@@ -635,13 +680,13 @@ header:not(.header--transparent) .lang-globe:hover {
 
 .dropdown {
   position: absolute;
-  top: 64px;
+  top: calc(var(--nav-h) - 0.625rem);
   left: 50%;
   transform: translateX(-50%) translateY(8px);
   background: #fff;
   border: 1px solid var(--line);
   border-top: 2px solid var(--gold);
-  min-width: 248px;
+  min-width: min(248px, 70vw);
   padding: 10px 0;
   opacity: 0;
   visibility: hidden;
@@ -698,13 +743,15 @@ body[dir="rtl"] .dropdown a:hover {
 
 /* ===== MOBILE NAV (hamburger) ===== */
 .nav-toggle {
+  --nav-toggle-gap: 5px;
   display: none;
+  flex: 0 0 auto;
   flex-direction: column;
   justify-content: center;
-  gap: 5px;
-  width: 44px;
-  height: 44px;
-  padding: 0 11px;
+  gap: var(--nav-toggle-gap);
+  width: clamp(2.25rem, 2rem + 1.2vw, 2.75rem);
+  height: clamp(2.25rem, 2rem + 1.2vw, 2.75rem);
+  padding: 0 clamp(0.55rem, 0.45rem + 0.4vw, 0.7rem);
   border: 1px solid var(--line);
   border-radius: 9px;
   background: transparent;
@@ -721,13 +768,13 @@ body[dir="rtl"] .dropdown a:hover {
 }
 
 header.nav-open .nav-toggle span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+  transform: translateY(calc(var(--nav-toggle-gap) + 2px)) rotate(45deg);
 }
 header.nav-open .nav-toggle span:nth-child(2) {
   opacity: 0;
 }
 header.nav-open .nav-toggle span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(calc(-1 * (var(--nav-toggle-gap) + 2px))) rotate(-45deg);
 }
 
 .mobile-menu {
@@ -735,7 +782,8 @@ header.nav-open .nav-toggle span:nth-child(3) {
   border-top: 1px solid var(--line);
   background: rgba(252, 250, 245, 0.98);
   backdrop-filter: blur(12px);
-  max-height: calc(100vh - 74px);
+  max-height: calc(100vh - var(--nav-h));
+  max-height: calc(100dvh - var(--nav-h));
   overflow-y: auto;
 }
 
@@ -763,13 +811,13 @@ header.nav-open .nav-toggle span:nth-child(3) {
 .mm-auth .tb-signup {
   flex: 1;
   justify-content: center;
-  font-size: 0.75rem;
-  padding: 10px 14px;
-  border-radius: 8px;
+  font-size: 0.6875rem;
+  padding: 8px 12px;
+  border-radius: 7px;
   text-decoration: none;
   cursor: pointer;
   font-family: var(--sans);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   transition: 0.2s;
 }
 
@@ -802,8 +850,9 @@ header.nav-open .nav-toggle span:nth-child(3) {
 
 .mm-row > a {
   flex: 1;
-  padding: 15px 24px;
-  font-size: 0.9375rem;
+  padding: clamp(0.75rem, 0.55rem + 0.8vw, 0.95rem)
+    clamp(1rem, 0.75rem + 1.2vw, 1.5rem);
+  font-size: clamp(0.875rem, 0.8rem + 0.35vw, 0.9375rem);
   font-weight: 500;
   color: var(--navy);
   cursor: pointer;
@@ -857,6 +906,49 @@ header.nav-open .nav-toggle span:nth-child(3) {
 body[dir="rtl"] .mm-sub a {
   padding-left: 24px;
   padding-right: 38px;
+}
+
+.mm-lang {
+  display: flex;
+  justify-content: center;
+  padding: 4px 24px 20px;
+  border-top: 1px solid var(--line);
+}
+
+/* Dark on white drawer — beat header--transparent white globe styles. */
+header .mm-lang .lang-globe,
+header.header--transparent .mm-lang .lang-globe {
+  color: var(--navy);
+  font-size: 0.8125rem;
+  padding: 10px 16px;
+}
+
+header .mm-lang .lang-globe:hover,
+header.header--transparent .mm-lang .lang-globe:hover {
+  color: var(--navy);
+  background: rgba(12, 71, 110, 0.08);
+}
+
+header .mm-lang .lang-globe-icon {
+  width: 18px;
+  height: 18px;
+  color: inherit;
+  stroke: currentColor;
+}
+
+/* When the drawer is open, keep the bar solid and readable. */
+header.nav-open {
+  background: rgba(252, 250, 245, 0.98) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom-color: var(--line) !important;
+}
+
+header.nav-open .nav-toggle {
+  border-color: rgba(12, 71, 110, 0.28);
+}
+
+header.nav-open .nav-toggle span {
+  background: var(--navy);
 }
 
 /* ===== PAGE FADE ===== */
@@ -4227,19 +4319,42 @@ footer .footer-social-link:hover {
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
+
+/* Small screens: hamburger drawer (lang lives inside the menu). */
+@media (max-width: 1024px) {
+  :root {
+    --nav-logo-max-w: min(62vw, 11.5rem);
+  }
+
   nav ul {
     display: none;
   }
+
   .nav-toggle {
     display: flex;
   }
+
   .mobile-menu {
     display: block;
   }
+
   .mobile-menu[hidden] {
     display: none;
   }
+
+  /* Keep the bar lean: brand + hamburger. Auth/lang are in the drawer. */
+  .nav-actions {
+    display: none;
+  }
+
+  .lang-globe--desktop {
+    display: none;
+  }
+
+  header .brand--logo {
+    flex: 1 1 auto;
+  }
+
   .verticals,
   .thesis .wrap,
   .prod-body {
@@ -4335,7 +4450,7 @@ footer .footer-social-link:hover {
   background: var(--navy-deep);
   color: #fff;
   overflow: hidden;
-  margin-top: -104px;
+  margin-top: calc(-1 * var(--chrome-h));
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -7462,13 +7577,15 @@ body[dir="rtl"] .detail-arrows {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
+  gap: clamp(0.25rem, 0.15rem + 0.5vw, 0.5rem);
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .tb-auth {
   display: flex;
-  gap: 6px;
+  gap: clamp(0.25rem, 0.15rem + 0.4vw, 0.375rem);
+  min-width: 0;
 }
 
 .tb-auth button,
@@ -7476,9 +7593,10 @@ body[dir="rtl"] .detail-arrows {
   display: inline-flex;
   align-items: center;
   font-family: var(--sans);
-  font-size: 0.6875rem;
+  font-size: clamp(0.5625rem, 0.5rem + 0.28vw, 0.6875rem);
   letter-spacing: 0.06em;
-  padding: 7px 14px;
+  padding: clamp(0.25rem, 0.2rem + 0.25vw, 0.4375rem)
+    clamp(0.5rem, 0.35rem + 0.55vw, 0.875rem);
   cursor: pointer;
   border-radius: 8px;
   transition: 0.2s;
@@ -7604,17 +7722,13 @@ body[dir="rtl"] .detail-arrows {
 .fp-hero {
   background: #071e33;
   color: #fff;
-  /* Pull hero up behind the topbar + sticky header (30px topbar + 74px header)
-     so the chrome floats over it, and size the section to exactly one screen:
-     min-height 100vh with the copy vertically centred in the space below
-     the chrome. Promo card is pinned to the top of this band (not translated
-     from the centered grid), so it stays put when the viewport resizes. */
-  margin-top: -104px;
+  /* Pull hero up behind topbar + sticky header so chrome floats over it. */
+  margin-top: calc(-1 * var(--chrome-h));
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 134px 0 60px;
+  padding: calc(var(--chrome-h) + 1.875rem) 0 60px;
   position: relative;
   overflow: hidden;
 }
@@ -7836,7 +7950,7 @@ body[dir="rtl"] .detail-arrows {
 }
 
 #what-we-do {
-  scroll-margin-top: 5.5rem; /* clear sticky header on in-page CTA jump */
+  scroll-margin-top: calc(var(--nav-h) + 0.75rem); /* clear sticky header on in-page CTA jump */
 }
 
 .fp-wwd .fp-tag {
@@ -9193,20 +9307,9 @@ body[dir="ltr"] .fp-why-list li {
     max-height: min(92dvh, 92vh);
   }
 
+  /* Forms: drop man-on-phone media so the form can use the full width. */
   .contact-modal-media {
-    max-height: 4.5rem;
-    min-height: 4.5rem;
-    order: -1;
-  }
-
-  .contact-modal[dir="ltr"] .contact-modal-media,
-  .contact-modal[dir="rtl"] .contact-modal-media {
-    order: -1;
-  }
-
-  .contact-modal[dir="ltr"] .contact-modal-body,
-  .contact-modal[dir="rtl"] .contact-modal-body {
-    order: 0;
+    display: none;
   }
 
   .contact-modal-body {
@@ -9615,7 +9718,7 @@ body[dir="ltr"] .fp-why-list li {
     display: none;
   }
   .fp-hero {
-    padding: 178px 0 64px;
+    padding: calc(var(--chrome-h) + 4.5rem) 0 64px;
   }
   .fp-hero-inner,
   .fp-app-inner,
@@ -9631,15 +9734,6 @@ body[dir="ltr"] .fp-why-list li {
   .fp-contact-media {
     min-height: 280px;
   }
-  .tb-auth button,
-  .tb-auth a {
-    padding: 6px 10px;
-    font-size: 0.625rem;
-    letter-spacing: 0.04em;
-  }
-  .nav-actions {
-    gap: 6px;
-  }
 }
 
 @media (max-width: 560px) {
@@ -9647,7 +9741,7 @@ body[dir="ltr"] .fp-why-list li {
     min-height: 22rem;
   }
   .fp-hero {
-    padding: 148px 0 52px;
+    padding: calc(var(--chrome-h) + 3.25rem) 0 52px;
   }
   .fp-hero-text h1 {
     font-size: clamp(22px, 8.5vw, 26px);
