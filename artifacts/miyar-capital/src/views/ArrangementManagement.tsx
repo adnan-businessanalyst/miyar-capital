@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
-import { RegisterInterest } from "../components/RegisterInterest";
 import {
   ARRANGEMENT_MANAGEMENT,
   type ArrangementServiceIconId,
@@ -21,7 +20,6 @@ import {
   DETAILS_PG_IMAGE,
   IA_INTRO_IMAGE,
 } from "../site/contentImages";
-import { MAN_ON_PHONE_IMG as manOnPhone } from "../site/manOnPhone";
 import { pickLang } from "../site/types";
 
 const SERVICE_ICONS: Record<ArrangementServiceIconId, LucideIcon> = {
@@ -86,10 +84,6 @@ export function ArrangementManagement() {
                   <p>
                     {pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   </p>
-                  <RegisterInterest
-                    sourcePage="/arrangement-management"
-                    className="btn btn-outline-navy"
-                  />
                 </div>
                 <div className="arr-intro-img">
                   <img
@@ -260,13 +254,13 @@ export function ArrangementManagement() {
         );
       case "interest":
         return (
-          <section key={id} className="blk ri" id="register">
-            <div className="wrap contact-cta">
-              <RegisterInterest
-                sourcePage="/arrangement-management"
-                image={manOnPhone}
-              />
-            </div>
+          <section
+            key={id}
+            className="blk ri"
+            id="register"
+            aria-hidden="true"
+          >
+            <div className="wrap contact-cta" />
           </section>
         );
       default:
