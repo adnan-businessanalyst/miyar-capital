@@ -1,6 +1,11 @@
+"use client";
+
 import { PageHero } from "../components/PageHero";
 import { ReportCard } from "../components/ReportCard";
+import { FINANCIAL_REPORTS } from "../data/financialreports";
 import type { Report } from "../data/reports";
+import { useLanguage } from "../i18n/LanguageContext";
+import { pickLang } from "../site/types";
 
 interface FinancialReportsProps {
   annualReports: Report[];
@@ -13,27 +18,38 @@ export function FinancialReports({
   financialReports,
   loadError,
 }: FinancialReportsProps) {
+  const { lang } = useLanguage();
+  const data = FINANCIAL_REPORTS;
+
   return (
     <div className="page">
       <PageHero
-        title="Financial Reports"
-        crumb="Investor Relations / Financial Reports"
+        title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
+        crumb={pickLang(data.hero.crumbEn, data.hero.crumbAr, lang)}
       />
       {loadError ? (
         <section className="blk">
           <div className="wrap">
-            <p style={{ color: "#b42318" }}>{loadError}</p>
+            <p style={{ color: "#b42318" }}>
+              {pickLang(data.loadErrorEn, data.loadErrorAr, lang)}
+            </p>
           </div>
         </section>
       ) : null}
       <section className="blk">
         <div className="wrap">
           <div className="sec-head">
-            <h2>Annual Reports</h2>
+            <h2>
+              {pickLang(
+                data.annual.headingEn,
+                data.annual.headingAr,
+                lang,
+              )}
+            </h2>
           </div>
           {annualReports.length === 0 ? (
             <p style={{ color: "var(--muted)", marginTop: 8 }}>
-              No annual reports published yet.
+              {pickLang(data.annual.emptyEn, data.annual.emptyAr, lang)}
             </p>
           ) : (
             <div className="reports-grid">
@@ -47,11 +63,21 @@ export function FinancialReports({
       <section className="blk blk--cream">
         <div className="wrap">
           <div className="sec-head">
-            <h2>Financial Reports</h2>
+            <h2>
+              {pickLang(
+                data.financial.headingEn,
+                data.financial.headingAr,
+                lang,
+              )}
+            </h2>
           </div>
           {financialReports.length === 0 ? (
             <p style={{ color: "var(--muted)", marginTop: 8 }}>
-              No financial reports published yet.
+              {pickLang(
+                data.financial.emptyEn,
+                data.financial.emptyAr,
+                lang,
+              )}
             </p>
           ) : (
             <div className="reports-grid">

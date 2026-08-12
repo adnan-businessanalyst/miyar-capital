@@ -1368,11 +1368,31 @@ section.blk {
 }
 
 .pcar-stage {
+  /* LTR grid keeps the aside on the physical right in both EN and AR */
+  direction: ltr;
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--pcar-list-col);
   align-items: center;
   gap: var(--pcar-stage-gap);
   width: 100%;
+}
+
+.pcar-aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+  min-width: 0;
+}
+
+html[dir="rtl"] .pcar-aside,
+body[dir="rtl"] .pcar-aside {
+  direction: rtl;
+}
+
+html[dir="ltr"] .pcar-aside,
+body[dir="ltr"] .pcar-aside {
+  direction: ltr;
 }
 
 .pcar-pillwrap {
@@ -1830,33 +1850,30 @@ body[dir="rtl"] .pcar-cta:focus-visible .pcar-panel-go {
 }
 
 .pcar-arrows {
-  --pcar-active-w: clamp(16rem, 72cqi, 35rem);
-  --pcar-arrow-size: clamp(2rem, 1.55rem + 1.6cqi, 2.5rem);
-  --pcar-arrow-font: clamp(0.95rem, 0.8rem + 0.55cqi, 1.1rem);
-  --pcar-arrow-gap: clamp(0.4rem, 0.25rem + 0.55cqi, 0.625rem);
-  --pcar-arrow-top: clamp(0.7rem, 0.4rem + 1.8cqi, 1.5rem);
-  --pcar-arrow-inset: clamp(0.7rem, 0.4rem + 1.8cqi, 1.5rem);
+  --pcar-arrow-size: clamp(2rem, 1.55rem + 1.2vw, 2.5rem);
+  --pcar-arrow-font: clamp(0.95rem, 0.8rem + 0.45vw, 1.1rem);
+  --pcar-arrow-gap: clamp(0.4rem, 0.25rem + 0.5vw, 0.625rem);
 
-  position: absolute;
-  top: var(--pcar-arrow-top);
-  /* Align to the active card’s inner edge */
-  inset-inline-end: max(
-    var(--pcar-arrow-inset),
-    calc(50% - (var(--pcar-active-w) / 2) + var(--pcar-arrow-inset))
-  );
-  z-index: 31;
   display: flex;
   gap: var(--pcar-arrow-gap);
+  /* Physical right under the list (aside dir is page dir; force right) */
+  justify-content: flex-end;
+  width: 100%;
+}
+
+html[dir="rtl"] .pcar-arrows,
+body[dir="rtl"] .pcar-arrows {
+  justify-content: flex-start; /* physical right in RTL */
 }
 
 .pcar-arrow {
+  flex: 0 0 auto;
   width: var(--pcar-arrow-size);
   height: var(--pcar-arrow-size);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(4px);
-  color: #fff;
+  border: 1px solid rgba(6, 31, 51, 0.35);
+  background: rgba(6, 31, 51, 0.04);
+  color: var(--navy);
   font-size: var(--pcar-arrow-font);
   line-height: 1;
   cursor: pointer;
@@ -1867,8 +1884,9 @@ body[dir="rtl"] .pcar-cta:focus-visible .pcar-panel-go {
 }
 
 .pcar-arrow:hover {
-  background: #fff;
-  color: var(--navy);
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
   transform: scale(1.06);
 }
 
@@ -1996,6 +2014,10 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
 
   .pcar-stage {
     grid-template-columns: 1fr;
+  }
+
+  .pcar-aside {
+    gap: clamp(0.75rem, 0.55rem + 1vw, 1.1rem);
   }
 
   /* No carousel morph on small screens — active card only */
