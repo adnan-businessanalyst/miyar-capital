@@ -1,3 +1,10 @@
+/**
+ * GetInTouch — Localized Get In Touch CTA that opens a ContactModal with ContactForm.
+ *
+ * Used by:
+ * - views/FrontPage.tsx
+ */
+
 "use client";
 
 import { useState } from "react";

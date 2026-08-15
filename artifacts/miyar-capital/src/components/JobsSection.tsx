@@ -1,3 +1,10 @@
+/**
+ * JobsSection — Careers listing section that shows job cards with links and apply actions.
+ *
+ * Used by:
+ * - views/FrontPage.tsx
+ */
+
 "use client";
 
 import Link from "next/link";

@@ -1,3 +1,10 @@
+/**
+ * PrimaryButton — Navy primary action control that renders as a button or link, with optional HTML label.
+ *
+ * Used by:
+ * - components/Factsheet.tsx
+ */
+
 "use client";
 
 import type { ButtonHTMLAttributes, ReactNode } from "react";

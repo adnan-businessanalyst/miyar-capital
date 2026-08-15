@@ -1,3 +1,12 @@
+/**
+ * ContactModal — Accessible modal shell with optional side image, used to host contact or apply forms.
+ *
+ * Used by:
+ * - components/GetInTouch.tsx
+ * - components/JobApplyButton.tsx
+ * - components/RegisterInterest.tsx
+ */
+
 "use client";
 
 import {

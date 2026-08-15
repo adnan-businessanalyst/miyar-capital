@@ -1,3 +1,34 @@
+/**
+ * SectionHead — Standard section chrome: underlined h2 title plus optional lighter subtitle.
+ *
+ * Used by:
+ * - components/IntroCard.tsx
+ * - components/RegisterInterestSection.tsx
+ * - views/ArrangementManagement.tsx
+ * - views/AssetManagement.tsx
+ * - views/CapitalMarketsAdvisory.tsx
+ * - views/DPM.tsx
+ * - views/DebtFinancingArrangement.tsx
+ * - views/Disclosures.tsx
+ * - views/EquityManagement.tsx
+ * - views/FATCA.tsx
+ * - views/FinancialReports.tsx
+ * - views/FrontPage.tsx
+ * - views/FundReportsDetail.tsx
+ * - views/GovernanceIndependence.tsx
+ * - views/InstitutionalFamilyOffice.tsx
+ * - views/InvestmentAdvisory.tsx
+ * - views/InvestmentBanking.tsx
+ * - views/InvestmentManagement.tsx
+ * - views/MergersAcquisitions.tsx
+ * - views/PrivateMarketsPage.tsx
+ * - views/RealAssets.tsx
+ * - views/RealEstatePrivateArrangements.tsx
+ * - views/ShariahPrinciples.tsx
+ * - views/ValuationFinancialAdvisory.tsx
+ * - views/WhoWeAre.tsx
+ */
+
 import type { ReactNode } from "react";
 
 type Props = {

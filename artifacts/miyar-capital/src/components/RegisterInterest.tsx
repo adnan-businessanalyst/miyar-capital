@@ -1,3 +1,11 @@
+/**
+ * RegisterInterest — Localized Register Interest CTA that opens a ContactModal with the register ContactForm.
+ *
+ * Used by:
+ * - app/investment-banking/register-interest/page.tsx
+ * - components/RegisterInterestSection.tsx
+ */
+
 "use client";
 
 import { useState } from "react";

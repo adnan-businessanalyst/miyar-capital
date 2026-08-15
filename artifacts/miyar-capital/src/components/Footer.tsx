@@ -1,3 +1,10 @@
+/**
+ * Footer — Site footer with brand, localized links, address, optional app-store badges, and disclaimer.
+ *
+ * Used by:
+ * - components/SiteChrome.tsx
+ */
+
 "use client";
 
 import Link from "next/link";

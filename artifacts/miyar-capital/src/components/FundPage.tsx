@@ -1,3 +1,11 @@
+/**
+ * FundPage — Full fund detail page composing hero, intro, stat grids, and quarterly/annual report sections.
+ *
+ * Used by:
+ * - views/MurabahaFund.tsx
+ * - views/SaudiEquityFund.tsx
+ */
+
 import { PageHero } from "./PageHero";
 import { IntroCard } from "./IntroCard";
 import { StatIcon } from "./StatIcon";

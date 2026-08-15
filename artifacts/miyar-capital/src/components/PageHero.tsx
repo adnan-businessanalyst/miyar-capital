@@ -1,3 +1,42 @@
+/**
+ * PageHero — Inner-page hero with optional title, subtitle, crumbs, chips, MetaFacts, background, and optional reveal animation.
+ *
+ * Used by:
+ * - components/FundPage.tsx
+ * - components/ReportsPage.tsx
+ * - views/ArrangementManagement.tsx
+ * - views/AssetManagement.tsx
+ * - views/BoardOfDirectors.tsx
+ * - views/CapitalMarketsAdvisory.tsx
+ * - views/DPM.tsx
+ * - views/DebtFinancingArrangement.tsx
+ * - views/Disclosures.tsx
+ * - views/EquityManagement.tsx
+ * - views/ExecutiveTeam.tsx
+ * - views/FATCA.tsx
+ * - views/FinancialReports.tsx
+ * - views/FundReportsDetail.tsx
+ * - views/FundsReports.tsx
+ * - views/GovernanceIndependence.tsx
+ * - views/IBRegisterInterest.tsx
+ * - views/InstitutionalFamilyOffice.tsx
+ * - views/InvestmentAdvisory.tsx
+ * - views/InvestmentBanking.tsx
+ * - views/InvestmentManagement.tsx
+ * - views/JobDetail.tsx
+ * - views/LiquidityFI.tsx
+ * - views/MergersAcquisitions.tsx
+ * - views/News.tsx
+ * - views/NewsArticle.tsx
+ * - views/PrivacyPolicy.tsx
+ * - views/PrivateMarketsPage.tsx
+ * - views/RealAssets.tsx
+ * - views/RealEstatePrivateArrangements.tsx
+ * - views/ShariahPrinciples.tsx
+ * - views/ValuationFinancialAdvisory.tsx
+ * - views/WhoWeAre.tsx
+ */
+
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";

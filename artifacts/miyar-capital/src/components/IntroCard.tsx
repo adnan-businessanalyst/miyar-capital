@@ -1,3 +1,11 @@
+/**
+ * IntroCard — Two-column investment-management intro with copy, register CTA, and image.
+ *
+ * Used by:
+ * - components/FundPage.tsx
+ * - views/InvestmentManagement.tsx
+ */
+
 "use client";
 
 import { CONTACT } from "../data/contact";

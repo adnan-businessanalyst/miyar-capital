@@ -1,3 +1,20 @@
+/**
+ * RichText — Renders trusted static HTML snippets from translation strings via dangerouslySetInnerHTML.
+ *
+ * Used by:
+ * - components/Factsheet.tsx
+ * - components/PrimaryButton.tsx
+ * - components/PrimaryCardClickable.tsx
+ * - components/SecondaryButton.tsx
+ * - components/Steps.tsx
+ * - views/DPM.tsx
+ * - views/EquityManagement.tsx
+ * - views/InstitutionalFamilyOffice.tsx
+ * - views/LiquidityFI.tsx
+ * - views/PrivateMarketsPage.tsx
+ * - views/RealAssets.tsx
+ */
+
 import { createElement, type JSX } from "react";
 
 interface RichTextProps {

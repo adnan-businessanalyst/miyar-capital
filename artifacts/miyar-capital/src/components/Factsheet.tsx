@@ -1,3 +1,10 @@
+/**
+ * Factsheet — Sticky label/value facts panel with optional primary and secondary CTAs.
+ *
+ * Used by:
+ * - views/LiquidityFI.tsx
+ */
+
 "use client";
 
 import type { ReactNode } from "react";

@@ -1,3 +1,12 @@
+/**
+ * Steps — Numbered process cards as an ordered list with a connecting horizontal or vertical line.
+ *
+ * Used by:
+ * - views/AssetManagement.tsx
+ * - views/DPM.tsx
+ * - views/InvestmentBanking.tsx
+ */
+
 import type { CSSProperties } from "react";
 import { RichText } from "./RichText";
 

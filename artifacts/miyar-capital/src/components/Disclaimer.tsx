@@ -1,3 +1,10 @@
+/**
+ * Disclaimer — Localized regulatory disclaimer text block for the site footer.
+ *
+ * Used by:
+ * - components/Footer.tsx
+ */
+
 "use client";
 
 import { useLanguage } from "../i18n/LanguageContext";

@@ -1,3 +1,11 @@
+/**
+ * ContactForm — Validated contact or register-interest form that posts to the API with optional image upload and reCAPTCHA.
+ *
+ * Used by:
+ * - components/GetInTouch.tsx
+ * - components/RegisterInterest.tsx
+ */
+
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";

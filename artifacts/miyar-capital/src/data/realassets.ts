@@ -6,7 +6,11 @@
  * Bodies may include `<br>` for paragraph breaks (rendered via RichText).
  */
 
-export type RealAssetsSectionId = "intro" | "offer" | "diversification";
+export type RealAssetsSectionId =
+  | "intro"
+  | "offer"
+  | "diversification"
+  | "projects";
 
 export type RealAssetsListCardIconId = "layers" | "map";
 
@@ -31,6 +35,37 @@ export interface RealAssetsListCard {
   items: RealAssetsListItem[];
 }
 
+export interface RealAssetsProjectItem {
+  titleEn: string;
+  titleAr: string;
+  assetTypeEn: string;
+  assetTypeAr: string;
+  bodyEn: string;
+  bodyAr: string;
+  fundCurrencyEn: string;
+  fundCurrencyAr: string;
+  fundSizeEn: string;
+  fundSizeAr: string;
+  fundStartDateEn: string;
+  fundStartDateAr: string;
+  fundManagerEn: string;
+  fundManagerAr: string;
+  fundLifeEn: string;
+  fundLifeAr: string;
+  fundStatusEn: string;
+  fundStatusAr: string;
+  investmentStrategyEn: string;
+  investmentStrategyAr: string;
+  developerEn: string;
+  developerAr: string;
+  auditorEn: string;
+  auditorAr: string;
+  investmentGoalEn: string;
+  investmentGoalAr: string;
+  fundGeographyEn: string;
+  fundGeographyAr: string;
+}
+
 export interface RealAssetsContent {
   sectionOrder: RealAssetsSectionId[];
   hero: {
@@ -52,10 +87,43 @@ export interface RealAssetsContent {
   };
   diversification: RealAssetsListCard;
   geography: RealAssetsListCard;
+  projects: {
+    headingEn: string;
+    headingAr: string;
+    introEn: string;
+    introAr: string;
+    labels: {
+      fundCurrencyEn: string;
+      fundCurrencyAr: string;
+      assetTypeEn: string;
+      assetTypeAr: string;
+      fundLifeEn: string;
+      fundLifeAr: string;
+      fundStartDateEn: string;
+      fundStartDateAr: string;
+      fundSizeEn: string;
+      fundSizeAr: string;
+      investmentStrategyEn: string;
+      investmentStrategyAr: string;
+      fundManagerEn: string;
+      fundManagerAr: string;
+      developerEn: string;
+      developerAr: string;
+      auditorEn: string;
+      auditorAr: string;
+      investmentGoalEn: string;
+      investmentGoalAr: string;
+      fundStatusEn: string;
+      fundStatusAr: string;
+      fundGeographyEn: string;
+      fundGeographyAr: string;
+    };
+    items: RealAssetsProjectItem[];
+  };
 }
 
 export const REAL_ASSETS: RealAssetsContent = {
-  sectionOrder: ["intro", "offer", "diversification"],
+  sectionOrder: ["intro", "offer", "diversification", "projects"],
 
   hero: {
     titleEn: "Tangible assets. Durable returns. Inflation resilience.",
@@ -125,6 +193,171 @@ export const REAL_ASSETS: RealAssetsContent = {
       { labelEn: "Europe", labelAr: "أوروبا" },
       { labelEn: "Asia", labelAr: "آسيا" },
       { labelEn: "Australia", labelAr: "أستراليا" },
+    ],
+  },
+
+  projects: {
+    headingEn: "Our Real Assets Projects",
+    headingAr: "مشاريع أصولنا العقارية",
+    introEn:
+      "Selected real estate and infrastructure projects that reflect our focus on durable income, disciplined underwriting, and long-term asset quality.",
+    introAr:
+      "مجموعة مختارة من مشاريع العقارات والبنية التحتية التي تعكس تركيزنا على الدخل المستدام، والتقييم المنضبط، وجودة الأصول على المدى الطويل.",
+    labels: {
+      fundCurrencyEn: "Fund Currency",
+      fundCurrencyAr: "عملة الصندوق",
+      assetTypeEn: "Asset Type",
+      assetTypeAr: "نوع الأصل",
+      fundLifeEn: "Fund Life",
+      fundLifeAr: "مدة الصندوق",
+      fundStartDateEn: "Effective Date",
+      fundStartDateAr: "تاريخ بدء الصندوق",
+      fundSizeEn: "Fund Size",
+      fundSizeAr: "حجم الصندوق",
+      investmentStrategyEn: "Investment Strategy",
+      investmentStrategyAr: "استراتيجية الاستثمار",
+      fundManagerEn: "Fund Manager",
+      fundManagerAr: "مدير الصندوق",
+      developerEn: "Developer",
+      developerAr: "المطور",
+      auditorEn: "Auditor",
+      auditorAr: "المدقق",
+      investmentGoalEn: "Investment Goal",
+      investmentGoalAr: "هدف الاستثمار",
+      fundStatusEn: "Fund Status",
+      fundStatusAr: "حالة الصندوق",
+      fundGeographyEn: "Fund Geography",
+      fundGeographyAr: "الموقع",
+    },
+    items: [
+      {
+        titleEn: "Miyar Logistic Park Real Estate Fund",
+        titleAr: "صندوق معيار لوجستيك بارك العقاري",
+        assetTypeEn: "Real Estate",
+        assetTypeAr: "العقارات",
+        bodyEn:
+          "???A closed-ended private real estate investment fund that is compliant with Shariah standards and controls and was established in accordance with the provisions of the Investment Funds Regulations issued by the Capital Market Authority in the Kingdom.",
+        bodyAr:
+          "صندوق إستثمار عقاري خاص مغلق متوافق مع المعايير و الضوابط الشرعية و تم تأسيسة وفقاً لأحكام لائحة صناديق الإستثمار الصادرة عن هيئة السوق المالية في المملكة.",
+        fundCurrencyEn: "SAR",
+        fundCurrencyAr: "ريال سعودي",
+        fundSizeEn: "1.193 billion SAR",
+        fundSizeAr: "1.193 مليار ريال سعودي",
+        fundManagerEn: "Miyar Capital",
+        fundManagerAr: "شركة معيار المالية",
+        fundLifeEn: "4 years + 2 gregorian years extension",
+        fundLifeAr: "4 سنوات + تمديد إضافي لمدة سنتين ميلادية",
+        fundStartDateEn: "28/9/2025",
+        fundStartDateAr: "28/9/2025",
+        fundStatusEn: "Closed",
+        fundStatusAr: "مغلق",
+        investmentStrategyEn: "Actvie InvestmentStrategy",
+        investmentStrategyAr: "استراتيجية نشطة",
+        developerEn: "؟؟؟Najd Bonyan Company",
+        developerAr: "شركة بنيان نجد العقارية",
+        auditorEn: "PKF Al-Bassam & Co.",
+        auditorAr: "البسام و شركاة المحاسبون المتحالفون",
+        investmentGoalEn: "؟؟؟Income generation and capital preservation",
+        investmentGoalAr: "يتمثل الهدف الرئيسي للصندوق في تنمية رأس المال من خلال الاستثمار في مشروع تطوير عقاري يشمل تطوير الأراضي و البنية التحتية و تجهيزها للاستخدامات الصناعية و اللوجستية، و من ثم بيعها بما يحقق عوائد رأسمالية لمالكي وحدات الصندوق.",
+        fundGeographyEn: "Kingdom of Saudi Arabia",
+        fundGeographyAr: "المملكة العربية السعودية",
+      },
+      {
+        titleEn: "Miyar Logistic Park Real Estate Fund",
+        titleAr: "صندوق معيار لوجستيك بارك العقاري",
+        assetTypeEn: "Real Estate",
+        assetTypeAr: "العقارات",
+        bodyEn:
+          "???A closed-ended private real estate investment fund that is compliant with Shariah standards and controls and was established in accordance with the provisions of the Investment Funds Regulations issued by the Capital Market Authority in the Kingdom.",
+        bodyAr:
+          "صندوق إستثمار عقاري خاص مغلق متوافق مع المعايير و الضوابط الشرعية و تم تأسيسة وفقاً لأحكام لائحة صناديق الإستثمار الصادرة عن هيئة السوق المالية في المملكة.",
+        fundCurrencyEn: "SAR",
+        fundCurrencyAr: "ريال سعودي",
+        fundSizeEn: "160 million SAR",
+        fundSizeAr: "160 مليون ريال سعودي",
+        fundManagerEn: "Miyar Capital",
+        fundManagerAr: "شركة معيار المالية",
+        fundLifeEn: "5 years + 2 gregorian years extension",
+        fundLifeAr: "5 سنوات + تمديد إضافي لمدة سنتين ميلادية",
+        fundStartDateEn: "6/4/2025",
+        fundStartDateAr: "6/4/2025",
+        fundStatusEn: "Closed",
+        fundStatusAr: "مغلق",
+        investmentStrategyEn: "Actvie InvestmentStrategy",
+        investmentStrategyAr: "استراتيجية نشطة",
+        developerEn: "???Kaden Investment Company",
+        developerAr: "شركة كادن للاستثمار",
+        auditorEn: "PKF Al-Bassam & Co.",
+        auditorAr: "البسام و شركاة المحاسبون المتحالفون",
+        investmentGoalEn: "؟؟؟Income generation and capital preservation",
+        investmentGoalAr: "يتمثل الهدف الرئيسي للصندوق في تنمية رأس المال من خلال الاستثمار في مشروع تطوير عقاري يشمل تطوير الأراضي و البنية التحتية و تجهيزها للاستخدامات الصناعية و اللوجستية، و من ثم بيعها بما يحقق عوائد رأسمالية لمالكي وحدات الصندوق.",
+        fundGeographyEn: "Kingdom of Saudi Arabia",
+        fundGeographyAr: "المملكة العربية السعودية",
+      },
+      {
+        titleEn: "Miyar's Ajam Real Estate Fund???",
+        titleAr: "صندوق معيار اجام العقاري",
+        assetTypeEn: "Real Estate",
+        assetTypeAr: "العقارات ",
+        bodyEn:
+          "???",
+        bodyAr:
+          "صندوق استثمار عقاري خاص مغلق متوافق مع المعايير و الضوابط الشرعية و تم تأسيسه و فقاً لأحكام لائحة صناديق الإستثمار الصادرة عن هيئة السوق المالية في المملكة.",
+        fundCurrencyEn: "SAR",
+        fundCurrencyAr: "ريال سعودي",
+        fundSizeEn: "124 million SAR",
+        fundSizeAr: "124 مليون ريال سعودي",
+        fundStartDateEn: "22/1/2022",
+        fundStartDateAr: "22/1/2022",
+        fundLifeEn: "3 years + 1 year extension",
+        fundLifeAr: "3 سنوات + تمديد اضافي لمدة سنتين ميلادية",
+        investmentStrategyEn: "Active Investment Strategy",
+        investmentStrategyAr: "استراتيجية نشطة",
+        fundManagerEn: "Miyar Capital",
+        fundManagerAr: "شركة معيار المالية",
+        developerEn: "؟؟؟To be announced",
+        developerAr: "شركة اتحاد العمران للتطوير العقاري",
+        auditorEn: "PKF Al-Bassam & Co.",
+        auditorAr: "البسام و شركاة المحاسبون المتحالفون",
+        investmentGoalEn: "???A closed-ended private real estate investment fund that is compliant with Shariah standards and controls and was established in accordance with the provisions of the Investment Funds Regulations issued by the Capital Market Authority in the Kingdom.",
+        investmentGoalAr: "يتمثل الهدف الرئيسي للصندوق في تنمية رأس المال من خلال الاستثمار في مشروع تطوير عقاري يشمل تطوير الأراضي و البنية التحتية و تجهيزها للاستخدامات الصناعية و اللوجستية، و من ثم بيعها بما يحقق عوائد رأسمالية لمالكي وحدات الصندوق.",
+        fundStatusEn: "Open",
+        fundStatusAr: "مفتوح",
+        fundGeographyEn: "Kingdom of Saudi Arabia",
+        fundGeographyAr: "المملكة العربية السعودية",
+      },
+        {
+          titleEn: "Minyar First Jeddah Real Estate Fund",
+          titleAr: "صندوق معيار جدة الاول العقاري",
+          assetTypeEn: "Real Estate",
+          assetTypeAr: "العقارات",
+          bodyEn:
+            "???A closed-ended private real estate investment fund that is compliant with Shariah standards and controls and was established in accordance with the provisions of the Investment Funds Regulations issued by the Capital Market Authority in the Kingdom.",
+          bodyAr:
+            "صندوق إستثمار عقاري خاص مغلق متوافق مع المعايير و الضوابط الشرعية و تم تأسيسة وفقاً لأحكام لائحة صناديق الإستثمار الصادرة عن هيئة السوق المالية في المملكة.",
+          fundCurrencyEn: "SAR",
+          fundCurrencyAr: "ريال سعودي",
+          fundSizeEn: "511 million SAR",
+          fundSizeAr: "511 مليون ريال سعودي",
+          fundManagerEn: "Miyar Capital",
+          fundManagerAr: "شركة معيار المالية",
+          fundLifeEn: "4 years + 2 gregorian years extension",
+          fundLifeAr: "4 سنوات + تمديد إضافي لمدة سنتين ميلادية",
+          fundStartDateEn: "17/5/2017",
+          fundStartDateAr: "17/5/2017",
+          fundStatusEn: "Closed",
+          fundStatusAr: "مغلق",
+          investmentStrategyEn: "Actvie InvestmentStrategy",
+          investmentStrategyAr: "استراتيجية نشطة",
+          developerEn: "؟؟؟Saud Alrifi Trade Group",
+          developerAr: "مجموعة سعود العريفي للتجارة",
+          auditorEn: "PKF Al-Bassam & Co.",
+          auditorAr: "البسام و شركاة المحاسبون المتحالفون",
+          investmentGoalEn: "؟؟؟Income generation and capital preservation",
+          investmentGoalAr: "يتمثل الهدف الرئيسي للصندوق في تنمية رأس المال من خلال الاستثمار في مشروع تطوير عقاري يشمل تطوير الأراضي و البنية التحتية و تجهيزها للاستخدامات الصناعية و اللوجستية، و من ثم بيعها بما يحقق عوائد رأسمالية لمالكي وحدات الصندوق.",
+          fundGeographyEn: "Kingdom of Saudi Arabia",
+          fundGeographyAr: "المملكة العربية السعودية",
+        },
     ],
   },
 };

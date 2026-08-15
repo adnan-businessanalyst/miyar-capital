@@ -1,3 +1,10 @@
+/**
+ * PillarCarousel — Animated carousel of Asset Management pillar cards with side list, arrows, and navigation callbacks.
+ *
+ * Used by:
+ * - views/AssetManagement.tsx
+ */
+
 "use client";
 
 import {

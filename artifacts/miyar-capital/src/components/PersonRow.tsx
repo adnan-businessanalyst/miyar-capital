@@ -1,3 +1,11 @@
+/**
+ * PersonRow — Localized horizontal person row with photo, name, role, and bio.
+ *
+ * Used by:
+ * - views/BoardOfDirectors.tsx
+ * - views/ExecutiveTeam.tsx
+ */
+
 "use client";
 
 import type { Person } from "../data/people";

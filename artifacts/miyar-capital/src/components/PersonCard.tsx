@@ -1,3 +1,10 @@
+/**
+ * PersonCard — Person profile card with photo/initials, role, and optional board-layout bio overlay.
+ *
+ * Used by:
+ * - (none yet)
+ */
+
 import type { CSSProperties } from "react";
 import type { Person } from "../data/people";
 

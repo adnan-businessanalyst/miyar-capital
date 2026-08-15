@@ -1,3 +1,10 @@
+/**
+ * SarText — Splits copy on the Saudi Riyal sign and renders that glyph with the saudi-riyal webfont.
+ *
+ * Used by:
+ * - views/FrontPage.tsx
+ */
+
 import { Fragment } from "react";
 
 /** Official Saudi Riyal sign (Unicode 17 / U+20C1). */
