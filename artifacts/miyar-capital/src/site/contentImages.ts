@@ -23,6 +23,11 @@ export const CONTENT_IMAGES = {
   ra_diversity: content("ra-diversity"),
   /** Real Assets geographic card header — any of .svg/.avif/.webp/.jpg/.jpeg/.png */
   ra_geo_network: content("ra-geo-network"),
+  /** Real Assets project fact cards (ScrollExamples) */
+  ra_1: content("ra-1"),
+  ra_2: content("ra-2"),
+  ra_3: content("ra-3"),
+  ra_4: content("ra-4"),
   private_offers: content("private_offers"),
   service_asset_management: content("service-asset-management"),
   service_investment_banking: content("service-investment-banking"),

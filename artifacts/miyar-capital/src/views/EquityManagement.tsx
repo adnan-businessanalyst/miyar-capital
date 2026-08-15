@@ -127,7 +127,6 @@ export function EquityManagement() {
       case "examples": {
         const labels = data.examples.labels;
         const scrollItems = data.examples.items.map((item) => ({
-          fundType: pickLang(item.sectorEn, item.sectorAr, lang),
           title: pickLang(item.titleEn, item.titleAr, lang),
           body: pickLang(item.bodyEn, item.bodyAr, lang),
           meta: [

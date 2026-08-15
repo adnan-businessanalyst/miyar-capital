@@ -9,6 +9,10 @@
 export interface MetaFact {
   label: string;
   value: string;
+  /** When true, label stays on its own line above the value (e.g. long copy). */
+  stacked?: boolean;
+  /** When true, allow the label text to wrap (up to natural wrap; used for long titles). */
+  wrapLabel?: boolean;
 }
 
 type MetaFactsTone = "dark" | "light";
@@ -33,12 +37,21 @@ export function MetaFacts({
     <div
       className={`meta-facts meta-facts--${tone} meta-facts--${layout}${className ? ` ${className}` : ""}`}
     >
-      {items.map((item) => (
-        <div className="meta-fact" key={item.label}>
-          <div className="meta-fact-label">{item.label}</div>
-          <div className="meta-fact-value">{item.value}</div>
-        </div>
-      ))}
+      {items.map((item) => {
+        const factClass = [
+          "meta-fact",
+          item.stacked ? "meta-fact--stacked" : "",
+          item.wrapLabel ? "meta-fact--wrap-label" : "",
+        ]
+          .filter(Boolean)
+          .join(" ");
+        return (
+          <div className={factClass} key={item.label}>
+            <div className="meta-fact-label">{item.label}</div>
+            <div className="meta-fact-value">{item.value}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }
