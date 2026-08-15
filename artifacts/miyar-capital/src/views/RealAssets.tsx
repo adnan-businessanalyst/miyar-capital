@@ -11,10 +11,18 @@ import {
 } from "../data/realassets";
 import { useResolvedMedia } from "../hooks/useResolvedMedia";
 import { useLanguage } from "../i18n/LanguageContext";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 /** Basename under public/media/content/ — any image extension. */
 const INTRO_MEDIA_BASENAME = "ra-intro";
+
+const PROJECT_CARD_IMAGES = [
+  CONTENT_IMAGES.ra_1,
+  CONTENT_IMAGES.ra_2,
+  CONTENT_IMAGES.ra_3,
+  CONTENT_IMAGES.ra_4,
+] as const;
 
 const LIST_CARD_BASENAME: Record<RealAssetsListCard["media"], string> = {
   architecture: "ra-diversity",
@@ -136,10 +144,11 @@ export function RealAssets() {
         );
       case "projects": {
         const labels = data.projects.labels;
-        const scrollItems = data.projects.items.map((item) => ({
-          fundType: pickLang(item.assetTypeEn, item.assetTypeAr, lang),
+        const scrollItems = data.projects.items.map((item, index) => ({
           title: pickLang(item.titleEn, item.titleAr, lang),
           body: pickLang(item.bodyEn, item.bodyAr, lang),
+          href: `/funds-reports/${item.slug}/reports`,
+          image: PROJECT_CARD_IMAGES[index],
           meta: [
             {
               label: pickLang(labels.fundCurrencyEn, labels.fundCurrencyAr, lang),
@@ -152,10 +161,12 @@ export function RealAssets() {
             {
               label: pickLang(labels.fundSizeEn, labels.fundSizeAr, lang),
               value: pickLang(item.fundSizeEn, item.fundSizeAr, lang),
+              wrapLabel: lang === "ar",
             },
             {
               label: pickLang(labels.fundStartDateEn, labels.fundStartDateAr, lang),
               value: pickLang(item.fundStartDateEn, item.fundStartDateAr, lang),
+              wrapLabel: lang === "ar",
             },
             {
               label: pickLang(labels.fundLifeEn, labels.fundLifeAr, lang),
@@ -172,6 +183,7 @@ export function RealAssets() {
                 item.investmentStrategyAr,
                 lang,
               ),
+              wrapLabel: lang === "ar",
             },
             {
               label: pickLang(labels.fundManagerEn, labels.fundManagerAr, lang),
@@ -186,18 +198,6 @@ export function RealAssets() {
               value: pickLang(item.auditorEn, item.auditorAr, lang),
             },
             {
-              label: pickLang(
-                labels.investmentGoalEn,
-                labels.investmentGoalAr,
-                lang,
-              ),
-              value: pickLang(
-                item.investmentGoalEn,
-                item.investmentGoalAr,
-                lang,
-              ),
-            },
-            {
               label: pickLang(labels.fundStatusEn, labels.fundStatusAr, lang),
               value: pickLang(item.fundStatusEn, item.fundStatusAr, lang),
             },
@@ -208,6 +208,19 @@ export function RealAssets() {
                 lang,
               ),
               value: pickLang(item.fundGeographyEn, item.fundGeographyAr, lang),
+            },
+            {
+              label: pickLang(
+                labels.investmentGoalEn,
+                labels.investmentGoalAr,
+                lang,
+              ),
+              value: pickLang(
+                item.investmentGoalEn,
+                item.investmentGoalAr,
+                lang,
+              ),
+              stacked: true,
             },
           ],
         }));

@@ -1,5 +1,5 @@
 /**
- * ScrollExamples — Horizontally scrollable investment/project cards with a side project-title list and arrows under the list.
+ * ScrollExamples — Horizontally scrollable fund/project fact cards with a side title list and arrows under the list.
  * Active card always sits in the track’s first (start) slot; trailing spacer lets the last card reach that slot.
  *
  * Used by:
@@ -16,14 +16,19 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import { MetaFacts } from "./MetaFacts";
 import { useLanguage } from "../i18n/LanguageContext";
+import { useLocalePath } from "../i18n/useLocalePath";
 
 export type ScrollExamplesItem = {
-  fundType: string;
   title: string;
   body: string;
-  meta: { label: string; value: string }[];
+  meta: { label: string; value: string; stacked?: boolean; wrapLabel?: boolean }[];
+  /** Optional link to fund fact sheets / reports */
+  href?: string;
+  /** Optional card background image URL */
+  image?: string;
 };
 
 export type ScrollExamplesProps = {
@@ -65,6 +70,7 @@ export function ScrollExamples({
   ariaLabel,
 }: ScrollExamplesProps) {
   const { lang } = useLanguage();
+  const withLocale = useLocalePath();
   const isRtl = lang === "ar";
   const trackRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
@@ -228,6 +234,7 @@ export function ScrollExamples({
     (isRtl ? "أمثلة من استثماراتنا" : "Examples of our investments");
   const prevLabel = isRtl ? "السابق" : "Previous";
   const nextLabel = isRtl ? "التالي" : "Next";
+  const factsheetLabel = isRtl ? "صحائف الحقائق" : "Fact sheets";
 
   return (
     <div className={rootClass} dir={isRtl ? "rtl" : "ltr"}>
@@ -279,22 +286,41 @@ export function ScrollExamples({
         >
           {items.map((item, i) => (
             <article
-              className={`svc svc--dark eq-example scroll-examples-card${i === active ? " is-active" : ""}`}
+              className={`svc svc--dark eq-example scroll-examples-card${i === active ? " is-active" : ""}${item.href ? " scroll-examples-card--linked" : ""}${item.image ? " scroll-examples-card--has-image" : ""}`}
               key={`${item.title}-${i}`}
               ref={(node) => {
                 cardRefs.current[i] = node;
               }}
             >
-              <div className="eq-example-fundType">{item.fundType}</div>
-              <h4>{item.title}</h4>
-              <p>{item.body}</p>
-              {item.meta.length > 0 ? (
-                <MetaFacts
-                  items={item.meta}
-                  tone="dark"
-                  layout="stack"
-                  className="eq-example-meta"
-                />
+              {item.image ? (
+                <div className="scroll-examples-card-bg">
+                  <img
+                    src={item.image}
+                    alt={`${item.title} image`}
+                    className="scroll-examples-card-bg-img"
+                  />
+                </div>
+              ) : null}
+              <div className="scroll-examples-card-body">
+                <h4>{item.title}</h4>
+                {item.body ? <p className="eq-example-lead">{item.body}</p> : null}
+                {item.meta.length > 0 ? (
+                  <MetaFacts
+                    items={item.meta}
+                    tone="light"
+                    layout="stack"
+                    className="eq-example-meta"
+                  />
+                ) : null}
+              </div>
+              {item.href ? (
+                <Link
+                  href={withLocale(item.href)}
+                  className="scroll-examples-factsheet-link"
+                  aria-label={`${factsheetLabel}: ${item.title}`}
+                >
+                  <span aria-hidden="true">→</span>
+                </Link>
               ) : null}
             </article>
           ))}

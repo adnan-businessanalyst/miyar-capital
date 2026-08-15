@@ -38,6 +38,8 @@ export interface RealAssetsListCard {
 export interface RealAssetsProjectItem {
   titleEn: string;
   titleAr: string;
+  /** Public funds-reports slug → /funds-reports/{slug}/reports */
+  slug: string;
   assetTypeEn: string;
   assetTypeAr: string;
   bodyEn: string;
@@ -211,11 +213,11 @@ export const REAL_ASSETS: RealAssetsContent = {
       fundLifeEn: "Fund Life",
       fundLifeAr: "مدة الصندوق",
       fundStartDateEn: "Effective Date",
-      fundStartDateAr: "تاريخ بدء الصندوق",
+      fundStartDateAr: "تاريخ بدء\nالصندوق",
       fundSizeEn: "Fund Size",
-      fundSizeAr: "حجم الصندوق",
+      fundSizeAr: "حجم\nالصندوق",
       investmentStrategyEn: "Investment Strategy",
-      investmentStrategyAr: "استراتيجية الاستثمار",
+      investmentStrategyAr: "استراتيجية\nالاستثمار",
       fundManagerEn: "Fund Manager",
       fundManagerAr: "مدير الصندوق",
       developerEn: "Developer",
@@ -233,6 +235,7 @@ export const REAL_ASSETS: RealAssetsContent = {
       {
         titleEn: "Miyar Logistic Park Real Estate Fund",
         titleAr: "صندوق معيار لوجستيك بارك العقاري",
+        slug: "miyar-logistic-park-real-estate-fund",
         assetTypeEn: "Real Estate",
         assetTypeAr: "العقارات",
         bodyEn:
@@ -265,6 +268,7 @@ export const REAL_ASSETS: RealAssetsContent = {
       {
         titleEn: "Miyar Logistic Park Real Estate Fund",
         titleAr: "صندوق معيار لوجستيك بارك العقاري",
+        slug: "miyar-logistic-park-real-estate-fund-ii",
         assetTypeEn: "Real Estate",
         assetTypeAr: "العقارات",
         bodyEn:
@@ -297,6 +301,7 @@ export const REAL_ASSETS: RealAssetsContent = {
       {
         titleEn: "Miyar's Ajam Real Estate Fund???",
         titleAr: "صندوق معيار اجام العقاري",
+        slug: "miyar-ajam-real-estate-fund",
         assetTypeEn: "Real Estate",
         assetTypeAr: "العقارات ",
         bodyEn:
@@ -326,38 +331,39 @@ export const REAL_ASSETS: RealAssetsContent = {
         fundGeographyEn: "Kingdom of Saudi Arabia",
         fundGeographyAr: "المملكة العربية السعودية",
       },
-        {
-          titleEn: "Minyar First Jeddah Real Estate Fund",
-          titleAr: "صندوق معيار جدة الاول العقاري",
-          assetTypeEn: "Real Estate",
-          assetTypeAr: "العقارات",
-          bodyEn:
-            "???A closed-ended private real estate investment fund that is compliant with Shariah standards and controls and was established in accordance with the provisions of the Investment Funds Regulations issued by the Capital Market Authority in the Kingdom.",
-          bodyAr:
-            "صندوق إستثمار عقاري خاص مغلق متوافق مع المعايير و الضوابط الشرعية و تم تأسيسة وفقاً لأحكام لائحة صناديق الإستثمار الصادرة عن هيئة السوق المالية في المملكة.",
-          fundCurrencyEn: "SAR",
-          fundCurrencyAr: "ريال سعودي",
-          fundSizeEn: "511 million SAR",
-          fundSizeAr: "511 مليون ريال سعودي",
-          fundManagerEn: "Miyar Capital",
-          fundManagerAr: "شركة معيار المالية",
-          fundLifeEn: "4 years + 2 gregorian years extension",
-          fundLifeAr: "4 سنوات + تمديد إضافي لمدة سنتين ميلادية",
-          fundStartDateEn: "17/5/2017",
-          fundStartDateAr: "17/5/2017",
-          fundStatusEn: "Closed",
-          fundStatusAr: "مغلق",
-          investmentStrategyEn: "Actvie InvestmentStrategy",
-          investmentStrategyAr: "استراتيجية نشطة",
-          developerEn: "؟؟؟Saud Alrifi Trade Group",
-          developerAr: "مجموعة سعود العريفي للتجارة",
-          auditorEn: "PKF Al-Bassam & Co.",
-          auditorAr: "البسام و شركاة المحاسبون المتحالفون",
-          investmentGoalEn: "؟؟؟Income generation and capital preservation",
-          investmentGoalAr: "يتمثل الهدف الرئيسي للصندوق في تنمية رأس المال من خلال الاستثمار في مشروع تطوير عقاري يشمل تطوير الأراضي و البنية التحتية و تجهيزها للاستخدامات الصناعية و اللوجستية، و من ثم بيعها بما يحقق عوائد رأسمالية لمالكي وحدات الصندوق.",
-          fundGeographyEn: "Kingdom of Saudi Arabia",
-          fundGeographyAr: "المملكة العربية السعودية",
-        },
+      {
+        titleEn: "Minyar First Jeddah Real Estate Fund",
+        titleAr: "صندوق معيار جدة الاول العقاري",
+        slug: "miyar-first-jeddah-real-estate-fund",
+        assetTypeEn: "Real Estate",
+        assetTypeAr: "العقارات",
+        bodyEn:
+          "???A closed-ended private real estate investment fund that is compliant with Shariah standards and controls and was established in accordance with the provisions of the Investment Funds Regulations issued by the Capital Market Authority in the Kingdom.",
+        bodyAr:
+          "صندوق إستثمار عقاري خاص مغلق متوافق مع المعايير و الضوابط الشرعية و تم تأسيسة وفقاً لأحكام لائحة صناديق الإستثمار الصادرة عن هيئة السوق المالية في المملكة.",
+        fundCurrencyEn: "SAR",
+        fundCurrencyAr: "ريال سعودي",
+        fundSizeEn: "511 million SAR",
+        fundSizeAr: "511 مليون ريال سعودي",
+        fundManagerEn: "Miyar Capital",
+        fundManagerAr: "شركة معيار المالية",
+        fundLifeEn: "4 years + 2 gregorian years extension",
+        fundLifeAr: "4 سنوات + تمديد إضافي لمدة سنتين ميلادية",
+        fundStartDateEn: "17/5/2017",
+        fundStartDateAr: "17/5/2017",
+        fundStatusEn: "Closed",
+        fundStatusAr: "مغلق",
+        investmentStrategyEn: "Actvie InvestmentStrategy",
+        investmentStrategyAr: "استراتيجية نشطة",
+        developerEn: "؟؟؟Saud Alrifi Trade Group",
+        developerAr: "مجموعة سعود العريفي للتجارة",
+        auditorEn: "PKF Al-Bassam & Co.",
+        auditorAr: "البسام و شركاة المحاسبون المتحالفون",
+        investmentGoalEn: "؟؟؟Income generation and capital preservation",
+        investmentGoalAr: "يتمثل الهدف الرئيسي للصندوق في تنمية رأس المال من خلال الاستثمار في مشروع تطوير عقاري يشمل تطوير الأراضي و البنية التحتية و تجهيزها للاستخدامات الصناعية و اللوجستية، و من ثم بيعها بما يحقق عوائد رأسمالية لمالكي وحدات الصندوق.",
+        fundGeographyEn: "Kingdom of Saudi Arabia",
+        fundGeographyAr: "المملكة العربية السعودية",
+      },
     ],
   },
 };
