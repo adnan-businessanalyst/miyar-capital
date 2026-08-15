@@ -1,3 +1,11 @@
+/**
+ * PrimaryCardClickable — Clickable primary card with badge/icon, title, body, and optional arrow/link navigation (plus grid helper).
+ *
+ * Used by:
+ * - views/AssetManagement.tsx
+ * - views/InvestmentBanking.tsx
+ */
+
 "use client";
 
 import { useRouter } from "next/navigation";

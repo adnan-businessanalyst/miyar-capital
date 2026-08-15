@@ -1,3 +1,10 @@
+/**
+ * StatIcon — Small stroke SVG icon picker for fund/stat labels (price, chart, calendar, etc.).
+ *
+ * Used by:
+ * - components/FundPage.tsx
+ */
+
 interface StatIconProps {
   name: string;
 }

@@ -1,3 +1,10 @@
+/**
+ * SiteChrome — Wraps non-admin pages with LanguageProvider, Header, Footer, and WhatsAppWidget.
+ *
+ * Used by:
+ * - app/layout.tsx
+ */
+
 "use client";
 
 import { usePathname } from "next/navigation";

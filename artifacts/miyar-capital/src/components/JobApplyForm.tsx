@@ -1,3 +1,10 @@
+/**
+ * JobApplyForm — Job application form with CV upload, validation, and API submit.
+ *
+ * Used by:
+ * - components/JobApplyButton.tsx
+ */
+
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";

@@ -1,3 +1,10 @@
+/**
+ * JobApplyButton — Apply button that opens a ContactModal containing JobApplyForm for a given posting.
+ *
+ * Used by:
+ * - views/JobDetail.tsx
+ */
+
 "use client";
 
 import { useState } from "react";

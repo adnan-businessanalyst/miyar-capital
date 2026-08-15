@@ -1,3 +1,11 @@
+/**
+ * ReportsPage — Investor-relations reports page with PageHero and a grid of ReportCards (or empty state).
+ *
+ * Used by:
+ * - views/AnnualReports.tsx
+ * - views/Rakiza.tsx
+ */
+
 import { PageHero } from "./PageHero";
 import { ReportCard } from "./ReportCard";
 import type { Report } from "../data/reports";

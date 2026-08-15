@@ -1,3 +1,11 @@
+/**
+ * ReportCard — Localized report download/view card that prefers the matching EN/AR PDF when available.
+ *
+ * Used by:
+ * - components/ReportsPage.tsx
+ * - views/FinancialReports.tsx
+ */
+
 "use client";
 
 import type { Report } from "../data/reports";

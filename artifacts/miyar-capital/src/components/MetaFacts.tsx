@@ -1,3 +1,11 @@
+/**
+ * MetaFacts — Renders label/value meta pairs in row, stack, or grid layouts for light or dark surfaces.
+ *
+ * Used by:
+ * - components/PageHero.tsx
+ * - components/ScrollExamples.tsx
+ */
+
 export interface MetaFact {
   label: string;
   value: string;

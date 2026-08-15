@@ -1,3 +1,10 @@
+/**
+ * SecondaryButton — Outline secondary action control that renders as a button or link, with optional HTML label.
+ *
+ * Used by:
+ * - (none yet)
+ */
+
 "use client";
 
 import type { ButtonHTMLAttributes, ReactNode } from "react";

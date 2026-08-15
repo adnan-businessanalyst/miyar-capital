@@ -3,6 +3,7 @@
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { ScrollExamples } from "../components/ScrollExamples";
 import { SectionHead } from "../components/SectionHead";
 import {
   REAL_ASSETS,
@@ -133,6 +134,111 @@ export function RealAssets() {
             </div>
           </section>
         );
+      case "projects": {
+        const labels = data.projects.labels;
+        const scrollItems = data.projects.items.map((item) => ({
+          fundType: pickLang(item.assetTypeEn, item.assetTypeAr, lang),
+          title: pickLang(item.titleEn, item.titleAr, lang),
+          body: pickLang(item.bodyEn, item.bodyAr, lang),
+          meta: [
+            {
+              label: pickLang(labels.fundCurrencyEn, labels.fundCurrencyAr, lang),
+              value: pickLang(item.fundCurrencyEn, item.fundCurrencyAr, lang),
+            },
+            {
+              label: pickLang(labels.assetTypeEn, labels.assetTypeAr, lang),
+              value: pickLang(item.assetTypeEn, item.assetTypeAr, lang),
+            },
+            {
+              label: pickLang(labels.fundSizeEn, labels.fundSizeAr, lang),
+              value: pickLang(item.fundSizeEn, item.fundSizeAr, lang),
+            },
+            {
+              label: pickLang(labels.fundStartDateEn, labels.fundStartDateAr, lang),
+              value: pickLang(item.fundStartDateEn, item.fundStartDateAr, lang),
+            },
+            {
+              label: pickLang(labels.fundLifeEn, labels.fundLifeAr, lang),
+              value: pickLang(item.fundLifeEn, item.fundLifeAr, lang),
+            },
+            {
+              label: pickLang(
+                labels.investmentStrategyEn,
+                labels.investmentStrategyAr,
+                lang,
+              ),
+              value: pickLang(
+                item.investmentStrategyEn,
+                item.investmentStrategyAr,
+                lang,
+              ),
+            },
+            {
+              label: pickLang(labels.fundManagerEn, labels.fundManagerAr, lang),
+              value: pickLang(item.fundManagerEn, item.fundManagerAr, lang),
+            },
+            {
+              label: pickLang(labels.developerEn, labels.developerAr, lang),
+              value: pickLang(item.developerEn, item.developerAr, lang),
+            },
+            {
+              label: pickLang(labels.auditorEn, labels.auditorAr, lang),
+              value: pickLang(item.auditorEn, item.auditorAr, lang),
+            },
+            {
+              label: pickLang(
+                labels.investmentGoalEn,
+                labels.investmentGoalAr,
+                lang,
+              ),
+              value: pickLang(
+                item.investmentGoalEn,
+                item.investmentGoalAr,
+                lang,
+              ),
+            },
+            {
+              label: pickLang(labels.fundStatusEn, labels.fundStatusAr, lang),
+              value: pickLang(item.fundStatusEn, item.fundStatusAr, lang),
+            },
+            {
+              label: pickLang(
+                labels.fundGeographyEn,
+                labels.fundGeographyAr,
+                lang,
+              ),
+              value: pickLang(item.fundGeographyEn, item.fundGeographyAr, lang),
+            },
+          ],
+        }));
+        return (
+          <section key={id} className="blk blk--cream">
+            <div className="wrap">
+              <SectionHead
+                center
+                title={pickLang(
+                  data.projects.headingEn,
+                  data.projects.headingAr,
+                  lang,
+                )}
+                subtitle={pickLang(
+                  data.projects.introEn,
+                  data.projects.introAr,
+                  lang,
+                )}
+              />
+              <ScrollExamples
+                items={scrollItems}
+                ariaLabel={pickLang(
+                  data.projects.headingEn,
+                  data.projects.headingAr,
+                  lang,
+                )}
+              />
+            </div>
+          </section>
+        );
+      }
       default:
         return null;
     }
@@ -144,7 +250,7 @@ export function RealAssets() {
       <RegisterInterestSection
         sourcePage="/asset-management/real-assets"
         pageTitleEn="Real Assets"
-        pageTitleAr="الأصول الحقيقية"
+        pageTitleAr="الأصول العقارية"
       />
     </div>
   );

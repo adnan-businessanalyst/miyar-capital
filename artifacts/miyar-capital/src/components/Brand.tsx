@@ -1,3 +1,11 @@
+/**
+ * Brand — Locale-aware home-link logo that swaps light/dark/transparent Miyar Capital mark variants.
+ *
+ * Used by:
+ * - components/Footer.tsx
+ * - components/Header.tsx
+ */
+
 "use client";
 
 import Link from "next/link";

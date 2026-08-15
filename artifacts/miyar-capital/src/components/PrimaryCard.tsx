@@ -1,3 +1,15 @@
+/**
+ * PrimaryCard — Dark offer/value card with optional icon, watermark animation, and body content (plus PrimaryCardGrid).
+ *
+ * Used by:
+ * - views/ArrangementManagement.tsx
+ * - views/DPM.tsx
+ * - views/EquityManagement.tsx
+ * - views/InstitutionalFamilyOffice.tsx
+ * - views/InvestmentBanking.tsx
+ * - views/WhoWeAre.tsx
+ */
+
 "use client";
 
 import { useRouter } from "next/navigation";

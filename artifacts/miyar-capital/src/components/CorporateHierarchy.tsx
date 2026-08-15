@@ -1,3 +1,10 @@
+/**
+ * CorporateHierarchy — Renders an organizational chart from a flat member list grouped by reporting level.
+ *
+ * Used by:
+ * - views/ExecutiveTeam.tsx
+ */
+
 "use client";
 
 import { useMemo } from "react";

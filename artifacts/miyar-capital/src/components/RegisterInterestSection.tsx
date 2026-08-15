@@ -1,3 +1,25 @@
+/**
+ * RegisterInterestSection — Bottom-of-page Register Interest band with SectionHead and RegisterInterest CTA.
+ *
+ * Used by:
+ * - views/ArrangementManagement.tsx
+ * - views/AssetManagement.tsx
+ * - views/CapitalMarketsAdvisory.tsx
+ * - views/DPM.tsx
+ * - views/DebtFinancingArrangement.tsx
+ * - views/EquityManagement.tsx
+ * - views/IBRegisterInterest.tsx
+ * - views/InstitutionalFamilyOffice.tsx
+ * - views/InvestmentAdvisory.tsx
+ * - views/InvestmentBanking.tsx
+ * - views/LiquidityFI.tsx
+ * - views/MergersAcquisitions.tsx
+ * - views/PrivateMarketsPage.tsx
+ * - views/RealAssets.tsx
+ * - views/RealEstatePrivateArrangements.tsx
+ * - views/ValuationFinancialAdvisory.tsx
+ */
+
 "use client";
 
 import { CONTACT } from "../data/contact";

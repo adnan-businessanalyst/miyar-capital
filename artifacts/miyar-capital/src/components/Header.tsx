@@ -1,3 +1,10 @@
+/**
+ * Header — Main site navigation with Brand, multi-level menus, auth actions, EN/AR toggle, and mobile hamburger.
+ *
+ * Used by:
+ * - components/SiteChrome.tsx
+ */
+
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";

@@ -64,8 +64,13 @@ export function WhoWeAre() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
+              {/* DOM order: copy → facts → image (image last when stacked). */}
               <div className="ab-two-col wwa-story">
-                <div lang={isAr ? "ar" : "en"} dir={isAr ? "rtl" : "ltr"}>
+                <div
+                  className="wwa-story-copy"
+                  lang={isAr ? "ar" : "en"}
+                  dir={isAr ? "rtl" : "ltr"}
+                >
                   <p className="ab-lede">
                     {isAr ? (
                       <>
@@ -85,17 +90,11 @@ export function WhoWeAre() {
                     <p key={para.slice(0, 32)}>{para}</p>
                   ))}
                 </div>
-                <aside lang={isAr ? "ar" : "en"} dir={isAr ? "rtl" : "ltr"}>
-                  <div className="wwa-story-img">
-                    <img
-                      src={storyImg}
-                      alt={pickLang(
-                        data.story.imageAltEn,
-                        data.story.imageAltAr,
-                        lang,
-                      )}
-                    />
-                  </div>
+                <aside
+                  className="wwa-story-facts"
+                  lang={isAr ? "ar" : "en"}
+                  dir={isAr ? "rtl" : "ltr"}
+                >
                   <dl className="ab-facts">
                     {data.story.facts.map((f) => {
                       const label = pickLang(f.labelEn, f.labelAr, lang);
@@ -108,6 +107,16 @@ export function WhoWeAre() {
                     })}
                   </dl>
                 </aside>
+                <div className="wwa-story-img">
+                  <img
+                    src={storyImg}
+                    alt={pickLang(
+                      data.story.imageAltEn,
+                      data.story.imageAltAr,
+                      lang,
+                    )}
+                  />
+                </div>
               </div>
             </div>
           </section>

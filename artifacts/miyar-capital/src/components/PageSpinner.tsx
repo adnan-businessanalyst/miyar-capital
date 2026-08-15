@@ -1,3 +1,10 @@
+/**
+ * PageSpinner — Full-screen navy loading overlay with the animated Miyar logo mark.
+ *
+ * Used by:
+ * - (none yet)
+ */
+
 import { mediaUrl } from "../site/resolveAssetUrl";
 
 const logoSpinner = mediaUrl("brand", "logo-spinner");

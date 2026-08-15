@@ -2,10 +2,10 @@
 
 import { Globe2, MapPinned, type LucideIcon } from "lucide-react";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
-import { MetaFacts } from "../components/MetaFacts";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { ScrollExamples } from "../components/ScrollExamples";
 import { SectionHead } from "../components/SectionHead";
 import {
   EQUITY_MANAGEMENT,
@@ -124,7 +124,39 @@ export function EquityManagement() {
             </div>
           </section>
         );
-      case "examples":
+      case "examples": {
+        const labels = data.examples.labels;
+        const scrollItems = data.examples.items.map((item) => ({
+          fundType: pickLang(item.sectorEn, item.sectorAr, lang),
+          title: pickLang(item.titleEn, item.titleAr, lang),
+          body: pickLang(item.bodyEn, item.bodyAr, lang),
+          meta: [
+            {
+              label: pickLang(
+                labels.acquisitionYearEn,
+                labels.acquisitionYearAr,
+                lang,
+              ),
+              value: pickLang(
+                item.acquisitionYearEn,
+                item.acquisitionYearAr,
+                lang,
+              ),
+            },
+            {
+              label: pickLang(labels.stakeEn, labels.stakeAr, lang),
+              value: pickLang(item.stakeEn, item.stakeAr, lang),
+            },
+            {
+              label: pickLang(labels.geographyEn, labels.geographyAr, lang),
+              value: pickLang(item.geographyEn, item.geographyAr, lang),
+            },
+            {
+              label: pickLang(labels.stageEn, labels.stageAr, lang),
+              value: pickLang(item.stageEn, item.stageAr, lang),
+            },
+          ],
+        }));
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
@@ -141,68 +173,18 @@ export function EquityManagement() {
                   lang,
                 )}
               />
-              <div className="eq-examples-grid">
-                {data.examples.items.map((item) => {
-                  const labels = data.examples.labels;
-                  const meta = [
-                    {
-                      label: pickLang(
-                        labels.acquisitionYearEn,
-                        labels.acquisitionYearAr,
-                        lang,
-                      ),
-                      value: pickLang(
-                        item.acquisitionYearEn,
-                        item.acquisitionYearAr,
-                        lang,
-                      ),
-                    },
-                    {
-                      label: pickLang(labels.stakeEn, labels.stakeAr, lang),
-                      value: pickLang(item.stakeEn, item.stakeAr, lang),
-                    },
-                    {
-                      label: pickLang(
-                        labels.geographyEn,
-                        labels.geographyAr,
-                        lang,
-                      ),
-                      value: pickLang(
-                        item.geographyEn,
-                        item.geographyAr,
-                        lang,
-                      ),
-                    },
-                    {
-                      label: pickLang(labels.stageEn, labels.stageAr, lang),
-                      value: pickLang(item.stageEn, item.stageAr, lang),
-                    },
-                  ];
-                  return (
-                    <article
-                      className="svc svc--dark eq-example"
-                      key={item.titleEn}
-                    >
-                      <div className="eq-example-sector">
-                        {pickLang(item.sectorEn, item.sectorAr, lang)}
-                      </div>
-                      <h4>
-                        {pickLang(item.titleEn, item.titleAr, lang)}
-                      </h4>
-                      <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
-                      <MetaFacts
-                        items={meta}
-                        tone="dark"
-                        layout="stack"
-                        className="eq-example-meta"
-                      />
-                    </article>
-                  );
-                })}
-              </div>
+              <ScrollExamples
+                items={scrollItems}
+                ariaLabel={pickLang(
+                  data.examples.headingEn,
+                  data.examples.headingAr,
+                  lang,
+                )}
+              />
             </div>
           </section>
         );
+      }
       default:
         return null;
     }

@@ -1,3 +1,10 @@
+/**
+ * HeroBackground — Responsive home-hero image/video background with size-aware media selection.
+ *
+ * Used by:
+ * - views/FrontPage.tsx
+ */
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";

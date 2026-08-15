@@ -1,3 +1,11 @@
+/**
+ * Accordion — Expandable FAQ-style list that opens one item at a time, with optional numbering and action links.
+ *
+ * Used by:
+ * - views/Disclosures.tsx
+ * - views/FATCA.tsx
+ */
+
 "use client";
 
 import { useState } from "react";

@@ -1,3 +1,11 @@
+/**
+ * LazyVideo — Muted looping video that loads and plays only when near the viewport (or eagerly when requested).
+ *
+ * Used by:
+ * - views/FrontPage.tsx
+ * - views/InvestmentAdvisory.tsx
+ */
+
 "use client";
 
 import { useEffect, useRef } from "react";

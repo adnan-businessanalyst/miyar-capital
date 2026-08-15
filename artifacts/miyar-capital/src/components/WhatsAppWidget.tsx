@@ -1,3 +1,10 @@
+/**
+ * WhatsAppWidget — Floating WhatsApp chat button that appears after scrolling past the hero/threshold.
+ *
+ * Used by:
+ * - components/SiteChrome.tsx
+ */
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
