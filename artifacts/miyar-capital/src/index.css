@@ -3116,6 +3116,11 @@ html[dir="rtl"] .primary-card-title::after {
   margin-bottom: 10px;
 }
 
+:dir(rtl) .eq-example-fundType {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 .eq-example.svc h4 {
   margin: 0 0 12px;
   font-size: clamp(1.05rem, 0.95rem + 0.55vw, 1.25rem);
@@ -3151,6 +3156,13 @@ html[dir="rtl"] .primary-card-title::after {
 .eq-example-meta .meta-fact-value {
   font-size: 0.95rem;
   overflow-wrap: anywhere;
+}
+
+:dir(rtl) .eq-example-meta .meta-fact-value,
+:dir(rtl) .eq-example.svc h4,
+:dir(rtl) .eq-example.svc p,
+:dir(rtl) .scroll-examples-list-item {
+  overflow-wrap: break-word;
 }
 
 .scroll-examples-arrows {
@@ -4971,6 +4983,12 @@ footer .footer-social-link:hover {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   font-weight: 500;
+}
+
+/* Arabic joins glyphs — tracking/uppercase breaks letterforms */
+:dir(rtl) .meta-fact-label {
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .meta-fact-value {
