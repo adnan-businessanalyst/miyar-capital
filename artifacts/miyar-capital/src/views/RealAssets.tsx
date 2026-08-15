@@ -47,7 +47,6 @@ function RealAssetsListCardView({ card }: { card: RealAssetsListCard }) {
       <ul className="ra-premium-card-list">
         {card.items.map((item) => (
           <li key={item.labelEn}>
-            <span className="ra-premium-card-marker" aria-hidden="true" />
             <span className="ra-premium-card-label">
               {pickLang(item.labelEn, item.labelAr, lang)}
             </span>
