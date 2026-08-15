@@ -2047,8 +2047,8 @@ body[dir="rtl"] .pcar-outer-title::after {
 
   display: flex;
   gap: var(--pcar-arrow-gap);
-  /* EN: left with list | AR: right with list (aside follows page dir) */
-  justify-content: flex-start;
+  /* EN: left | AR: right (follows page dir) */
+  justify-content: start;
   width: 100%;
 }
 
@@ -2203,9 +2203,21 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
     gap: clamp(1rem, 0.75rem + 1.5vw, 1.5rem);
   }
 
-  /* Flow layout — no absolute centering (was overflowing the stage) */
+  /* Flatten aside: list on top, cards middle, arrows under cards */
+  .pcar-aside {
+    display: contents;
+  }
+
+  .pcar-list {
+    order: 1;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    width: 100%;
+  }
+
   .pcar-pillwrap {
-    order: -1;
+    order: 2;
     position: relative;
     min-height: 0;
     height: auto;
@@ -2216,9 +2228,10 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
     width: 100%;
   }
 
-  .pcar-aside {
-    gap: clamp(0.75rem, 0.55rem + 1vw, 1.1rem);
-    width: 100%;
+  .pcar-arrows {
+    order: 3;
+    justify-content: start;
+    margin-top: 0.15rem;
   }
 
   .pcar-card {
@@ -2267,13 +2280,6 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
     max-width: min(100%, var(--pcar-title-max-w, 92%));
   }
 
-  .pcar-list {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 0;
-    width: 100%;
-  }
-
   .pcar-list-item {
     border-top: 1px solid rgba(12, 71, 110, 0.1);
     width: 100%;
@@ -2286,15 +2292,6 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
 
   .pcar-list li:last-child .pcar-list-item {
     border-bottom: none;
-  }
-
-  .pcar-arrows {
-    justify-content: flex-start;
-  }
-
-  html[dir="rtl"] .pcar-arrows,
-  body[dir="rtl"] .pcar-arrows {
-    justify-content: flex-end;
   }
 }
 
@@ -3621,10 +3618,6 @@ html[dir="rtl"] .primary-card-title::after {
   text-align: right;
 }
 
-.scroll-examples[dir="rtl"] .scroll-examples-arrows {
-  justify-content: end;
-}
-
 /* Arabic: ~5% lighter weights */
 .scroll-examples[dir="rtl"] .eq-example-meta .meta-fact-label {
   font-weight: 570;
@@ -3761,10 +3754,6 @@ html[dir="rtl"] .primary-card-title::after {
     justify-content: start;
   }
 
-  .scroll-examples[dir="rtl"] .scroll-examples-arrows {
-    justify-content: end;
-  }
-
   .scroll-examples-list-item {
     border-bottom: 0;
     padding: 0.55rem 0.15rem;
@@ -3780,7 +3769,7 @@ html[dir="rtl"] .primary-card-title::after {
   /* English: left-align list, card copy, and fact rows on small screens */
   .scroll-examples[dir="ltr"] .scroll-examples-list,
   .scroll-examples[dir="ltr"] .scroll-examples-arrows {
-    justify-content: flex-start;
+    justify-content: start;
   }
 
   .scroll-examples[dir="ltr"] .scroll-examples-list-item,
