@@ -278,7 +278,7 @@ export function RealAssets() {
   };
 
   return (
-    <div className="page">
+    <div className="page page--real-assets">
       {data.sectionOrder.map((id) => renderSection(id))}
       <RegisterInterestSection
         sourcePage="/asset-management/real-assets"

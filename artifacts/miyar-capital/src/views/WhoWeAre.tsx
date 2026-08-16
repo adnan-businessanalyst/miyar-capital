@@ -64,7 +64,7 @@ export function WhoWeAre() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              {/* DOM order: copy → facts → image (image last when stacked). */}
+              {/* DOM order: copy → facts → image (facts sit under intro). */}
               <div className="ab-two-col wwa-story">
                 <div
                   className="wwa-story-copy"

@@ -4347,6 +4347,16 @@ body[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickab
   align-items: start;
 }
 
+/* Equity Management: 40% intro / 60% factsheet (wider sheet for row text) */
+.page--equity-management .prod-body {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+/* Real Assets: 60% intro / 40% factsheet */
+.page--real-assets .prod-body {
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+}
+
 /* Avoid double vertical padding when prod-body lives inside a .blk band. */
 .page > section.blk .prod-body {
   padding-block: 0;
@@ -4698,29 +4708,46 @@ body[dir="rtl"] .tplnote {
   font-weight: 600;
 }
 
-/* Site-wide regulatory disclaimer inside footer */
+/* Site-wide regulatory disclaimer inside footer — pops out from dark band */
 .site-footer .disclaimer,
 .site-footer-disclaimer {
-  background: transparent;
-  border: none;
-  padding: 18px 0 0;
-  margin: 0;
+  position: relative;
+  z-index: 2;
+  margin: 1.5rem 0 0;
+  padding: clamp(1rem, 0.85rem + 0.6vw, 1.35rem)
+    clamp(1.15rem, 0.95rem + 0.8vw, 1.65rem);
+  background: linear-gradient(
+    155deg,
+    #f4f8fb 0%,
+    #e8f0f6 55%,
+    #dce8f1 100%
+  );
+  border: 1.5px solid #08263d;
+  border-radius: clamp(0.65rem, 0.55rem + 0.3vw, 0.85rem);
+  box-shadow:
+    0 14px 32px rgba(4, 20, 36, 0.35),
+    0 4px 12px rgba(4, 20, 36, 0.22),
+    inset 2px 2px 0 rgba(255, 255, 255, 0.9),
+    inset 3px 3px 6px rgba(255, 255, 255, 0.35),
+    inset -2px -2px 0 rgba(8, 38, 61, 0.28),
+    inset -3px -3px 8px rgba(8, 38, 61, 0.12),
+    inset 0 0 0 1px rgba(8, 38, 61, 0.2);
 }
 
 .site-footer .disclaimer p,
 .site-footer-disclaimer p {
   margin: 0;
-  font-size: 0.72rem;
-  color: #7e93a6;
+  font-size: clamp(0.78rem, 0.72rem + 0.2vw, 0.875rem);
+  color: var(--navy);
   line-height: 1.7;
-  font-weight: 300;
+  font-weight: 400;
   text-align: start;
 }
 
 .site-footer .disclaimer b,
 .site-footer-disclaimer b {
-  color: rgba(12, 71, 110, 0.9);
-  font-weight: 600;
+  color: #061f33;
+  font-weight: 700;
 }
 
 /* ===== NEW OVERVIEW PAGE ===== */
@@ -6627,21 +6654,16 @@ footer .footer-social-link:hover {
 }
 
 /* ===== WHO WE ARE ===== */
-/* Desktop: copy | image / facts. Stack order follows DOM: copy → facts → image. */
+/* Desktop: copy | image, facts under intro copy. Stack: copy → facts → image. */
 .wwa-story.ab-two-col {
   grid-template-columns: 1.15fr 0.85fr;
   grid-template-areas:
     "copy img"
-    "copy facts";
+    "facts img";
 }
 
 .wwa-story-copy {
   grid-area: copy;
-  min-width: 0;
-}
-
-.wwa-story-facts {
-  grid-area: facts;
   min-width: 0;
 }
 
@@ -6651,8 +6673,15 @@ footer .footer-social-link:hover {
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--line);
-  margin-bottom: 28px;
+  margin-bottom: 0;
+  align-self: start;
   box-shadow: 0 24px 48px -28px rgba(7, 30, 51, 0.45);
+}
+
+.wwa-story-facts {
+  grid-area: facts;
+  min-width: 0;
+  margin-top: 0.25rem;
 }
 
 .wwa-story-img img {

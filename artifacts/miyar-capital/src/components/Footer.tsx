@@ -1,5 +1,5 @@
 /**
- * Footer — Site footer with brand, localized links, address, and optional app-store badges.
+ * Footer — Site footer with brand, localized links, address, optional app-store badges, and disclaimer.
  *
  * Used by:
  * - components/SiteChrome.tsx
@@ -15,6 +15,7 @@ import { useLocalePath } from "../i18n/useLocalePath";
 import { FOOTER_BG_IMAGE, SITE_FOOTER } from "../site/footer";
 import { pickLang } from "../site/types";
 import { Brand } from "./Brand";
+import { Disclaimer } from "./Disclaimer";
 
 function isHomePath(pathname: string): boolean {
   const p = pathname.replace(/\/+$/, "") || "/";
@@ -143,6 +144,7 @@ export function Footer() {
             </div>
           ))}
         </div>
+        <Disclaimer className="site-footer-disclaimer" />
         <div className="bottom">
           <span>
             {pickLang(footer.bottomRightEn, footer.bottomRightAr, lang)}

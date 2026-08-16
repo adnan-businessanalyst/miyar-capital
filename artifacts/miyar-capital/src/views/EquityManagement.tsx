@@ -205,7 +205,7 @@ export function EquityManagement() {
   };
 
   return (
-    <div className="page">
+    <div className="page page--equity-management">
       {data.sectionOrder.map((id) => renderSection(id))}
       <RegisterInterestSection
         sourcePage="/asset-management/equity-management"
