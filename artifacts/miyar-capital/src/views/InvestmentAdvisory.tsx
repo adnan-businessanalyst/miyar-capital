@@ -90,32 +90,27 @@ export function InvestmentAdvisory() {
             <div className="wrap">
               <div className="timeline">
                 {data.steps.map((step, i) => {
-                  const textFirst = i % 2 === 0;
+                  const mediaFirst = i % 2 === 1;
                   const stepNum = String(Number.parseInt(step.n, 10));
                   const body = pickLang(step.bodyEn, step.bodyAr, lang);
                   const alt = pickLang(step.altEn, step.altAr, lang);
                   const img = IA_PROCESS_IMAGES[step.imageKey];
-                  const media = (
-                    <div
-                      className={`tl-media${textFirst ? "" : " tl-media--rev"}`}
-                      key="media"
-                    >
-                      <div className="tl-img">
-                        <img src={img} alt={alt} />
-                      </div>
-                    </div>
-                  );
-                  const text = (
-                    <div className="tl-text" key="text">
-                      <div className="tl-num" aria-hidden="true">
-                        {stepNum}
-                      </div>
-                      <p>{body}</p>
-                    </div>
-                  );
                   return (
-                    <div className="tl-row" key={step.n}>
-                      {textFirst ? [text, media] : [media, text]}
+                    <div
+                      className={`tl-row${mediaFirst ? " tl-row--media-first" : ""}`}
+                      key={step.n}
+                    >
+                      <div className="tl-text">
+                        <div className="tl-num" aria-hidden="true">
+                          {stepNum}
+                        </div>
+                        <p>{body}</p>
+                      </div>
+                      <div className="tl-media">
+                        <div className="tl-img">
+                          <img src={img} alt={alt} />
+                        </div>
+                      </div>
                       <span className="tl-dot" aria-hidden="true" />
                     </div>
                   );

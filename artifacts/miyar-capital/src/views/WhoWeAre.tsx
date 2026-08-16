@@ -80,7 +80,25 @@ export function WhoWeAre() {
                     ) : (
                       <>
                         <span className="ab-drop" aria-hidden="true">
-                          {data.story.dropEn}
+                          <svg
+                            className="ab-drop-m"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="120 230 960 740"
+                            focusable="false"
+                          >
+                            {/* Miyar striped M: 9 rounded vertical bars */}
+                            <g fill="currentColor">
+                              <rect x="120" y="230" width="70" height="740" rx="35" />
+                              <rect x="235" y="320" width="70" height="650" rx="35" />
+                              <rect x="350" y="400" width="70" height="570" rx="35" />
+                              <rect x="465" y="485" width="70" height="485" rx="35" />
+                              <rect x="565" y="610" width="70" height="360" rx="35" />
+                              <rect x="665" y="485" width="70" height="485" rx="35" />
+                              <rect x="780" y="400" width="70" height="570" rx="35" />
+                              <rect x="895" y="320" width="70" height="650" rx="35" />
+                              <rect x="1010" y="230" width="70" height="740" rx="35" />
+                            </g>
+                          </svg>
                         </span>
                         {paras[0]}
                       </>

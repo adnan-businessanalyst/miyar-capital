@@ -78,7 +78,7 @@ export const WHO_WE_ARE: WhoWeAreContent = {
   story: {
     dropEn: "M",
     parasEn: [
-      "iyar — the Arabic word for standard — is more than our name. It is the measure we hold ourselves to in every decision, every contract, and every relationship.",
+      "Miyar — the Arabic word for standard — is more than our name. It is the measure we hold ourselves to in every decision, every contract, and every relationship.",
       "Founded to bridge modern financial services and timeless Islamic values, Miyar Capital provides investment, financing, and wealth-management solutions that are fully compliant with the principles of Shariah. We serve individuals, families, and institutions who believe that how wealth is earned matters as much as how it grows.",
       "Our approach combines rigorous financial discipline with an unwavering ethical framework. Every product we offer is screened, structured, and certified before it reaches our clients — and monitored continuously thereafter. We measure success not only in returns, but in the integrity of every transaction and the confidence of every stakeholder.",
       "From our headquarters in Riyadh, we work with a network of partners, scholars, and regulators to advance a financial system that is fair, transparent, and rooted in real economic activity.",
