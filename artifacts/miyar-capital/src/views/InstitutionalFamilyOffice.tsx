@@ -17,6 +17,7 @@ import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
+import { Steps } from "../components/Steps";
 import {
   INSTITUTIONAL_FAMILY_OFFICE,
   type IfoIconId,
@@ -133,17 +134,23 @@ export function InstitutionalFamilyOffice() {
                   }
                 />
               </div>
+            </div>
+          </section>
+        );
 
-              <h3 className="ifo-h3" style={{ marginBottom: "32px" }}>
-                {pickLang(
-                  data.overview.serveHeadingEn,
-                  data.overview.serveHeadingAr,
+      case "serve":
+        return (
+          <section key={id} className="blk blk--cream">
+            <div className="wrap">
+              <SectionHead
+                title={pickLang(
+                  data.serve.headingEn,
+                  data.serve.headingAr,
                   lang,
                 )}
-              </h3>
-
+              />
               <PrimaryCardGrid columns={4}>
-                {data.overview.serveItems.map((item) => {
+                {data.serve.items.map((item) => {
                   const Icon = ICONS[item.icon];
                   return (
                     <PrimaryCard
@@ -164,22 +171,27 @@ export function InstitutionalFamilyOffice() {
                   );
                 })}
               </PrimaryCardGrid>
+            </div>
+          </section>
+        );
 
-              <h3 className="ifo-h3" style={{ marginTop: "64px" }}>
-                {pickLang(
-                  data.overview.approachHeadingEn,
-                  data.overview.approachHeadingAr,
+      case "approach":
+        return (
+          <section key={id} className="blk">
+            <div className="wrap">
+              <SectionHead
+                title={pickLang(
+                  data.approach.headingEn,
+                  data.approach.headingAr,
                   lang,
                 )}
-              </h3>
-              <RichText
-                as="p"
-                className="ifo-body"
-                html={pickLang(
-                  data.overview.approachBodyEn,
-                  data.overview.approachBodyAr,
-                  lang,
-                )}
+              />
+              <Steps
+                items={data.approach.steps.map((step) => ({
+                  num: step.num,
+                  title: pickLang(step.titleEn, step.titleAr, lang),
+                  body: pickLang(step.bodyEn, step.bodyAr, lang),
+                }))}
               />
             </div>
           </section>

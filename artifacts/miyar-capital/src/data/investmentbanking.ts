@@ -96,6 +96,7 @@ export interface InvestmentBankingContent {
     headingAr: string;
     bodyEn: string;
     bodyAr: string;
+    cards: InvestmentBankingCard[];
   };
   products: {
     tagEn: string;
@@ -268,9 +269,35 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
     headingEn: "Executing the Transaction",
     headingAr: "تنفيذ المعاملة",
     bodyEn:
-      "When a client proceeds to a transaction, we arrange and manage it through to completion. This covers preparing transaction materials, identifying and engaging counterparties or investors, coordinating legal, audit and due-diligence workstreams, managing regulatory filings and negotiating terms — acting throughout on the client's side of the transaction.",
+      "When a client proceeds to a transaction, we arrange and manage it through to completion.",
     bodyAr:
-      "عندما يمضي العميل في معاملة، نرتّبها ونديرها حتى الإتمام. يشمل ذلك إعداد مواد المعاملة وتحديد الأطراف المقابلة أو المستثمرين وإشراكهم، وتنسيق مسارات العمل القانونية والتدقيق والعناية الواجبة، وإدارة الإيداعات التنظيمية والتفاوض على الشروط — مع العمل طوال الوقت إلى جانب العميل.",
+      "عندما يمضي العميل في معاملة، نرتّبها ونديرها حتى الإتمام.",
+    cards: [
+      {
+        titleEn: "Identifying and engaging counterparties or investors",
+        titleAr: "تحديد الأطراف المقابلة أو المستثمرين وإشراكهم",
+        bodyEn: "",
+        bodyAr: "",
+      },
+      {
+        titleEn: "Coordinating legal, audit and due-diligence workstreams",
+        titleAr: "تنسيق مسارات العمل القانونية والتدقيق والعناية الواجبة",
+        bodyEn: "",
+        bodyAr: "",
+      },
+      {
+        titleEn: "Managing regulatory filings and negotiating terms",
+        titleAr: "إدارة الإيداعات التنظيمية والتفاوض على الشروط",
+        bodyEn: "",
+        bodyAr: "",
+      },
+      {
+        titleEn: "Working alongside the client throughout",
+        titleAr: "العمل طوال الوقت إلى جانب العميل",
+        bodyEn: "",
+        bodyAr: "",
+      },
+    ],
   },
 
   products: {
