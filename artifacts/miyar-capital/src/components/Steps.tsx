@@ -4,6 +4,7 @@
  * Used by:
  * - views/AssetManagement.tsx
  * - views/DPM.tsx
+ * - views/InstitutionalFamilyOffice.tsx
  * - views/InvestmentBanking.tsx
  */
 

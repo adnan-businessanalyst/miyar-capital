@@ -9,6 +9,8 @@
 export type IfoSectionId =
   | "intro"
   | "overview"
+  | "serve"
+  | "approach"
   | "engagement"
   | "notes";
 
@@ -31,6 +33,14 @@ export interface IfoMetaFact {
 
 export interface IfoCard {
   icon: IfoIconId;
+  titleEn: string;
+  titleAr: string;
+  bodyEn: string;
+  bodyAr: string;
+}
+
+export interface IfoStep {
+  num: string;
   titleEn: string;
   titleAr: string;
   bodyEn: string;
@@ -66,13 +76,16 @@ export interface IfoContent {
     body1Ar: string;
     body2En: string;
     body2Ar: string;
-    serveHeadingEn: string;
-    serveHeadingAr: string;
-    serveItems: IfoCard[];
-    approachHeadingEn: string;
-    approachHeadingAr: string;
-    approachBodyEn: string;
-    approachBodyAr: string;
+  };
+  serve: {
+    headingEn: string;
+    headingAr: string;
+    items: IfoCard[];
+  };
+  approach: {
+    headingEn: string;
+    headingAr: string;
+    steps: IfoStep[];
   };
   engagement: {
     tagEn: string;
@@ -97,7 +110,7 @@ export interface IfoContent {
 }
 
 export const INSTITUTIONAL_FAMILY_OFFICE: IfoContent = {
-  sectionOrder: ["intro", "overview", "engagement", "notes"],
+  sectionOrder: ["intro", "overview", "serve", "approach", "engagement", "notes"],
 
   hero: {
     titleEn: "Institutional & Family Office",
@@ -139,9 +152,12 @@ export const INSTITUTIONAL_FAMILY_OFFICE: IfoContent = {
       "Our institutional platform draws on the firm's four pillars — liquidity and fixed income, equities, real assets, and private markets — to construct portfolios that balance capital preservation, income and long-term growth within a Shariah-compliant framework.",
     body2Ar:
       "تعتمد منصّتنا المؤسسية على كامل ركائز الشركة الأربع — السيولة والدخل الثابت، والأسهم، والأصول العقارية، والأسواق الخاصة — بما يتيح بناء محافظ توازن بين الحفاظ على رأس المال والدخل والنمو طويل الأجل ضمن إطار متوافق مع الشريعة.",
-    serveHeadingEn: "Who We Serve",
-    serveHeadingAr: "من نخدم",
-    serveItems: [
+  },
+
+  serve: {
+    headingEn: "Who We Serve",
+    headingAr: "من نخدم",
+    items: [
       {
         icon: "landmark",
         titleEn: "Government &amp; Quasi-Government Entities",
@@ -179,12 +195,40 @@ export const INSTITUTIONAL_FAMILY_OFFICE: IfoContent = {
           "محافظ ذات أفق دائم تُصمَّم لتوليد توزيعات مستدامة مع الحفاظ على القيمة الحقيقية لأصل الوقف.",
       },
     ],
-    approachHeadingEn: "Our Approach",
-    approachHeadingAr: "منهجنا",
-    approachBodyEn:
-      "Every mandate begins with an Investment Policy Statement developed with the client — defining objectives, risk tolerance, eligible asset classes, liquidity requirements and benchmarks. The investment committee then oversees portfolio construction and ongoing management with clear accountability at each step. Clients retain full transparency: segregated accounts, independent custody, and reporting tailored to their internal governance framework.",
-    approachBodyAr:
-      "يبدأ كل تفويض ببيان سياسة استثمار يُوضَع بالتعاون مع العميل — يحدّد الأهداف ومستوى تحمّل المخاطر وفئات الأصول المؤهّلة ومتطلبات السيولة والمؤشرات المرجعية. ومن ثمّ تشرف لجنة الاستثمار على بناء المحفظة وإدارتها المستمرّة بمساءلة واضحة في كل خطوة. ويحتفظ العملاء بشفافية كاملة: حسابات منفصلة، وحفظ مستقل، وتقارير مصمّمة وفق إطار حوكمتهم الداخلي.",
+  },
+
+  approach: {
+    headingEn: "Our Approach",
+    headingAr: "منهجنا",
+    steps: [
+      {
+        num: "01",
+        titleEn: "Investment Policy Statement",
+        titleAr: "بيان سياسة الاستثمار",
+        bodyEn:
+          "Every mandate begins with an Investment Policy Statement developed with the client.<br>It defines objectives, risk tolerance, eligible asset classes, liquidity requirements and benchmarks.",
+        bodyAr:
+          "يبدأ كل تفويض ببيان سياسة استثمار يُوضَع بالتعاون مع العميل.<br>يحدّد الأهداف ومستوى تحمّل المخاطر وفئات الأصول المؤهّلة ومتطلبات السيولة والمؤشرات المرجعية.",
+      },
+      {
+        num: "02",
+        titleEn: "Portfolio Construction",
+        titleAr: "بناء المحفظة",
+        bodyEn:
+          "The investment committee then oversees portfolio construction and ongoing management with clear accountability at each step.",
+        bodyAr:
+          "ومن ثمّ تشرف لجنة الاستثمار على بناء المحفظة وإدارتها المستمرّة بمساءلة واضحة في كل خطوة.",
+      },
+      {
+        num: "03",
+        titleEn: "Transparency &amp; Reporting",
+        titleAr: "الشفافية والتقارير",
+        bodyEn:
+          "Clients retain full transparency: segregated accounts, independent custody, and reporting tailored to their internal governance framework.",
+        bodyAr:
+          "ويحتفظ العملاء بشفافية كاملة: حسابات منفصلة، وحفظ مستقل، وتقارير مصمّمة وفق إطار حوكمتهم الداخلي.",
+      },
+    ],
   },
 
   engagement: {

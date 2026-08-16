@@ -14,6 +14,7 @@ import type { ReactNode } from "react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
+import { PrimaryCardSmall } from "../components/PrimaryCardSmall";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
@@ -189,6 +190,17 @@ export function InvestmentBanking() {
                   {pickLang(data.execute.bodyEn, data.execute.bodyAr, lang)}
                 </p>
               </div>
+              <PrimaryCardGrid
+                columns={4}
+                className="ib-execute-cards"
+              >
+                {data.execute.cards.map((card) => (
+                  <PrimaryCardSmall
+                    key={card.titleEn}
+                    title={pickLang(card.titleEn, card.titleAr, lang)}
+                  />
+                ))}
+              </PrimaryCardGrid>
             </div>
           </section>
         );

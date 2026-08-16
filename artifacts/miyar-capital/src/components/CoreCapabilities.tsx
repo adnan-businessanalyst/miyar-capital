@@ -1,5 +1,5 @@
 /**
- * CoreCapabilities — Bulleted capability list: each item is an h3 title with a p body.
+ * CoreCapabilities — Skewed soft-corner cards: each item is an h3 title with a p body.
  * Section title (h2 / SectionHead) stays in the parent page — not part of this component.
  *
  * Used by:
