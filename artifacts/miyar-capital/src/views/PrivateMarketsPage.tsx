@@ -1,6 +1,7 @@
 "use client";
 
-import { Fragment } from "react";
+import { CoreCapabilities } from "../components/CoreCapabilities";
+import { Factsheet } from "../components/Factsheet";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
@@ -73,25 +74,17 @@ export function PrivateMarketsPage() {
                   />
                 </div>
                 <div className="eq-col">
-                  <SectionHead
+                  <Factsheet
                     title={pickLang(
                       data.overview.productHeadingEn,
                       data.overview.productHeadingAr,
                       lang,
                     )}
+                    rows={data.overview.facts.map((fact) => ({
+                      label: pickLang(fact.labelEn, fact.labelAr, lang),
+                      value: pickLang(fact.valueEn, fact.valueAr, lang),
+                    }))}
                   />
-                  <dl className="eq-fact-list">
-                    {data.overview.facts.map((fact) => (
-                      <Fragment key={fact.labelEn}>
-                        <dt>
-                          {pickLang(fact.labelEn, fact.labelAr, lang)}
-                        </dt>
-                        <dd>
-                          {pickLang(fact.valueEn, fact.valueAr, lang)}
-                        </dd>
-                      </Fragment>
-                    ))}
-                  </dl>
                 </div>
               </div>
             </div>
@@ -102,98 +95,43 @@ export function PrivateMarketsPage() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="eq-cap-head">
-                <SectionHead
-                  title={pickLang(
-                    data.capabilities.headingEn,
-                    data.capabilities.headingAr,
-                    lang,
-                  )}
-                />
-              </div>
-            </div>
-
-            <div className="cap-rows">
-              {data.capabilities.items.map((item) => (
-                <div
-                  key={item.titleEn}
-                  className={`cap-row cap-row--${item.layout}`}
-                >
-                  <div
-                    className="cap-img"
-                    role="img"
-                    aria-label={pickLang(item.ariaEn, item.ariaAr, lang)}
-                  />
-                  <div className="cap-text">
-                    <h3>
-                      {pickLang(item.titleEn, item.titleAr, lang)}
-                    </h3>
-                    <RichText
-                      as="p"
-                      html={pickLang(item.bodyEn, item.bodyAr, lang)}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        );
-
-      case "cta":
-        return (
-          <section key={id} className="blk eq-cta">
-            <div className="wrap eq-cta-inner">
               <SectionHead
-                center
-                title={pickLang(data.cta.headingEn, data.cta.headingAr, lang)}
-              />
-              <RichText
-                as="p"
-                html={pickLang(data.cta.bodyEn, data.cta.bodyAr, lang)}
-              />
-            </div>
-          </section>
-        );
-
-      case "disclaimer":
-        return (
-          <div key={id} className="disclaimer">
-            <div className="wrap">
-              <b>
-                {pickLang(
-                  data.disclaimer.leadEn,
-                  data.disclaimer.leadAr,
+                title={pickLang(
+                  data.capabilities.headingEn,
+                  data.capabilities.headingAr,
                   lang,
                 )}
-              </b>{" "}
-              {pickLang(data.disclaimer.bodyEn, data.disclaimer.bodyAr, lang)}
-            </div>
-          </div>
-        );
-
-      case "disclosure":
-        return (
-          <section key={id} className="blk">
-            <div className="disclaimer">
-              <div className="wrap">
-                <b>
-                  {pickLang(
-                    data.disclosure.titleEn,
-                    data.disclosure.titleAr,
-                    lang,
-                  )}
-                </b>{" "}
-                <RichText
-                  as="span"
-                  html={pickLang(
-                    data.disclosure.bodyEn,
-                    data.disclosure.bodyAr,
-                    lang,
-                  )}
-                />
-              </div>
+              />
+              <CoreCapabilities
+                items={data.capabilities.items.map((item) => ({
+                  title: pickLang(item.titleEn, item.titleAr, lang),
+                  body: pickLang(item.bodyEn, item.bodyAr, lang),
+                }))}
+              />
             </div>
           </section>
+        );
+
+      case "contact":
+        return (
+          <RegisterInterestSection
+            key={id}
+            sourcePage={SOURCE_PAGE}
+            pageTitleEn="Private Markets"
+            pageTitleAr="الأسواق الخاصة"
+            titleEn={data.contact.titleEn}
+            titleAr={data.contact.titleAr}
+            bodyEn={data.contact.bodyEn}
+            bodyAr={data.contact.bodyAr}
+            buttonLabelEn={data.contact.buttonEn}
+            buttonLabelAr={data.contact.buttonAr}
+            modalTitleEn={data.contact.buttonEn}
+            modalTitleAr={data.contact.buttonAr}
+            disclaimerLeadEn={data.disclaimer.leadEn}
+            disclaimerLeadAr={data.disclaimer.leadAr}
+            disclaimerBodyEn={data.disclaimer.bodyEn}
+            disclaimerBodyAr={data.disclaimer.bodyAr}
+          />
         );
 
       default:
@@ -203,18 +141,7 @@ export function PrivateMarketsPage() {
 
   return (
     <div className="page">
-      {data.sectionOrder.map((id) => (
-        <Fragment key={id}>
-          {id === "disclaimer" ? (
-            <RegisterInterestSection
-              sourcePage={SOURCE_PAGE}
-              pageTitleEn="Private Markets"
-              pageTitleAr="الأسواق الخاصة"
-            />
-          ) : null}
-          {renderSection(id)}
-        </Fragment>
-      ))}
+      {data.sectionOrder.map((id) => renderSection(id))}
     </div>
   );
 }

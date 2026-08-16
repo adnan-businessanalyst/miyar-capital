@@ -3,7 +3,6 @@
  *
  * Used by:
  * - components/IntroCard.tsx
- * - components/RegisterInterestSection.tsx
  * - views/ArrangementManagement.tsx
  * - views/AssetManagement.tsx
  * - views/CapitalMarketsAdvisory.tsx

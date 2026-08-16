@@ -3,6 +3,7 @@
 import {
   Briefcase,
   Building2,
+  ClipboardList,
   KeyRound,
   Landmark,
   Layers,
@@ -21,10 +22,12 @@ import {
   type IfoIconId,
   type IfoSectionId,
 } from "../data/institutionalfamilyoffice";
+import { useResolvedMedia } from "../hooks/useResolvedMedia";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
 
 const SOURCE_PAGE = "/asset-management/institutional-family-office";
+const INTRO_MEDIA_BASENAME = "private_offers";
 
 const ICONS: Record<IfoIconId, LucideIcon> = {
   landmark: Landmark,
@@ -34,11 +37,13 @@ const ICONS: Record<IfoIconId, LucideIcon> = {
   layers: Layers,
   message: MessageSquareText,
   key: KeyRound,
+  clipboard: ClipboardList,
 };
 
 export function InstitutionalFamilyOffice() {
   const { lang } = useLanguage();
   const data = INSTITUTIONAL_FAMILY_OFFICE;
+  const introImg = useResolvedMedia("content", INTRO_MEDIA_BASENAME);
 
   const renderSection = (id: IfoSectionId) => {
     switch (id) {
@@ -69,9 +74,9 @@ export function InstitutionalFamilyOffice() {
               data.hero.descriptionAr,
               lang,
             )}
-            chips={data.hero.chips.map((chip) => ({
-              lead: pickLang(chip.leadEn, chip.leadAr, lang),
-              text: pickLang(chip.textEn, chip.textAr, lang),
+            meta={data.hero.meta.map((item) => ({
+              label: pickLang(item.labelEn, item.labelAr, lang),
+              value: pickLang(item.valueEn, item.valueAr, lang),
             }))}
           />
         );
@@ -80,32 +85,54 @@ export function InstitutionalFamilyOffice() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <SectionHead
-                title={pickLang(data.overview.tagEn, data.overview.tagAr, lang)}
-                subtitle={pickLang(
-                  data.overview.headingEn,
-                  data.overview.headingAr,
-                  lang,
-                )}
-              />
-              <RichText
-                as="p"
-                className="ifo-body"
-                html={pickLang(
-                  data.overview.body1En,
-                  data.overview.body1Ar,
-                  lang,
-                )}
-              />
-              <RichText
-                as="p"
-                className="ifo-body"
-                html={pickLang(
-                  data.overview.body2En,
-                  data.overview.body2Ar,
-                  lang,
-                )}
-              />
+              <div className="pi-intro">
+                <div className="pi-intro-text">
+                  <SectionHead
+                    title={pickLang(
+                      data.overview.tagEn,
+                      data.overview.tagAr,
+                      lang,
+                    )}
+                    subtitle={pickLang(
+                      data.overview.headingEn,
+                      data.overview.headingAr,
+                      lang,
+                    )}
+                  />
+                  <RichText
+                    as="p"
+                    className="ifo-body"
+                    html={pickLang(
+                      data.overview.body1En,
+                      data.overview.body1Ar,
+                      lang,
+                    )}
+                  />
+                  <RichText
+                    as="p"
+                    className="ifo-body"
+                    html={pickLang(
+                      data.overview.body2En,
+                      data.overview.body2Ar,
+                      lang,
+                    )}
+                  />
+                </div>
+                <div
+                  className="pi-intro-img"
+                  role="img"
+                  aria-label={pickLang(
+                    data.hero.titleEn,
+                    data.hero.titleAr,
+                    lang,
+                  )}
+                  style={
+                    introImg
+                      ? { backgroundImage: `url(${introImg})` }
+                      : undefined
+                  }
+                />
+              </div>
 
               <h3 className="ifo-h3" style={{ marginBottom: "32px" }}>
                 {pickLang(
@@ -175,14 +202,19 @@ export function InstitutionalFamilyOffice() {
                 )}
               />
 
-              <PrimaryCardGrid columns={3}>
+              <PrimaryCardGrid columns={2}>
                 {data.engagement.items.map((item) => {
                   const Icon = ICONS[item.icon];
                   return (
                     <PrimaryCard
                       key={item.titleEn}
                       icon={<Icon strokeWidth={1.5} />}
-                      title={pickLang(item.titleEn, item.titleAr, lang)}
+                      title={
+                        <RichText
+                          as="span"
+                          html={pickLang(item.titleEn, item.titleAr, lang)}
+                        />
+                      }
                     >
                       <RichText
                         as="p"
@@ -192,25 +224,6 @@ export function InstitutionalFamilyOffice() {
                   );
                 })}
               </PrimaryCardGrid>
-
-              <div className="ifo-gov-block">
-                <RichText
-                  as="h4"
-                  html={pickLang(
-                    data.engagement.govHeadingEn,
-                    data.engagement.govHeadingAr,
-                    lang,
-                  )}
-                />
-                <RichText
-                  as="p"
-                  html={pickLang(
-                    data.engagement.govBodyEn,
-                    data.engagement.govBodyAr,
-                    lang,
-                  )}
-                />
-              </div>
             </div>
           </section>
         );
@@ -241,31 +254,6 @@ export function InstitutionalFamilyOffice() {
           </section>
         );
 
-      case "disclosure":
-        return (
-          <section key={id} className="blk">
-            <div className="disclaimer">
-              <div className="wrap">
-                <b>
-                  {pickLang(
-                    data.disclosure.titleEn,
-                    data.disclosure.titleAr,
-                    lang,
-                  )}
-                </b>{" "}
-                <RichText
-                  as="span"
-                  html={pickLang(
-                    data.disclosure.bodyEn,
-                    data.disclosure.bodyAr,
-                    lang,
-                  )}
-                />
-              </div>
-            </div>
-          </section>
-        );
-
       default:
         return null;
     }
@@ -280,6 +268,14 @@ export function InstitutionalFamilyOffice() {
               sourcePage={SOURCE_PAGE}
               pageTitleEn="Institutional & Family Office"
               pageTitleAr="المؤسسات والمكاتب العائلية"
+              titleEn={data.contact.titleEn}
+              titleAr={data.contact.titleAr}
+              bodyEn={data.contact.bodyEn}
+              bodyAr={data.contact.bodyAr}
+              buttonLabelEn={data.contact.buttonEn}
+              buttonLabelAr={data.contact.buttonAr}
+              modalTitleEn={data.contact.buttonEn}
+              modalTitleAr={data.contact.buttonAr}
             />
           ) : null}
           {renderSection(id)}

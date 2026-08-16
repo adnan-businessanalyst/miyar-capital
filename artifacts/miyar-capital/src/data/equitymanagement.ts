@@ -9,6 +9,7 @@
 export type EquityManagementSectionId =
   | "intro"
   | "offer"
+  | "capabilities"
   | "what-we-offer"
   | "examples";
 
@@ -16,6 +17,20 @@ export type EquityManagementOfferIconId = "local" | "regional";
 
 export interface EquityManagementOfferItem {
   icon: EquityManagementOfferIconId;
+  titleEn: string;
+  titleAr: string;
+  bodyEn: string;
+  bodyAr: string;
+}
+
+export interface EquityManagementMeta {
+  labelEn: string;
+  labelAr: string;
+  valueEn: string;
+  valueAr: string;
+}
+
+export interface EquityManagementCapability {
   titleEn: string;
   titleAr: string;
   bodyEn: string;
@@ -61,6 +76,16 @@ export interface EquityManagementContent {
     bodyEn: string;
     bodyAr: string;
   };
+  productOverview: {
+    headingEn: string;
+    headingAr: string;
+    rows: EquityManagementMeta[];
+  };
+  capabilities: {
+    headingEn: string;
+    headingAr: string;
+    items: EquityManagementCapability[];
+  };
   offers: {
     headingEn: string;
     headingAr: string;
@@ -83,10 +108,24 @@ export interface EquityManagementContent {
     };
     items: EquityManagementExampleItem[];
   };
+  contact: {
+    titleEn: string;
+    titleAr: string;
+    bodyEn: string;
+    bodyAr: string;
+    buttonEn: string;
+    buttonAr: string;
+  };
+  disclaimer: {
+    leadEn: string;
+    leadAr: string;
+    bodyEn: string;
+    bodyAr: string;
+  };
 }
 
 export const EQUITY_MANAGEMENT: EquityManagementContent = {
-  sectionOrder: ["intro", "offer", "what-we-offer", "examples"],
+  sectionOrder: ["intro", "offer", "capabilities", "what-we-offer", "examples"],
 
   hero: {
     titleEn: "Private Equity",
@@ -98,14 +137,80 @@ export const EQUITY_MANAGEMENT: EquityManagementContent = {
   },
 
   intro: {
-    eyebrowEn: "Building Sustainable Long-Term Value",
-    eyebrowAr: "بناء قيمة مستدامة على المدى الطويل",
-    headingEn: "Equity Management",
-    headingAr: "أسهم الملكية الخاصة",
+    eyebrowEn: "",
+    eyebrowAr: "",
+    headingEn: "How We Manage Equities",
+    headingAr: "كيف ندير الأسهم",
     bodyEn:
-      "Private equity investments provide investors with access to distinctive growth opportunities while contributing to greater portfolio diversification over the long term.<br>At Miyar, we take a selective approach to private equity opportunities, focusing on companies and sectors with strong fundamentals and clear potential for growth and value creation. We aim to align each investment opportunity with our clients’ objectives and investment priorities, while maintaining compliance with Sharia principles.<br>Our philosophy is built around long-term partnerships, disciplined opportunity selection, and an investment perspective that extends beyond short-term financial returns. Through our understanding of the market and rigorous evaluation of opportunities, we seek to build private equity portfolios capable of delivering sustainable value for our clients and partners.",
+      "Our equity strategies combine in-depth research with disciplined portfolio construction, seeking long-term capital growth. The Saudi market is the core of our coverage, and we select opportunities aligned with each client's objectives, risk tolerance and investment horizon.",
     bodyAr:
-      "تمثل استثمارات الملكية الخاصة أحد المسارات التي تتيح للمستثمرين الوصول إلى فرص نمو نوعية والمساهمة في تعزيز تنويع المحافظ الاستثمارية على المدى الطويل.<br>في معيار، نتبنى نهجًا انتقائيًا في دراسة فرص الملكية الخاصة، مع التركيز على الشركات والقطاعات التي تتمتع بأسس قوية وإمكانات واضحة للنمو وخلق القيمة. ونحرص على مواءمة كل فرصة استثمارية مع أهداف عملائنا وتوجهاتهم الاستثمارية، مع الالتزام بضوابط الشريعة الإسلامية.<br>وترتكز فلسفتنا على بناء شراكات طويلة الأمد، والانضباط في اختيار الفرص، والنظر إلى الاستثمار بما يتجاوز العائد المالي قصير الأجل. ومن خلال فهمنا للأسواق وتقييمنا المتعمق للفرص، نسعى إلى بناء محافظ ملكية خاصة قادرة على تحقيق قيمة مستدامة لعملائنا وشركائنا.",
+      "تجمع استراتيجياتنا في إدارة الأسهم بين البحث المعمّق والانضباط في بناء المحفظة، سعياً إلى تنمية رأس المال على المدى الطويل. ويشكّل السوق السعودي محور تغطيتنا، حيث نختار الفرص التي تتوافق مع أهداف عملائنا ومستوى تحمّلهم للمخاطر وآفاقهم الاستثمارية.",
+  },
+
+  productOverview: {
+    headingEn: "PRODUCT OVERVIEW",
+    headingAr: "نظرة عامة على المنتج",
+    rows: [
+      {
+        labelEn: "Asset Class",
+        labelAr: "فئة الأصول",
+        valueEn: "Listed Equities",
+        valueAr: "أسهم مدرجة",
+      },
+      {
+        labelEn: "Risk Level",
+        labelAr: "مستوى المخاطر",
+        valueEn:
+          "High — subject to market volatility and potential capital loss",
+        valueAr:
+          "مرتفع — عرضة لتقلبات السوق واحتمال خسارة رأس المال",
+      },
+      {
+        labelEn: "Liquidity",
+        labelAr: "السيولة",
+        valueEn: "High — securities traded on regulated exchanges",
+        valueAr: "مرتفعة — أوراق مالية متداولة في أسواق منظّمة",
+      },
+      {
+        labelEn: "Investor Type",
+        labelAr: "نوع المستثمر",
+        valueEn:
+          "Investors seeking long-term capital growth with higher risk tolerance",
+        valueAr:
+          "الباحث عن نمو رأس المال طويل الأجل مع قدرة أعلى على تحمّل المخاطر",
+      },
+      {
+        labelEn: "Structure",
+        labelAr: "الهيكل",
+        valueEn:
+          "Discretionary portfolio / segregated account, or public equity fund units",
+        valueAr:
+          "محفظة تديرية / حساب منفصل، أو وحدات في صندوق أسهم عام",
+      },
+    ],
+  },
+
+  capabilities: {
+    headingEn: "CORE CAPABILITIES",
+    headingAr: "القدرات الأساسية",
+    items: [
+      {
+        titleEn: "Saudi Equities",
+        titleAr: "الأسهم السعودية",
+        bodyEn:
+          "Dedicated coverage of the Saudi equity market, grounded in fundamental company research and close monitoring of local market dynamics.",
+        bodyAr:
+          "تغطية مخصّصة للسوق السعودي مبنية على البحث الأساسي للشركات والمتابعة الدقيقة لديناميكيات السوق المحلي.",
+      },
+      {
+        titleEn: "Active Portfolio Management",
+        titleAr: "الإدارة النشطة للمحفظة",
+        bodyEn:
+          "Continuous research and monitoring with disciplined rebalancing to manage risk, adapt to market conditions and capture emerging opportunities.",
+        bodyAr:
+          "بحث ومتابعة مستمرّان وإعادة توازن منضبطة لإدارة المخاطر والتكيّف مع ظروف السوق واقتناص الفرص الناشئة.",
+      },
+    ],
   },
 
   offers: {
@@ -206,5 +311,25 @@ export const EQUITY_MANAGEMENT: EquityManagementContent = {
         stageAr: "توسع",
       },
     ],
+  },
+
+  contact: {
+    titleEn: "CONTACT",
+    titleAr: "تواصل معنا",
+    bodyEn:
+      "Invest with discipline and insight — speak with our team to explore how our equity strategies can support your long-term objectives.",
+    bodyAr:
+      "استثمر بانضباط ورؤية — تحدّث مع فريقنا لاستكشاف كيف يمكن لاستراتيجياتنا في الأسهم أن تدعم أهدافك طويلة الأجل.",
+    buttonEn: "Register Interest",
+    buttonAr: "سجّل اهتمامك",
+  },
+
+  disclaimer: {
+    leadEn: "Risk note:",
+    leadAr: "تنويه المخاطر:",
+    bodyEn:
+      "The value of investments may fall as well as rise, and past performance is not a reliable indicator of future results. Eligibility is subject to client classification and a suitability assessment. Products are offered solely through their official, Compliance-approved documents.",
+    bodyAr:
+      "قد تنخفض قيمة الاستثمارات كما قد ترتفع، والأداء السابق ليس مؤشراً موثوقاً للنتائج المستقبلية. الأهلية مشروطة بتصنيف العميل وتقييم مدى الملاءمة. وتُقدَّم المنتجات حصراً من خلال مستنداتها الرسمية المعتمدة من إدارة الالتزام.",
   },
 };

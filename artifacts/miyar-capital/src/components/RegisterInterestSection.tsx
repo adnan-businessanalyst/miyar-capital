@@ -1,5 +1,5 @@
 /**
- * RegisterInterestSection — Bottom-of-page Register Interest band with SectionHead and RegisterInterest CTA.
+ * RegisterInterestSection — Bottom-of-page band: h2 title, body p, CTA button, optional disclaimer footer.
  *
  * Used by:
  * - views/ArrangementManagement.tsx
@@ -26,7 +26,7 @@ import { CONTACT } from "../data/contact";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
 import { RegisterInterest } from "./RegisterInterest";
-import { SectionHead } from "./SectionHead";
+import { RichText } from "./RichText";
 
 type Props = {
   sourcePage: string;
@@ -34,11 +34,15 @@ type Props = {
   pageTitleAr: string;
   /** Optional override; ContactModal defaults to man_on_phone. */
   image?: string | null;
-  /** Optional section title override (defaults to CONTACT register copy). */
+  /** Optional section title override (h2). */
   titleEn?: string;
   titleAr?: string;
-  /** Optional section subtitle override. */
+  /** Optional body copy override (p). */
+  bodyEn?: string;
+  bodyAr?: string;
+  /** @deprecated Prefer bodyEn — kept for existing callers. */
   subtitleEn?: string;
+  /** @deprecated Prefer bodyAr — kept for existing callers. */
   subtitleAr?: string;
   /** Optional CTA button label override. */
   buttonLabelEn?: string;
@@ -46,9 +50,15 @@ type Props = {
   /** Optional modal title override. */
   modalTitleEn?: string;
   modalTitleAr?: string;
+  /** Optional disclaimer lead (e.g. "Risk note:"). */
+  disclaimerLeadEn?: string;
+  disclaimerLeadAr?: string;
+  /** Optional disclaimer body (supports light HTML). */
+  disclaimerBodyEn?: string;
+  disclaimerBodyAr?: string;
 };
 
-/** Bottom-of-page Register Interest band — centered CTA for AM / IB pages only. */
+/** Bottom-of-page Register Interest band — title, body, CTA, optional disclaimer. */
 export function RegisterInterestSection({
   sourcePage,
   pageTitleEn,
@@ -56,31 +66,50 @@ export function RegisterInterestSection({
   image,
   titleEn,
   titleAr,
+  bodyEn,
+  bodyAr,
   subtitleEn,
   subtitleAr,
   buttonLabelEn,
   buttonLabelAr,
   modalTitleEn,
   modalTitleAr,
+  disclaimerLeadEn,
+  disclaimerLeadAr,
+  disclaimerBodyEn,
+  disclaimerBodyAr,
 }: Props) {
   const { lang } = useLanguage();
+
+  const title = pickLang(
+    titleEn ?? CONTACT.registerSectionTitleEn,
+    titleAr ?? CONTACT.registerSectionTitleAr,
+    lang,
+  );
+  const body = pickLang(
+    bodyEn ?? subtitleEn ?? CONTACT.registerSectionSubtitleEn,
+    bodyAr ?? subtitleAr ?? CONTACT.registerSectionSubtitleAr,
+    lang,
+  );
+  const disclaimerLead = pickLang(
+    disclaimerLeadEn ?? "",
+    disclaimerLeadAr ?? "",
+    lang,
+  );
+  const disclaimerBody = pickLang(
+    disclaimerBodyEn ?? "",
+    disclaimerBodyAr ?? "",
+    lang,
+  );
+  const showDisclaimer = Boolean(
+    disclaimerLead.trim() || disclaimerBody.trim(),
+  );
 
   return (
     <section className="blk ri" id="register">
       <div className="wrap contact-cta">
-        <SectionHead
-          center
-          title={pickLang(
-            titleEn ?? CONTACT.registerSectionTitleEn,
-            titleAr ?? CONTACT.registerSectionTitleAr,
-            lang,
-          )}
-          subtitle={pickLang(
-            subtitleEn ?? CONTACT.registerSectionSubtitleEn,
-            subtitleAr ?? CONTACT.registerSectionSubtitleAr,
-            lang,
-          )}
-        />
+        <h2 className="ri-title">{title}</h2>
+        <p className="ri-body">{body}</p>
         <RegisterInterest
           sourcePage={sourcePage}
           pageTitleEn={pageTitleEn}
@@ -92,6 +121,17 @@ export function RegisterInterestSection({
           modalTitleAr={modalTitleAr}
         />
       </div>
+      {showDisclaimer ? (
+        <footer className="ri-disclaimer">
+          <div className="wrap">
+            {disclaimerLead.trim() ? <b>{disclaimerLead}</b> : null}
+            {disclaimerLead.trim() && disclaimerBody.trim() ? " " : null}
+            {disclaimerBody.trim() ? (
+              <RichText as="span" html={disclaimerBody} />
+            ) : null}
+          </div>
+        </footer>
+      ) : null}
     </section>
   );
 }

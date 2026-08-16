@@ -1,6 +1,8 @@
 "use client";
 
 import { Globe2, MapPinned, type LucideIcon } from "lucide-react";
+import { CoreCapabilities } from "../components/CoreCapabilities";
+import { Factsheet } from "../components/Factsheet";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
@@ -11,12 +13,8 @@ import {
   EQUITY_MANAGEMENT,
   type EquityManagementOfferIconId,
 } from "../data/equitymanagement";
-import { useResolvedMedia } from "../hooks/useResolvedMedia";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
-
-/** Basename under public/media/content/ — any image extension. */
-const INTRO_MEDIA_BASENAME = "pe-intro";
 
 const OFFER_ICONS: Record<EquityManagementOfferIconId, LucideIcon> = {
   local: MapPinned,
@@ -26,7 +24,6 @@ const OFFER_ICONS: Record<EquityManagementOfferIconId, LucideIcon> = {
 export function EquityManagement() {
   const { lang } = useLanguage();
   const data = EQUITY_MANAGEMENT;
-  const introImg = useResolvedMedia("content", INTRO_MEDIA_BASENAME);
 
   const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
@@ -58,35 +55,53 @@ export function EquityManagement() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <div className="pi-intro">
-                <div className="pi-intro-text">
+              <div className="prod-body">
+                <div>
                   <SectionHead
                     title={pickLang(
-                      data.intro.eyebrowEn,
-                      data.intro.eyebrowAr,
-                      lang,
-                    )}
-                    subtitle={pickLang(
                       data.intro.headingEn,
                       data.intro.headingAr,
                       lang,
                     )}
                   />
                   <RichText
-                    as="div"
+                    as="p"
                     className="eq-rich"
                     html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   />
                 </div>
-                <div
-                  className="pi-intro-img"
-                  style={
-                    introImg
-                      ? { backgroundImage: `url(${introImg})` }
-                      : undefined
-                  }
+                <Factsheet
+                  title={pickLang(
+                    data.productOverview.headingEn,
+                    data.productOverview.headingAr,
+                    lang,
+                  )}
+                  rows={data.productOverview.rows.map((row) => ({
+                    label: pickLang(row.labelEn, row.labelAr, lang),
+                    value: pickLang(row.valueEn, row.valueAr, lang),
+                  }))}
                 />
               </div>
+            </div>
+          </section>
+        );
+      case "capabilities":
+        return (
+          <section key={id} className="blk">
+            <div className="wrap">
+              <SectionHead
+                title={pickLang(
+                  data.capabilities.headingEn,
+                  data.capabilities.headingAr,
+                  lang,
+                )}
+              />
+              <CoreCapabilities
+                items={data.capabilities.items.map((item) => ({
+                  title: pickLang(item.titleEn, item.titleAr, lang),
+                  body: pickLang(item.bodyEn, item.bodyAr, lang),
+                }))}
+              />
             </div>
           </section>
         );
@@ -196,6 +211,18 @@ export function EquityManagement() {
         sourcePage="/asset-management/equity-management"
         pageTitleEn="Equity Management"
         pageTitleAr="إدارة الأسهم"
+        titleEn={data.contact.titleEn}
+        titleAr={data.contact.titleAr}
+        bodyEn={data.contact.bodyEn}
+        bodyAr={data.contact.bodyAr}
+        buttonLabelEn={data.contact.buttonEn}
+        buttonLabelAr={data.contact.buttonAr}
+        modalTitleEn={data.contact.buttonEn}
+        modalTitleAr={data.contact.buttonAr}
+        disclaimerLeadEn={data.disclaimer.leadEn}
+        disclaimerLeadAr={data.disclaimer.leadAr}
+        disclaimerBodyEn={data.disclaimer.bodyEn}
+        disclaimerBodyAr={data.disclaimer.bodyAr}
       />
     </div>
   );

@@ -11,8 +11,7 @@ export type InvestmentBankingSectionId =
   | "execute"
   | "products"
   | "lifecycle"
-  | "cta"
-  | "notes";
+  | "cta";
 
 export interface InvestmentBankingCard {
   titleEn: string;
@@ -45,6 +44,13 @@ export interface InvestmentBankingLifecycleStep {
   bodyAr: string;
 }
 
+export interface InvestmentBankingMetaFact {
+  labelEn: string;
+  labelAr: string;
+  valueEn: string;
+  valueAr: string;
+}
+
 export interface InvestmentBankingContent {
   sectionOrder: InvestmentBankingSectionId[];
   hero: {
@@ -52,12 +58,9 @@ export interface InvestmentBankingContent {
     titleAr: string;
     crumbEn: string;
     crumbAr: string;
-    badgeEn: string;
-    badgeAr: string;
     descriptionEn: string;
     descriptionAr: string;
-    chipsEn: string[];
-    chipsAr: string[];
+    meta: InvestmentBankingMetaFact[];
   };
   overview: {
     tagEn: string;
@@ -120,14 +123,6 @@ export interface InvestmentBankingContent {
     buttonEn: string;
     buttonAr: string;
   };
-  notes: {
-    headingEn: string;
-    headingAr: string;
-    itemsEn: string[];
-    itemsAr: string[];
-    refEn: string;
-    refAr: string;
-  };
 }
 
 export const INVESTMENT_BANKING: InvestmentBankingContent = {
@@ -139,8 +134,6 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
     "execute",
     "products",
     "lifecycle",
-    "cta",
-    "notes",
   ],
 
   hero: {
@@ -148,14 +141,30 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
     titleAr: "المصرفية الاستثمارية",
     crumbEn: "Investment Banking",
     crumbAr: "المصرفية الاستثمارية",
-    badgeEn: "INVESTMENT BANKING",
-    badgeAr: "المصرفية الاستثمارية",
     descriptionEn:
       "Advisory and arrangement services across capital markets, transactions and financing.",
     descriptionAr:
       "خدمات الاستشارات والترتيب عبر أسواق المال والمعاملات والتمويل.",
-    chipsEn: ["Advising", "Arranging", "Saudi Arabia"],
-    chipsAr: ["الاستشارات", "الترتيب", "المملكة العربية السعودية"],
+    meta: [
+      {
+        labelEn: "Service",
+        labelAr: "الخدمة",
+        valueEn: "Advising",
+        valueAr: "الاستشارات",
+      },
+      {
+        labelEn: "Capability",
+        labelAr: "القدرة",
+        valueEn: "Arranging",
+        valueAr: "الترتيب",
+      },
+      {
+        labelEn: "Market",
+        labelAr: "السوق",
+        valueEn: "Saudi Arabia",
+        valueAr: "المملكة العربية السعودية",
+      },
+    ],
   },
 
   overview: {
@@ -388,26 +397,5 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
       "أخبرنا بهدفك — جمع رأس مال أو بيع أو إدراج أو تمويل — وسنساعدك على تحديد المسار.",
     buttonEn: "START A CONVERSATION",
     buttonAr: "ابدأ الحوار",
-  },
-
-  notes: {
-    headingEn: "Notes & Disclosures",
-    headingAr: "ملاحظات وإفصاحات",
-    itemsEn: [
-      "This page is for information purposes only and does not constitute an offer, solicitation or investment advice.",
-      "Investment banking services are provided subject to applicable regulatory licensing.",
-      "Transactions involving securities are subject to the regulations of the Capital Market Authority and the Saudi Exchange, where applicable.",
-      "The value of investments may fall as well as rise. Past performance is not indicative of future results.",
-    ],
-    itemsAr: [
-      "هذه الصفحة لأغراض معلوماتية فقط ولا تشكّل عرضاً أو طلباً أو مشورة استثمارية.",
-      "تُقدَّم خدمات المصرفية الاستثمارية وفقاً للتراخيص التنظيمية المعمول بها.",
-      "تخضع المعاملات المتعلقة بالأوراق المالية لأنظمة هيئة السوق المالية والسوق المالية السعودية حيثما ينطبق.",
-      "قد تنخفض قيمة الاستثمارات كما قد ترتفع. الأداء السابق ليس مؤشراً على النتائج المستقبلية.",
-    ],
-    refEn:
-      "Miyar Capital — Investment Banking. This page is for information purposes only and does not constitute an offer or solicitation.",
-    refAr:
-      "معيار المالية — المصرفية الاستثمارية. هذه الصفحة لأغراض معلوماتية فقط ولا تشكّل عرضاً أو طلباً.",
   },
 };

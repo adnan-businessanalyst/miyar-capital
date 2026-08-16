@@ -2,7 +2,9 @@
  * Factsheet — Sticky label/value facts panel with optional primary and secondary CTAs.
  *
  * Used by:
+ * - views/EquityManagement.tsx
  * - views/LiquidityFI.tsx
+ * - views/PrivateMarketsPage.tsx
  * - views/RealAssets.tsx
  */
 
