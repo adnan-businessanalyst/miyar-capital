@@ -71,6 +71,11 @@ export function RealAssets() {
           <PageHero
             key={id}
             title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
+            subtitle={pickLang(
+              data.hero.subtitleEn,
+              data.hero.subtitleAr,
+              lang,
+            )}
             crumbs={[
               {
                 label: pickLang(
