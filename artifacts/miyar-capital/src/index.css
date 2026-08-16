@@ -494,7 +494,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 60;
-  background: rgba(252, 250, 245, 0.92);
+  background: rgba(232, 235, 238, 0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
   transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
@@ -527,6 +527,11 @@ header.header--transparent .nav-toggle {
 
 header.header--transparent .nav-toggle span {
   background: #ffffff;
+}
+
+/* Transparent header: active nav item in light grey */
+header.header--transparent nav ul li.on > a {
+  color: #c5ced6;
 }
 
 .nav {
@@ -4355,6 +4360,20 @@ body[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickab
 /* Real Assets: 60% intro / 40% factsheet */
 .page--real-assets .prod-body {
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+}
+
+.ra-projects-head .sec-head {
+  margin-bottom: 0;
+}
+
+.ra-projects-intro {
+  max-width: 42rem;
+  margin: 0.75rem auto 2.75rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 0.96rem + 0.3vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 /* Avoid double vertical padding when prod-body lives inside a .blk band. */
