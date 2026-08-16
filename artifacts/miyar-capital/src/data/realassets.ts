@@ -81,6 +81,8 @@ export interface RealAssetsContent {
   hero: {
     titleEn: string;
     titleAr: string;
+    subtitleEn: string;
+    subtitleAr: string;
     crumbAmEn: string;
     crumbAmAr: string;
     crumbPageEn: string;
@@ -162,8 +164,10 @@ export const REAL_ASSETS: RealAssetsContent = {
   sectionOrder: ["intro", "offer", "capabilities", "diversification", "projects"],
 
   hero: {
-    titleEn: "Tangible assets. Durable returns. Inflation resilience.",
-    titleAr: "أصول ملموسة.  قيمة مضافة.",
+    titleEn: "Real Estate Assets",
+    titleAr: "أصول عقارية",
+    subtitleEn: "Tangible assets. Durable returns. Inflation resilience.",
+    subtitleAr: "أصول ملموسة.  قيمة مضافة.",
     crumbAmEn: "Asset Management",
     crumbAmAr: "إدارة الأصول",
     crumbPageEn: "Real Assets",
