@@ -163,11 +163,11 @@ export const REAL_ASSETS: RealAssetsContent = {
 
   hero: {
     titleEn: "Tangible assets. Durable returns. Inflation resilience.",
-    titleAr: "أصول ملموسة. عوائد مستدامة. حماية من التضخم.",
+    titleAr: "أصول ملموسة.  قيمة مضافة.",
     crumbAmEn: "Asset Management",
     crumbAmAr: "إدارة الأصول",
     crumbPageEn: "Real Assets",
-    crumbPageAr: "الأصول الحقيقية",
+    crumbPageAr: "الأصول العقارية",
     meta: [
       {
         labelEn: "Focus",

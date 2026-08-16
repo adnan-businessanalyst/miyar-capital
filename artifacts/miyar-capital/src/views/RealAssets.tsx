@@ -88,10 +88,6 @@ export function RealAssets() {
                 ),
               },
             ]}
-            meta={data.hero.meta.map((m) => ({
-              label: pickLang(m.labelEn, m.labelAr, lang),
-              value: pickLang(m.valueEn, m.valueAr, lang),
-            }))}
           />
         );
       case "offer":
@@ -167,7 +163,6 @@ export function RealAssets() {
         const scrollItems = data.projects.items.map((item, index) => ({
           title: pickLang(item.titleEn, item.titleAr, lang),
           body: pickLang(item.bodyEn, item.bodyAr, lang),
-          href: `/funds-reports/${item.slug}/reports`,
           image: PROJECT_CARD_IMAGES[index],
           meta: [
             {
@@ -247,19 +242,28 @@ export function RealAssets() {
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
-              <SectionHead
-                center
-                title={pickLang(
-                  data.projects.headingEn,
-                  data.projects.headingAr,
-                  lang,
-                )}
-                subtitle={pickLang(
-                  data.projects.subEn,
-                  data.projects.subAr,
-                  lang,
-                )}
-              />
+              <div className="ra-projects-head">
+                <SectionHead
+                  center
+                  title={pickLang(
+                    data.projects.headingEn,
+                    data.projects.headingAr,
+                    lang,
+                  )}
+                  subtitle={pickLang(
+                    data.projects.subEn,
+                    data.projects.subAr,
+                    lang,
+                  )}
+                />
+                <p className="ra-projects-intro">
+                  {pickLang(
+                    data.projects.introEn,
+                    data.projects.introAr,
+                    lang,
+                  )}
+                </p>
+              </div>
               <ScrollExamples
                 items={scrollItems}
                 ariaLabel={pickLang(
