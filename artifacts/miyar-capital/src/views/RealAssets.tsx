@@ -255,8 +255,8 @@ export function RealAssets() {
                   lang,
                 )}
                 subtitle={pickLang(
-                  data.projects.introEn,
-                  data.projects.introAr,
+                  data.projects.subEn,
+                  data.projects.subAr,
                   lang,
                 )}
               />

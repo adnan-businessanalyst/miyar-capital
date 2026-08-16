@@ -110,6 +110,8 @@ export interface RealAssetsContent {
   projects: {
     headingEn: string;
     headingAr: string;
+    subEn: string;
+    subAr: string;
     introEn: string;
     introAr: string;
     labels: {
@@ -269,7 +271,7 @@ export const REAL_ASSETS: RealAssetsContent = {
       { labelEn: "Offices", labelAr: "المكاتب" },
       { labelEn: "Retail", labelAr: "متاجر التجزئة" },
       { labelEn: "Hospitality", labelAr: "قطاع الضيافة" },
-      { labelEn: "Industrial", labelAr: "القطاعات الصناعية" },
+      { labelEn: "Industrial & Logistics???", labelAr: "القطاعات الصناعية و اللوجستية" },
       { labelEn: "Education", labelAr: "التعليم" },
       { labelEn: "Entertainment", labelAr: "قطاع الترفيه" },
       { labelEn: "Mixed-use real estate", labelAr: "العقارات متعددة الاستخدامات" },
@@ -282,21 +284,24 @@ export const REAL_ASSETS: RealAssetsContent = {
     titleEn: "Geographic Coverage",
     titleAr: "التغطية الجغرافية",
     items: [
-      { labelEn: "MENA", labelAr: "الشرق الأوسط وشمال أفريقيا" },
-      { labelEn: "Americas", labelAr: "الأمريكتان" },
+      { labelEn: "Kingdom of Saudi Arabia", labelAr: "المملكة العربية السعودية" },
+      { labelEn: "Arabian Gulf???", labelAr: "الخليج العربي" },
+      { labelEn: "???Americas", labelAr: "الدول العربية" },
+      { labelEn: "United States of America", labelAr: "الولايات المتحدة الأمريكية" },
       { labelEn: "Europe", labelAr: "أوروبا" },
-      { labelEn: "Asia", labelAr: "آسيا" },
-      { labelEn: "Australia", labelAr: "أستراليا" },
+      { labelEn: "Asia", labelAr: "اسيا" },
     ],
   },
 
   projects: {
-    headingEn: "Our Real Assets Projects",
-    headingAr: "مشاريع أصولنا العقارية",
+    headingEn: "؟؟؟Our Real Assets Projects",
+    headingAr: "الصناديق العقارية الاستثمارية",
+    subEn: "Research — Analyse — Select — Establish",
+    subAr: "نبحث – نحلل – ننتقي – نؤسس",
     introEn:
       "Selected real estate and infrastructure projects that reflect our focus on durable income, disciplined underwriting, and long-term asset quality.",
     introAr:
-      "مجموعة مختارة من مشاريع العقارات والبنية التحتية التي تعكس تركيزنا على الدخل المستدام، والتقييم المنضبط، وجودة الأصول على المدى الطويل.",
+      "نؤسس صناديقنا العقارية الاستثمارية بعد ان نؤمن بالفكرة وجودة الاصل المستثمر به والقيمة المضافة للمنتج النهائي",
     labels: {
       fundCurrencyEn: "Fund Currency",
       fundCurrencyAr: "عملة الصندوق",
