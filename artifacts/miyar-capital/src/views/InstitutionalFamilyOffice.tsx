@@ -10,15 +10,16 @@ import {
   Sprout,
   type LucideIcon,
 } from "lucide-react";
+import { Fragment } from "react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
-import { UnderConstructionOverlay } from "../components/UnderConstructionOverlay";
 import {
   INSTITUTIONAL_FAMILY_OFFICE,
   type IfoIconId,
+  type IfoSectionId,
 } from "../data/institutionalfamilyoffice";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
@@ -39,7 +40,7 @@ export function InstitutionalFamilyOffice() {
   const { lang } = useLanguage();
   const data = INSTITUTIONAL_FAMILY_OFFICE;
 
-  const renderSection = (id: (typeof data.sectionOrder)[number]) => {
+  const renderSection = (id: IfoSectionId) => {
     switch (id) {
       case "intro":
         return (
@@ -63,7 +64,6 @@ export function InstitutionalFamilyOffice() {
                 ),
               },
             ]}
-            badge={pickLang(data.hero.badgeEn, data.hero.badgeAr, lang)}
             description={pickLang(
               data.hero.descriptionEn,
               data.hero.descriptionAr,
@@ -88,9 +88,6 @@ export function InstitutionalFamilyOffice() {
                   lang,
                 )}
               />
-              <p className="ifo-gold-sub">
-                {pickLang(data.overview.subEn, data.overview.subAr, lang)}
-              </p>
               <RichText
                 as="p"
                 className="ifo-body"
@@ -110,20 +107,13 @@ export function InstitutionalFamilyOffice() {
                 )}
               />
 
-              <h3 className="ifo-h3">
+              <h3 className="ifo-h3" style={{ marginBottom: "32px" }}>
                 {pickLang(
                   data.overview.serveHeadingEn,
                   data.overview.serveHeadingAr,
                   lang,
                 )}
               </h3>
-              <p className="ifo-h3-sub">
-                {pickLang(
-                  data.overview.serveLeadEn,
-                  data.overview.serveLeadAr,
-                  lang,
-                )}
-              </p>
 
               <PrimaryCardGrid columns={4}>
                 {data.overview.serveItems.map((item) => {
@@ -184,13 +174,6 @@ export function InstitutionalFamilyOffice() {
                   lang,
                 )}
               />
-              <p className="ifo-gold-sub">
-                {pickLang(
-                  data.engagement.subEn,
-                  data.engagement.subAr,
-                  lang,
-                )}
-              </p>
 
               <PrimaryCardGrid columns={3}>
                 {data.engagement.items.map((item) => {
@@ -228,7 +211,6 @@ export function InstitutionalFamilyOffice() {
                   )}
                 />
               </div>
-
             </div>
           </section>
         );
@@ -240,16 +222,14 @@ export function InstitutionalFamilyOffice() {
               <RichText
                 as="p"
                 className="ifo-notes-title"
-                html={pickLang(
-                  data.notes.titleEn,
-                  data.notes.titleAr,
-                  lang,
-                )}
+                html={pickLang(data.notes.titleEn, data.notes.titleAr, lang)}
               />
               <ol className="ifo-note-list">
                 {data.notes.items.map((note) => (
-                  <li key={note.num}>
-                    <span className="ifo-note-num">{note.num}</span>
+                  <li key={note.numEn}>
+                    <span className="ifo-note-num">
+                      {pickLang(note.numEn, note.numAr, lang)}
+                    </span>
                     <RichText
                       as="p"
                       html={pickLang(note.bodyEn, note.bodyAr, lang)}
@@ -257,15 +237,31 @@ export function InstitutionalFamilyOffice() {
                   </li>
                 ))}
               </ol>
-              <RichText
-                as="p"
-                className="ifo-closing"
-                html={pickLang(
-                  data.notes.closingEn,
-                  data.notes.closingAr,
-                  lang,
-                )}
-              />
+            </div>
+          </section>
+        );
+
+      case "disclosure":
+        return (
+          <section key={id} className="blk">
+            <div className="disclaimer">
+              <div className="wrap">
+                <b>
+                  {pickLang(
+                    data.disclosure.titleEn,
+                    data.disclosure.titleAr,
+                    lang,
+                  )}
+                </b>{" "}
+                <RichText
+                  as="span"
+                  html={pickLang(
+                    data.disclosure.bodyEn,
+                    data.disclosure.bodyAr,
+                    lang,
+                  )}
+                />
+              </div>
             </div>
           </section>
         );
@@ -276,14 +272,19 @@ export function InstitutionalFamilyOffice() {
   };
 
   return (
-    <div className="page page--under-construction">
-      <UnderConstructionOverlay />
-      {data.sectionOrder.map(renderSection)}
-      <RegisterInterestSection
-        sourcePage={SOURCE_PAGE}
-        pageTitleEn="Institutional & Family Office"
-        pageTitleAr="المؤسسات والمكاتب العائلية"
-      />
+    <div className="page">
+      {data.sectionOrder.map((id) => (
+        <Fragment key={id}>
+          {id === "notes" ? (
+            <RegisterInterestSection
+              sourcePage={SOURCE_PAGE}
+              pageTitleEn="Institutional & Family Office"
+              pageTitleAr="المؤسسات والمكاتب العائلية"
+            />
+          ) : null}
+          {renderSection(id)}
+        </Fragment>
+      ))}
     </div>
   );
 }

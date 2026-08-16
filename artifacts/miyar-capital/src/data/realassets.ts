@@ -9,8 +9,11 @@
 export type RealAssetsSectionId =
   | "intro"
   | "offer"
+  | "capabilities"
   | "diversification"
   | "projects";
+
+export type RealAssetsCapLayout = "img-left" | "img-right";
 
 export type RealAssetsListCardIconId = "layers" | "map";
 
@@ -33,6 +36,16 @@ export interface RealAssetsListCard {
   titleEn: string;
   titleAr: string;
   items: RealAssetsListItem[];
+}
+
+export interface RealAssetsCapability {
+  layout: RealAssetsCapLayout;
+  titleEn: string;
+  titleAr: string;
+  bodyEn: string;
+  bodyAr: string;
+  ariaEn: string;
+  ariaAr: string;
 }
 
 export interface RealAssetsProjectItem {
@@ -87,6 +100,16 @@ export interface RealAssetsContent {
     bodyEn: string;
     bodyAr: string;
   };
+  productOverview: {
+    headingEn: string;
+    headingAr: string;
+    rows: RealAssetsMeta[];
+  };
+  capabilities: {
+    headingEn: string;
+    headingAr: string;
+    items: RealAssetsCapability[];
+  };
   diversification: RealAssetsListCard;
   geography: RealAssetsListCard;
   projects: {
@@ -122,10 +145,24 @@ export interface RealAssetsContent {
     };
     items: RealAssetsProjectItem[];
   };
+  contact: {
+    titleEn: string;
+    titleAr: string;
+    bodyEn: string;
+    bodyAr: string;
+    buttonEn: string;
+    buttonAr: string;
+  };
+  disclaimer: {
+    leadEn: string;
+    leadAr: string;
+    bodyEn: string;
+    bodyAr: string;
+  };
 }
 
 export const REAL_ASSETS: RealAssetsContent = {
-  sectionOrder: ["intro", "offer", "diversification", "projects"],
+  sectionOrder: ["intro", "offer", "capabilities", "diversification", "projects"],
 
   hero: {
     titleEn: "Tangible assets. Durable returns. Inflation resilience.",
@@ -165,6 +202,74 @@ export const REAL_ASSETS: RealAssetsContent = {
       "Real assets offer clients access to tangible, income-generating investments that diversify portfolios and provide a hedge against inflation. We source, structure, and manage real estate and other real asset opportunities with a long-term, value-driven approach.",
     bodyAr:
       "تتيح الأصول الحقيقية للعملاء الوصول إلى استثمارات ملموسة مدرّة للدخل تسهم في تنويع المحافظ وتوفر تحوطاً ضد التضخم. نقوم باستقطاب وهيكلة وإدارة فرص العقارات وغيرها من الأصول الحقيقية بنهج طويل الأمد قائم على القيمة.",
+  },
+
+  productOverview: {
+    headingEn: "PRODUCT OVERVIEW",
+    headingAr: "نظرة عامة على المنتج",
+    rows: [
+      {
+        labelEn: "Asset Class",
+        labelAr: "فئة الأصول",
+        valueEn: "Real Assets (Real Estate)",
+        valueAr: "أصول عقارية (عقارات)",
+      },
+      {
+        labelEn: "Risk Level",
+        labelAr: "مستوى المخاطر",
+        valueEn: "Moderate to High",
+        valueAr: "متوسط إلى مرتفع",
+      },
+      {
+        labelEn: "Liquidity",
+        labelAr: "السيولة",
+        valueEn: "Low — long-term holding periods",
+        valueAr: "منخفضة — فترات تملّك طويلة الأجل",
+      },
+      {
+        labelEn: "Investor Type",
+        labelAr: "نوع المستثمر",
+        valueEn: "Qualified / Institutional",
+        valueAr: "مؤهل / مؤسسي",
+      },
+      {
+        labelEn: "Structure",
+        labelAr: "الهيكل",
+        valueEn: "Private funds and direct investment vehicles",
+        valueAr: "صناديق خاصة وأدوات استثمار مباشر",
+      },
+    ],
+  },
+
+  capabilities: {
+    headingEn: "CORE CAPABILITIES",
+    headingAr: "القدرات الأساسية",
+    items: [
+      {
+        layout: "img-left",
+        titleEn: "Income-generating Real Estate",
+        titleAr: "العقارات المدرّة للدخل",
+        bodyEn:
+          "Investments in stabilised, income-producing properties across established sectors, selected to generate recurring cash flow supported by existing tenancy and operating history.",
+        bodyAr:
+          "استثمارات في عقارات مستقرة ومدرّة للدخل ضمن قطاعات راسخة، تُختار لتوليد تدفقات نقدية متكرّرة مدعومة بإشغال قائم وسجلّ تشغيلي.",
+        ariaEn:
+          "Illustration representing income-generating real estate",
+        ariaAr: "رسم توضيحي يمثل العقارات المدرّة للدخل",
+      },
+      {
+        layout: "img-right",
+        titleEn: "Development Opportunities",
+        titleAr: "فرص التطوير",
+        bodyEn:
+          "Selective participation in value-add and development-stage projects, assessed on location, project fundamentals and alignment with long-term demand trends.",
+        bodyAr:
+          "مشاركة انتقائية في مشاريع القيمة المضافة والمشاريع في مرحلة التطوير، تُقيَّم وفق الموقع وأساسيات المشروع وتوافقه مع اتجاهات الطلب طويلة الأجل.",
+        ariaEn:
+          "Illustration representing real estate development opportunities",
+        ariaAr: "رسم توضيحي يمثل فرص التطوير العقاري",
+      },
+    ],
   },
 
   diversification: {
@@ -365,5 +470,24 @@ export const REAL_ASSETS: RealAssetsContent = {
         fundGeographyAr: "المملكة العربية السعودية",
       },
     ],
+  },
+
+  contact: {
+    titleEn: "CONTACT",
+    titleAr: "تواصل معنا",
+    bodyEn:
+      "To learn more about our real assets offering, contact our team.",
+    bodyAr: "لمعرفة المزيد عن عروضنا في الأصول العقارية، تواصل مع فريقنا.",
+    buttonEn: "Contact Us",
+    buttonAr: "تواصل معنا",
+  },
+
+  disclaimer: {
+    leadEn: "Risk note:",
+    leadAr: "تنويه المخاطر:",
+    bodyEn:
+      "The value of investments may fall as well as rise, and past performance is not a reliable indicator of future results. Eligibility is subject to client classification and a suitability assessment. Products are offered solely through their official, Compliance-approved documents.",
+    bodyAr:
+      "قد تنخفض قيمة الاستثمارات كما قد ترتفع، والأداء السابق ليس مؤشراً موثوقاً للنتائج المستقبلية. الأهلية مشروطة بتصنيف العميل وتقييم مدى الملاءمة. وتُقدَّم المنتجات حصراً من خلال مستنداتها الرسمية المعتمدة من إدارة الالتزام.",
   },
 };
