@@ -1,5 +1,6 @@
 "use client";
 
+import { CoreCapabilities } from "../components/CoreCapabilities";
 import { Factsheet } from "../components/Factsheet";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
@@ -112,7 +113,7 @@ export function RealAssets() {
                     )}
                   />
                   <RichText
-                    as="div"
+                    as="p"
                     className="eq-rich"
                     html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   />
@@ -136,39 +137,19 @@ export function RealAssets() {
         return (
           <section key={id} className="blk">
             <div className="wrap">
-              <div className="eq-cap-head">
-                <SectionHead
-                  title={pickLang(
-                    data.capabilities.headingEn,
-                    data.capabilities.headingAr,
-                    lang,
-                  )}
-                />
-              </div>
-            </div>
-
-            <div className="cap-rows">
-              {data.capabilities.items.map((item) => (
-                <div
-                  key={item.titleEn}
-                  className={`cap-row cap-row--${item.layout}`}
-                >
-                  <div
-                    className="cap-img"
-                    role="img"
-                    aria-label={pickLang(item.ariaEn, item.ariaAr, lang)}
-                  />
-                  <div className="cap-text">
-                    <h3>
-                      {pickLang(item.titleEn, item.titleAr, lang)}
-                    </h3>
-                    <RichText
-                      as="p"
-                      html={pickLang(item.bodyEn, item.bodyAr, lang)}
-                    />
-                  </div>
-                </div>
-              ))}
+              <SectionHead
+                title={pickLang(
+                  data.capabilities.headingEn,
+                  data.capabilities.headingAr,
+                  lang,
+                )}
+              />
+              <CoreCapabilities
+                items={data.capabilities.items.map((item) => ({
+                  title: pickLang(item.titleEn, item.titleAr, lang),
+                  body: pickLang(item.bodyEn, item.bodyAr, lang),
+                }))}
+              />
             </div>
           </section>
         );
@@ -305,25 +286,17 @@ export function RealAssets() {
         pageTitleAr="الأصول العقارية"
         titleEn={data.contact.titleEn}
         titleAr={data.contact.titleAr}
-        subtitleEn={data.contact.bodyEn}
-        subtitleAr={data.contact.bodyAr}
+        bodyEn={data.contact.bodyEn}
+        bodyAr={data.contact.bodyAr}
         buttonLabelEn={data.contact.buttonEn}
         buttonLabelAr={data.contact.buttonAr}
         modalTitleEn={data.contact.buttonEn}
         modalTitleAr={data.contact.buttonAr}
+        disclaimerLeadEn={data.disclaimer.leadEn}
+        disclaimerLeadAr={data.disclaimer.leadAr}
+        disclaimerBodyEn={data.disclaimer.bodyEn}
+        disclaimerBodyAr={data.disclaimer.bodyAr}
       />
-      <div className="disclaimer">
-        <div className="wrap">
-          <b>
-            {pickLang(
-              data.disclaimer.leadEn,
-              data.disclaimer.leadAr,
-              lang,
-            )}
-          </b>{" "}
-          {pickLang(data.disclaimer.bodyEn, data.disclaimer.bodyAr, lang)}
-        </div>
-      </div>
     </div>
   );
 }

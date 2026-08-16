@@ -10,8 +10,7 @@ export type IfoSectionId =
   | "intro"
   | "overview"
   | "engagement"
-  | "notes"
-  | "disclosure";
+  | "notes";
 
 export type IfoIconId =
   | "landmark"
@@ -20,13 +19,14 @@ export type IfoIconId =
   | "sprout"
   | "layers"
   | "message"
-  | "key";
+  | "key"
+  | "clipboard";
 
-export interface IfoChip {
-  leadEn: string;
-  leadAr: string;
-  textEn: string;
-  textAr: string;
+export interface IfoMetaFact {
+  labelEn: string;
+  labelAr: string;
+  valueEn: string;
+  valueAr: string;
 }
 
 export interface IfoCard {
@@ -55,7 +55,7 @@ export interface IfoContent {
     crumbPageAr: string;
     descriptionEn: string;
     descriptionAr: string;
-    chips: IfoChip[];
+    meta: IfoMetaFact[];
   };
   overview: {
     tagEn: string;
@@ -80,26 +80,24 @@ export interface IfoContent {
     headingEn: string;
     headingAr: string;
     items: IfoCard[];
-    govHeadingEn: string;
-    govHeadingAr: string;
-    govBodyEn: string;
-    govBodyAr: string;
   };
   notes: {
     titleEn: string;
     titleAr: string;
     items: IfoNote[];
   };
-  disclosure: {
+  contact: {
     titleEn: string;
     titleAr: string;
     bodyEn: string;
     bodyAr: string;
+    buttonEn: string;
+    buttonAr: string;
   };
 }
 
 export const INSTITUTIONAL_FAMILY_OFFICE: IfoContent = {
-  sectionOrder: ["intro", "overview", "engagement", "notes", "disclosure"],
+  sectionOrder: ["intro", "overview", "engagement", "notes"],
 
   hero: {
     titleEn: "Institutional & Family Office",
@@ -112,18 +110,18 @@ export const INSTITUTIONAL_FAMILY_OFFICE: IfoContent = {
       "Bespoke mandates built around your governance, objectives and time horizon.",
     descriptionAr:
       "تفويضات مصمّمة خصيصاً حول حوكمتك وأهدافك وأفقك الزمني.",
-    chips: [
+    meta: [
       {
-        leadEn: "Client Type:",
-        leadAr: "نوع العميل:",
-        textEn: "Institutions · Family Offices · Endowments",
-        textAr: "مؤسسات · مكاتب عائلية · أوقاف",
+        labelEn: "Client Type",
+        labelAr: "نوع العميل",
+        valueEn: "Institutions · Family Offices · Endowments",
+        valueAr: "مؤسسات · مكاتب عائلية · أوقاف",
       },
       {
-        leadEn: "Mandate:",
-        leadAr: "التفويض:",
-        textEn: "Segregated / Advisory",
-        textAr: "منفصل / استشاري",
+        labelEn: "Mandate",
+        labelAr: "التفويض",
+        valueEn: "Segregated / Advisory",
+        valueAr: "منفصل / استشاري",
       },
     ],
   },
@@ -222,13 +220,16 @@ export const INSTITUTIONAL_FAMILY_OFFICE: IfoContent = {
         bodyAr:
           "وصول مؤسسي تفضيلي إلى نطاق صناديق الشركة وفرص الأسواق الخاصة، بما يشمل الاستثمار المشترك إلى جانب رأسمال الشركة.",
       },
+      {
+        icon: "clipboard",
+        titleEn: "Governance &amp; Reporting",
+        titleAr: "الحوكمة والتقارير",
+        bodyEn:
+          "Institutional clients receive dedicated relationship coverage, quarterly investment reviews and reporting packages built to their specification — performance attribution, holdings transparency and compliance confirmation against the agreed policy.",
+        bodyAr:
+          "يحصل العملاء المؤسسيون على تغطية علاقات مخصّصة، ومراجعات استثمارية ربع سنوية، وحزم تقارير مصمّمة وفق مواصفاتهم — تحليل الأداء، وشفافية المراكز، وتأكيد الالتزام مقابل السياسة المتفق عليها.",
+      },
     ],
-    govHeadingEn: "Governance &amp; Reporting",
-    govHeadingAr: "الحوكمة والتقارير",
-    govBodyEn:
-      "Institutional clients receive dedicated relationship coverage, quarterly investment reviews and reporting packages built to their specification — performance attribution, holdings transparency and compliance confirmation against the agreed policy.",
-    govBodyAr:
-      "يحصل العملاء المؤسسيون على تغطية علاقات مخصّصة، ومراجعات استثمارية ربع سنوية، وحزم تقارير مصمّمة وفق مواصفاتهم — تحليل الأداء، وشفافية المراكز، وتأكيد الالتزام مقابل السياسة المتفق عليها.",
   },
 
   notes: {
@@ -270,12 +271,14 @@ export const INSTITUTIONAL_FAMILY_OFFICE: IfoContent = {
     ],
   },
 
-  disclosure: {
-    titleEn: "DISCLOSURE",
-    titleAr: "الإفصاح التنظيمي",
+  contact: {
+    titleEn: "CONTACT",
+    titleAr: "تواصل معنا",
     bodyEn:
-      "<b>Regulatory:</b> Miyar Financial is authorised and regulated by the Capital Market Authority (CMA), licence No. 21216-32, for arranging, advising, managing investments and operating funds. Content is for information only and does not constitute an offer of securities or investment advice. Products are offered solely through their official, Compliance-approved documents.",
+      "To learn more about Private Markets and request official fund documents, contact our team.",
     bodyAr:
-      "<b>تنظيمي:</b> معيار المالية شركة مرخّصة ومنظّمة من هيئة السوق المالية، ترخيص رقم 21216-32، لممارسة أنشطة الترتيب وتقديم المشورة وإدارة الاستثمارات وتشغيل الصناديق. المحتوى المنشور لأغراض المعلومات فقط ولا يُعدّ عرضاً لأوراق مالية أو مشورة استثمارية. وتُقدَّم المنتجات حصراً من خلال مستنداتها الرسمية المعتمدة.",
+      "لمعرفة المزيد عن الأسواق الخاصة وطلب مستندات الصندوق الرسمية، تواصل مع فريقنا.",
+    buttonEn: "Contact Us",
+    buttonAr: "تواصل معنا",
   },
 };

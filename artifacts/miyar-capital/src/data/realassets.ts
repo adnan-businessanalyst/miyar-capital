@@ -13,8 +13,6 @@ export type RealAssetsSectionId =
   | "diversification"
   | "projects";
 
-export type RealAssetsCapLayout = "img-left" | "img-right";
-
 export type RealAssetsListCardIconId = "layers" | "map";
 
 export interface RealAssetsListItem {
@@ -39,13 +37,10 @@ export interface RealAssetsListCard {
 }
 
 export interface RealAssetsCapability {
-  layout: RealAssetsCapLayout;
   titleEn: string;
   titleAr: string;
   bodyEn: string;
   bodyAr: string;
-  ariaEn: string;
-  ariaAr: string;
 }
 
 export interface RealAssetsProjectItem {
@@ -194,14 +189,14 @@ export const REAL_ASSETS: RealAssetsContent = {
   },
 
   intro: {
-    eyebrowEn: "",
-    eyebrowAr: "",
-    headingEn: "Real Assets",
-    headingAr: "أصول العقارات",
+    eyebrowEn: "INTRODUCTION",
+    eyebrowAr: "المقدمة",
+    headingEn: "How We Manage Real Assets",
+    headingAr: "كيف ندير الأصول العقارية",
     bodyEn:
-      "Real assets offer clients access to tangible, income-generating investments that diversify portfolios and provide a hedge against inflation. We source, structure, and manage real estate and other real asset opportunities with a long-term, value-driven approach.",
+      "Real assets give our clients access to tangible, income-generating investments that diversify portfolios and offer a hedge against inflation. We source, structure and manage real estate opportunities with a long-term, value-driven approach.",
     bodyAr:
-      "تتيح الأصول الحقيقية للعملاء الوصول إلى استثمارات ملموسة مدرّة للدخل تسهم في تنويع المحافظ وتوفر تحوطاً ضد التضخم. نقوم باستقطاب وهيكلة وإدارة فرص العقارات وغيرها من الأصول الحقيقية بنهج طويل الأمد قائم على القيمة.",
+      "توفّر الأصول العقارية لعملائنا فرص استثمار ملموسة ومدرّة للدخل، تُسهم في تنويع المحافظ وتشكّل تحوّطاً ضدّ التضخم. ونتولّى تحديد الفرص العقارية وهيكلتها وإدارتها وفق منهج طويل الأجل قائم على القيمة.",
   },
 
   productOverview: {
@@ -246,28 +241,20 @@ export const REAL_ASSETS: RealAssetsContent = {
     headingAr: "القدرات الأساسية",
     items: [
       {
-        layout: "img-left",
         titleEn: "Income-generating Real Estate",
         titleAr: "العقارات المدرّة للدخل",
         bodyEn:
           "Investments in stabilised, income-producing properties across established sectors, selected to generate recurring cash flow supported by existing tenancy and operating history.",
         bodyAr:
           "استثمارات في عقارات مستقرة ومدرّة للدخل ضمن قطاعات راسخة، تُختار لتوليد تدفقات نقدية متكرّرة مدعومة بإشغال قائم وسجلّ تشغيلي.",
-        ariaEn:
-          "Illustration representing income-generating real estate",
-        ariaAr: "رسم توضيحي يمثل العقارات المدرّة للدخل",
       },
       {
-        layout: "img-right",
         titleEn: "Development Opportunities",
         titleAr: "فرص التطوير",
         bodyEn:
           "Selective participation in value-add and development-stage projects, assessed on location, project fundamentals and alignment with long-term demand trends.",
         bodyAr:
           "مشاركة انتقائية في مشاريع القيمة المضافة والمشاريع في مرحلة التطوير، تُقيَّم وفق الموقع وأساسيات المشروع وتوافقه مع اتجاهات الطلب طويلة الأجل.",
-        ariaEn:
-          "Illustration representing real estate development opportunities",
-        ariaAr: "رسم توضيحي يمثل فرص التطوير العقاري",
       },
     ],
   },

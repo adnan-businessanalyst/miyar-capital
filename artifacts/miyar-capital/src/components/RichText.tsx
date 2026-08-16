@@ -2,7 +2,9 @@
  * RichText — Renders trusted static HTML snippets from translation strings via dangerouslySetInnerHTML.
  *
  * Used by:
+ * - components/CoreCapabilities.tsx
  * - components/Factsheet.tsx
+ * - components/RegisterInterestSection.tsx
  * - components/PrimaryButton.tsx
  * - components/PrimaryCardClickable.tsx
  * - components/SecondaryButton.tsx

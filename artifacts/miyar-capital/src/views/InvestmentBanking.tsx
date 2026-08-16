@@ -62,13 +62,15 @@ export function InvestmentBanking() {
             animate
             title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
             crumb={pickLang(data.hero.crumbEn, data.hero.crumbAr, lang)}
-            badge={pickLang(data.hero.badgeEn, data.hero.badgeAr, lang)}
             description={pickLang(
               data.hero.descriptionEn,
               data.hero.descriptionAr,
               lang,
             )}
-            chips={lang === "ar" ? data.hero.chipsAr : data.hero.chipsEn}
+            meta={data.hero.meta.map((item) => ({
+              label: pickLang(item.labelEn, item.labelAr, lang),
+              value: pickLang(item.valueEn, item.valueAr, lang),
+            }))}
           />
         );
       case "overview": {
@@ -249,48 +251,6 @@ export function InvestmentBanking() {
             </div>
           </section>
         );
-      case "cta":
-        return (
-          <section key={id} className="blk">
-            <div className="wrap ib-cta">
-              <SectionHead
-                title={pickLang(data.cta.tagEn, data.cta.tagAr, lang)}
-                subtitle={pickLang(
-                  data.cta.headingEn,
-                  data.cta.headingAr,
-                  lang,
-                )}
-              />
-              <p className="ib-cta-sub">
-                {pickLang(data.cta.bodyEn, data.cta.bodyAr, lang)}
-              </p>
-            </div>
-          </section>
-        );
-      case "notes": {
-        const items = lang === "ar" ? data.notes.itemsAr : data.notes.itemsEn;
-        return (
-          <section key={id} className="ib-notes">
-            <div className="wrap">
-              <SectionHead
-                title={pickLang(
-                  data.notes.headingEn,
-                  data.notes.headingAr,
-                  lang,
-                )}
-              />
-              <ol>
-                {items.map((item) => (
-                  <li key={item.slice(0, 48)}>{item}</li>
-                ))}
-              </ol>
-              <p className="ib-ref">
-                {pickLang(data.notes.refEn, data.notes.refAr, lang)}
-              </p>
-            </div>
-          </section>
-        );
-      }
       default:
         return null;
     }
@@ -303,6 +263,8 @@ export function InvestmentBanking() {
         sourcePage="/investment-banking"
         pageTitleEn="Investment Banking"
         pageTitleAr="الخدمات المصرفية الاستثمارية"
+        bodyEn={data.cta.bodyEn}
+        bodyAr={data.cta.bodyAr}
       />
     </div>
   );
