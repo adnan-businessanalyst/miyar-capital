@@ -3,7 +3,8 @@
  * Imported by `views/PrivateMarketsPage.tsx` — not CMS-managed.
  * Route: /asset-management/private-markets
  *
- * Bodies may include `<br>` for paragraph breaks (rendered via RichText).
+ * Bodies may include `<br>` / `&amp;` (rendered via RichText).
+ * Editorial: do not publish a PE launch date until CMA approval is confirmed.
  */
 
 export type PrivateMarketsSectionId =
@@ -11,7 +12,8 @@ export type PrivateMarketsSectionId =
   | "overview"
   | "capabilities"
   | "cta"
-  | "disclaimer";
+  | "disclaimer"
+  | "disclosure";
 
 export type PrivateMarketsCapLayout = "img-left" | "img-right";
 
@@ -43,6 +45,8 @@ export interface PrivateMarketsContent {
     crumbPageAr: string;
   };
   overview: {
+    introTagEn: string;
+    introTagAr: string;
     approachHeadingEn: string;
     approachHeadingAr: string;
     approachBodyEn: string;
@@ -61,17 +65,30 @@ export interface PrivateMarketsContent {
     headingAr: string;
     bodyEn: string;
     bodyAr: string;
-    buttonEn: string;
-    buttonAr: string;
   };
   disclaimer: {
+    leadEn: string;
+    leadAr: string;
+    bodyEn: string;
+    bodyAr: string;
+  };
+  disclosure: {
+    titleEn: string;
+    titleAr: string;
     bodyEn: string;
     bodyAr: string;
   };
 }
 
 export const PRIVATE_MARKETS: PrivateMarketsContent = {
-  sectionOrder: ["intro", "overview", "capabilities", "cta", "disclaimer"],
+  sectionOrder: [
+    "intro",
+    "overview",
+    "capabilities",
+    "cta",
+    "disclaimer",
+    "disclosure",
+  ],
 
   hero: {
     titleEn: "Private Markets",
@@ -83,22 +100,23 @@ export const PRIVATE_MARKETS: PrivateMarketsContent = {
   },
 
   overview: {
+    introTagEn: "INTRODUCTION",
+    introTagAr: "المقدمة",
     approachHeadingEn: "How We Manage Private Markets",
     approachHeadingAr: "كيف ندير الأسواق الخاصة",
     approachBodyEn:
-      "Private Markets extends the platform into illiquid, longer-horizon opportunities — built with independent valuation and a defined conflicts-of-interest framework, and offered to qualified investors through official fund documents.",
+      "Private Markets extends our platform into illiquid, longer-horizon opportunities — built on independent valuation and a defined conflicts-of-interest framework, and offered to qualified investors through official fund documents.",
     approachBodyAr:
-      "تمتد الأسواق الخاصة بالمنصة إلى فرص غير سائلة وأطول أمداً — مبنية على تقييم مستقل وإطار محدد لتعارض المصالح، وتُقدَّم للمستثمرين المؤهلين عبر المستندات الرسمية للصناديق.",
-    productHeadingEn: "Product Overview",
+      "تمتدّ الأسواق الخاصة بمنصّتنا إلى فرص أقلّ سيولة وأطول أفقاً، مبنية على تقييم مستقل وإطار محدّد لإدارة تعارض المصالح، وتُقدَّم للمستثمرين المؤهلين من خلال مستندات الصندوق الرسمية.",
+    productHeadingEn: "PRODUCT OVERVIEW",
     productHeadingAr: "نظرة عامة على المنتج",
     facts: [
       {
         labelEn: "Asset Class",
-        labelAr: "فئة الأصل",
+        labelAr: "فئة الأصول",
         valueEn:
           "Private Markets (Private Equity, Private Credit, Co-Investment)",
-        valueAr:
-          "الأسواق الخاصة (الملكية الخاصة، التمويل الخاص، الاستثمار المشترك)",
+        valueAr: "أسواق خاصة (ملكية خاصة، ائتمان خاص، استثمار مشترك)",
       },
       {
         labelEn: "Risk Level",
@@ -112,7 +130,7 @@ export const PRIVATE_MARKETS: PrivateMarketsContent = {
         valueEn:
           "Illiquid — long-term capital commitment with limited or no redemption",
         valueAr:
-          "غير سائلة — التزام رأسمالي طويل الأمد مع استرداد محدود أو معدوم",
+          "غير سائلة — التزام رأسمالي طويل الأجل باسترداد محدود أو معدوم",
       },
       {
         labelEn: "Investor Type",
@@ -124,13 +142,13 @@ export const PRIVATE_MARKETS: PrivateMarketsContent = {
         labelEn: "Structure",
         labelAr: "الهيكل",
         valueEn: "Closed-ended private funds and deal-by-deal vehicles",
-        valueAr: "صناديق خاصة مغلقة وهياكل صفقة بصفقة",
+        valueAr: "صناديق خاصة مغلقة وأدوات على أساس صفقة بصفقة",
       },
     ],
   },
 
   capabilities: {
-    headingEn: "Core Capabilities",
+    headingEn: "CORE CAPABILITIES",
     headingAr: "القدرات الأساسية",
     items: [
       {
@@ -138,9 +156,9 @@ export const PRIVATE_MARKETS: PrivateMarketsContent = {
         titleEn: "Private Equity",
         titleAr: "الملكية الخاصة",
         bodyEn:
-          "A sponsor-aligned private equity strategy scheduled to launch in 2026. Positions are valued by an independent third party and managed under a defined conflicts-of-interest framework.",
+          "A sponsor-aligned private equity strategy, currently in development. Positions are valued by an independent third party and managed under a defined conflicts-of-interest framework.",
         bodyAr:
-          "استراتيجية ملكية خاصة متوائمة مع الراعي ومقرّر إطلاقها في 2026. تُقيَّم المراكز من طرف ثالث مستقل وتُدار ضمن إطار محدد لتعارض المصالح.",
+          "استراتيجية ملكية خاصة متوائمة مع الرعاة، قيد التطوير. تُقيَّم المراكز من طرف مستقل وتُدار وفق إطار محدّد لتعارض المصالح.",
         ariaEn:
           "Illustration representing private equity investment strategy",
         ariaAr: "رسم توضيحي يمثل استراتيجية استثمار الملكية الخاصة",
@@ -148,11 +166,11 @@ export const PRIVATE_MARKETS: PrivateMarketsContent = {
       {
         layout: "img-right",
         titleEn: "Private Credit",
-        titleAr: "التمويل الخاص",
+        titleAr: "الائتمان الخاص",
         bodyEn:
-          "Structured private-credit opportunities designed for qualified pools of capital. Financing is arranged across negotiated terms, with documentation and risk parameters set out in official fund documents.",
+          "Structured private-credit opportunities designed for qualified pools of capital. Financing is arranged on negotiated terms, with documentation and risk parameters set out in official fund documents.",
         bodyAr:
-          "فرص تمويل خاص مهيكلة ومصممة لتجمعات رأس مال مؤهلة. يُرتَّب التمويل وفق شروط متفاوض عليها، مع توثيق ومعايير مخاطر مبيّنة في المستندات الرسمية للصناديق.",
+          "فرص ائتمان خاص مهيكلة مصمّمة لمجموعات رأسمال مؤهّلة. يُرتَّب التمويل وفق شروط تفاوضية، مع تحديد الوثائق ومعايير المخاطر في مستندات الصندوق الرسمية.",
         ariaEn:
           "Illustration representing structured private credit financing",
         ariaAr: "رسم توضيحي يمثل تمويل الائتمان الخاص المهيكل",
@@ -162,9 +180,9 @@ export const PRIVATE_MARKETS: PrivateMarketsContent = {
         titleEn: "Co-Investment",
         titleAr: "الاستثمار المشترك",
         bodyEn:
-          "Selective co-investment opportunities offered alongside the firm on a deal-by-deal basis. Participation is evaluated per transaction, allowing qualified investors to allocate to specific deals rather than a blind pool.",
+          "Selective co-investment opportunities offered alongside the firm on a deal-by-deal basis. Participation is evaluated per transaction, letting qualified investors allocate to specific deals rather than a blind pool.",
         bodyAr:
-          "فرص استثمار مشترك انتقائية تُقدَّم إلى جانب الشركة على أساس صفقة بصفقة. تُقيَّم المشاركة لكل معاملة، بما يتيح للمستثمرين المؤهلين التخصيص لصفقات محددة بدلاً من محفظة عمياء.",
+          "فرص استثمار مشترك انتقائية تُقدَّم إلى جانب الشركة على أساس صفقة بصفقة. تُقيَّم المشاركة لكل صفقة على حدة، بما يتيح للمستثمرين المؤهلين التخصيص لصفقات محدّدة بدلاً من محفظة عمياء.",
         ariaEn: "Illustration representing deal-by-deal co-investment",
         ariaAr: "رسم توضيحي يمثل الاستثمار المشترك صفقة بصفقة",
       },
@@ -172,20 +190,29 @@ export const PRIVATE_MARKETS: PrivateMarketsContent = {
   },
 
   cta: {
-    headingEn: "Speak With Our Team",
-    headingAr: "تحدث مع فريقنا",
+    headingEn: "CONTACT",
+    headingAr: "تواصل معنا",
     bodyEn:
       "To learn more about Private Markets and request official fund documents, contact our team.",
     bodyAr:
-      "لمعرفة المزيد عن الأسواق الخاصة وطلب المستندات الرسمية للصناديق، تواصل مع فريقنا.",
-    buttonEn: "Contact Us",
-    buttonAr: "تواصل معنا",
+      "لمعرفة المزيد عن الأسواق الخاصة وطلب مستندات الصندوق الرسمية، تواصل مع فريقنا.",
   },
 
   disclaimer: {
+    leadEn: "Risk note:",
+    leadAr: "تنويه المخاطر:",
     bodyEn:
-      "This page is for informational purposes only and does not constitute an offer, solicitation, or recommendation to invest. Private Markets products are available to qualified investors only, as defined by applicable regulations, and are offered solely through official fund documents. Investments in private markets are illiquid, involve a high degree of risk, and may result in loss of capital. Past performance is not indicative of future results.",
+      "The value of investments may fall as well as rise, and past performance is not a reliable indicator of future results. Eligibility is subject to client classification and a suitability assessment. Products are offered solely through their official, Compliance-approved documents.",
     bodyAr:
-      "هذه الصفحة لأغراض معلوماتية فقط ولا تُعد عرضاً أو دعوة أو توصية للاستثمار. منتجات الأسواق الخاصة متاحة للمستثمرين المؤهلين فقط وفق الأنظمة المعمول بها، وتُقدَّم حصراً عبر المستندات الرسمية للصناديق. استثمارات الأسواق الخاصة غير سائلة وتنطوي على درجة عالية من المخاطر وقد تؤدي إلى خسارة رأس المال. الأداء السابق لا يشير إلى النتائج المستقبلية.",
+      "قد تنخفض قيمة الاستثمارات كما قد ترتفع، والأداء السابق ليس مؤشراً موثوقاً للنتائج المستقبلية. الأهلية مشروطة بتصنيف العميل وتقييم مدى الملاءمة. وتُقدَّم المنتجات حصراً من خلال مستنداتها الرسمية المعتمدة من إدارة الالتزام.",
+  },
+
+  disclosure: {
+    titleEn: "DISCLOSURE",
+    titleAr: "الإفصاح التنظيمي",
+    bodyEn:
+      "<b>Regulatory:</b> Miyar Financial is authorised and regulated by the Capital Market Authority (CMA), licence No. 21216-32, for arranging, advising, managing investments and operating funds. Content is for information only and does not constitute an offer of securities or investment advice. Products are offered solely through their official, Compliance-approved documents.",
+    bodyAr:
+      "<b>تنظيمي:</b> معيار المالية شركة مرخّصة ومنظّمة من هيئة السوق المالية، ترخيص رقم 21216-32، لممارسة أنشطة الترتيب وتقديم المشورة وإدارة الاستثمارات وتشغيل الصناديق. المحتوى المنشور لأغراض المعلومات فقط ولا يُعدّ عرضاً لأوراق مالية أو مشورة استثمارية. وتُقدَّم المنتجات حصراً من خلال مستنداتها الرسمية المعتمدة.",
   },
 };

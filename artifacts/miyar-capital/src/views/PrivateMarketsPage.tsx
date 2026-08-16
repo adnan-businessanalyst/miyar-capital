@@ -5,8 +5,10 @@ import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
-import { UnderConstructionOverlay } from "../components/UnderConstructionOverlay";
-import { PRIVATE_MARKETS } from "../data/privatemarkets";
+import {
+  PRIVATE_MARKETS,
+  type PrivateMarketsSectionId,
+} from "../data/privatemarkets";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
 
@@ -16,7 +18,7 @@ export function PrivateMarketsPage() {
   const { lang } = useLanguage();
   const data = PRIVATE_MARKETS;
 
-  const renderSection = (id: (typeof data.sectionOrder)[number]) => {
+  const renderSection = (id: PrivateMarketsSectionId) => {
     switch (id) {
       case "intro":
         return (
@@ -51,6 +53,11 @@ export function PrivateMarketsPage() {
                 <div className="eq-col">
                   <SectionHead
                     title={pickLang(
+                      data.overview.introTagEn,
+                      data.overview.introTagAr,
+                      lang,
+                    )}
+                    subtitle={pickLang(
                       data.overview.approachHeadingEn,
                       data.overview.approachHeadingAr,
                       lang,
@@ -152,13 +159,41 @@ export function PrivateMarketsPage() {
         return (
           <div key={id} className="disclaimer">
             <div className="wrap">
-              {pickLang(
-                data.disclaimer.bodyEn,
-                data.disclaimer.bodyAr,
-                lang,
-              )}
+              <b>
+                {pickLang(
+                  data.disclaimer.leadEn,
+                  data.disclaimer.leadAr,
+                  lang,
+                )}
+              </b>{" "}
+              {pickLang(data.disclaimer.bodyEn, data.disclaimer.bodyAr, lang)}
             </div>
           </div>
+        );
+
+      case "disclosure":
+        return (
+          <section key={id} className="blk">
+            <div className="disclaimer">
+              <div className="wrap">
+                <b>
+                  {pickLang(
+                    data.disclosure.titleEn,
+                    data.disclosure.titleAr,
+                    lang,
+                  )}
+                </b>{" "}
+                <RichText
+                  as="span"
+                  html={pickLang(
+                    data.disclosure.bodyEn,
+                    data.disclosure.bodyAr,
+                    lang,
+                  )}
+                />
+              </div>
+            </div>
+          </section>
         );
 
       default:
@@ -167,14 +202,19 @@ export function PrivateMarketsPage() {
   };
 
   return (
-    <div className="page page--under-construction">
-      <UnderConstructionOverlay />
-      {data.sectionOrder.map(renderSection)}
-      <RegisterInterestSection
-        sourcePage={SOURCE_PAGE}
-        pageTitleEn="Private Markets"
-        pageTitleAr="الأسواق الخاصة"
-      />
+    <div className="page">
+      {data.sectionOrder.map((id) => (
+        <Fragment key={id}>
+          {id === "disclaimer" ? (
+            <RegisterInterestSection
+              sourcePage={SOURCE_PAGE}
+              pageTitleEn="Private Markets"
+              pageTitleAr="الأسواق الخاصة"
+            />
+          ) : null}
+          {renderSection(id)}
+        </Fragment>
+      ))}
     </div>
   );
 }

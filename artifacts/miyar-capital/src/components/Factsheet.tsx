@@ -3,6 +3,7 @@
  *
  * Used by:
  * - views/LiquidityFI.tsx
+ * - views/RealAssets.tsx
  */
 
 "use client";

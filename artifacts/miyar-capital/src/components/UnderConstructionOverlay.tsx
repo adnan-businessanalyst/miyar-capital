@@ -1,9 +1,7 @@
 /**
  * UnderConstructionOverlay — Full-viewport bilingual under-construction notice with animated worker illustration.
  *
- * Used by:
- * - views/InstitutionalFamilyOffice.tsx
- * - views/PrivateMarketsPage.tsx
+ * Used by: (none currently — keep for future under-construction pages)
  */
 
 "use client";

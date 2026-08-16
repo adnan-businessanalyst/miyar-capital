@@ -21,6 +21,12 @@ type Props = {
   pageTitleAr: string;
   /** Optional override; ContactModal defaults to man_on_phone. */
   image?: string | null;
+  /** Optional CTA button label override. */
+  buttonLabelEn?: string;
+  buttonLabelAr?: string;
+  /** Optional modal title override. */
+  modalTitleEn?: string;
+  modalTitleAr?: string;
 };
 
 /** Consistent Register Interest CTA button + modal (EN / AR). */
@@ -29,17 +35,21 @@ export function RegisterInterest({
   pageTitleEn,
   pageTitleAr,
   image,
+  buttonLabelEn,
+  buttonLabelAr,
+  modalTitleEn,
+  modalTitleAr,
 }: Props) {
   const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
   const label = pickLang(
-    CONTACT.registerButtonEn,
-    CONTACT.registerButtonAr,
+    buttonLabelEn ?? CONTACT.registerButtonEn,
+    buttonLabelAr ?? CONTACT.registerButtonAr,
     lang,
   );
   const title = pickLang(
-    CONTACT.registerModalTitleEn,
-    CONTACT.registerModalTitleAr,
+    modalTitleEn ?? CONTACT.registerModalTitleEn,
+    modalTitleAr ?? CONTACT.registerModalTitleAr,
     lang,
   );
 
