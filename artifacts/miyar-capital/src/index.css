@@ -2363,12 +2363,12 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(138, 106, 46, 0.45) 6%,
-    rgba(168, 130, 55, 0.95) 50%,
-    rgba(138, 106, 46, 0.45) 94%,
+    rgba(12, 71, 110, 0.45) 6%,
+    rgba(12, 71, 110, 0.95) 50%,
+    rgba(12, 71, 110, 0.45) 94%,
     transparent 100%
   );
-  box-shadow: 0 0 10px rgba(100, 72, 24, 0.45);
+  box-shadow: 0 0 10px rgba(12, 71, 110, 0.35);
   /* Desktop: horizontal through card centers */
   top: 50%;
   inset-inline: calc(100% / var(--steps-count, 5) / 2);
@@ -2451,21 +2451,21 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #f3e6c0;
-  border: 1.5px solid rgba(224, 196, 122, 0.75);
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
   background:
     linear-gradient(
       145deg,
-      #6d949e 0%,
-      #446c77 48%,
-      #2a454d 100%
+      #ffffff 0%,
+      #e8eef2 48%,
+      #d5e0e6 100%
     );
   box-shadow:
-    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.35),
-    inset -1.5px -1.5px 0 rgba(0, 0, 0, 0.28),
-    0 3px 6px rgba(0, 0, 0, 0.35),
-    0 6px 14px rgba(0, 0, 0, 0.22),
-    0 0 8px rgba(12, 71, 110, 0.28);
+    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.85),
+    inset -1.5px -1.5px 0 rgba(12, 71, 110, 0.12),
+    0 3px 6px rgba(0, 0, 0, 0.2),
+    0 6px 14px rgba(0, 0, 0, 0.14),
+    0 0 8px rgba(12, 71, 110, 0.22);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -2496,9 +2496,9 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(138, 106, 46, 0.5) 8%,
-      rgba(168, 130, 55, 0.95) 50%,
-      rgba(138, 106, 46, 0.5) 92%,
+      rgba(12, 71, 110, 0.5) 8%,
+      rgba(12, 71, 110, 0.95) 50%,
+      rgba(12, 71, 110, 0.5) 92%,
       transparent 100%
     );
   }
@@ -2823,7 +2823,7 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
   width: var(--pc-icon-box);
   height: var(--pc-icon-box);
   border-radius: 50%;
-  border: 1px solid rgba(224, 196, 122, 0.55);
+  border: 1px solid rgba(91, 163, 201, 0.75);
   background: transparent;
   color: var(--pc-icon-color);
   display: flex;
@@ -2858,7 +2858,7 @@ body[dir="rtl"] .pcar-list-item.is-active .pcar-list-title {
 
 .primary-card:hover .primary-card-icon,
 .primary-card:hover .primary-card-badge {
-  border-color: rgba(232, 213, 163, 0.75);
+  border-color: rgba(142, 191, 214, 0.95);
   transform: scale(1.08) translateY(-0.125rem);
   box-shadow:
     inset 1.25px 1.25px 0 rgba(255, 255, 255, 0.28),
@@ -4311,12 +4311,11 @@ body[dir="rtl"] .primary-card.primary-card-clickable .primary-card-clickable-arr
 }
 
 .primary-card.primary-card-clickable:hover .primary-card-clickable-arrow {
-  background:
-    linear-gradient(145deg, #5ba3c9 0%, #0c476e 48%, #08263d 100%);
-  color: var(--navy-deep);
-  border-color: rgba(180, 210, 225, 0.9);
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
   box-shadow:
-    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.45),
+    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.2),
     inset -1.5px -1.5px 0 rgba(0, 0, 0, 0.2),
     0 4px 8px rgba(0, 0, 0, 0.3),
     0 10px 20px rgba(7, 30, 51, 0.32);
