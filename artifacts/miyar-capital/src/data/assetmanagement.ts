@@ -95,7 +95,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
     descriptionEn:
       "Asset management organised around investor objectives — across four pillars.",
     descriptionAr:
-      "إدارة أصول منظّمة حول أهداف المستثمر — عبر أربع ركائز.",
+      "تنطلق من أهداف المستثمر، وتتوزع على أربع ركائز.",
     meta: [
       {
         labelEn: "Clients",
@@ -107,7 +107,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         labelEn: "Vehicles",
         labelAr: "الأدوات",
         valueEn: "Public Funds · Private Funds · DPM",
-        valueAr: "صناديق عامة · صناديق خاصة · إدارة محافظ تقديرية",
+        valueAr: "صناديق عامة · صناديق خاصة · إدارة المحافظ الإستثمارية الخاصة",
       },
       {
         labelEn: "Regulation",
@@ -120,40 +120,40 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
 
   platform: {
     headingEn: "One integrated platform, not a product shelf.",
-    headingAr: "منصة متكاملة واحدة، وليست رف منتجات.",
+    headingAr: "منصةٌ واحدة متكاملة، لا مجموعةَ منتجات متفرقة.",
     bodyEn:
       "Each pillar carries its own page, documents and process. Allocation is coordinated centrally so that mandates draw on the full platform rather than a single fund.",
     bodyAr:
-      "لكل ركيزة صفحتها ومستنداتها وعملياتها. يُنسَّق التخصيص مركزياً حتى تستفيد التفويضات من المنصة كاملة وليس من صندوق واحد.",
+      "لكل ركيزة ملفها الخاص ووثائقها وإجراءاتها. ويُنسَّق توزيع الأصول مركزياً بحيث يستفيد أصحاب التفاويض من المنصة كاملةً لا من صندوقٍ واحد.",
     pillars: [
       {
         num: "I",
         titleEn: "Liquidity & Fixed Income",
         titleAr: "السيولة والدخل الثابت",
         bodyEn:
-          "Murabaha and money-market solutions engineered for capital preservation and stable, risk-conscious returns.",
+          "Murabaha and money-market solutions.",
         bodyAr:
-          "حلول المرابحة وأسواق النقد المصممة للحفاظ على رأس المال وتحقيق عوائد مستقرة واعية بالمخاطر.",
+          "حلول المرابحة وأسواق النقد.",
         href: "/asset-management/liquidity-fi",
       },
       {
         num: "II",
         titleEn: "Equity Management",
-        titleAr: "إدارة الأسهم",
+        titleAr: "إدارة أسهم الملكية الخاصة",
         bodyEn:
-          "Saudi and regional equity strategies built on a disciplined process for long-term value creation.",
+          "Saudi and regional equity strategies.",
         bodyAr:
-          "استراتيجيات أسهم سعودية وإقليمية مبنية على عملية منضبطة لخلق قيمة طويلة الأجل.",
+          "استراتيجيات سعودية وإقليمية لأسهم الملكية الخاصة.",
         href: "/asset-management/equity-management",
       },
       {
         num: "III",
         titleEn: "Real Assets",
-        titleAr: "الأصول الحقيقية",
+        titleAr: "الأصول العقارية",
         bodyEn:
-          "Real estate income and development funds offering resilience and diversification for a portfolio.",
+          "Real estate income & development funds.",
         bodyAr:
-          "صناديق دخل وتطوير عقاري توفّر مرونة وتنويعاً للمحفظة.",
+          "صناديق مدرة للدخل وصناديق تنمية.",
         href: "/asset-management/real-assets",
       },
       {
@@ -161,9 +161,9 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         titleEn: "Private Markets",
         titleAr: "الأسواق الخاصة",
         bodyEn:
-          "Private equity and private credit strategies for qualified and institutional investors.",
+          "PE & private credit - qualified investors.",
         bodyAr:
-          "استراتيجيات ملكية خاصة وتمويل خاص للمستثمرين المؤهلين والمؤسسيين.",
+          "الملكية الخاصة والتمويل الخاص - للمستثمرين المؤهلين.",
         href: "/asset-management/private-markets",
       },
     ],
@@ -189,7 +189,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         bodyEn:
           "Classification, suitability and the client's true risk and liquidity needs.",
         bodyAr:
-          "التصنيف والملاءمة واحتياجات العميل الحقيقية من المخاطر والسيولة.",
+          "تصنيف العميل، والملاءمة، وقدرته الفعلية على تحمّل المخاطر واحتياجاته من السيولة.",
       },
       {
         titleEn: "Define the Mandate",
@@ -197,13 +197,13 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         bodyEn:
           "Investment policy, constraints and benchmark agreed in writing.",
         bodyAr:
-          "سياسة الاستثمار والقيود والمعيار المتفق عليها كتابةً.",
+          "يُتفق كتابةً على سياسة الاستثمار والقيود الاستثمارية والمؤشر الاسترشادي.",
       },
       {
         titleEn: "Allocate",
         titleAr: "التخصيص",
         bodyEn: "Strategic and tactical allocation across the four pillars.",
-        bodyAr: "تخصيص استراتيجي وتكتيكي عبر الركائز الأربع.",
+        bodyAr: "التوزيع الاستراتيجي والتكتيكي على ركائزنا الأربع.",
       },
       {
         titleEn: "Select",
@@ -211,7 +211,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         bodyEn:
           "Security, manager and opportunity selection under conviction.",
         bodyAr:
-          "اختيار الأوراق والمديرين والفرص وفق قناعة استثمارية.",
+          "اختيار الأوراق المالية ومديري الأصول والفرص وفق اقتناعٍ راسخ.",
       },
       {
         titleEn: "Monitor & Report",
@@ -219,7 +219,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         bodyEn:
           "Independent risk oversight, rebalancing and transparent reporting.",
         bodyAr:
-          "رقابة مخاطر مستقلة وإعادة توازن وتقارير شفافة.",
+          "رقابةٌ مستقلة على المخاطر، وإعادة موازنة، وإفصاحٌ شفاف.",
       },
     ],
   },
@@ -234,11 +234,11 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         id: "dpm",
         num: "A",
         titleEn: "Discretionary Portfolio Management",
-        titleAr: "الإدارة التقديرية للمحافظ",
+        titleAr: "إدارة المحافظ الإستثمارية الخاصة",
         bodyEn:
           "Bespoke mandates built around a written investment policy, liquidity needs and horizon — the firm's primary engine for AUM growth.",
         bodyAr:
-          "تفويضات مخصّصة مبنية حول سياسة استثمار مكتوبة واحتياجات السيولة والأفق الزمني — المحرك الأساسي لنمو الأصول المدارة.",
+          "تفاويض مُفصَّلة تُبنى على سياسة استثمارٍ مكتوبة واحتياجات السيولة والمدى الزمني، وهي المحرك الرئيس لنمو الأصول المُدارة لدى الشركة.",
         href: "/asset-management/dpm",
       },
       {
@@ -249,7 +249,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         bodyEn:
           "Multi-asset solutions, advisory mandates and endowment / waqf structures for sophisticated pools of capital.",
         bodyAr:
-          "حلول متعددة الأصول وتفويضات استشارية وهياكل أوقاف لمجموعات رأس مال متطورة.",
+          "حلول متعددة الأصول، وتفاويض استشارية، وهياكل الأوقاف، لرؤوس الأموال المؤسسية والمؤهلة.",
         href: "/asset-management/institutional-family-office",
       },
     ],
