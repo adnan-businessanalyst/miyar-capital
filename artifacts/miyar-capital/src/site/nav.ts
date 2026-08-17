@@ -101,7 +101,7 @@ export const SITE_NAV: NavDoc = {
         {
           id: "am-dpm",
           labelEn: "Discretionary Portfolio Management",
-          labelAr: "الإدارة التقديرية للمحافظ",
+          labelAr: "إدارة المحافظ الاستثمارية الخاصة",
           href: "/asset-management/dpm",
         },
         {
