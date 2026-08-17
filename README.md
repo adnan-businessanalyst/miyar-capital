@@ -2,7 +2,7 @@
 
 Marketing website for Miyar Capital, an independent Saudi CMA-regulated investment firm (Asset Management + Investment Banking), with a bilingual EN/AR interface and RTL support.
 
-## Run & Operate
+## Run & operate
 
 - `pnpm --filter @workspace/miyar-capital run typecheck` — typecheck the site
 - `pnpm --filter @workspace/miyar-api run typecheck` — typecheck the API

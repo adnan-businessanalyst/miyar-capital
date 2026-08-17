@@ -29,6 +29,7 @@ Desktop.ini
 .vscode/*
 !.vscode/extensions.json
 .idea/
+.cursor/
 *.swp
 *.swo
 
