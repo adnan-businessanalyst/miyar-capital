@@ -1,17 +1,17 @@
 "use client";
 
-import { CorporateHierarchy } from "../components/CorporateHierarchy";
 import { PageHero } from "../components/PageHero";
 import { PersonRow } from "../components/PersonRow";
-import { CORPORATE_HIERARCHY_MEMBERS } from "../data/hierarchy";
 import { EXECUTIVE_TEAM } from "../data/people";
 import { useLanguage } from "../i18n/LanguageContext";
 import { usePeopleGridReveal } from "../hooks/usePeopleGridReveal";
+import { ORGANIZATIONAL_CHART_IMAGE } from "../site/executiveImages";
 
 export function ExecutiveTeam() {
   const { lang } = useLanguage();
   const isAr = lang === "ar";
   const listRef = usePeopleGridReveal(EXECUTIVE_TEAM.length);
+  const orgTitle = isAr ? "الهيكل التنظيمي" : "Organizational Structure";
 
   return (
     <div className="page">
@@ -29,7 +29,18 @@ export function ExecutiveTeam() {
       />
       <section className="blk hierarchy-sec">
         <div className="wrap">
-          <CorporateHierarchy members={CORPORATE_HIERARCHY_MEMBERS} />
+          <div className="hierarchy hierarchy--image">
+            <h2 className="hierarchy-title">{orgTitle}</h2>
+            {ORGANIZATIONAL_CHART_IMAGE ? (
+              <figure className="hierarchy-org-figure">
+                <img
+                  className="hierarchy-org-img"
+                  src={ORGANIZATIONAL_CHART_IMAGE}
+                  alt={orgTitle}
+                />
+              </figure>
+            ) : null}
+          </div>
         </div>
       </section>
       <section className="blk">

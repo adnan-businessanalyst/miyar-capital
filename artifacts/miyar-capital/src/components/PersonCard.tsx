@@ -6,7 +6,7 @@
  */
 
 import type { CSSProperties } from "react";
-import type { Person } from "../data/people";
+import { resolvePersonPhoto, type Person } from "../data/people";
 
 export interface PersonCardProps extends Person {
   /** Board layout: padded centered photo + hover message overlay. */
@@ -19,15 +19,15 @@ export function PersonCard({
   name,
   role,
   photo,
+  gender = "male",
   bio,
-  initials,
   variant = "default",
   className = "",
   style,
 }: PersonCardProps) {
   const isBoard = variant === "board";
   const showMessage = Boolean(bio);
-  const label = initials ?? name.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
+  const resolvedPhoto = resolvePersonPhoto(photo, gender);
 
   return (
     <article
@@ -35,14 +35,8 @@ export function PersonCard({
       style={style}
       tabIndex={isBoard && showMessage ? 0 : undefined}
     >
-      <div className={`photo${!photo ? " photo--placeholder" : ""}`}>
-        {photo ? (
-          <img src={photo} alt={name} loading="lazy" />
-        ) : (
-          <span className="photo-initials" aria-hidden="true">
-            {label}
-          </span>
-        )}
+      <div className="photo">
+        <img src={resolvedPhoto} alt={name} loading="lazy" />
       </div>
       <div className="info">
         <div className="pname">{name}</div>

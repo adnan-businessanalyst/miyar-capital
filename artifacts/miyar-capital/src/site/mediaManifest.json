@@ -129,45 +129,33 @@
   "executives": {
     "exec-1": {
       "files": {
-        ".webp": "/media/executives/exec-1.webp"
+        ".jpg": "/media/executives/exec-1.jpg"
       },
-      "image": "/media/executives/exec-1.webp"
+      "image": "/media/executives/exec-1.jpg"
     },
     "exec-2": {
       "files": {
-        ".webp": "/media/executives/exec-2.webp"
+        ".jpg": "/media/executives/exec-2.jpg"
       },
-      "image": "/media/executives/exec-2.webp"
+      "image": "/media/executives/exec-2.jpg"
     },
-    "exec-3": {
+    "organizational-chart": {
       "files": {
-        ".webp": "/media/executives/exec-3.webp"
+        ".png": "/media/executives/organizational-chart.png"
       },
-      "image": "/media/executives/exec-3.webp"
+      "image": "/media/executives/organizational-chart.png"
     },
-    "exec-4": {
+    "placeholder-portrait-female": {
       "files": {
-        ".webp": "/media/executives/exec-4.webp"
+        ".png": "/media/executives/placeholder-portrait-female.png"
       },
-      "image": "/media/executives/exec-4.webp"
+      "image": "/media/executives/placeholder-portrait-female.png"
     },
-    "exec-5": {
+    "placeholder-portrait-male": {
       "files": {
-        ".webp": "/media/executives/exec-5.webp"
+        ".png": "/media/executives/placeholder-portrait-male.png"
       },
-      "image": "/media/executives/exec-5.webp"
-    },
-    "exec-6": {
-      "files": {
-        ".webp": "/media/executives/exec-6.webp"
-      },
-      "image": "/media/executives/exec-6.webp"
-    },
-    "exec-7": {
-      "files": {
-        ".webp": "/media/executives/exec-7.webp"
-      },
-      "image": "/media/executives/exec-7.webp"
+      "image": "/media/executives/placeholder-portrait-male.png"
     }
   },
   "footer": {
@@ -260,50 +248,6 @@
         ".avif": "/media/investment-advisory/ia-process-5.avif"
       },
       "image": "/media/investment-advisory/ia-process-5.avif"
-    }
-  },
-  "members": {
-    "member-1": {
-      "files": {
-        ".webp": "/media/members/member-1.webp"
-      },
-      "image": "/media/members/member-1.webp"
-    },
-    "member-2": {
-      "files": {
-        ".webp": "/media/members/member-2.webp"
-      },
-      "image": "/media/members/member-2.webp"
-    },
-    "member-3": {
-      "files": {
-        ".webp": "/media/members/member-3.webp"
-      },
-      "image": "/media/members/member-3.webp"
-    },
-    "member-4": {
-      "files": {
-        ".webp": "/media/members/member-4.webp"
-      },
-      "image": "/media/members/member-4.webp"
-    },
-    "member-5": {
-      "files": {
-        ".webp": "/media/members/member-5.webp"
-      },
-      "image": "/media/members/member-5.webp"
-    },
-    "member-6": {
-      "files": {
-        ".webp": "/media/members/member-6.webp"
-      },
-      "image": "/media/members/member-6.webp"
-    },
-    "member-7": {
-      "files": {
-        ".webp": "/media/members/member-7.webp"
-      },
-      "image": "/media/members/member-7.webp"
     }
   },
   "page-hero": {
