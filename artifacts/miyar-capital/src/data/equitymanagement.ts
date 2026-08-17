@@ -125,7 +125,8 @@ export interface EquityManagementContent {
 }
 
 export const EQUITY_MANAGEMENT: EquityManagementContent = {
-  sectionOrder: ["intro", "offer", "capabilities", "what-we-offer", "examples"],
+  // Temporarily hidden: "what-we-offer" (ما نقدّمه), "examples" (أمثلة من استثماراتنا)
+  sectionOrder: ["intro", "offer", "capabilities"],
 
   hero: {
     titleEn: "Private Equity",

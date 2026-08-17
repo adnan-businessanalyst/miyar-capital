@@ -166,7 +166,7 @@ export const REAL_ASSETS: RealAssetsContent = {
   hero: {
     titleEn: "Real Estate Assets",
     titleAr: "أصول عقارية",
-    subtitleEn: "Tangible assets. Durable returns. Inflation resilience.",
+    subtitleEn: "Tangible assets. Durable returns.",
     subtitleAr: "أصول ملموسة.  قيمة مضافة.",
     crumbAmEn: "Asset Management",
     crumbAmAr: "إدارة الأصول",
@@ -289,8 +289,8 @@ export const REAL_ASSETS: RealAssetsContent = {
     titleAr: "التغطية الجغرافية",
     items: [
       { labelEn: "Kingdom of Saudi Arabia", labelAr: "المملكة العربية السعودية" },
-      { labelEn: "Arabian Gulf???", labelAr: "الخليج العربي" },
-      { labelEn: "???Americas", labelAr: "الدول العربية" },
+      { labelEn: "GCC", labelAr: "الخليج العربي" },
+      { labelEn: "Arab State", labelAr: "الدول العربية" },
       { labelEn: "United States of America", labelAr: "الولايات المتحدة الأمريكية" },
       { labelEn: "Europe", labelAr: "أوروبا" },
       { labelEn: "Asia", labelAr: "اسيا" },
@@ -298,12 +298,12 @@ export const REAL_ASSETS: RealAssetsContent = {
   },
 
   projects: {
-    headingEn: "؟؟؟Our Real Assets Projects",
+    headingEn: "Real Assets Investment Funds",
     headingAr: "الصناديق العقارية الاستثمارية",
     subEn: "Research — Analyse — Select — Establish",
     subAr: "نبحث – نحلل – ننتقي – نؤسس",
     introEn:
-      "Selected real estate and infrastructure projects that reflect our focus on durable income, disciplined underwriting, and long-term asset quality.",
+      "We establish our real estate investment funds after we believe in the idea, the quality of the underlying asset, and the value the finished product adds.",
     introAr:
       "نؤسس صناديقنا العقارية الاستثمارية بعد ان نؤمن بالفكرة وجودة الاصل المستثمر به والقيمة المضافة للمنتج النهائي",
     labels: {
