@@ -3,6 +3,7 @@
 import { LazyVideo } from "../components/LazyVideo";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
 import { INVESTMENT_ADVISORY } from "../data/investmentadvisory";
 import { useLanguage } from "../i18n/LanguageContext";
@@ -60,7 +61,9 @@ export function InvestmentAdvisory() {
                     )}
                   />
                   <p>
-                    {pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
+                    <RichText
+                      html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
+                    />
                   </p>
                   <div className="adv-pillars">
                     {data.pillars.map((pillar) => {
@@ -71,10 +74,17 @@ export function InvestmentAdvisory() {
                       );
                       return (
                         <div className="adv-pillar" key={pillar.titleEn}>
-                          <h4>{title}</h4>
-                          <p>
-                            {pickLang(pillar.bodyEn, pillar.bodyAr, lang)}
-                          </p>
+                          <h4>
+                            <RichText html={title} />
+                          </h4>
+                          <RichText
+                            as="p"
+                            html={pickLang(
+                              pillar.bodyEn,
+                              pillar.bodyAr,
+                              lang,
+                            )}
+                          />
                         </div>
                       );
                     })}
@@ -104,7 +114,9 @@ export function InvestmentAdvisory() {
                         <div className="tl-num" aria-hidden="true">
                           {stepNum}
                         </div>
-                        <p>{body}</p>
+                        <p>
+                          <RichText html={body} />
+                        </p>
                       </div>
                       <div className="tl-media">
                         <div className="tl-img">

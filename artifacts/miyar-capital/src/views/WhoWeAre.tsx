@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
+import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
 import { useLanguage } from "../i18n/LanguageContext";
 import { CONTENT_IMAGES } from "../site/contentImages";
@@ -161,8 +162,13 @@ export function WhoWeAre() {
                       <div className="mi" aria-hidden="true">
                         <Icon className="mi-icon" strokeWidth={1.6} />
                       </div>
-                      <h4>{title}</h4>
-                      <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
+                      <h4>
+                        <RichText html={title} />
+                      </h4>
+                      <RichText
+                        as="p"
+                        html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                      />
                     </div>
                   );
                 })}
@@ -196,7 +202,10 @@ export function WhoWeAre() {
                       icon={<Icon strokeWidth={1.5} />}
                       title={pickLang(item.titleEn, item.titleAr, lang)}
                     >
-                      <p>{pickLang(item.bodyEn, item.bodyAr, lang)}</p>
+                      <RichText
+                        as="p"
+                        html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                      />
                     </PrimaryCard>
                   );
                 })}

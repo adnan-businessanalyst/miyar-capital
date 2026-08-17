@@ -3,7 +3,8 @@
  * Imported by `views/DPM.tsx` — not CMS-managed.
  * Route: /asset-management/dpm
  *
- * Bodies may include `<br>` for paragraph breaks (rendered via RichText).
+ * Bodies may include RichText markup: `<br>`, `<strong>`, `<em>`,
+ * `<span class="rt-navy|rt-accent|rt-muted|rt-white">…</span>` (rendered via RichText).
  */
 
 export type DpmSectionId = "intro" | "mandates" | "cycle";

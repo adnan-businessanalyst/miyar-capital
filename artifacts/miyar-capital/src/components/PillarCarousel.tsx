@@ -15,6 +15,7 @@ import {
   type MouseEvent,
 } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
+import { RichText } from "./RichText";
 
 export interface PillarCarouselItem {
   num: string;
@@ -262,9 +263,15 @@ export function PillarCarousel({
                       tabIndex={0}
                       aria-label={withTitle(goToPillarAriaLabel, p.title)}
                     >
-                      <span className="pcar-outer-title">{p.title}</span>
+                      <span className="pcar-outer-title">
+                        <RichText html={p.title} />
+                      </span>
                       <span className="pcar-panel">
-                        <p className="pcar-panel-body">{p.body}</p>
+                        <RichText
+                          as="p"
+                          className="pcar-panel-body"
+                          html={p.body}
+                        />
                         <span className="pcar-panel-go" aria-hidden="true">
                           {lang === "ar" ? "←" : "→"}
                         </span>

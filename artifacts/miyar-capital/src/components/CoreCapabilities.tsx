@@ -42,7 +42,9 @@ export function CoreCapabilities({
               {num}
             </span>
             <div className="core-capabilities-content">
-              <h3 className="core-capabilities-title">{item.title}</h3>
+              <h3 className="core-capabilities-title">
+                <RichText html={item.title} />
+              </h3>
               <RichText
                 as="p"
                 className="core-capabilities-body"

@@ -44,7 +44,9 @@ export function LiquidityFI() {
               {data.body.map((block) => (
                 <div key={block.headingEn}>
                   <h3>
-                    {pickLang(block.headingEn, block.headingAr, lang)}
+                    <RichText
+                      html={pickLang(block.headingEn, block.headingAr, lang)}
+                    />
                   </h3>
                   <RichText
                     as="p"

@@ -11,6 +11,7 @@ import { useState } from "react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
 import {
   ARRANGEMENT_MANAGEMENT,
@@ -82,9 +83,10 @@ export function ArrangementManagement() {
                       lang,
                     )}
                   />
-                  <p>
-                    {pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
-                  </p>
+                  <RichText
+                    as="p"
+                    html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
+                  />
                 </div>
                 <div className="arr-intro-img">
                   <img
@@ -129,7 +131,9 @@ export function ArrangementManagement() {
                     >
                       <ul>
                         {items.map((item) => (
-                          <li key={item}>{item}</li>
+                          <li key={item}>
+                            <RichText html={item} />
+                          </li>
                         ))}
                       </ul>
                     </PrimaryCard>
@@ -151,11 +155,13 @@ export function ArrangementManagement() {
             <div className="wrap">
               <div className="detail-inner">
                 <h2>
-                  {pickLang(
-                    data.detail.headingEn,
-                    data.detail.headingAr,
-                    lang,
-                  )}
+                  <RichText
+                    html={pickLang(
+                      data.detail.headingEn,
+                      data.detail.headingAr,
+                      lang,
+                    )}
+                  />
                 </h2>
                 <div className="detail-cards">
                   <div

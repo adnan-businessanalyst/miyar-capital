@@ -14,6 +14,7 @@ import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { ASSET_MANAGEMENT } from "../data/assetmanagement";
 import { pickLang } from "../site/types";
+import { RichText } from "../components/RichText";
 
 export function AssetManagement() {
   const router = useRouter();
@@ -54,15 +55,23 @@ export function AssetManagement() {
             <div className="wrap">
               <div className="plat-split">
                 <h2 className="sec-title">
-                  {pickLang(
-                    data.platform.headingEn,
-                    data.platform.headingAr,
+                  <RichText
+                    html={pickLang(
+                      data.platform.headingEn,
+                      data.platform.headingAr,
+                      lang,
+                    )}
+                  />
+                </h2>
+                <RichText
+                  as="p"
+                  className="sec-sub"
+                  html={pickLang(
+                    data.platform.bodyEn,
+                    data.platform.bodyAr,
                     lang,
                   )}
-                </h2>
-                <p className="sec-sub">
-                  {pickLang(data.platform.bodyEn, data.platform.bodyAr, lang)}
-                </p>
+                />
               </div>
               <PillarCarousel
                 pillars={pillars}

@@ -20,6 +20,7 @@ import {
   type ReactNode,
 } from "react";
 import { useLocalePath } from "../i18n/useLocalePath";
+import { RichText } from "./RichText";
 
 const WM_BARS = [
   { cls: "primary-card-wm-b1", x: 120, y: 230, h: 740 },
@@ -170,7 +171,9 @@ export function PrimaryCard({
           {icon}
         </div>
       ) : null}
-      <h3 className="primary-card-title">{title}</h3>
+      <h3 className="primary-card-title">
+        {typeof title === "string" ? <RichText html={title} /> : title}
+      </h3>
       <div className="primary-card-body">{children}</div>
       {cta ? <div className="primary-card-cta">{cta}</div> : null}
     </>

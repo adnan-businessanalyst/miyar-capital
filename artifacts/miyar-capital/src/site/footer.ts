@@ -112,8 +112,8 @@ export const SITE_FOOTER: SiteFooter = {
         },
         {
           id: "f-debt",
-          labelEn: "Investment Advisory",
-          labelAr: "مستشار الإستثمار",
+          labelEn: "Financial Advisory",
+          labelAr: "مستشار المالية",
           href: "/investment-advisory",
         },
       ],

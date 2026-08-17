@@ -15,6 +15,8 @@ function contentVideo(basename: string): string {
 
 export const CONTENT_IMAGES = {
   man_on_phone: content("man_on_phone"),
+  man_look_ltr: content("man-look-ltr"),
+  man_looking_rtl: content("man-looking-rtl"),
   app_bg: content("app-bg"),
   app_phone_screen: content("app-phone-screen"),
   client_dpm: content("client-dpm"),
