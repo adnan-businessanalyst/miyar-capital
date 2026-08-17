@@ -120,19 +120,20 @@ export function Footer() {
               <h6>{pickLang(col.titleEn, col.titleAr, lang)}</h6>
               {col.links.map((link) => {
                 const label = pickLang(link.labelEn, link.labelAr, lang);
+                const key = `${col.id}-${link.id}`;
                 if (!link.href) {
-                  return <a key={link.id}>{label}</a>;
+                  return <a key={key}>{label}</a>;
                 }
                 if (link.href.startsWith("/")) {
                   return (
-                    <Link key={link.id} href={withLocale(link.href)}>
+                    <Link key={key} href={withLocale(link.href)}>
                       {label}
                     </Link>
                   );
                 }
                 return (
                   <a
-                    key={link.id}
+                    key={key}
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
