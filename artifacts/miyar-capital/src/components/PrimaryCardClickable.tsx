@@ -83,7 +83,9 @@ export function PrimaryCardClickable({
           {badge}
         </div>
       ) : null}
-      <h3 className="primary-card-title">{title}</h3>
+      <h3 className="primary-card-title">
+        <RichText html={title} />
+      </h3>
       <div className="primary-card-body">
         <RichText as="p" html={body} />
       </div>

@@ -6,6 +6,8 @@
  * - components/ScrollExamples.tsx
  */
 
+import { RichText } from "./RichText";
+
 export interface MetaFact {
   label: string;
   value: string;
@@ -47,8 +49,12 @@ export function MetaFacts({
           .join(" ");
         return (
           <div className={factClass} key={item.label}>
-            <div className="meta-fact-label">{item.label}</div>
-            <div className="meta-fact-value">{item.value}</div>
+            <div className="meta-fact-label">
+              <RichText html={item.label} />
+            </div>
+            <div className="meta-fact-value">
+              <RichText html={item.value} />
+            </div>
           </div>
         );
       })}

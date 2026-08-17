@@ -54,18 +54,18 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
 
   hero: {
     titleEn: "Investment Advisory",
-    titleAr: "مستشار الاستثمار",
+    titleAr: "مستشار المالية",
     crumbEn: "Investment Banking / Investment Advisory",
-    crumbAr: "المصرفية الاستثمارية / مستشار الاستثمار",
+    crumbAr: "المصرفية الاستثمارية / مستشار المالية",
   },
 
   intro: {
     headingEn: "Investment Advisory",
-    headingAr: "مستشار الاستثمار",
+    headingAr: "مستشار المالية",
     bodyEn:
       "Miyar Capital believes the first step in investment advisory services is to understand the client's needs, objectives, and constraints.",
     bodyAr:
-      "تؤمن معيار المالية بأن الخطوة الأولى في خدمات الاستشارات الاستثمارية هي فهم احتياجات العميل وأهدافه وقيوده.",
+      "تؤمن معيار المالية بأن الخطوة الأولى في خدمات الاستشارات المالية هي فهم احتياجات العميل وأهدافه وقيوده.",
     backgroundAriaEn: "Investment advisory background",
     backgroundAriaAr: "خلفية مستشار الاستثمار",
   },
@@ -73,30 +73,30 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
   pillars: [
     {
       icon: "priority",
-      titleEn: "Priority",
-      titleAr: "الأولوية",
+      titleEn: "Client Success First",
+      titleAr: "نجاح العميل أولاً",
       bodyEn:
-        "Unit-holders' profits and benefits come first, then our partners.",
+        "No corporate interest takes precendence over the success of the client",
       bodyAr:
-        "أرباح ومصالح مالكي الوحدات تأتي أولاً، ثم شركاؤنا.",
+        "لاتوجد مصلحة مؤسسية تتقدم على نجاح العميل",
     },
     {
       icon: "trust",
-      titleEn: "Trust",
-      titleAr: "الثقة",
+      titleEn: "Performance Is Standard",
+      titleAr: "الأداء معيار",
       bodyEn:
-        "We do not create any investment product except what we would be satisfied investing in.",
+        "Focus on measurable outputs",
       bodyAr:
-        "لا نُنشئ أي منتج استثماري إلا ما نرتاح للاستثمار فيه بأنفسنا.",
+        "التركيز على المخرجات القابلة للقياس",
     },
     {
       icon: "partnership",
-      titleEn: "Partnership",
-      titleAr: "الشراكة",
+      titleEn: "Partnership, Not Work",
+      titleAr: "شراكة لا عمل",
       bodyEn:
-        "Act like your partners, not like the traditional fund managers.",
+        "We act as a consulting partner with the client",
       bodyAr:
-        "نتعامل كشركاء، لا كمديري صناديق تقليديين.",
+        "نعمل كشريك استشاري مع المعميل",
     },
   ],
 
@@ -107,9 +107,9 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
       bodyEn:
         "Meeting the client and determining their objectives, risk tolerance, and investment constraints.",
       bodyAr:
-        "لقاء العميل وتحديد أهدافه وتحمل المخاطر والقيود الاستثمارية.",
+        "لقاء العميل وتحديد أهدافه الاستراتيجية",
       altEn: "Investment advisory process step 1",
-      altAr: "خطوة عملية الاستشارات الاستثمارية 1",
+      altAr: "خطوة عملية الاستشارات المالية 1",
     },
     {
       n: "02",
@@ -117,9 +117,9 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
       bodyEn:
         "Analyzing client assets, liabilities, and cash flows and determining investment objectives and strategy.",
       bodyAr:
-        "تحليل أصول العميل والتزاماته وتدفقاته النقدية وتحديد الأهداف والاستراتيجية الاستثمارية.",
+        "تحليل أصول العميل والتزاماته وتدفقاته النقدية وتحديد الأهداف المستقبلية",
       altEn: "Investment advisory process step 2",
-      altAr: "خطوة عملية الاستشارات الاستثمارية 2",
+      altAr: "خطوة عملية الاستشارات المالية 2",
     },
     {
       n: "03",
@@ -127,17 +127,17 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
       bodyEn:
         "Determining and selecting the appropriate strategic asset allocation and ideal portfolio managers.",
       bodyAr:
-        "تحديد واختيار التخصيص الاستراتيجي المناسب للأصول ومديري المحافظ المثاليين.",
+        "حوكمة الخدمة المالية بما يتناسب مع أهداف العميل الاستراتيجية و المستقبلية",
       altEn: "Investment advisory process step 3",
-      altAr: "خطوة عملية الاستشارات الاستثمارية 3",
+      altAr: "خطوة عملية الاستشارات المالية 3",
     },
     {
       n: "04",
       imageKey: 4,
       bodyEn: "Implementation phase and beginning investment.",
-      bodyAr: "مرحلة التنفيذ وبدء الاستثمار.",
+      bodyAr: "مرحلة التخطيط والاعداد",
       altEn: "Investment advisory process step 4",
-      altAr: "خطوة عملية الاستشارات الاستثمارية 4",
+      altAr: "خطوة عملية الاستشارات المالية 4",
     },
     {
       n: "05",
@@ -145,9 +145,9 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
       bodyEn:
         "Monitoring, analysis, and evaluation phase of investment portfolio components and performance, and correction if necessary.",
       bodyAr:
-        "مرحلة مراقبة وتحليل وتقييم مكونات المحفظة الاستثمارية وأدائها، والتصحيح عند الحاجة.",
+        "مرحلة التنفيذ و الاغلاق",
       altEn: "Investment advisory process step 5",
-      altAr: "خطوة عملية الاستشارات الاستثمارية 5",
+      altAr: "خطوة عملية الاستشارات المالية 5",
     },
   ],
 };

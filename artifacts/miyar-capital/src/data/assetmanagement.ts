@@ -1,6 +1,9 @@
 /**
  * Asset Management page copy (EN + AR).
  * Imported by `views/AssetManagement.tsx` — not CMS-managed.
+ *
+ * Body strings support RichText: `<br>`, `<strong>`, `<em>`,
+ * `<span class="rt-navy|rt-accent|rt-muted|rt-white">…</span>`.
  */
 
 export type AssetManagementSectionId =

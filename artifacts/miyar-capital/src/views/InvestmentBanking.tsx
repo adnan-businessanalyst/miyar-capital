@@ -10,16 +10,17 @@ import {
   Landmark,
   type LucideIcon,
 } from "lucide-react";
-import type { ReactNode } from "react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
 import { PrimaryCardSmall } from "../components/PrimaryCardSmall";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
+import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { INVESTMENT_BANKING } from "../data/investmentbanking";
 import { useLanguage } from "../i18n/LanguageContext";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const PRODUCT_ICONS: Record<string, LucideIcon> = {
@@ -34,21 +35,6 @@ const ADVISE_ICONS: Record<string, LucideIcon> = {
   "Standalone Advisory": FileSearch,
   "Transaction Advisory": Handshake,
 };
-
-function emphasizeWords(text: string, words: string[]): ReactNode {
-  if (words.length === 0) return text;
-  const pattern = new RegExp(
-    `(${words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
-    "gi",
-  );
-  const parts = text.split(pattern);
-  return parts.map((part, i) => {
-    const match = words.some(
-      (w) => w.toLowerCase() === part.toLowerCase(),
-    );
-    return match ? <strong key={`${part}-${i}`}>{part}</strong> : part;
-  });
-}
 
 export function InvestmentBanking() {
   const { lang } = useLanguage();
@@ -77,10 +63,6 @@ export function InvestmentBanking() {
       case "overview": {
         const paras =
           lang === "ar" ? data.overview.parasAr : data.overview.parasEn;
-        const emphasize =
-          lang === "ar"
-            ? data.overview.emphasizeAr
-            : data.overview.emphasizeEn;
         return (
           <section key={id} className="blk">
             <div className="wrap">
@@ -90,19 +72,19 @@ export function InvestmentBanking() {
                   data.overview.tagAr,
                   lang,
                 )}
-                subtitle={pickLang(
-                  data.overview.headingEn,
-                  data.overview.headingAr,
-                  lang,
-                )}
+                // subtitle={pickLang(
+                //   data.overview.headingEn,
+                //   data.overview.headingAr,
+                //   lang,
+                // )}
               />
               <div className="ib-lead">
-                {paras.map((para, i) => (
-                  <p key={para.slice(0, 40)}>
-                    {i === 1
-                      ? emphasizeWords(para, emphasize)
-                      : para}
-                  </p>
+                {paras.map((para) => (
+                  <RichText
+                    key={para.slice(0, 40)}
+                    as="p"
+                    html={para}
+                  />
                 ))}
               </div>
             </div>
@@ -110,28 +92,35 @@ export function InvestmentBanking() {
         );
       }
       case "advise": {
-        const paras = lang === "ar" ? data.advise.parasAr : data.advise.parasEn;
+        // const paras = lang === "ar" ? data.advise.parasAr : data.advise.parasEn;
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.advise.tagEn, data.advise.tagAr, lang)}
-                subtitle={pickLang(
-                  data.advise.headingEn,
-                  data.advise.headingAr,
-                  lang,
-                )}
+                // subtitle={pickLang(
+                //   data.advise.headingEn,
+                //   data.advise.headingAr,
+                //   lang,
+                // )}
               />
               <div className="ib-lead">
-                {paras.map((para, i) =>
+                {/* {paras.map((para, i) =>
                   i === paras.length - 1 ? (
-                    <span key={para.slice(0, 40)} className="ib-lead-line">
-                      {para}
-                    </span>
+                    <RichText
+                      key={para.slice(0, 40)}
+                      as="span"
+                      className="ib-lead-line"
+                      html={para}
+                    />
                   ) : (
-                    <p key={para.slice(0, 40)}>{para}</p>
+                    <RichText
+                      key={para.slice(0, 40)}
+                      as="p"
+                      html={para}
+                    />
                   ),
-                )}
+                )} */}
               </div>
               <PrimaryCardGrid columns={2}>
                 {data.advise.cards.map((card) => {
@@ -142,7 +131,10 @@ export function InvestmentBanking() {
                       icon={Icon ? <Icon strokeWidth={1.5} /> : undefined}
                       title={pickLang(card.titleEn, card.titleAr, lang)}
                     >
-                      <p>{pickLang(card.bodyEn, card.bodyAr, lang)}</p>
+                      <RichText
+                        as="p"
+                        html={pickLang(card.bodyEn, card.bodyAr, lang)}
+                      />
                     </PrimaryCard>
                   );
                 })}
@@ -173,7 +165,17 @@ export function InvestmentBanking() {
             </div>
           </section>
         );
-      case "execute":
+      case "execute": {
+        const isAr = lang === "ar";
+        const figureSrc = isAr
+          ? CONTENT_IMAGES.man_looking_rtl
+          : CONTENT_IMAGES.man_look_ltr;
+        const figure = figureSrc ? (
+          <div className="ib-execute-figure" aria-hidden="true">
+            <img src={figureSrc} alt="" />
+          </div>
+        ) : null;
+
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
@@ -186,24 +188,35 @@ export function InvestmentBanking() {
                 )}
               />
               <div className="ib-lead">
-                <p>
-                  {pickLang(data.execute.bodyEn, data.execute.bodyAr, lang)}
-                </p>
+                <RichText
+                  as="p"
+                  html={pickLang(
+                    data.execute.bodyEn,
+                    data.execute.bodyAr,
+                    lang,
+                  )}
+                />
               </div>
-              <PrimaryCardGrid
-                columns={4}
-                className="ib-execute-cards"
-              >
-                {data.execute.cards.map((card) => (
-                  <PrimaryCardSmall
-                    key={card.titleEn}
-                    title={pickLang(card.titleEn, card.titleAr, lang)}
-                  />
-                ))}
-              </PrimaryCardGrid>
+              <div className="ib-execute-stage">
+                {/* inline-start: left in EN, right in AR (page dir) */}
+                {figure}
+                <PrimaryCardGrid
+                  columns={4}
+                  className="ib-execute-cards"
+                >
+                  {data.execute.cards.map((card, i) => (
+                    <PrimaryCardSmall
+                      key={`${card.titleEn || card.bodyEn}-${i}`}
+                      title={pickLang(card.titleEn, card.titleAr, lang)}
+                      body={pickLang(card.bodyEn, card.bodyAr, lang)}
+                    />
+                  ))}
+                </PrimaryCardGrid>
+              </div>
             </div>
           </section>
         );
+      }
       case "products":
         return (
           <section key={id} className="blk">

@@ -198,8 +198,8 @@ export const SITE_NAV: NavDoc = {
         },
         {
           id: "ib-repa",
-          labelEn: "Investment Advisory",
-          labelAr: "مستشار الاستثمار",
+          labelEn: "Financial Advisory",
+          labelAr: "مستشار المالية",
           href: "/investment-advisory",
         },
 

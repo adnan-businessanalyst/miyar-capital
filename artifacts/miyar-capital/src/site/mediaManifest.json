@@ -52,6 +52,18 @@
       },
       "image": "/media/content/client-ifo.webp"
     },
+    "man-look-ltr": {
+      "files": {
+        ".png": "/media/content/man-look-ltr.png"
+      },
+      "image": "/media/content/man-look-ltr.png"
+    },
+    "man-looking-rtl": {
+      "files": {
+        ".png": "/media/content/man-looking-rtl.png"
+      },
+      "image": "/media/content/man-looking-rtl.png"
+    },
     "man_on_phone": {
       "files": {
         ".webp": "/media/content/man_on_phone.webp"

@@ -3,7 +3,8 @@
  * Imported by `views/LiquidityFI.tsx` — not CMS-managed.
  * Route: /asset-management/liquidity-fi
  *
- * Bodies may include `<br>` for paragraph breaks (rendered via RichText).
+ * Bodies may include RichText markup: `<br>`, `<strong>`, `<em>`,
+ * `<span class="rt-navy|rt-accent|rt-muted|rt-white">…</span>` (rendered via RichText).
  */
 
 export interface LiquidityFiMetaFact {

@@ -42,6 +42,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { MetaFacts, type MetaFact } from "./MetaFacts";
+import { RichText } from "./RichText";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useLocalePath } from "../i18n/useLocalePath";
 import { mediaUrl } from "../site/resolveAssetUrl";
@@ -269,7 +270,11 @@ export function PageHero({
 
           {titleText ? <h1>{titleText}</h1> : null}
 
-          {subtitleText ? <p className="ph-desc">{subtitleText}</p> : null}
+          {subtitleText ? (
+            <p className="ph-desc">
+              <RichText html={subtitleText} />
+            </p>
+          ) : null}
 
           {children}
 
@@ -325,7 +330,7 @@ export function PageHero({
 
         {subtitleText ? (
           <p className={`ph-desc ph-reveal${revealed ? " is-in" : ""}`}>
-            {subtitleText}
+            <RichText html={subtitleText} />
           </p>
         ) : null}
 

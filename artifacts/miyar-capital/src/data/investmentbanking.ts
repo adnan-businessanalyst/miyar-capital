@@ -1,6 +1,11 @@
 /**
  * Investment Banking page copy (EN + AR).
  * Imported by `views/InvestmentBanking.tsx` — not CMS-managed.
+ *
+ * Body / paragraph strings support RichText markup:
+ * `<br>`, `<strong>`, `<em>`,
+ * `<span class="rt-navy|rt-accent|rt-muted|rt-white">…</span>`,
+ * or inline `style="color:…"`.
  */
 
 export type InvestmentBankingSectionId =
@@ -65,8 +70,8 @@ export interface InvestmentBankingContent {
   overview: {
     tagEn: string;
     tagAr: string;
-    headingEn: string;
-    headingAr: string;
+    // headingEn: string;
+    // headingAr: string;
     parasEn: string[];
     parasAr: string[];
     /** Words wrapped in <strong> within overview paragraphs. */
@@ -76,10 +81,10 @@ export interface InvestmentBankingContent {
   advise: {
     tagEn: string;
     tagAr: string;
-    headingEn: string;
-    headingAr: string;
-    parasEn: string[];
-    parasAr: string[];
+    // headingEn: string;
+    // headingAr: string;
+    // parasEn: string[];
+    // parasAr: string[];
     cards: InvestmentBankingCard[];
   };
   method: {
@@ -143,21 +148,15 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
     crumbEn: "Investment Banking",
     crumbAr: "المصرفية الاستثمارية",
     descriptionEn:
-      "Advisory and arrangement services across capital markets, transactions and financing.",
+      "Consulting services in arrangement and advice across capital markets, transactions and financial financing",
     descriptionAr:
-      "خدمات الاستشارات والترتيب عبر أسواق المال والمعاملات والتمويل.",
+      "الخدمات الاستشارية في الترتيب والمشورة عبر أسواق المال و المعاملات و التمويل المالي",
     meta: [
       {
-        labelEn: "Service",
-        labelAr: "الخدمة",
-        valueEn: "Advising",
-        valueAr: "الاستشارات",
-      },
-      {
-        labelEn: "Capability",
-        labelAr: "القدرة",
-        valueEn: "Arranging",
-        valueAr: "الترتيب",
+        labelEn: "Consulting Services",
+        labelAr: "الخدمات الإستشارية",
+        valueEn: "Capital Market | Debt and Sukuk Market | Merger and Acquisition | Arranging Bank Facilities | Financial Consulting",
+        valueAr: "أسواق رأس المال | أسواق أدوات الدين و الصكوك | |الاندماج و الاستحواذ | ترتيب | التسهيلات البنكية | الاستشارات المالية ",
       },
       {
         labelEn: "Market",
@@ -171,148 +170,172 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
   overview: {
     tagEn: "OVERVIEW",
     tagAr: "نظرة عامة",
-    headingEn: "What We Do",
-    headingAr: "ما نقدّمه",
     parasEn: [
-      "Our Investment Banking division advises companies, founders and shareholders on the decisions that shape their capital structure and ownership — raising equity, accessing the debt markets, buying or selling businesses, and structuring investment opportunities.",
-      "We operate under two regulated activities: advising, where we provide analysis and recommendations on securities and transactions, and arranging, where we manage and execute the process of bringing a transaction to completion. Every engagement is built around a defined objective, a structured process and clear deliverables.",
+      "The Investment Banking Department acts as a consultant partner to clients in structuring and implementing financial solutions that achieve their strategic objectives, through a deep understanding of each client's needs and a thorough analysis of their requirements.",
+      "We offer integrated financial solutions that meet each client's aspirations and support their growth trajectory.",
     ],
     parasAr: [
-      "تقدّم إدارة المصرفية الاستثمارية لدينا الاستشارات للشركات والمؤسسين والمساهمين حول القرارات التي تشكّل هيكل رأس المال والملكية — جمع حقوق الملكية، والوصول إلى أسواق الدين، وشراء أو بيع الأعمال، وهيكلة الفرص الاستثمارية.",
-      "نعمل ضمن نشاطين منظمين: الاستشارات، حيث نقدّم التحليل والتوصيات بشأن الأوراق المالية والمعاملات، والترتيب، حيث ندير وننفّذ عملية إتمام الصفقة. يُبنى كل ارتباط حول هدف محدد وعملية منظمة ومخرجات واضحة.",
+      "تعمل إدارة المصرفية الاستثمارية كشريك استشاري للعملاء في هيكلة وتنفيذ الحلول المالية التي تحقق أهدافهم الاستراتيجية، وذلك من خلال الفهم العميق لاحتياجات كل عميل وتحليل متطلباته بدقة.<br>نقدم حلولاً مالية متكاملة تُواكب تطلعات كل عميل وتدعم مسيرته نحو النمو.",
     ],
     emphasizeEn: ["advising", "arranging"],
     emphasizeAr: ["الاستشارات", "الترتيب"],
   },
 
   advise: {
-    tagEn: "INVESTMENT ADVISORY",
-    tagAr: "الاستشارات الاستثمارية",
-    headingEn: "How We Advise",
-    headingAr: "كيف نقدّم الاستشارات",
-    parasEn: [
-      "We advise clients on transactions involving securities and corporate ownership: capital raises, listings, mergers and acquisitions, financings and valuations. Advisory work includes analysis of the company's position, evaluation of the available options, and a recommendation on structure, timing and terms — supported by documented financial analysis.",
-      "Advisory mandates take two forms:",
-    ],
-    parasAr: [
-      "نقدّم الاستشارات للعملاء في المعاملات المتعلقة بالأوراق المالية وملكية الشركات: جمع رأس المال، والإدراج، والاندماج والاستحواذ، والتمويل، والتقييم. يشمل العمل الاستشاري تحليل وضع الشركة وتقييم الخيارات المتاحة وتوصية بشأن الهيكل والتوقيت والشروط — مدعومة بتحليل مالي موثّق.",
-      "تأخذ التفويضات الاستشارية شكلين:",
-    ],
+    tagEn: "Scope Of Financial Services",
+    tagAr: "نطاق الخدمات المالية",
     cards: [
       {
-        titleEn: "Standalone Advisory",
-        titleAr: "استشارات مستقلة",
+        titleEn: "Capital Markets ",
+        titleAr: "أسواق رأس المال",
         bodyEn:
-          "A defined deliverable in its own right — an independent valuation, a feasibility study, a listing-readiness assessment or a capital-structure review.",
+          "PUBLIC AND PRIVATE OFFERINGS<BR>DIRECT LISTING<BR>CAPITAL RAISING",
         bodyAr:
-          "مخرج محدد بذاته — تقييم مستقل، أو دراسة جدوى، أو تقييم جاهزية الإدراج، أو مراجعة لهيكل رأس المال.",
+          "الطروحات العمامه و الخاصة<br>الإدراج المباشر<br>زيادات رأس المال"
       },
       {
-        titleEn: "Transaction Advisory",
-        titleAr: "استشارات المعاملات",
+        titleEn: "Sukuk & Debt Instruments Advisory",
+        titleAr: "الصكوك و أدوات الدين",
         bodyEn:
-          "The first phase of a transaction we go on to arrange — the analysis and recommendation that shape the structure before execution begins.",
+          "STRUCTURING AND ISSUING SHARIA-COMPLIANT INSTRUMENTS AND SECURITIES",
         bodyAr:
-          "المرحلة الأولى من معاملة نتولى ترتيبها لاحقاً — التحليل والتوصية اللذان يشّكلان الهيكل قبل بدء التنفيذ.",
+          "هيكلة و إصدار الصكوك و الأدوات المتوافقة مع الشريعه الإسلامية",
+      },
+      {
+        titleEn: "Mergers & Acquisitions",
+        titleAr: "الإندماج و الإستحواذ M&A",
+        bodyEn:
+          "CONSULTING AND EXECUTING MERGERS AND ACQUISITIONS DEALS TO ACHIEVE STRATEGIC GOALS",
+        bodyAr:
+          "استشارات وتنفيذ صفقات الإندماج و الإستحواذ لتحقيق الأهداف الاستراتيجية",
+      },
+      {
+        titleEn: "Arranging Bank Financcing",
+        titleAr: "ترتيب التمويل البنكي",
+        bodyEn:
+          "ARRANGING CREDIT FACILITIES THROUGH A WIDE RANGE OF FINANCING ENTITIES",
+        bodyAr:
+          "ترتيب التسهيلات الائتمانية عبر قاعدة واسعة من الجهات التمويلية",
+      },
+      {
+        titleEn: "Financial Consulting & Valuation",
+        titleAr: "الإستشارات المالية و التقييم",
+        bodyEn:
+          "ASSET AND COMPANY VALUATION<BR>SPECIALIZED STRATEGIC FINANCIAL ADVICE",
+        bodyAr:
+          "تقييم الأصول و الشركات<br>المشورة المالية و الاستراتيجية",
       },
     ],
   },
 
   method: {
-    tagEn: "INVESTMENT ADVISORY APPROACH",
-    tagAr: "منهج الاستشارات الاستثمارية",
-    headingEn: "A Consistent Method",
-    headingAr: "منهج ثابت",
+    tagEn: "FINANCIAL SERVICES CONSULTING METHODOLOGY",
+    tagAr: "منهجية إستشارات الخدمات المالية",
+    headingEn: "Adaptation & Strategic Understanding - Assessment & Due Diligence - Implementation & Closure",
+    headingAr: "التكييف و الفهم الإستراتيجي - التقييم و العناية الواجبة - التنفيذ و الإغلاق",
     steps: [
       {
         num: "01",
-        titleEn: "Understand the Objective",
-        titleAr: "فهم الهدف",
+        titleEn: "Client Understanding",
+        titleAr: "فهم العميل",
         bodyEn:
-          "Every engagement begins with the client's goal — a sale, a raise, a listing, a financing — and the constraints around it: timeline, ownership preferences, regulatory position.",
+          "Defining the client's goals & needs accoriding to fianncial, organizational, & economic criteria",
         bodyAr:
-          "يبدأ كل ارتباط بهدف العميل — بيع، أو جمع رأس مال، أو إدراج، أو تمويل — والقيود المحيطة به: الجدول الزمني، وتفضيلات الملكية، والوضع التنظيمي.",
+          "تحديد أهداف و إحتياجات العميل وفقاً لمعاير مالية و تنظيمية ولإقتصادية",
       },
       {
         num: "02",
-        titleEn: "Analyse the Position",
-        titleAr: "تحليل الوضع",
+        titleEn: "Project Analysis",
+        titleAr: "تحليل المشروع",
         bodyEn:
-          "We build the financial picture: valuation, capital structure, cash flows and readiness, using documented assumptions and recognised methodologies.",
+          "Evaluating the financial, legal, and service governance aspects in accordance with client objectives and relevant regulations",
         bodyAr:
-          "نبني الصورة المالية: التقييم وهيكل رأس المال والتدفقات النقدية والجاهزية، باستخدام افتراضات موثّقة ومنهجيات معتمدة.",
+          "تقييم الجوانب المالية و القانونية و حوكمة الخدمة بما يتوافق مع أهداف العميل والأنظمة المعنية",
       },
       {
         num: "03",
-        titleEn: "Evaluate the Options",
-        titleAr: "تقييم الخيارات",
+        titleEn: "Project Structure",
+        titleAr: "هيكلة المشروع",
         bodyEn:
-          "We set out the realistic paths available, with the trade-offs of each — structure, pricing, timing, execution risk — so the decision is made on a complete picture.",
+          "Designing solutions and basic requirements according to the client's goals and need",
         bodyAr:
-          "نعرض المسارات الواقعية المتاحة مع مقايضات كل منها — الهيكل والتسعير والتوقيت ومخاطر التنفيذ — لاتخاذ القرار على صورة مكتملة.",
+          "تصميم الحلول و المتطلبات الأساسية وفقاً لأهداف و أحتياجات العميل",
       },
+
       {
         num: "04",
-        titleEn: "Recommend and Plan",
-        titleAr: "التوصية والتخطيط",
+        titleEn: "Document Preparation",
+        titleAr: "إعداد المستندات",
         bodyEn:
-          "We deliver a clear recommendation and an execution roadmap: workstreams, advisors required, regulatory steps and timeline.",
+          "Preparing the required documents and presentations and communicating with target audiences to market the project.",
         bodyAr:
-          "نقدّم توصية واضحة وخارطة طريق للتنفيذ: مسارات العمل والمستشارون المطلوبون والخطوات التنظيمية والجدول الزمني.",
+          "إعداد المستندات و العروض المطلوبة و التواصل مع الأطراف المستهدفة لتسويق المسروع",
+      },
+      {
+        num: "05",
+        titleEn: "Implementation",
+        titleAr: "التنفيذ",
+        bodyEn:
+          "Project implementation, coordination with relevant parties, and obtaining regulatroy approvals.",
+        bodyAr:
+          "تنفيذ المشروع و التنسيق مع الأطراف ذات الصلة، و الحصول على الموافقات النظامية",
+      },
+      {
+        num: "06",
+        titleEn: "Closure",
+        titleAr: "الإغلاق",
+        bodyEn:
+          "By completing the scope of work and providing support after project closure",
+        bodyAr:
+          "بإكمال نطاق العمل و تقديم الدعم بعد إغلاق المشروع",
       },
     ],
   },
 
   execute: {
-    tagEn: "ARRANGEMENT & MANAGEMENT",
-    tagAr: "الترتيب والإدارة",
-    headingEn: "Executing the Transaction",
-    headingAr: "تنفيذ المعاملة",
+    tagEn: "ARRANGEMENT & ADVISORY",
+    tagAr: "الترتيب والمشورة",
+    headingEn: "",
+    headingAr: "",
     bodyEn:
-      "When a client proceeds to a transaction, we arrange and manage it through to completion.",
+      "When a client proceeds with a transaction, we arrange it until closure.",
     bodyAr:
-      "عندما يمضي العميل في معاملة، نرتّبها ونديرها حتى الإتمام.",
+      "عندما يمضي العميل في معاملة نرتبها حتى الإغلاق",
     cards: [
       {
-        titleEn: "Identifying and engaging counterparties or investors",
-        titleAr: "تحديد الأطراف المقابلة أو المستثمرين وإشراكهم",
-        bodyEn: "",
-        bodyAr: "",
+        titleEn: "",
+        titleAr: "",
+        bodyEn: "Identifying and engaging counterparties or investors",
+        bodyAr: "تحديد الأطراف المقابلة أو المستثمرين وإشراكهم",
       },
       {
-        titleEn: "Coordinating legal, audit and due-diligence workstreams",
-        titleAr: "تنسيق مسارات العمل القانونية والتدقيق والعناية الواجبة",
-        bodyEn: "",
-        bodyAr: "",
+        bodyEn: "Coordinating legal, audit and due-diligence workstreams",
+        bodyAr: "تنسيق مسارات العمل القانونية والتدقيق والعناية الواجبة",
+        titleEn: "",
+        titleAr: "",
       },
       {
-        titleEn: "Managing regulatory filings and negotiating terms",
-        titleAr: "إدارة الإيداعات التنظيمية والتفاوض على الشروط",
-        bodyEn: "",
-        bodyAr: "",
-      },
-      {
-        titleEn: "Working alongside the client throughout",
-        titleAr: "العمل طوال الوقت إلى جانب العميل",
-        bodyEn: "",
-        bodyAr: "",
+        bodyEn: "Working alongside the client throughout",
+        bodyAr: "العمل طوال الوقت إلى جانب العميل",
+        titleEn: "",
+        titleAr: "",
       },
     ],
   },
 
   products: {
-    tagEn: "OUR PRODUCTS",
-    tagAr: "منتجاتنا",
-    headingEn: "Five Service Lines",
-    headingAr: "خمس خطوط خدمات",
+    tagEn: "OUR SERVICES",
+    tagAr: "خدماتنا",
+    headingEn: "",
+    headingAr: "",
     viewServiceEn: "View service →",
     viewServiceAr: "عرض الخدمة ←",
     items: [
       {
-        titleEn: "Capital Markets Advisory",
+        titleEn: "Capital Markets",
         titleAr: "استشارات أسواق المال",
         bodyEn:
-          "IPO and Nomu readiness, rights issues, capital increases and private placements.",
+          "A structured offering that achieves targeted liquidity for shareholders and reflects the fail value of the company",
         bodyAr:
           "جاهزية الطرح العام ونمو، وإصدارات حقوق الأولوية، وزيادة رأس المال، والطرح الخاص.",
         href: "/investment-banking/capital-markets-advisory",
@@ -327,26 +350,26 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         href: "/investment-banking/mergers-acquisitions",
       },
       {
-        titleEn: "Debt & Financing Arrangement",
+        titleEn: "Sukuk & Debt Instruments",
         titleAr: "ترتيب الدين والتمويل",
         bodyEn:
-          "Financing strategy, Sukuk and private credit structuring, refinancing and restructuring.",
+          "",
         bodyAr:
           "استراتيجية التمويل وهيكلة الصكوك والتمويل الخاص وإعادة التمويل وإعادة الهيكلة.",
         href: "/investment-banking/debt-financing-arrangement",
       },
       {
-        titleEn: "Valuation & Financial Advisory",
-        titleAr: "التقييم والاستشارات المالية",
+        titleEn: "Mergers & Acquisitions",
+        titleAr: "الاندماج والاستحواذ",
         bodyEn:
-          "Valuation, feasibility, modelling and due-diligence support.",
+          "",
         bodyAr:
           "التقييم والجدوى والنمذجة ودعم العناية الواجبة.",
         href: "/investment-banking/valuation-financial-advisory",
       },
       {
-        titleEn: "Real Estate & Private Arrangements",
-        titleAr: "العقارات والترتيبات الخاصة",
+        titleEn: "Arranging Bank Financcing",
+        titleAr: "",
         bodyEn:
           "Structuring and arranging real-estate and private-market opportunities.",
         bodyAr:
@@ -419,9 +442,9 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
     headingEn: "Start a conversation with our Investment Banking team",
     headingAr: "ابدأ حواراً مع فريق المصرفية الاستثمارية",
     bodyEn:
-      "Tell us your objective — a raise, a sale, a listing or a financing — and we will help you define the path.",
+      "Tell us your objective and we will help you define the path.",
     bodyAr:
-      "أخبرنا بهدفك — جمع رأس مال أو بيع أو إدراج أو تمويل — وسنساعدك على تحديد المسار.",
+      "أخبرنا بهدفك وسنساعدك على تحديد المسار.",
     buttonEn: "START A CONVERSATION",
     buttonAr: "ابدأ الحوار",
   },

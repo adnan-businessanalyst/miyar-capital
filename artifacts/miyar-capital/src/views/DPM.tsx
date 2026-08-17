@@ -59,13 +59,15 @@ export function DPM() {
                   lang,
                 )}
               />
-              <p className="dpm-lead">
-                {pickLang(
+              <RichText
+                as="p"
+                className="dpm-lead"
+                html={pickLang(
                   data.mandates.leadEn,
                   data.mandates.leadAr,
                   lang,
                 )}
-              </p>
+              />
               <PrimaryCardGrid columns={4}>
                 {data.mandates.items.map((item) => (
                   <PrimaryCard

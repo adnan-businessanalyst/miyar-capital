@@ -21,6 +21,7 @@ import { FOOTER_BG_IMAGE } from "../site/footer";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import { GetInTouch } from "../components/GetInTouch";
 import { JobsSection } from "../components/JobsSection";
+import { RichText } from "../components/RichText";
 import { SarText } from "../components/SarText";
 import { SectionHead } from "../components/SectionHead";
 import { CONTACT } from "../data/contact";
@@ -302,8 +303,15 @@ export function FrontPage({
                   onClick={() => openHref(h.promoHref)}
                 >
                   <div className="fp-hero-card-body">
-                    <h4>{pickLang(h.promoTitleEn, h.promoTitleAr, lang)}</h4>
-                    <p>{pickLang(h.promoBodyEn, h.promoBodyAr, lang)}</p>
+                    <h4>
+                      <RichText
+                        html={pickLang(h.promoTitleEn, h.promoTitleAr, lang)}
+                      />
+                    </h4>
+                    <RichText
+                      as="p"
+                      html={pickLang(h.promoBodyEn, h.promoBodyAr, lang)}
+                    />
                     <span className="fp-card-arrow">→</span>
                   </div>
                 </aside>

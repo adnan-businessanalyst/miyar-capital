@@ -50,7 +50,9 @@ export function Steps({
                 <div className="steps-num" aria-hidden="true">
                   <span>{num}</span>
                 </div>
-                <h4>{item.title}</h4>
+                <h4>
+                  <RichText html={item.title} />
+                </h4>
                 <ul className="steps-sub">
                   <li>
                     <RichText as="p" html={item.body} />

@@ -108,8 +108,10 @@ export function RegisterInterestSection({
   return (
     <section className="blk ri" id="register">
       <div className="wrap contact-cta">
-        <h2 className="ri-title">{title}</h2>
-        <p className="ri-body">{body}</p>
+        <h2 className="ri-title">
+          <RichText html={title} />
+        </h2>
+        <RichText as="p" className="ri-body" html={body} />
         <RegisterInterest
           sourcePage={sourcePage}
           pageTitleEn={pageTitleEn}

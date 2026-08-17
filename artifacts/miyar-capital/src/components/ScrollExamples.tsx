@@ -18,6 +18,7 @@ import {
 } from "react";
 import Link from "next/link";
 import { MetaFacts } from "./MetaFacts";
+import { RichText } from "./RichText";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useLocalePath } from "../i18n/useLocalePath";
 
@@ -302,8 +303,16 @@ export function ScrollExamples({
                 </div>
               ) : null}
               <div className="scroll-examples-card-body">
-                <h4>{item.title}</h4>
-                {item.body ? <p className="eq-example-lead">{item.body}</p> : null}
+                <h4>
+                  <RichText html={item.title} />
+                </h4>
+                {item.body ? (
+                  <RichText
+                    as="p"
+                    className="eq-example-lead"
+                    html={item.body}
+                  />
+                ) : null}
                 {item.meta.length > 0 ? (
                   <MetaFacts
                     items={item.meta}
