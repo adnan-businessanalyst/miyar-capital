@@ -66,6 +66,7 @@
     },
     "private_offers": {
       "files": {
+        ".jpg": "/media/content/private_offers.jpg",
         ".webp": "/media/content/private_offers.webp"
       },
       "image": "/media/content/private_offers.webp"

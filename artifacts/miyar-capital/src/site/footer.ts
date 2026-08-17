@@ -64,14 +64,14 @@ export const SITE_FOOTER: SiteFooter = {
         {
           id: "f-eq",
           labelEn: "Equity Management",
-          labelAr: "أسهم لأصول الملكية",
-          href: "/asset-management",
+          labelAr: "أسهم الملكية الخاصة",
+          href: "/asset-management/equity-management",
         },
         {
           id: "f-real",
           labelEn: "Real Assets",
           labelAr: "الأصول العقارية",
-          href: "/asset-management",
+          href: "/asset-management/real-assets",
         },
         {
           id: "f-pm",
@@ -82,8 +82,14 @@ export const SITE_FOOTER: SiteFooter = {
         {
           id: "f-dpm",
           labelEn: "DPM",
-          labelAr: "الإدارة التقديرية",
+          labelAr: "إدارة المحافظ الاستثمارية الخاصة",
           href: "/asset-management/dpm",
+        },
+        {
+          id: "f-ifo",
+          labelEn: "Institutional & Family Office",
+          labelAr: "المؤسسات و المكاتب العائلية",
+          href: "/asset-management/institutional-family-office",
         },
       ],
     },
@@ -117,11 +123,11 @@ export const SITE_FOOTER: SiteFooter = {
       titleEn: "Disclosures",
       titleAr: "الإفصاحات",
       links: [
-        { id: "f-cma", labelEn: "CMA Disclosures", labelAr: "إفصاحات هيئة السوق المالية" },
-        { id: "f-ctrl", labelEn: "Controlling Members", labelAr: "الأعضاء المسيطرون" },
-        { id: "f-fatca", labelEn: "FATCA / CRS", labelAr: "فاتكا / المعيار الموحد" },
+        { id: "f-cma", labelEn: "CMA Disclosures", labelAr: "إفصاحات هيئة السوق المالية", href: "/disclosures" },
+        // { id: "f-ctrl", labelEn: "Controlling Members", labelAr: "الأعضاء المسيطرون" },
+        // { id: "f-fatca", labelEn: "FATCA / CRS", labelAr: "فاتكا / المعيار الموحد" },
         { id: "f-priv", labelEn: "Privacy Policy", labelAr: "سياسة الخصوصية" },
-        { id: "f-terms", labelEn: "Terms of Use", labelAr: "شروط الاستخدام" },
+        // { id: "f-terms", labelEn: "Terms of Use", labelAr: "شروط الاستخدام" },
         {
           id: "f-news",
           labelEn: "News",
@@ -131,12 +137,12 @@ export const SITE_FOOTER: SiteFooter = {
       ],
     },
   ],
-  disclaimerLabelEn: "Regulatory.",
-  disclaimerLabelAr: "تنظيمي.",
+  disclaimerLabelEn: "Regulatory:",
+  disclaimerLabelAr: "تنظيمي:",
   disclaimerEn:
-    "Miyar Capital is authorised and regulated by the Capital Market Authority (CMA), licence No. 21216-32, for arranging, advising, managing investments and operating funds. Content on this site is for information only and does not constitute an offer of securities or investment advice. Investment products are offered solely through their official, Compliance-approved documents.",
+    " Miyar Financial is authorized and regulated by the Capital Market Authority (CMA), license No. 21216-32, for arranging, advising, managing investments and operating funds. Content is for information only and does not constitute an offer of securities or investment advice. Products are offered solely through their official, Compliance-approved documents.",
   disclaimerAr:
-    "معيار كابيتال مرخّصة ومنظمة من هيئة السوق المالية (ترخيص رقم 21216-32) في أعمال الترتيب والمشورة وإدارة الاستثمارات وتشغيل الصناديق. المحتوى على هذا الموقع لأغراض معلوماتية فقط ولا يُعد عرضاً لأوراق مالية أو مشورة استثمارية. تُقدَّم المنتجات الاستثمارية فقط عبر مستنداتها الرسمية المعتمدة من الالتزام.",
+    " معيار المالية شركة مرخّصة ومنظّمة من هيئة السوق المالية، ترخيص رقم 21216-32، لممارسة أنشطة الترتيب وتقديم المشورة وإدارة الاستثمارات وتشغيل الصناديق. المحتوى المنشور لأغراض المعلومات فقط ولا يُعدّ عرضاً لأوراق مالية أو مشورة استثمارية. وتُقدَّم المنتجات حصراً من خلال مستنداتها الرسمية المعتمدة.",
   bottomLeftEn: "© 2026 Miyar Capital. All rights reserved.",
   bottomLeftAr: "© 2026 معيار كابيتال. جميع الحقوق محفوظة.",
   bottomRightEn:
