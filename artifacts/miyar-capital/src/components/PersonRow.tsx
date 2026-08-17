@@ -8,7 +8,7 @@
 
 "use client";
 
-import type { Person } from "../data/people";
+import { resolvePersonPhoto, type Person } from "../data/people";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
 
@@ -18,27 +18,20 @@ export function PersonRow({
   role,
   roleAr,
   photo,
+  gender = "male",
   bio,
   bioAr,
-  initials,
 }: Person) {
   const { lang } = useLanguage();
   const displayName = pickLang(name, nameAr, lang);
   const displayRole = pickLang(role, roleAr, lang);
   const displayBio = pickLang(bio ?? "", bioAr ?? "", lang);
-  const label =
-    initials ?? name.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
+  const resolvedPhoto = resolvePersonPhoto(photo, gender);
 
   return (
     <article className="person-row">
-      <div className={`person-row-media${!photo ? " person-row-media--placeholder" : ""}`}>
-        {photo ? (
-          <img src={photo} alt={displayName} loading="lazy" />
-        ) : (
-          <span className="person-row-initials" aria-hidden="true">
-            {label}
-          </span>
-        )}
+      <div className="person-row-media">
+        <img src={resolvedPhoto} alt={displayName} loading="lazy" />
       </div>
       <div className="person-row-body">
         <div className="person-row-role">{displayRole}</div>

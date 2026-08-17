@@ -71,9 +71,9 @@ export const WHO_WE_ARE: WhoWeAreContent = {
     crumbEn: "Who We Are",
     crumbAr: "من نحن",
     descriptionEn:
-      "Miyar Capital is a Shariah-compliant financial institution committed to ethical investment, transparent governance, and long-term value for the communities we serve.",
+      "Miyar Capital is a Shariah-compliant financial institution, licensed by the Saudi Capital Market Authority, committed to ethical investment, transparent governance, and long-term value.",
     descriptionAr:
-      "معيار المالية مؤسسة مالية متوافقة مع الشريعة ملتزمة بالاستثمار الأخلاقي والحوكمة الشفافة والقيمة طويلة الأجل للمجتمعات التي نخدمها.",
+      "معيار المالية مؤسسة مالية متوافقة مع الشريعة و مرخصة من هيئة سوق المال السعودية وملتزمة بالاستثمار الأخلاقي والحوكمة الشفافة والقيمة طويلة الأجل.",
   },
   story: {
     dropEn: "M",
@@ -84,7 +84,7 @@ export const WHO_WE_ARE: WhoWeAreContent = {
       "From our headquarters in Riyadh, we work with a network of partners, scholars, and regulators to advance a financial system that is fair, transparent, and rooted in real economic activity.",
     ],
     parasAr: [
-      "معيار — وهي الكلمة العربية التي تعني المعيار — أكثر من مجرد اسم لنا. إنه المقياس الذي نلتزم به في كل قرار، وكل عقد، وكل علاقة.",
+      "معيار هو أكثر من مجرد اسم لنا. إنه المقياس الذي نلتزم به في كل قرار، وكل عقد، وكل علاقة.",
       "تأسست معيار المالية لتجسير الخدمات المالية الحديثة والقيم الإسلامية الخالدة، وتقدّم حلول الاستثمار والتمويل وإدارة الثروات المتوافقة بالكامل مع مبادئ الشريعة. نخدم الأفراد والعائلات والمؤسسات الذين يؤمنون بأن طريقة كسب الثروة لا تقل أهمية عن نموها.",
       "يجمع نهجنا بين الانضباط المالي الصارم وإطار أخلاقي راسخ. يُفحص كل منتج نقدّمه ويُهيكل ويُعتمد قبل أن يصل إلى عملائنا — ويُراقب باستمرار بعد ذلك. نقيس النجاح لا بالعوائد فحسب، بل بنزاهة كل معاملة وثقة كل صاحب مصلحة.",
       "من مقرنا في الرياض، نعمل مع شبكة من الشركاء والعلماء والجهات التنظيمية لتعزيز نظام مالي عادل وشفاف ومتجذّر في النشاط الاقتصادي الحقيقي.",
@@ -124,30 +124,30 @@ export const WHO_WE_ARE: WhoWeAreContent = {
     items: [
       {
         icon: "compass",
-        titleEn: "Our Purpose",
-        titleAr: "غرضنا",
+        titleEn: "Our Vision",
+        titleAr: "رؤيتنا",
         bodyEn:
           "To be the preferred investment partner in Saudi Arabia, known for innovation and excellence in customer service and sustainable returns.",
         bodyAr:
-          "أن نكون شريك الاستثمار المفضّل في المملكة العربية السعودية، معروفين بالابتكار والتميّز في خدمة العملاء والعوائد المستدامة.",
+          "أن نكون الشريك الاستثماري المفضل في المملكة العربية السعودية، معروفين بالابتكار والتميز في خدمة العملاء والعوائد المستدامة.",
       },
       {
         icon: "flag",
         titleEn: "Our Mission",
         titleAr: "رسالتنا",
         bodyEn:
-          "We strive to deliver outstanding performance and continuously exceed our clients' expectations, using a long-term value-based approach that aligns individual objectives.",
+          "We strive to deliver outstanding performance and continuously exceed our clients' expectations, using a long-term value-based approach and aligning individual factors.",
         bodyAr:
-          "نسعى لتقديم أداء متميز وتجاوز توقعات عملائنا باستمرار، عبر نهج قائم على القيمة طويلة الأجل يوائم الأهداف الفردية.",
+          "نسعى جاهدين لتقديم أداء متميز ونتجاوز بإستمرار توقعات عملائنا، باستخدام نهج طويل الأجل قائم على القيمة ومواءمة العوامل الفردية.",
       },
       {
         icon: "target",
         titleEn: "Our Goals",
         titleAr: "أهدافنا",
         bodyEn:
-          "Achieve sustainable financial returns for our clients, build long-term relationships based on trust, and contribute to the development of the Saudi economy in line with Vision 2030.",
+        "Achieve sustainable financial returns for our clients, build long-term relationships based on trust, contribute to the development of the Saudi economy and achieve the Kingdom's Vision 2030.",
         bodyAr:
-          "تحقيق عوائد مالية مستدامة لعملائنا، وبناء علاقات طويلة الأجل قائمة على الثقة، والمساهمة في تنمية الاقتصاد السعودي بما يتماشى مع رؤية ٢٠٣٠.",
+          "تحقيق عوائد مالية مستدامة لعملائنا، بناء علاقات طويلة الأمد قائمة على الثقة، المساهمة في تنمية الاقتصاد السعودي وتحقيق رؤية المملكة 2030.",
       },
     ],
   },

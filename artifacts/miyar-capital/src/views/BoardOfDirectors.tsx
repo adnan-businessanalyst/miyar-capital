@@ -2,7 +2,7 @@
 
 import { PageHero } from "../components/PageHero";
 import { PersonRow } from "../components/PersonRow";
-import { BOARD_MEMBERS } from "../data/people";
+import { BOARD_INTRO, BOARD_MEMBERS } from "../data/people";
 import { useLanguage } from "../i18n/LanguageContext";
 import { usePeopleGridReveal } from "../hooks/usePeopleGridReveal";
 
@@ -10,6 +10,7 @@ export function BoardOfDirectors() {
   const { lang } = useLanguage();
   const isAr = lang === "ar";
   const listRef = usePeopleGridReveal(BOARD_MEMBERS.length);
+  const introParas = isAr ? BOARD_INTRO.parasAr : BOARD_INTRO.parasEn;
 
   return (
     <div className="page">
@@ -21,10 +22,23 @@ export function BoardOfDirectors() {
         ]}
         description={
           isAr
-            ? "مجلس إدارة مستقل يضع الاستراتيجية ويعزز الحوكمة المتوافقة مع الشريعة ويحمي ثقة عملاء مِعيار كابيتال على المدى الطويل."
-            : "An independent board that sets strategy, upholds Shariah-aligned governance, and stewards Miyar Capital for long-term client trust."
+            ? ""
+            : ""
         }
       />
+      <section className="blk blk--cream">
+        <div className="wrap">
+          <div
+            className="board-intro"
+            lang={isAr ? "ar" : "en"}
+            dir={isAr ? "rtl" : "ltr"}
+          >
+            {introParas.map((para) => (
+              <p key={para.slice(0, 40)}>{para}</p>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="blk">
         <div className="wrap">
           <div ref={listRef} className="people-rows">

@@ -12,7 +12,7 @@ import {
   groupMembersByLevel,
   type HierarchyMember,
 } from "../data/hierarchy";
-import { getExecutiveById } from "../data/people";
+import { getExecutiveById, resolvePersonPhoto } from "../data/people";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
 
@@ -40,13 +40,8 @@ function HierarchyCard({ member }: { member: HierarchyMember }) {
     : member.name || member.nameAr
       ? pickLang(member.name ?? "", member.nameAr ?? "", lang)
       : null;
-  const initials =
-    member.initials ??
-    person?.initials ??
-    (name
-      ? name.replace(/[^A-Za-z\u0600-\u06FF]/g, "").slice(0, 2)
-      : title.slice(0, 2));
   const level = Math.max(1, Math.floor(member.level) || 1);
+  const photo = resolvePersonPhoto(person?.photo, person?.gender ?? "male");
 
   return (
     <article
@@ -55,16 +50,8 @@ function HierarchyCard({ member }: { member: HierarchyMember }) {
       data-hierarchy-id={member.id}
       data-reports-to={member.reportsTo ?? undefined}
     >
-      <div
-        className={`hierarchy-card-media${person?.photo ? "" : " is-placeholder"}`}
-      >
-        {person?.photo ? (
-          <img src={person.photo} alt={name ?? title} loading="lazy" />
-        ) : (
-          <span className="hierarchy-card-initials" aria-hidden="true">
-            {initials}
-          </span>
-        )}
+      <div className="hierarchy-card-media">
+        <img src={photo} alt={name ?? title} loading="lazy" />
       </div>
       <div className="hierarchy-card-body">
         {name ? <h3 className="hierarchy-card-name">{name}</h3> : null}

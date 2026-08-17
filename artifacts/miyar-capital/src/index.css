@@ -5921,6 +5921,20 @@ footer .footer-social-link:hover {
   transform: translateX(-50%);
 }
 
+.hierarchy-org-figure {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hierarchy-org-img {
+  display: block;
+  width: 100%;
+  max-width: min(56rem, 100%);
+  height: auto;
+}
+
 .hierarchy-chart {
   position: relative;
   width: 100%;
@@ -6282,6 +6296,29 @@ footer .footer-social-link:hover {
     text-align: start;
     justify-content: center;
   }
+}
+
+/* ===== BOARD INTRO ===== */
+.board-intro {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.board-intro p {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+.board-intro p + p {
+  margin-top: 1.15rem;
+}
+
+body[dir="rtl"] .board-intro p,
+.board-intro[dir="rtl"] p {
+  font-family: var(--ar);
 }
 
 /* ===== PEOPLE ROWS (Board / Executive) ===== */
