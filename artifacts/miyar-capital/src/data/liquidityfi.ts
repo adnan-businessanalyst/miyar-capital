@@ -92,7 +92,7 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
       bodyEn:
         "The fund seeks capital preservation and competitive short-term income through Shariah-compliant Murabaha and money-market instruments, while maintaining daily liquidity. It is positioned as the platform's liquidity anchor for both standalone investors and DPM mandates.",
       bodyAr:
-        "يسعى الصندوق إلى الحفاظ على رأس المال وتحقيق دخل قصير الأجل تنافسي عبر أدوات المرابحة وأسواق النقد المتوافقة مع الشريعة، مع الحفاظ على سيولة يومية. وهو يُعدّ ركيزة السيولة في المنصة للمستثمرين الأفراد ولتفويضات الإدارة التقديرية.",
+        "يسعى الصندوق إلى المحافظة على رأس المال وتحقيق دخلٍ تنافسي قصير الأجل من خلال صفقات المرابحة وأدوات أسواق النقد المتوافقة مع أحكام الشريعة الإسلامية، مع الحفاظ على سيولةٍ يومية. ويمثّل الصندوق الخيار الأساسي للسيولة في المنصة، للمستثمرين مباشرةً وللتفاويض المُدارة على حدٍّ سواء.",
     },
     {
       headingEn: "Investment Universe",
@@ -100,7 +100,7 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
       bodyEn:
         "Diversified across high-quality Murabaha placements and short-tenor money-market instruments with approved counterparties, managed to a conservative duration and concentration framework overseen by the independent risk function.",
       bodyAr:
-        "متنوّع عبر ودائع مرابحة عالية الجودة وأدوات أسواق نقد قصيرة الأجل مع أطراف مقابلة معتمدة، ويُدار ضمن إطار متحفظ للمدة والتركيز تحت إشراف وظيفة المخاطر المستقلة.",
+        "استثماراتٌ مُنوّعة في المرابحات عالية الجودة وأدوات أسواق النقد قصيرة الأجل مع أطرافٍ نظيرة معتمدة، تُدار وفق إطارٍ متحفّظ لمدة الاستحقاق وحدود التركّز، تُشرف عليه وظيفة المخاطر المستقلة.",
     },
     {
       headingEn: "Who It Is For",
@@ -108,7 +108,7 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
       bodyEn:
         "Investors prioritising liquidity and stability — corporate treasuries, family offices parking capital, and clients seeking a lower-volatility allocation within a broader mandate.",
       bodyAr:
-        "المستثمرون الذين يمنحون الأولوية للسيولة والاستقرار — خزائن الشركات، والمكاتب العائلية التي تحتفظ برأس المال، والعملاء الباحثون عن تخصيص أقل تقلباً ضمن تفويض أوسع.",
+        "للمستثمرين الذين تتقدّم لديهم السيولة والاستقرار: خزائن الشركات، والمكاتب العائلية التي تحتفظ بسيولةٍ بانتظار توظيفها، والعملاء الباحثين عن مكوّنٍ منخفض التذبذب ضمن تفويضٍ أوسع.",
     },
     {
       headingEn: "Subscription & Redemption",
@@ -116,7 +116,7 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
       bodyEn:
         "Subscription and redemption frequency, cut-off times and minimums are set out in the fund's Terms &amp; Conditions. Eligibility is subject to client classification and suitability assessment.",
       bodyAr:
-        "يُحدَّد تكرار الاشتراك والاسترداد وأوقات القطع والحدود الدنيا في شروط وأحكام الصندوق. وتخضع الأهلية لتصنيف العميل وتقييم الملاءمة.",
+        "تُحدَّد أيام التعامل والمواعيد النهائية لتقديم الطلبات والحد الأدنى للاشتراك في شروط الصندوق وأحكامه. وتخضع الأهلية لتصنيف العميل وتقييم الملاءمة.",
     },
   ],
 
@@ -169,10 +169,10 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
 
   disclaimer: {
     leadEn: "Important.",
-    leadAr: "مهم.",
+    leadAr: "تنبيه مهم.",
     bodyEn:
       "*Subject to fund Terms &amp; Conditions. Performance, NAV and target returns are shown only where approved by Compliance and supported by official fund documents. Past performance is not indicative of future results; the value of investments may go up or down. Nothing on this page constitutes investment advice or an offer of securities. Eligibility requires client classification and a suitability assessment.",
     bodyAr:
-      "*وفقاً لشروط وأحكام الصندوق. يُعرض الأداء وصافي قيمة الأصول والعوائد المستهدفة فقط حيث اعتمدها الالتزام وتدعمها المستندات الرسمية للصندوق. الأداء السابق لا يشير إلى النتائج المستقبلية؛ وقد ترتفع قيمة الاستثمارات أو تنخفض. لا يُعدّ أي محتوى في هذه الصفحة مشورة استثمارية أو عرضاً لأوراق مالية. تتطلب الأهلية تصنيف العميل وتقييم الملاءمة.",
+      "*يخضع ما ورد في هذه الصفحة لشروط الصندوق وأحكامه. ولا تُعرض بيانات الأداء وصافي قيمة الأصول والعوائد المستهدفة إلا بعد اعتمادها من إدارة الالتزام واستنادها إلى مستندات الصندوق الرسمية. والأداء السابق لا يُعد مؤشراً على الأداء المستقبلي، وقد ترتفع قيمة الاستثمارات أو تنخفض. ولا يُشكّل أيٌّ مما ورد في هذه الصفحة مشورةً استثمارية أو طرحاً لأوراق مالية. وتتطلب الأهلية تصنيف العميل وتقييم الملاءمة.",
   },
 };

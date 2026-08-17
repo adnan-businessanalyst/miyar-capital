@@ -100,7 +100,7 @@ export function RealAssets() {
           <section key={id} className="blk blk--cream">
             <div className="wrap">
               <div className="prod-body">
-                <div>
+                {/* <div>
                   <SectionHead
                     title={pickLang(
                       data.intro.eyebrowEn,
@@ -118,7 +118,7 @@ export function RealAssets() {
                     className="eq-rich"
                     html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   />
-                </div>
+                </div> */}
                 <Factsheet
                   title={pickLang(
                     data.productOverview.headingEn,
