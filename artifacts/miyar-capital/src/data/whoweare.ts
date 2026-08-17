@@ -73,19 +73,19 @@ export const WHO_WE_ARE: WhoWeAreContent = {
     descriptionEn:
       "Miyar Capital is a Shariah-compliant financial institution, licensed by the Saudi Capital Market Authority, committed to ethical investment, transparent governance, and long-term value.",
     descriptionAr:
-      "معيار المالية مؤسسة مالية متوافقة مع الشريعة و مرخصة من هيئة سوق المال السعودية وملتزمة بالاستثمار الأخلاقي والحوكمة الشفافة والقيمة طويلة الأجل.",
+      "معيار المالية شركة مالية متوافقة مع الشريعة و مرخصة من هيئة سوق المال السعودية وملتزمة بالاستثمار الأخلاقي والحوكمة الشفافة والقيمة طويلة الأجل.",
   },
   story: {
     dropEn: "M",
     parasEn: [
       "Miyar — the Arabic word for standard — is more than our name. It is the measure we hold ourselves to in every decision, every contract, and every relationship.",
-      "Founded to bridge modern financial services and timeless Islamic values, Miyar Capital provides investment, financing, and wealth-management solutions that are fully compliant with the principles of Shariah. We serve individuals, families, and institutions who believe that how wealth is earned matters as much as how it grows.",
+      "Founded to bridge modern financial services and timeless Islamic values, Miyar Capital provides investment, financing, and wealth-management solutions that are compliant with the principles of Shariah. We serve individuals, families, and institutions who believe that how wealth is earned matters as much as how it grows.",
       "Our approach combines rigorous financial discipline with an unwavering ethical framework. Every product we offer is screened, structured, and certified before it reaches our clients — and monitored continuously thereafter. We measure success not only in returns, but in the integrity of every transaction and the confidence of every stakeholder.",
       "From our headquarters in Riyadh, we work with a network of partners, scholars, and regulators to advance a financial system that is fair, transparent, and rooted in real economic activity.",
     ],
     parasAr: [
       "معيار هو أكثر من مجرد اسم لنا. إنه المقياس الذي نلتزم به في كل قرار، وكل عقد، وكل علاقة.",
-      "تأسست معيار المالية لتجسير الخدمات المالية الحديثة والقيم الإسلامية الخالدة، وتقدّم حلول الاستثمار والتمويل وإدارة الثروات المتوافقة بالكامل مع مبادئ الشريعة. نخدم الأفراد والعائلات والمؤسسات الذين يؤمنون بأن طريقة كسب الثروة لا تقل أهمية عن نموها.",
+      "تأسست معيار المالية لتجسير الخدمات المالية الحديثة والقيم الإسلامية الخالدة، وتقدّم حلول الاستثمار والتمويل وإدارة الثروات المتوافقة مع مبادئ الشريعة. نخدم الأفراد والعائلات والمؤسسات الذين يؤمنون بأن طريقة كسب الثروة لا تقل أهمية عن نموها.",
       "يجمع نهجنا بين الانضباط المالي الصارم وإطار أخلاقي راسخ. يُفحص كل منتج نقدّمه ويُهيكل ويُعتمد قبل أن يصل إلى عملائنا — ويُراقب باستمرار بعد ذلك. نقيس النجاح لا بالعوائد فحسب، بل بنزاهة كل معاملة وثقة كل صاحب مصلحة.",
       "من مقرنا في الرياض، نعمل مع شبكة من الشركاء والعلماء والجهات التنظيمية لتعزيز نظام مالي عادل وشفاف ومتجذّر في النشاط الاقتصادي الحقيقي.",
     ],
