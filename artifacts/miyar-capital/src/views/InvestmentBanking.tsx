@@ -20,7 +20,6 @@ import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { INVESTMENT_BANKING } from "../data/investmentbanking";
 import { useLanguage } from "../i18n/LanguageContext";
-import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const PRODUCT_ICONS: Record<string, LucideIcon> = {
@@ -166,16 +165,6 @@ export function InvestmentBanking() {
           </section>
         );
       case "execute": {
-        const isAr = lang === "ar";
-        const figureSrc = isAr
-          ? CONTENT_IMAGES.man_looking_rtl
-          : CONTENT_IMAGES.man_look_ltr;
-        const figure = figureSrc ? (
-          <div className="ib-execute-figure" aria-hidden="true">
-            <img src={figureSrc} alt="" />
-          </div>
-        ) : null;
-
         return (
           <section key={id} className="blk blk--cream">
             <div className="wrap">
@@ -198,8 +187,6 @@ export function InvestmentBanking() {
                 />
               </div>
               <div className="ib-execute-stage">
-                {/* inline-start: left in EN, right in AR (page dir) */}
-                {figure}
                 <PrimaryCardGrid
                   columns={4}
                   className="ib-execute-cards"

@@ -51,7 +51,13 @@ export function WhatsAppWidget() {
       const pctTrigger =
         (cfg.scrollThresholdPct / 100) * Math.max(scrollable, 0);
       const trigger = Math.max(pctTrigger, heroBottom());
-      setVisible(trigger > 0 && window.scrollY >= trigger);
+      const footer = document.querySelector<HTMLElement>(".site-footer");
+      const footerInView = footer
+        ? footer.getBoundingClientRect().top < window.innerHeight
+        : false;
+      setVisible(
+        trigger > 0 && window.scrollY >= trigger && !footerInView,
+      );
     };
     compute();
     window.addEventListener("scroll", compute, { passive: true });

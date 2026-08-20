@@ -6,6 +6,7 @@
 export type InvestmentAdvisorySectionId =
   | "hero"
   | "pillars"
+  | "services"
   | "process"
   | "interest";
 
@@ -29,6 +30,13 @@ export interface InvestmentAdvisoryStep {
   altAr: string;
 }
 
+export interface InvestmentAdvisoryServiceCard {
+  titleEn: string;
+  titleAr: string;
+  bodyEn: string;
+  bodyAr: string;
+}
+
 export interface InvestmentAdvisoryContent {
   sectionOrder: InvestmentAdvisorySectionId[];
   hero: {
@@ -46,22 +54,33 @@ export interface InvestmentAdvisoryContent {
     backgroundAriaAr: string;
   };
   pillars: InvestmentAdvisoryPillar[];
+  services: {
+    headingEn: string;
+    headingAr: string;
+    topicEn: string;
+    topicAr: string;
+    bodyEn: string;
+    bodyAr: string;
+    highlightEn: string;
+    highlightAr: string;
+    cards: InvestmentAdvisoryServiceCard[];
+  };
   steps: InvestmentAdvisoryStep[];
 }
 
 export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
-  sectionOrder: ["hero", "pillars", "process", "interest"],
+  sectionOrder: ["hero", "pillars", "services", "process", "interest"],
 
   hero: {
     titleEn: "Investment Advisory",
-    titleAr: "مستشار المالية",
+    titleAr: "المستشار المالي",
     crumbEn: "Investment Banking / Investment Advisory",
-    crumbAr: "المصرفية الاستثمارية / مستشار المالية",
+    crumbAr: "المصرفية الاستثمارية / المستشار المالي",
   },
 
   intro: {
     headingEn: "Investment Advisory",
-    headingAr: "مستشار المالية",
+    headingAr: "المستشار المالي",
     bodyEn:
       "Miyar Capital believes the first step in investment advisory services is to understand the client's needs, objectives, and constraints.",
     bodyAr:
@@ -77,28 +96,58 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
       titleAr: "نجاح العميل أولاً",
       bodyEn:
         "No corporate interest takes precendence over the success of the client",
-      bodyAr:
-        "لاتوجد مصلحة مؤسسية تتقدم على نجاح العميل",
+      bodyAr: "لاتوجد مصلحة مؤسسية تتقدم على نجاح العميل",
     },
     {
       icon: "trust",
       titleEn: "Performance Is Standard",
       titleAr: "الأداء معيار",
-      bodyEn:
-        "Focus on measurable outputs",
-      bodyAr:
-        "التركيز على المخرجات القابلة للقياس",
+      bodyEn: "Focus on measurable outputs",
+      bodyAr: "التركيز على المخرجات القابلة للقياس",
     },
     {
       icon: "partnership",
       titleEn: "Partnership, Not Work",
       titleAr: "شراكة لا عمل",
-      bodyEn:
-        "We act as a consulting partner with the client",
-      bodyAr:
-        "نعمل كشريك استشاري مع المعميل",
+      bodyEn: "We act as a consulting partner with the client",
+      bodyAr: "نعمل كشريك استشاري مع المعميل",
     },
   ],
+
+  services: {
+    headingEn: "",
+    headingAr: "خدماتنا",
+    topicEn: "",
+    topicAr: "ترتيب التمويل البنكي",
+    bodyEn: "",
+    bodyAr:
+      "تقدم معيار المالية، ضمن خدماتها في المصرفية الاستثمارية، استشارات متخصصة في ترتيب تسهيلات التمويل البنكي و ذلك للشركات الساعية لتمويل مشاريعها التوسعية و إعادة هيكلة نماذجها المالية من خلال علاقتنا الممتدة مع المؤسسات التمويلية",
+    highlightEn: "",
+    highlightAr: "نؤمّن لعملائنا وصولاً أوسع لمصادر التمويل بشروط أكثر تنافسية",
+    cards: [
+      {
+        titleEn: "",
+        titleAr: "الكفاءة في التنفيذ",
+        bodyEn: "",
+        bodyAr:
+          "إدارة العملية بالكامل لضمان الحصول على التمويل في الإطار الزمني المستهدف",
+      },
+      {
+        titleEn: "",
+        titleAr: "الوصول إلى الممولين",
+        bodyEn: "",
+        bodyAr:
+          "قاعدة واسعة من العلاقات مع البنوك التجارية و الصناديق الاستثمارية والمؤسسات التمويلية",
+      },
+      {
+        titleEn: "",
+        titleAr: "التفاوض",
+        bodyEn: "",
+        bodyAr:
+          "التفاوض على متطلبات تمويلية مثلى: التسعير / جدول السداد / الضمانات",
+      },
+    ],
+  },
 
   steps: [
     {
@@ -106,8 +155,7 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
       imageKey: 1,
       bodyEn:
         "Meeting the client and determining their objectives, risk tolerance, and investment constraints.",
-      bodyAr:
-        "لقاء العميل وتحديد أهدافه الاستراتيجية",
+      bodyAr: "لقاء العميل وتحديد أهدافه الاستراتيجية",
       altEn: "Investment advisory process step 1",
       altAr: "خطوة عملية الاستشارات المالية 1",
     },
@@ -144,8 +192,7 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
       imageKey: 5,
       bodyEn:
         "Monitoring, analysis, and evaluation phase of investment portfolio components and performance, and correction if necessary.",
-      bodyAr:
-        "مرحلة التنفيذ و الاغلاق",
+      bodyAr: "مرحلة التنفيذ و الاغلاق",
       altEn: "Investment advisory process step 5",
       altAr: "خطوة عملية الاستشارات المالية 5",
     },

@@ -13,7 +13,7 @@ import {
 } from "../data/realassets";
 import { useResolvedMedia } from "../hooks/useResolvedMedia";
 import { useLanguage } from "../i18n/LanguageContext";
-import { CONTENT_IMAGES } from "../site/contentImages";
+import { CONTENT_IMAGES, DETAILS_PG_IMAGE } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const PROJECT_CARD_IMAGES = [
@@ -136,7 +136,14 @@ export function RealAssets() {
         );
       case "capabilities":
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk core-capabilities-section">
+            {DETAILS_PG_IMAGE ? (
+              <div
+                className="core-capabilities-section-bg"
+                style={{ backgroundImage: `url(${DETAILS_PG_IMAGE})` }}
+                aria-hidden="true"
+              />
+            ) : null}
             <div className="wrap">
               <SectionHead
                 title={pickLang(

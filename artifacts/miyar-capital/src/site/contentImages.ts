@@ -31,6 +31,9 @@ export const CONTENT_IMAGES = {
   ra_3: content("ra-3"),
   ra_4: content("ra-4"),
   private_offers: content("private_offers"),
+  our_services_arrangement_management: content(
+    "our-services-arrangement-managment",
+  ),
   service_asset_management: content("service-asset-management"),
   service_investment_banking: content("service-investment-banking"),
   wm_independent_thinking: content("wm-independent-thinking"),

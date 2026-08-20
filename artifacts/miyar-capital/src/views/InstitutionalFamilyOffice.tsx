@@ -25,6 +25,10 @@ import {
 } from "../data/institutionalfamilyoffice";
 import { useResolvedMedia } from "../hooks/useResolvedMedia";
 import { useLanguage } from "../i18n/LanguageContext";
+import {
+  CONTENT_IMAGES,
+  DETAILS_PG_IMAGE,
+} from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const SOURCE_PAGE = "/asset-management/institutional-family-office";
@@ -45,6 +49,12 @@ export function InstitutionalFamilyOffice() {
   const { lang } = useLanguage();
   const data = INSTITUTIONAL_FAMILY_OFFICE;
   const introImg = useResolvedMedia("content", INTRO_MEDIA_BASENAME);
+  const approachFront =
+    CONTENT_IMAGES.client_ifo ||
+    CONTENT_IMAGES.private_offers ||
+    introImg ||
+    "";
+  const approachBack = DETAILS_PG_IMAGE || approachFront;
 
   const renderSection = (id: IfoSectionId) => {
     switch (id) {
@@ -175,27 +185,54 @@ export function InstitutionalFamilyOffice() {
           </section>
         );
 
-      case "approach":
+      case "approach": {
+        const title = pickLang(
+          data.approach.headingEn,
+          data.approach.headingAr,
+          lang,
+        );
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk blk--cream am-process">
             <div className="wrap">
-              <SectionHead
-                title={pickLang(
-                  data.approach.headingEn,
-                  data.approach.headingAr,
-                  lang,
-                )}
-              />
-              <Steps
-                items={data.approach.steps.map((step) => ({
-                  num: step.num,
-                  title: pickLang(step.titleEn, step.titleAr, lang),
-                  body: pickLang(step.bodyEn, step.bodyAr, lang),
-                }))}
-              />
+              <div className="am-process-layout">
+                <aside className="am-process-aside">
+                  <SectionHead title={title} />
+                  {approachFront ? (
+                    <figure className="arr-services-media am-process-media">
+                      <img
+                        className="arr-services-media-back"
+                        src={approachBack}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                      <div className="arr-services-media-frame">
+                        <img
+                          src={approachFront}
+                          alt={pickLang(
+                            "Institutional and family office approach",
+                            "منهج المكاتب العائلية والمؤسسية",
+                            lang,
+                          )}
+                        />
+                      </div>
+                    </figure>
+                  ) : null}
+                </aside>
+                <div className="am-process-cards">
+                  <Steps
+                    className="am-process-steps"
+                    items={data.approach.steps.map((step) => ({
+                      num: step.num,
+                      title: pickLang(step.titleEn, step.titleAr, lang),
+                      body: pickLang(step.bodyEn, step.bodyAr, lang),
+                    }))}
+                  />
+                </div>
+              </div>
             </div>
           </section>
         );
+      }
 
       case "engagement":
         return (
