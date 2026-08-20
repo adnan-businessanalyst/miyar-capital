@@ -13,6 +13,10 @@ import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { ASSET_MANAGEMENT } from "../data/assetmanagement";
+import {
+  CONTENT_IMAGES,
+  DETAILS_PG_IMAGE,
+} from "../site/contentImages";
 import { pickLang } from "../site/types";
 import { RichText } from "../components/RichText";
 
@@ -21,6 +25,9 @@ export function AssetManagement() {
   const { lang } = useLanguage();
   const withLocale = useLocalePath();
   const data = ASSET_MANAGEMENT;
+  const processFront =
+    CONTENT_IMAGES.service_asset_management || CONTENT_IMAGES.app_bg;
+  const processBack = DETAILS_PG_IMAGE || processFront;
 
   const pillars: PillarCarouselItem[] = data.platform.pillars.map((p) => ({
     num: p.num,
@@ -100,30 +107,55 @@ export function AssetManagement() {
             </div>
           </section>
         );
-      case "objectives":
+      case "objectives": {
+        const title = pickLang(data.process.tagEn, data.process.tagAr, lang);
+        const subtitle = pickLang(
+          data.process.headingEn,
+          data.process.headingAr,
+          lang,
+        );
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk blk--cream am-process">
             <div className="wrap">
-              <SectionHead
-                title={pickLang(data.process.tagEn, data.process.tagAr, lang)}
-                subtitle={pickLang(
-                  data.process.headingEn,
-                  data.process.headingAr,
-                  lang,
-                )}
-              />
-              <Steps
-                items={data.process.steps.map((step) => ({
-                  title: pickLang(step.titleEn, step.titleAr, lang),
-                  body: pickLang(step.bodyEn, step.bodyAr, lang),
-                }))}
-              />
+              <div className="am-process-layout">
+                <aside className="am-process-aside">
+                  <SectionHead title={title} subtitle={subtitle} />
+                  <figure className="arr-services-media am-process-media">
+                    <img
+                      className="arr-services-media-back"
+                      src={processBack}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    <div className="arr-services-media-frame">
+                      <img
+                        src={processFront}
+                        alt={pickLang(
+                          "Asset management investment process",
+                          "عملية الاستثمار في إدارة الأصول",
+                          lang,
+                        )}
+                      />
+                    </div>
+                  </figure>
+                </aside>
+                <div className="am-process-cards">
+                  <Steps
+                    className="am-process-steps"
+                    items={data.process.steps.map((step) => ({
+                      title: pickLang(step.titleEn, step.titleAr, lang),
+                      body: pickLang(step.bodyEn, step.bodyAr, lang),
+                    }))}
+                  />
+                </div>
+              </div>
             </div>
           </section>
         );
+      }
       case "client-solutions":
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk am-client-solutions">
             <div className="wrap">
               <SectionHead
                 title={pickLang(

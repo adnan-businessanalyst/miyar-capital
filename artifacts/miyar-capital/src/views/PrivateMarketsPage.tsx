@@ -11,6 +11,7 @@ import {
   type PrivateMarketsSectionId,
 } from "../data/privatemarkets";
 import { useLanguage } from "../i18n/LanguageContext";
+import { DETAILS_PG_IMAGE } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const SOURCE_PAGE = "/asset-management/private-markets";
@@ -93,7 +94,14 @@ export function PrivateMarketsPage() {
 
       case "capabilities":
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk core-capabilities-section">
+            {DETAILS_PG_IMAGE ? (
+              <div
+                className="core-capabilities-section-bg"
+                style={{ backgroundImage: `url(${DETAILS_PG_IMAGE})` }}
+                aria-hidden="true"
+              />
+            ) : null}
             <div className="wrap">
               <SectionHead
                 title={pickLang(

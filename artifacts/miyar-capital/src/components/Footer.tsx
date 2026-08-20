@@ -125,8 +125,20 @@ export function Footer() {
                   return <a key={key}>{label}</a>;
                 }
                 if (link.href.startsWith("/")) {
+                  const href = withLocale(link.href);
+                  const normalizedPath =
+                    pathname.replace(/\/+$/, "") || "/";
+                  const normalizedHref = href.replace(/\/+$/, "") || "/";
+                  const isActive =
+                    normalizedPath === normalizedHref ||
+                    normalizedPath.startsWith(`${normalizedHref}/`);
                   return (
-                    <Link key={key} href={withLocale(link.href)}>
+                    <Link
+                      key={key}
+                      href={href}
+                      className={isActive ? "is-active" : undefined}
+                      aria-current={isActive ? "page" : undefined}
+                    >
                       {label}
                     </Link>
                   );

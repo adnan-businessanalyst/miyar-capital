@@ -191,7 +191,7 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         bodyEn:
           "PUBLIC AND PRIVATE OFFERINGS<BR>DIRECT LISTING<BR>CAPITAL RAISING",
         bodyAr:
-          "الطروحات العمامه و الخاصة<br>الإدراج المباشر<br>زيادات رأس المال"
+          "الطروحات العامة و الخاصة<br>الإدراج المباشر<br>زيادات رأس المال"
       },
       {
         titleEn: "Sukuk & Debt Instruments Advisory",
@@ -241,7 +241,7 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         bodyEn:
           "Defining the client's goals & needs accoriding to fianncial, organizational, & economic criteria",
         bodyAr:
-          "تحديد أهداف و إحتياجات العميل وفقاً لمعاير مالية و تنظيمية ولإقتصادية",
+          "تحديد أهداف و إحتياجات العميل وفقاً لمعايير مالية و تنظيمية ولإقتصادية",
       },
       {
         num: "02",
@@ -269,7 +269,7 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         bodyEn:
           "Preparing the required documents and presentations and communicating with target audiences to market the project.",
         bodyAr:
-          "إعداد المستندات و العروض المطلوبة و التواصل مع الأطراف المستهدفة لتسويق المسروع",
+          "إعداد المستندات و العروض المطلوبة و التواصل مع الأطراف المستهدفة لتسويق المشروع",
       },
       {
         num: "05",
@@ -341,8 +341,8 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         href: "/investment-banking/capital-markets-advisory",
       },
       {
-        titleEn: "Mergers & Acquisitions",
-        titleAr: "الاندماج والاستحواذ",
+        titleEn: "",
+        titleAr: "أسواق رأس المال",
         bodyEn:
           "Buy-side, sell-side, mergers, divestments and shareholder exits.",
         bodyAr:
@@ -351,7 +351,7 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
       },
       {
         titleEn: "Sukuk & Debt Instruments",
-        titleAr: "ترتيب الدين والتمويل",
+        titleAr: "الصكوك و أدوات الدين",
         bodyEn:
           "",
         bodyAr:
@@ -359,8 +359,8 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         href: "/investment-banking/debt-financing-arrangement",
       },
       {
-        titleEn: "Mergers & Acquisitions",
-        titleAr: "الاندماج والاستحواذ",
+        titleEn: "",
+        titleAr: "الاندماج و الاستحواذ",
         bodyEn:
           "",
         bodyAr:
@@ -368,8 +368,8 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         href: "/investment-banking/valuation-financial-advisory",
       },
       {
-        titleEn: "Arranging Bank Financcing",
-        titleAr: "",
+        titleEn: "",
+        titleAr: "الاستشارات المالية و التقييم",
         bodyEn:
           "Structuring and arranging real-estate and private-market opportunities.",
         bodyAr:

@@ -1,6 +1,9 @@
 /**
  * Arrangement Management page copy (EN + AR).
  * Imported by `views/ArrangementManagement.tsx` — not CMS-managed.
+ *
+ * Service showcase blocks may include RichText markup in AR/EN strings.
+ * English service copy is intentionally blank for manual fill.
  */
 
 export type ArrangementManagementSectionId =
@@ -10,18 +13,39 @@ export type ArrangementManagementSectionId =
   | "detail"
   | "interest";
 
-export type ArrangementServiceIconId =
-  | "business"
-  | "financial"
-  | "debt"
-  | "capital";
+export type ArrangementServiceBlockId =
+  | "capital-markets"
+  | "sukuk-debt"
+  | "ma"
+  | "bank-financing";
 
-export interface ArrangementManagementService {
-  icon: ArrangementServiceIconId;
+export interface ArrangementArrowItem {
+  labelEn: string;
+  labelAr: string;
+  /** Visual tone for the arrow chip */
+  tone: "navy" | "teal" | "black" | "mist" | "slate";
+}
+
+export interface ArrangementSukukRow {
+  num: string;
   titleEn: string;
   titleAr: string;
-  itemsEn: string[];
-  itemsAr: string[];
+  bodyEn: string;
+  bodyAr: string;
+  tone: "mist" | "navy" | "slate";
+}
+
+export interface ArrangementMaCell {
+  labelEn: string;
+  labelAr: string;
+  tone: "navy" | "blue" | "mist" | "slate" | "black" | "charcoal";
+}
+
+export interface ArrangementBankCard {
+  titleEn: string;
+  titleAr: string;
+  bodyEn: string;
+  bodyAr: string;
 }
 
 export interface ArrangementManagementDetailCard {
@@ -52,7 +76,40 @@ export interface ArrangementManagementContent {
   services: {
     headingEn: string;
     headingAr: string;
-    items: ArrangementManagementService[];
+    subtitleEn: string;
+    subtitleAr: string;
+    capitalMarkets: {
+      id: ArrangementServiceBlockId;
+      titleEn: string;
+      titleAr: string;
+      bodyEn: string;
+      bodyAr: string;
+      arrows: ArrangementArrowItem[];
+    };
+    sukukDebt: {
+      id: ArrangementServiceBlockId;
+      titleEn: string;
+      titleAr: string;
+      rows: ArrangementSukukRow[];
+    };
+    ma: {
+      id: ArrangementServiceBlockId;
+      titleEn: string;
+      titleAr: string;
+      subtitleEn: string;
+      subtitleAr: string;
+      cells: ArrangementMaCell[];
+    };
+    bankFinancing: {
+      id: ArrangementServiceBlockId;
+      titleEn: string;
+      titleAr: string;
+      bodyEn: string;
+      bodyAr: string;
+      highlightEn: string;
+      highlightAr: string;
+      cards: ArrangementBankCard[];
+    };
   };
   detail: {
     headingEn: string;
@@ -70,22 +127,6 @@ export interface ArrangementManagementContent {
     cards: ArrangementManagementDetailCard[];
   };
 }
-
-const SHARED_ITEMS_EN = [
-  "IPO Readiness",
-  "Diagnostic Studies",
-  "Economic feasibility studies",
-  "Financial valuation",
-  "Financial due diligence",
-];
-
-const SHARED_ITEMS_AR = [
-  "جاهزية الطرح العام الأولي",
-  "دراسات تشخيصية",
-  "دراسات الجدوى الاقتصادية",
-  "التقييم المالي",
-  "العناية الواجبة المالية",
-];
 
 export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
   sectionOrder: ["hero", "intro", "services", "detail", "interest"],
@@ -113,43 +154,153 @@ export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
   services: {
     headingEn: "Arrangement Management Services",
     headingAr: "خدماتنا",
-    items: [
-      {
-        icon: "business",
-        titleEn: "",
-        titleAr: "أسواق رأس المال",
-        itemsEn: SHARED_ITEMS_EN,
-        itemsAr: SHARED_ITEMS_AR,
-      },
-      {
-        icon: "financial",
-        titleEn: "",
-        titleAr: "الصكوك و أدوات الدين",
-        itemsEn: SHARED_ITEMS_EN,
-        itemsAr: SHARED_ITEMS_AR,
-      },
-      {
-        icon: "debt",
-        titleEn: "",
-        titleAr: "الإندماج و الإستحواذ",
-        itemsEn: SHARED_ITEMS_EN,
-        itemsAr: SHARED_ITEMS_AR,
-      },
-      {
-        icon: "capital",
-        titleEn: "",
-        titleAr: "ترتيب التمويل البنكي",
-        itemsEn: SHARED_ITEMS_EN,
-        itemsAr: SHARED_ITEMS_AR,
-      },
-      {
-        icon: "capital",
-        titleEn: "",
-        titleAr: "الإستشارات المالية و التقييم",
-        itemsEn: SHARED_ITEMS_EN,
-        itemsAr: SHARED_ITEMS_AR,
-      },
-    ],
+    subtitleEn: "",
+    subtitleAr: "المالية",
+
+    capitalMarkets: {
+      id: "capital-markets",
+      titleEn: "",
+      titleAr: "أسواق رأس المال",
+      bodyEn: "",
+      bodyAr:
+        "طرح مُهيكَل يحقق السيولة المستهدفة للمساهمين ويعكس القيمة العادلة للشركة",
+      arrows: [
+        {
+          labelEn: "",
+          labelAr: "ترتيب الطروحات العامة الأولية و الطروحات الخاصة",
+          tone: "navy",
+        },
+        {
+          labelEn: "",
+          labelAr: "الإدراج المباشر",
+          tone: "teal",
+        },
+        {
+          labelEn: "",
+          labelAr: "التنسيق الكامل مع هيئة السوق المالية",
+          tone: "mist",
+        },
+        {
+          labelEn: "",
+          labelAr: "إدارة عمليات زيادة رأس المال",
+          tone: "black",
+        },
+        {
+          labelEn: "",
+          labelAr: "إصدار حقوق الأولوية للمساهمين",
+          tone: "slate",
+        },
+      ],
+    },
+
+    sukukDebt: {
+      id: "sukuk-debt",
+      titleEn: "",
+      titleAr: "الصكوك وأدوات الدين",
+      rows: [
+        {
+          num: "01",
+          titleEn: "",
+          titleAr: "إدارة الإصدار",
+          bodyEn: "",
+          bodyAr: "ترتيب الطروحات العامة الأولية | الطروحات الخاصة",
+          tone: "mist",
+        },
+        {
+          num: "02",
+          titleEn: "",
+          titleAr: "التوافق الشرعي",
+          bodyEn: "",
+          bodyAr:
+            "العمل مع المستشارين لضمان الامتثال الكامل للمتطلبات التنظيمية و الشرعية",
+          tone: "navy",
+        },
+        {
+          num: "03",
+          titleEn: "",
+          titleAr: "الهيكلة",
+          bodyEn: "",
+          bodyAr:
+            "تصميم الهيكل الشرعي والمالي الأنسب للصكوك وفق طبيعة الأصل وأهداف الإصدار",
+          tone: "slate",
+        },
+      ],
+    },
+
+    ma: {
+      id: "ma",
+      titleEn: "",
+      titleAr: "الاندماج و الاستحواذ M&A",
+      subtitleEn: "",
+      subtitleAr: "الاستشارات الاستراتيجية",
+      cells: [
+        {
+          labelEn: "",
+          labelAr: "تحليل وتقييم فرص الاستحواذ والاندماج",
+          tone: "navy",
+        },
+        {
+          labelEn: "",
+          labelAr: "دعم العملاء في تحديد الأهداف الاستراتيجية",
+          tone: "blue",
+        },
+        {
+          labelEn: "",
+          labelAr: "إجراء العناية الواجبة المالية و القانونية",
+          tone: "mist",
+        },
+        {
+          labelEn: "",
+          labelAr: "هيكلة الصفقة بما يحقق كفاءة مالية و قانونية",
+          tone: "slate",
+        },
+        {
+          labelEn: "",
+          labelAr: "إدارة التفاوض وتقريب وجهات النظر بين الأطراف",
+          tone: "black",
+        },
+        {
+          labelEn: "",
+          labelAr: "الإشراف على التوثيق وإغلاق الصفقة",
+          tone: "charcoal",
+        },
+      ],
+    },
+
+    bankFinancing: {
+      id: "bank-financing",
+      titleEn: "",
+      titleAr: "ترتيب التمويل البنكي",
+      bodyEn: "",
+      bodyAr:
+        "تقدم معيار المالية، ضمن خدماتها في المصرفية الاستثمارية، استشارات متخصصة في ترتيب تسهيلات التمويل البنكي وذلك للشركات الساعية لتمويل مشاريعها التوسعية و إعادة هيكلة نماذجها المالية من خلال علاقتنا الممتدة مع المؤسسات التمويلية",
+      highlightEn: "",
+      highlightAr:
+        "نؤمن لعملائنا وصولاً أوسع لمصادر التمويل بشروط أكثر تنافسية",
+      cards: [
+        {
+          titleEn: "",
+          titleAr: "الكفاءة في التنفيذ",
+          bodyEn: "",
+          bodyAr:
+            "إدارة العملية بالكامل لضمان الحصول على التمويل في الإطار الزمني المستهدف",
+        },
+        {
+          titleEn: "",
+          titleAr: "الوصول إلى الممولين",
+          bodyEn: "",
+          bodyAr:
+            "قاعدة واسعة من العلاقات مع البنوك التجارية و الصناديق الاستثمارية والمؤسسات التمويلية",
+        },
+        {
+          titleEn: "",
+          titleAr: "التفاوض",
+          bodyEn: "",
+          bodyAr:
+            "التفاوض على متطلبات تمويلية مثلى: التسعير / جدول السداد / الضمانات",
+        },
+      ],
+    },
   },
 
   detail: {

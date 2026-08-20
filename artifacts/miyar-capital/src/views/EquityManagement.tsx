@@ -14,6 +14,7 @@ import {
   type EquityManagementOfferIconId,
 } from "../data/equitymanagement";
 import { useLanguage } from "../i18n/LanguageContext";
+import { DETAILS_PG_IMAGE } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const OFFER_ICONS: Record<EquityManagementOfferIconId, LucideIcon> = {
@@ -87,7 +88,14 @@ export function EquityManagement() {
         );
       case "capabilities":
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk core-capabilities-section">
+            {DETAILS_PG_IMAGE ? (
+              <div
+                className="core-capabilities-section-bg"
+                style={{ backgroundImage: `url(${DETAILS_PG_IMAGE})` }}
+                aria-hidden="true"
+              />
+            ) : null}
             <div className="wrap">
               <SectionHead
                 title={pickLang(
