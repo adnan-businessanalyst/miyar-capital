@@ -126,7 +126,7 @@ export function InvestmentBanking() {
               <SectionHead
                 title={pickLang(data.advise.tagEn, data.advise.tagAr, lang)}
               />
-              <PrimaryCardGrid columns={2} className="ib-advise-grid">
+              <PrimaryCardGrid columns={3} className="ib-advise-grid">
                 {data.advise.cards.map((card, i) => {
                   const title = pickLang(card.titleEn, card.titleAr, lang);
                   const body = pickLang(card.bodyEn, card.bodyAr, lang);
@@ -161,16 +161,9 @@ export function InvestmentBanking() {
         );
       }
       case "method": {
-        const methodBg = CONTENT_IMAGES.section_bg_our_approach;
+        const methodImg = CONTENT_IMAGES.section_bg_our_approach;
         return (
           <section key={id} className="blk ib-method-section">
-            {methodBg ? (
-              <div
-                className="ib-method-section-bg"
-                style={{ backgroundImage: `url(${methodBg})` }}
-                aria-hidden="true"
-              />
-            ) : null}
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.method.tagEn, data.method.tagAr, lang)}
@@ -180,14 +173,27 @@ export function InvestmentBanking() {
                   lang,
                 )}
               />
-              <Steps
-                className="ib-method-steps"
-                items={data.method.steps.map((step) => ({
-                  num: step.num,
-                  title: pickLang(step.titleEn, step.titleAr, lang),
-                  body: pickLang(step.bodyEn, step.bodyAr, lang),
-                }))}
-              />
+            </div>
+            <div className="ib-method-stage">
+              {methodImg ? (
+                <div
+                  className="ib-method-media"
+                  style={{ backgroundImage: `url(${methodImg})` }}
+                  aria-hidden="true"
+                />
+              ) : null}
+              <div className="wrap ib-method-cards-wrap">
+                <div className="ib-method-cards">
+                  <Steps
+                    className="ib-method-steps"
+                    items={data.method.steps.map((step) => ({
+                      num: step.num,
+                      title: pickLang(step.titleEn, step.titleAr, lang),
+                      body: pickLang(step.bodyEn, step.bodyAr, lang),
+                    }))}
+                  />
+                </div>
+              </div>
             </div>
           </section>
         );
@@ -222,6 +228,7 @@ export function InvestmentBanking() {
                   {data.execute.cards.map((card, i) => (
                     <PrimaryCardSmall
                       key={`${card.titleEn || card.bodyEn}-${i}`}
+                      className="ib-execute-card"
                       title={pickLang(card.titleEn, card.titleAr, lang)}
                       body={pickLang(card.bodyEn, card.bodyAr, lang)}
                     />
@@ -309,7 +316,7 @@ export function InvestmentBanking() {
           lang,
         );
         return (
-          <section key={id} className="blk am-process ib-lifecycle">
+          <section key={id} className="blk ib-lifecycle">
             {servicesFront ? (
               <div
                 className="ib-lifecycle-bg"
@@ -319,9 +326,9 @@ export function InvestmentBanking() {
             ) : null}
             <div className="wrap">
               <SectionHead title={title} subtitle={subtitle} />
-              <div className="am-process-cards ib-lifecycle-cards">
+              <div className="ib-lifecycle-panel">
                 <Steps
-                  className="am-process-steps"
+                  className="ib-lifecycle-steps"
                   items={data.lifecycle.steps.map((step) => ({
                     num: step.num,
                     title: pickLang(step.titleEn, step.titleAr, lang),

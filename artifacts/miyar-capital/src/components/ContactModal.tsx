@@ -16,14 +16,14 @@ import {
   type ReactNode,
 } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
-import { MAN_ON_PHONE_IMG } from "../site/manOnPhone";
+import { GET_IN_TOUCH_IMG } from "../site/getInTouch";
 
 type Props = {
   open: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
-  /** Defaults to man_on_phone. Pass `null` to hide media. */
+  /** Defaults to get-in-touch. Pass `null` to hide media. */
   image?: string | null;
 };
 
@@ -32,7 +32,7 @@ export function ContactModal({
   onClose,
   title,
   children,
-  image = MAN_ON_PHONE_IMG,
+  image = GET_IN_TOUCH_IMG,
 }: Props) {
   const { lang } = useLanguage();
   const dir = lang === "ar" ? "rtl" : "ltr";

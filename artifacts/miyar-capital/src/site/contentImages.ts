@@ -15,6 +15,7 @@ function contentVideo(basename: string): string {
 
 export const CONTENT_IMAGES = {
   man_on_phone: content("man_on_phone"),
+  get_in_touch: content("get-in-touch"),
   man_look_ltr: content("man-look-ltr"),
   man_looking_rtl: content("man-looking-rtl"),
   app_bg: content("app-bg"),
@@ -37,6 +38,7 @@ export const CONTENT_IMAGES = {
   service_asset_management: content("service-asset-management"),
   service_investment_banking: content("service-investment-banking"),
   section_bg_our_approach: content("section-bg-our-approach"),
+  client_solutions_section: content("client-solutions-section"),
   wm_independent_thinking: content("wm-independent-thinking"),
   wm_long_term_partnership: content("wm-long-term-partnership"),
   wm_tailored_strategies: content("wm-tailored-strategies"),

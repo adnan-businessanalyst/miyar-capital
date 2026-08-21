@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body dir="rtl">
         <SiteChrome>{children}</SiteChrome>
         {siteKey ? (
           <Script

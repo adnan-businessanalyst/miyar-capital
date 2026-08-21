@@ -115,7 +115,7 @@ export function AssetManagement() {
           lang,
         );
         return (
-          <section key={id} className="blk blk--cream am-process am-process-light">
+          <section key={id} className="blk am-inv-process">
             <div className="wrap">
               <div className="am-process-layout">
                 <aside className="am-process-aside">
@@ -139,9 +139,9 @@ export function AssetManagement() {
                     </div>
                   </figure>
                 </aside>
-                <div className="am-process-cards">
+                <div className="am-process-cards am-inv-process-panel">
                   <Steps
-                    className="am-process-steps"
+                    className="am-inv-process-steps"
                     items={data.process.steps.map((step) => ({
                       title: pickLang(step.titleEn, step.titleAr, lang),
                       body: pickLang(step.bodyEn, step.bodyAr, lang),
@@ -169,15 +169,28 @@ export function AssetManagement() {
                   lang,
                 )}
               />
-              <PrimaryCardClickableGrid
-                items={data.clientSolutions.items.map((item) => ({
-                  id: item.id,
-                  badge: item.num,
-                  title: pickLang(item.titleEn, item.titleAr, lang),
-                  body: pickLang(item.bodyEn, item.bodyAr, lang),
-                  href: item.href,
-                }))}
+            </div>
+            <div className="am-client-solutions-stage">
+              <img
+                className="am-client-solutions-media"
+                src={
+                  CONTENT_IMAGES.client_solutions_section ||
+                  "/media/content/client-solutions-section.jpg"
+                }
+                alt=""
+                aria-hidden="true"
               />
+              <div className="wrap am-client-solutions-cards-wrap">
+                <PrimaryCardClickableGrid
+                  items={data.clientSolutions.items.map((item) => ({
+                    id: item.id,
+                    badge: item.num,
+                    title: pickLang(item.titleEn, item.titleAr, lang),
+                    body: pickLang(item.bodyEn, item.bodyAr, lang),
+                    href: item.href,
+                  }))}
+                />
+              </div>
             </div>
           </section>
         );
