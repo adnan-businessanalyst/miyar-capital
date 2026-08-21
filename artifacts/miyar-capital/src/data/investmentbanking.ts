@@ -332,43 +332,43 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
     viewServiceAr: "عرض الخدمة ←",
     items: [
       {
-        titleEn: "Capital Markets",
+        titleEn: "Capital Market Advisory",
         titleAr: "استشارات أسواق المال",
         bodyEn:
-          "A structured offering that achieves targeted liquidity for shareholders and reflects the fail value of the company",
+          "IPO an dNomu readiness, rights issues, capital increases and private placements.",
         bodyAr:
           "جاهزية الطرح العام ونمو، وإصدارات حقوق الأولوية، وزيادة رأس المال، والطرح الخاص.",
         href: "/investment-banking/capital-markets-advisory",
       },
       {
-        titleEn: "",
+        titleEn: "Mergers & Acquisitions",
         titleAr: "أسواق رأس المال",
         bodyEn:
-          "Buy-side, sell-side, mergers, divestments and shareholder exits.",
+          "Bu-yside, sell-side, mergers, divestments and shareholder exits.",
         bodyAr:
           "جانب الشراء وجانب البيع والاندماجات والتخارج وخروج المساهمين.",
         href: "/investment-banking/mergers-acquisitions",
       },
       {
-        titleEn: "Sukuk & Debt Instruments",
+        titleEn: "Debt & Financing Arrangement",
         titleAr: "الصكوك و أدوات الدين",
         bodyEn:
-          "",
+          "Financing strategy, Sukuk and private credit structuring, refinancing and restructuring.",
         bodyAr:
           "استراتيجية التمويل وهيكلة الصكوك والتمويل الخاص وإعادة التمويل وإعادة الهيكلة.",
         href: "/investment-banking/debt-financing-arrangement",
       },
       {
-        titleEn: "",
+        titleEn: "Valuation & Financial Advisory",
         titleAr: "الاندماج و الاستحواذ",
         bodyEn:
-          "",
+          "Valuation, feasibility, modeling and due diligence support.",
         bodyAr:
           "التقييم والجدوى والنمذجة ودعم العناية الواجبة.",
         href: "/investment-banking/valuation-financial-advisory",
       },
       {
-        titleEn: "",
+        titleEn: "Real Estate & Private Arrangements",
         titleAr: "الاستشارات المالية و التقييم",
         bodyEn:
           "Structuring and arranging real-estate and private-market opportunities.",

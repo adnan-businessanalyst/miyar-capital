@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { LazyVideo } from "../components/LazyVideo";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
@@ -23,6 +24,19 @@ export function InvestmentAdvisory() {
   const hasBg = Boolean(bgVideo || bgImage);
   const servicesFront = IA_INTRO_IMAGE || IA_PROCESS_IMAGES[1];
   const servicesBack = DETAILS_PG_IMAGE || servicesFront;
+  const servicesSectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = servicesSectionRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const sync = () => {
+      el.style.setProperty("--ia-sec-h", `${el.getBoundingClientRect().height}px`);
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
@@ -105,88 +119,61 @@ export function InvestmentAdvisory() {
         const svc = data.services;
         const heading = pickLang(svc.headingEn, svc.headingAr, lang);
         const topic = pickLang(svc.topicEn, svc.topicAr, lang);
-        const body = pickLang(svc.bodyEn, svc.bodyAr, lang);
-        const highlight = pickLang(svc.highlightEn, svc.highlightAr, lang);
         return (
           <section
             key={id}
-            className="blk arr-services ia-services"
-            style={{ background: "#fff", backgroundColor: "#fff" }}
+            ref={servicesSectionRef}
+            className="blk ia-services ia-valuate-section"
           >
             <div className="wrap">
-              <div className="arr-services-layout">
-                <aside className="arr-services-right">
-                  {heading.trim() ? <SectionHead title={heading} /> : null}
-                  <figure className="arr-services-media">
-                    <img
-                      className="arr-services-media-back"
-                      src={servicesBack}
-                      alt=""
-                      aria-hidden="true"
-                    />
-                    <div className="arr-services-media-frame">
-                      <img
-                        src={servicesFront}
-                        alt={pickLang(
-                          "Investment advisory services",
-                          "خدمات الاستشارات الاستثمارية",
-                          lang,
-                        )}
-                      />
-                    </div>
-                  </figure>
-                </aside>
-
-                <div className="arr-services-left ia-services-left">
-                  {topic.trim() ? (
-                    <h3 className="arr-svc-title ia-services-left-title">
-                      <RichText html={topic} />
-                    </h3>
-                  ) : null}
-                  {(body.trim() || highlight.trim()) && (
-                    <div className="ia-services-intro">
-                      {body.trim() ? (
-                        <RichText
-                          as="p"
-                          className="ia-services-body"
-                          html={body}
-                        />
-                      ) : null}
-                      {highlight.trim() ? (
-                        <RichText
-                          as="p"
-                          className="ia-services-highlight"
-                          html={highlight}
-                        />
-                      ) : null}
-                    </div>
+              {heading.trim() ? <SectionHead title={heading} /> : null}
+              {topic.trim() ? (
+                <h3 className="ia-valuate-title">
+                  <RichText html={topic} />
+                </h3>
+              ) : null}
+            </div>
+            <figure className="ia-valuate-media">
+              <img
+                className="ia-valuate-media-back"
+                src={servicesBack}
+                alt=""
+                aria-hidden="true"
+              />
+              <div className="ia-valuate-media-front">
+                <img
+                  src={servicesFront}
+                  alt={pickLang(
+                    "Investment advisory services",
+                    "خدمات الاستشارات الاستثمارية",
+                    lang,
                   )}
-                  <div className="arr-bank-cards ia-svc-cards">
-                    {svc.cards.map((card, i) => {
-                      const title = pickLang(card.titleEn, card.titleAr, lang);
-                      const cardBody = pickLang(card.bodyEn, card.bodyAr, lang);
-                      if (!title.trim() && !cardBody.trim()) return null;
-                      return (
-                        <article
-                          className="arr-bank-card ia-svc-card"
-                          key={`${card.titleAr}-${i}`}
-                        >
-                          {title.trim() ? (
-                            <h4 className="ia-svc-card-title">
-                              <RichText html={title} />
-                            </h4>
-                          ) : null}
-                          {cardBody.trim() ? (
-                            <RichText
-                              as="p"
-                              className="ia-svc-card-body"
-                              html={cardBody}
-                            />
-                          ) : null}
-                        </article>
-                      );
-                    })}
-                  </div>
+                />
+              </div>
+            </figure>
+            <div className="wrap">
+              <div className="ia-valuate">
+                <div className="ia-valuate-grid">
+                  {svc.cards.map((card, i) => {
+                    const title = pickLang(card.titleEn, card.titleAr, lang);
+                    const cardBody = pickLang(card.bodyEn, card.bodyAr, lang);
+                    if (!title.trim() && !cardBody.trim()) return null;
+                    return (
+                      <article
+                        className="ia-valuate-card"
+                        key={`${card.titleEn || card.titleAr}-${i}`}
+                      >
+                        <div className="ia-valuate-card-head">
+                          <h4>
+                            <RichText html={title} />
+                          </h4>
+                        </div>
+                        <div className="ia-valuate-card-body">
+                          <RichText as="p" html={cardBody} />
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
               </div>
             </div>

@@ -115,36 +115,38 @@ export const INVESTMENT_ADVISORY: InvestmentAdvisoryContent = {
   ],
 
   services: {
-    headingEn: "",
+    headingEn: "Our Services",
     headingAr: "خدماتنا",
-    topicEn: "",
-    topicAr: "ترتيب التمويل البنكي",
+    topicEn: "Financial Consulting & Valuation",
+    topicAr: "الاستشارات المالية والتقييم",
     bodyEn: "",
-    bodyAr:
-      "تقدم معيار المالية، ضمن خدماتها في المصرفية الاستثمارية، استشارات متخصصة في ترتيب تسهيلات التمويل البنكي و ذلك للشركات الساعية لتمويل مشاريعها التوسعية و إعادة هيكلة نماذجها المالية من خلال علاقتنا الممتدة مع المؤسسات التمويلية",
+    bodyAr: "",
     highlightEn: "",
-    highlightAr: "نؤمّن لعملائنا وصولاً أوسع لمصادر التمويل بشروط أكثر تنافسية",
+    highlightAr: "",
     cards: [
       {
-        titleEn: "",
-        titleAr: "الكفاءة في التنفيذ",
-        bodyEn: "",
+        titleEn: "Financial Planning",
+        titleAr: "التخطيط المالي",
+        bodyEn:
+          "We work on identifying future financial objectives and building a comprehensive financial plan covering the short, medium, and long term, through an in-depth study of the current financial position and available capabilities, and an analysis of risks and investment opportunities, with the aim of achieving our clients' aspirations",
         bodyAr:
-          "إدارة العملية بالكامل لضمان الحصول على التمويل في الإطار الزمني المستهدف",
+          "نعمل على تحديد الأهداف المالية المستقبلية، وبناء خطة مالية متكاملة تغطي المدى القصير والمتوسط والبعيد، من خلال دراسة معمقة للوضع المالي الحالي والإمكانيات المتاحة، وتحليل المخاطر والفرص الاستثمارية، بهدف تحقيق طموحات العملاء",
       },
       {
-        titleEn: "",
-        titleAr: "الوصول إلى الممولين",
-        bodyEn: "",
+        titleEn: "Financial Restructuring",
+        titleAr: "اعادة الهيكلة المالية",
+        bodyEn:
+          "We work on restructuring our clients' financial positions in alignment with their strategic objectives, through an in-depth analysis and study of their current financial and operational status, identifying strengths and weaknesses, and diagnosing the financial and operational challenges affecting the continuity of their business, in order to design innovative and sustainable financial solutions that enable clients to overcome financial crises, maintain business continuity, and strengthen their competitive position",
         bodyAr:
-          "قاعدة واسعة من العلاقات مع البنوك التجارية و الصناديق الاستثمارية والمؤسسات التمويلية",
+          "نعمل على إعادة هيكلة الأوضاع المالية للعملاء بما يتوافق مع أهدافهم الاستراتيجية، وذلك من خلال تحليل ودراسة معمقة للوضع المالي والتشغيلي الحالي، وتحديد مكامن القوة والضعف، وتشخيص التحديات المالية والتشغيلية التي تواجه استمرارية أعمالهم، وصولاً إلى تصميم حلول مالية مبتكرة ومستدامة تمكن العملاء من تجاوز الأزمات المالية، والحفاظ على استمرارية أعمالهم، وتعزيز مركزهم التنافسي",
       },
       {
-        titleEn: "",
-        titleAr: "التفاوض",
-        bodyEn: "",
+        titleEn: "Financial Valuation",
+        titleAr: "التقييم المالي",
+        bodyEn:
+          "We provide financial valuation services in accordance with the best professional standards and practices, through a comprehensive analysis of the financial and operational position of enterprises, and a study of the relevant economic and market factors, with the aim of determining the fair value of assets and businesses in a manner that supports our clients' investment, financing, and strategic decision-making",
         bodyAr:
-          "التفاوض على متطلبات تمويلية مثلى: التسعير / جدول السداد / الضمانات",
+          "نقدم خدمات التقييم المالي وفق أفضل المعايير والممارسات المهنية، من خلال تحليل شامل للوضع المالي والتشغيلي للمنشآت، ودراسة العوامل الاقتصادية والسوقية ذات الصلة، بهدف تحديد القيمة العادلة للأصول والأعمال بما يدعم اتخاذ القرارات الاستثمارية والتمويلية والاستراتيجية للعملاء",
       },
     ],
   },

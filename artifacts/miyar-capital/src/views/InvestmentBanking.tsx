@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import {
   Building2,
   Calculator,
@@ -67,6 +68,19 @@ export function InvestmentBanking() {
   const servicesFront =
     CONTENT_IMAGES.service_investment_banking || CONTENT_IMAGES.app_bg;
   const servicesBack = DETAILS_PG_IMAGE || servicesFront;
+  const servicesSectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = servicesSectionRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const sync = () => {
+      el.style.setProperty("--ia-sec-h", `${el.getBoundingClientRect().height}px`);
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
@@ -245,59 +259,66 @@ export function InvestmentBanking() {
           data.products.tagAr,
           lang,
         );
+        const subtitle = pickLang(
+          data.products.headingEn,
+          data.products.headingAr,
+          lang,
+        );
         return (
           <section
             key={id}
-            className="blk arr-services ib-services"
-            style={{ background: "#fff", backgroundColor: "#fff" }}
+            ref={servicesSectionRef}
+            className="blk ib-services ib-services-duo"
           >
             <div className="wrap">
-              <div className="arr-services-layout">
-                <aside className="arr-services-right">
-                  {heading.trim() ? <SectionHead title={heading} /> : null}
-                  <figure className="arr-services-media">
-                    <img
-                      className="arr-services-media-back"
-                      src={servicesBack}
-                      alt=""
-                      aria-hidden="true"
-                    />
-                    <div className="arr-services-media-frame">
-                      <img
-                        src={servicesFront}
-                        alt={pickLang(
-                          "Investment banking services",
-                          "خدمات الخدمات المصرفية الاستثمارية",
-                          lang,
-                        )}
-                      />
-                    </div>
-                  </figure>
-                </aside>
-
-                <div className="arr-services-left ib-services-left">
-                  <div className="arr-bank-cards ib-svc-cards">
-                    {data.products.items.map((item, i) => {
-                      const title = pickLang(item.titleEn, item.titleAr, lang);
-                      const body = pickLang(item.bodyEn, item.bodyAr, lang);
-                      if (!title.trim() && !body.trim()) return null;
-                      return (
-                        <article
-                          className="arr-bank-card ib-svc-card"
-                          key={`${item.href}-${i}`}
-                        >
-                          {title.trim() ? (
-                            <h4>
-                              <RichText html={title} />
-                            </h4>
-                          ) : null}
-                          {body.trim() ? (
-                            <RichText as="p" html={body} />
-                          ) : null}
-                        </article>
-                      );
-                    })}
-                  </div>
+              {heading.trim() ? <SectionHead title={heading} /> : null}
+              {subtitle.trim() ? (
+                <h3 className="ib-services-duo-title">
+                  <RichText html={subtitle} />
+                </h3>
+              ) : null}
+            </div>
+            <figure className="ib-services-media">
+              <img
+                className="ib-services-media-back"
+                src={servicesBack}
+                alt=""
+                aria-hidden="true"
+              />
+              <div className="ib-services-media-front">
+                <img
+                  src={servicesFront}
+                  alt={pickLang(
+                    "Investment banking services",
+                    "خدمات المصرفية الاستثمارية",
+                    lang,
+                  )}
+                />
+              </div>
+            </figure>
+            <div className="wrap">
+              <div className="ib-services-cards-wrap">
+                <div className="arr-bank-cards ib-svc-cards">
+                  {data.products.items.map((item, i) => {
+                    const title = pickLang(item.titleEn, item.titleAr, lang);
+                    const body = pickLang(item.bodyEn, item.bodyAr, lang);
+                    if (!title.trim() && !body.trim()) return null;
+                    return (
+                      <article
+                        className="arr-bank-card ib-svc-card"
+                        key={`${item.href}-${i}`}
+                      >
+                        {title.trim() ? (
+                          <h4>
+                            <RichText html={title} />
+                          </h4>
+                        ) : null}
+                        {body.trim() ? (
+                          <RichText as="p" html={body} />
+                        ) : null}
+                      </article>
+                    );
+                  })}
                 </div>
               </div>
             </div>
