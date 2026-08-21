@@ -131,6 +131,12 @@
       },
       "image": "/media/content/ra-intro.webp"
     },
+    "section-bg-our-approach": {
+      "files": {
+        ".jpg": "/media/content/section-bg-our-approach.jpg"
+      },
+      "image": "/media/content/section-bg-our-approach.jpg"
+    },
     "service-asset-management": {
       "files": {
         ".webp": "/media/content/service-asset-management.webp"
