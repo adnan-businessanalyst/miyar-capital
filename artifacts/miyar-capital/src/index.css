@@ -56,6 +56,84 @@
   font-display: swap;
 }
 
+/* English type — Metropolis */
+@font-face {
+  font-family: "Metropolis";
+  src:
+    local("Metropolis Light"),
+    local("Metropolis-Light"),
+    url("/fonts/metropolis/Metropolis-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src:
+    local("Metropolis Regular"),
+    local("Metropolis-Regular"),
+    url("/fonts/metropolis/Metropolis-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src:
+    local("Metropolis Regular Italic"),
+    local("Metropolis-RegularItalic"),
+    url("/fonts/metropolis/Metropolis-RegularItalic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src:
+    local("Metropolis Medium"),
+    local("Metropolis-Medium"),
+    url("/fonts/metropolis/Metropolis-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src:
+    local("Metropolis SemiBold"),
+    local("Metropolis-SemiBold"),
+    url("/fonts/metropolis/Metropolis-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src:
+    local("Metropolis Bold"),
+    local("Metropolis-Bold"),
+    url("/fonts/metropolis/Metropolis-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Metropolis";
+  src:
+    local("Metropolis Bold Italic"),
+    local("Metropolis-BoldItalic"),
+    url("/fonts/metropolis/Metropolis-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   /* Brand Guidelines V01 — Navy #0C476E · Slate Teal #446C77 · Grey #898989 · white base */
   --navy: #0c476e;
@@ -69,8 +147,9 @@
   --muted: #5a6571;
   --line: rgba(12, 71, 110, 0.12);
   --line-gold: rgba(12, 71, 110, 0.3);
-  --serif: "Montserrat", "GE SS Two", "IBM Plex Sans Arabic", sans-serif;
-  --sans: "Inter", "GE SS Two", "IBM Plex Sans Arabic", sans-serif;
+  /* EN: Metropolis · AR: GE SS Two */
+  --serif: "Metropolis", "GE SS Two", sans-serif;
+  --sans: "Metropolis", "GE SS Two", sans-serif;
   --ar: "GE SS Two", "IBM Plex Sans Arabic", "Noto Kufi Arabic", sans-serif;
 
   /*
