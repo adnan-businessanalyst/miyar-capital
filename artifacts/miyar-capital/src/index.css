@@ -667,8 +667,8 @@ a {
 .topbar {
   position: relative;
   z-index: 55;
-  background: var(--navy-deep);
-  color: #cdd8e2;
+  background: #e8eaec;
+  color: var(--navy);
   font-size: 0.625rem;
   letter-spacing: 0.04em;
   transition: background 0.35s ease;
@@ -755,8 +755,8 @@ header {
   position: sticky;
   top: 0;
   z-index: 60;
-  background: rgba(232, 235, 238, 0.96);
-  backdrop-filter: blur(12px);
+  background: #e8eaec;
+  backdrop-filter: none;
   border-bottom: 1px solid var(--line);
   transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease, box-shadow 0.35s ease;
 }
@@ -1256,8 +1256,8 @@ header .mm-lang .lang-globe-icon {
 
 /* When the drawer is open, keep the bar solid and readable. */
 header.nav-open {
-  background: rgba(252, 250, 245, 0.98) !important;
-  backdrop-filter: blur(12px) !important;
+  background: #e8eaec !important;
+  backdrop-filter: none !important;
   border-bottom-color: var(--line) !important;
 }
 
@@ -4069,12 +4069,12 @@ section.blk.ib-advise {
     0 1px 2px rgba(6, 35, 56, 0.25);
 }
 
-/* Desktop Arrangement & Advisory — own skewed cards (independent of shared PCS) */
+/* Desktop Arrangement & Advisory — stacked equal-width skewed cards */
 .ib-execute-stage {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   gap: clamp(0.85rem, 1.6vw, 1.6rem);
   margin-top: clamp(1.75rem, 2.8vw, 2.75rem);
@@ -4083,34 +4083,35 @@ section.blk.ib-advise {
 
 .ib-execute-cards.primary-card-grid {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: stretch;
   margin-top: 0;
-  gap: clamp(0.7rem, 1.15vw, 1.1rem);
+  gap: clamp(0.55rem, 0.9vw, 0.85rem);
   flex: 0 0 auto;
-  width: auto;
-  max-width: none;
+  /* Desktop: another 20% narrower (60% → 48%), centered */
+  width: 48%;
+  max-width: 48%;
   min-width: 0;
 }
 
 .ib-execute-card.primary-card.primary-card-small {
   --ib-exec-skew: -8deg;
   --ib-exec-unskew: 8deg;
-  --ib-exec-border-gap: 22%;
-  --ib-exec-border-color: #5a5f66;
+  --ib-exec-border-gap: 18%;
+  --ib-exec-border-color: #fff;
   --pcs-skew: var(--ib-exec-skew);
   --pcs-unskew: var(--ib-exec-unskew);
   --pc-radius: 0;
-  --pc-pad-y: clamp(0.65rem, 0.55rem + 0.5vw, 0.9rem);
-  --pc-pad-x: clamp(0.55rem, 0.5rem + 0.4vw, 0.85rem);
-  flex: 0 0 clamp(10rem, 13.5vw, 12.75rem);
-  width: clamp(10rem, 13.5vw, 12.75rem);
-  max-width: none;
-  min-height: 0;
+  --pc-pad-y: clamp(0.75rem, 0.6rem + 0.55vw, 1.05rem);
+  --pc-pad-x: clamp(0.65rem, 0.5rem + 0.6vw, 1.1rem);
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 100%;
+  min-height: clamp(3.75rem, 4.5vw, 4.75rem);
   height: auto;
-  aspect-ratio: 1 / 1.08;
+  aspect-ratio: auto;
   box-sizing: border-box;
   justify-content: center;
   align-items: center;
@@ -4125,48 +4126,51 @@ section.blk.ib-advise {
   box-shadow: none;
 }
 
-/* Side borders — same height; right short from top, left short from bottom */
+/* Side borders — nearly full height with one end notched */
 .ib-execute-card.primary-card.primary-card-small::before,
 .ib-execute-card.primary-card.primary-card-small::after {
   content: "";
   position: absolute;
   z-index: 2;
-  width: 3px;
+  width: 5px;
   background: var(--ib-exec-border-color);
   pointer-events: none;
 }
 
+/* Arabic (default / RTL): left short from bottom; right short from top */
 .ib-execute-card.primary-card.primary-card-small::before {
   left: 0;
   top: 0;
-  bottom: var(--ib-exec-border-gap); /* short from bottom */
+  bottom: var(--ib-exec-border-gap);
 }
 
 .ib-execute-card.primary-card.primary-card-small::after {
   right: 0;
-  top: var(--ib-exec-border-gap); /* short from top */
+  top: var(--ib-exec-border-gap);
   bottom: 0;
 }
 
-.ib-execute-cards .ib-execute-card.primary-card.primary-card-small:first-child {
-  --ib-exec-border-color: #fff; /* white */
+/* English (LTR): left short from top; right short from bottom */
+:dir(ltr) .ib-execute-card.primary-card.primary-card-small::before {
+  top: var(--ib-exec-border-gap);
+  bottom: 0;
 }
 
-.ib-execute-cards .ib-execute-card.primary-card.primary-card-small:nth-child(2) {
-  --ib-exec-border-color: #c5c9ce; /* light gray */
+:dir(ltr) .ib-execute-card.primary-card.primary-card-small::after {
+  top: 0;
+  bottom: var(--ib-exec-border-gap);
 }
 
+.ib-execute-cards .ib-execute-card.primary-card.primary-card-small:first-child,
+.ib-execute-cards .ib-execute-card.primary-card.primary-card-small:nth-child(2),
 .ib-execute-cards .ib-execute-card.primary-card.primary-card-small:last-child {
-  --ib-exec-border-color: #8a9098; /* medium gray */
+  --ib-exec-border-color: #fff;
 }
 
-/* English — reverse first/last border colors */
-:dir(ltr) .ib-execute-cards .ib-execute-card.primary-card.primary-card-small:first-child {
-  --ib-exec-border-color: #8a9098; /* medium gray */
-}
-
+/* English — keep borders white (no per-card color swap) */
+:dir(ltr) .ib-execute-cards .ib-execute-card.primary-card.primary-card-small:first-child,
 :dir(ltr) .ib-execute-cards .ib-execute-card.primary-card.primary-card-small:last-child {
-  --ib-exec-border-color: #fff; /* white */
+  --ib-exec-border-color: #fff;
 }
 
 :dir(rtl) .ib-execute-card.primary-card.primary-card-small {
@@ -4203,7 +4207,8 @@ section.blk.ib-advise {
   font-weight: 400;
   line-height: 1.45;
   color: #fff;
-  text-wrap: balance;
+  text-wrap: nowrap;
+  white-space: nowrap;
   text-align: center;
   transform: skewX(var(--ib-exec-unskew));
   transform-origin: center center;
@@ -4211,13 +4216,6 @@ section.blk.ib-advise {
 
 .ib-execute-card .primary-card-small-title + .primary-card-small-body {
   margin-top: 0.55rem;
-}
-
-@media (max-width: 1100px) and (min-width: 901px) {
-  .ib-execute-card.primary-card.primary-card-small {
-    flex: 0 0 clamp(8.5rem, 12vw, 11rem);
-    width: clamp(8.5rem, 12vw, 11rem);
-  }
 }
 
 /*
@@ -4267,6 +4265,8 @@ section.blk.ib-advise {
 
   .ib-execute-card .primary-card-small-body {
     font-size: clamp(0.78rem, 0.7rem + 0.45vw, 0.95rem);
+    white-space: normal;
+    text-wrap: balance;
   }
 }
 
@@ -5903,7 +5903,7 @@ body[dir="rtl"] .tplnote {
 
 /* Page-level compliance bands (product / private markets) */
 .disclaimer {
-  background: var(--section-bg-soft);
+  background: #e8eaec;
   border-top: 1px solid var(--line);
   padding: 30px 0;
 }
@@ -5920,7 +5920,7 @@ body[dir="rtl"] .tplnote {
   font-weight: 600;
 }
 
-/* Site-wide regulatory disclaimer inside footer — pops out from dark band */
+/* Site-wide regulatory disclaimer inside footer */
 .site-footer .disclaimer,
 .site-footer-disclaimer {
   position: relative;
@@ -5931,14 +5931,7 @@ body[dir="rtl"] .tplnote {
   background: #e8eaec;
   border: 1.5px solid #08263d;
   border-radius: clamp(0.65rem, 0.55rem + 0.3vw, 0.85rem);
-  box-shadow:
-    0 14px 32px rgba(4, 20, 36, 0.35),
-    0 4px 12px rgba(4, 20, 36, 0.22),
-    inset 2px 2px 0 rgba(255, 255, 255, 0.9),
-    inset 3px 3px 6px rgba(255, 255, 255, 0.35),
-    inset -2px -2px 0 rgba(8, 38, 61, 0.28),
-    inset -3px -3px 8px rgba(8, 38, 61, 0.12),
-    inset 0 0 0 1px rgba(8, 38, 61, 0.2);
+  box-shadow: 0 8px 20px rgba(4, 20, 36, 0.22);
 }
 
 .site-footer .disclaimer p,
@@ -8526,9 +8519,9 @@ body[dir="rtl"] .reg-form textarea {
   box-sizing: border-box;
   background: linear-gradient(
     135deg,
-    rgba(26, 106, 154, 0.5) 0%,
-    rgba(12, 71, 110, 0.68) 50%,
-    rgba(6, 31, 51, 0.82) 100%
+    rgba(26, 106, 154, 0.7) 0%,
+    rgba(12, 71, 110, 0.9) 50%,
+    rgba(6, 31, 51, 0.95) 100%
   );
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -8572,6 +8565,316 @@ body[dir="rtl"] .reg-form textarea {
 }
 
 /* ===== INVESTMENT ADVISORY — Our Services (خدماتنا) ===== */
+/* IB خدماتنا reuses the same edge-stack media rules via .ib-services-* */
+.ia-valuate-section,
+.ib-services-duo {
+  --ia-sec-h: 40rem;
+  position: relative;
+  background: #f4f6f8;
+  overflow: visible;
+}
+
+.ia-valuate-section::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: min(55%, 22rem);
+  pointer-events: none;
+  opacity: 0.45;
+  background:
+    radial-gradient(ellipse 80% 60% at 85% 0%, rgba(12, 71, 110, 0.08), transparent 70%),
+    repeating-linear-gradient(
+      -12deg,
+      transparent 0 18px,
+      rgba(12, 71, 110, 0.045) 18px 19px
+    );
+}
+
+.ia-valuate-section > .wrap,
+.ib-services-duo > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.ia-valuate {
+  margin-top: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+}
+
+.ia-valuate-title,
+.ib-services-duo-title {
+  margin: 0.35rem 0 0;
+  font-family: var(--sans);
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.3;
+  text-align: start;
+}
+
+.ib-services-cards-wrap {
+  margin-top: clamp(1.75rem, 1.2rem + 1.8vw, 2.75rem);
+}
+
+/*
+ * Double images — dedicated classes (not shared arr-services-media).
+ * Desktop: back = 60vw, 40% section height (capped), bottoms flush,
+ * flush to screen start (right AR / left EN); LTR mirrors back;
+ * front same width, inset 10% toward page center.
+ */
+.ia-valuate-media,
+.ib-services-media {
+  --ia-front-inset: 12%;
+  --ia-back-h: 72%;
+  position: relative;
+  z-index: 1;
+  width: min(78vw, 22rem);
+  max-width: 100%;
+  margin-block-start: clamp(3.5rem, 2.5rem + 4vw, 5.5rem);
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ia-valuate-media-back,
+.ib-services-media-back {
+  position: absolute;
+  z-index: 0;
+  inset-inline-start: 0;
+  bottom: 0;
+  top: auto;
+  width: 100%;
+  height: var(--ia-back-h);
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  display: block;
+}
+
+.ia-valuate-media-front,
+.ib-services-media-front {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - var(--ia-front-inset));
+  margin-inline-start: var(--ia-front-inset);
+  margin-inline-end: 0;
+  min-height: clamp(14rem, 36vh, 22rem);
+  height: auto;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #f4f5f6;
+}
+
+.ia-valuate-media-front img,
+.ib-services-media-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+html[dir="ltr"] .ia-valuate-media-back,
+body[dir="ltr"] .ia-valuate-media-back,
+html[dir="ltr"] .ib-services-media-back,
+body[dir="ltr"] .ib-services-media-back {
+  transform: scaleX(-1);
+}
+
+/* IA desktop — section-relative stack */
+@media (min-width: 901px) {
+  .ia-valuate-media {
+    --ia-front-inset: 10%;
+    --ia-back-h: min(calc(var(--ia-sec-h) * 0.4), 55vh);
+    width: 60vw;
+    max-width: 60vw;
+  }
+
+  .ia-valuate-media-back {
+    width: 60vw;
+    max-width: 60vw;
+    height: var(--ia-back-h);
+    max-height: var(--ia-back-h);
+    bottom: 0;
+    top: auto;
+  }
+
+  .ia-valuate-media-front {
+    width: 60vw;
+    max-width: 60vw;
+    margin-inline-start: var(--ia-front-inset);
+    aspect-ratio: auto;
+    height: calc(var(--ia-back-h) * 0.88);
+    min-height: calc(var(--ia-back-h) * 0.88);
+  }
+}
+
+/* IB خدماتنا — media pinned to section bottom; front flush; cards overlay */
+@media (min-width: 901px) {
+  section.blk.ib-services-duo {
+    /* Title higher; image stack position unchanged (absolute top) */
+    padding-top: clamp(3.75rem, 3rem + 1.5vw, 4.75rem);
+    /* Grow below the stack only — title spacing unchanged */
+    padding-bottom: clamp(10rem, 8rem + 5vw, 14rem);
+    min-height: clamp(60rem, 105vh, 78rem);
+  }
+
+  .ib-services-duo {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: start;
+  }
+
+  .ib-services-duo > .wrap:first-child {
+    grid-row: 1;
+    grid-column: 1;
+    position: relative;
+    z-index: 5;
+    /* Gap between title band and top of the image stack */
+    padding-bottom: clamp(4.5rem, 3.25rem + 3vw, 6.5rem);
+  }
+
+  .ib-services-duo > .wrap:first-child .sec-head {
+    margin-bottom: clamp(3.5rem, 2.5rem + 2.5vw, 5.5rem);
+  }
+
+  .ib-services-duo > .ib-services-media {
+    position: absolute;
+    z-index: 0;
+    inset-inline-start: 0;
+    /* Flush with the section’s bottom edge (padding box) */
+    bottom: 0;
+    /*
+      Start well below the title so the back’s 120% peek
+      cannot eat the white space under خدماتنا / OUR SERVICES.
+    */
+    top: clamp(18rem, 15rem + 6vw, 24rem);
+    width: 60vw;
+    max-width: 60vw;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    --ia-front-inset: 10%;
+  }
+
+  .ib-services-duo .ib-services-media-back {
+    /* 20% taller than the media box; bottom flush so extra height peeks above */
+    top: auto !important;
+    bottom: 0 !important;
+    inset-inline-start: 0;
+    width: 100% !important;
+    max-width: none !important;
+    height: 120% !important;
+    max-height: none !important;
+  }
+
+  .ib-services-duo .ib-services-media-front {
+    position: absolute;
+    /* Same size as media box; bottom flush with section bottom */
+    top: 0 !important;
+    bottom: 0 !important;
+    inset-inline-start: 0;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    margin-inline-start: var(--ia-front-inset);
+  }
+
+  .ib-services-duo > .wrap:last-child {
+    grid-row: 2;
+    grid-column: 1;
+    z-index: 3;
+    align-self: start;
+    width: 100%;
+    /* Keep section tall enough for the overlay cards */
+    padding-bottom: 0;
+  }
+
+  .ib-services-duo .ib-services-cards-wrap {
+    position: relative;
+    z-index: 3;
+    margin-top: clamp(1.75rem, 1.25rem + 1.5vw, 2.75rem);
+  }
+}
+
+.ia-valuate-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 1.1rem + 1.5vw, 2.5rem);
+  align-items: stretch;
+  width: 100%;
+  max-width: none;
+}
+
+.ia-valuate-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.ia-valuate-card-head {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: var(--navy);
+  text-align: start;
+  padding: 0 0 0.5rem;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.ia-valuate-card-head::after {
+  content: none;
+}
+
+.ia-valuate-card-head h4 {
+  margin: 0;
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--navy);
+  text-align: start;
+}
+
+.ia-valuate-card-body {
+  flex: 1;
+  margin-top: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  text-align: start;
+}
+
+.ia-valuate-card-body p {
+  margin: 0;
+  color: #2a4558;
+  font-size: clamp(0.85rem, 0.8rem + 0.22vw, 1rem);
+  font-weight: 400;
+  line-height: 1.7;
+  text-align: start;
+}
+
+@media (max-width: 960px) {
+  .ia-valuate-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
+    margin-inline: 0;
+  }
+}
+
 .ia-services-copy {
   margin-top: 0.35rem;
   width: 100%;
@@ -13499,7 +13802,7 @@ body[dir="ltr"] .fp-why-list li {
 .ib-lead .ib-lead-line:last-child { margin-bottom: 0; }
 .ib-lead strong { color: var(--navy); font-weight: 600; }
 
-/* IB Our Services — same split as Arrangement / IA خدماتنا */
+/* IB Our Services — cards below edge-stack media */
 .ib-services-left {
   background: transparent;
   padding-block-start: 0;
@@ -13519,6 +13822,21 @@ body[dir="ltr"] .fp-why-list li {
   overflow: hidden;
 }
 
+.ib-services-duo .ib-svc-cards {
+  position: relative;
+  z-index: 3;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(12, 40, 55, 0.12);
+}
+
+.ib-services-duo .ib-svc-cards .arr-bank-card {
+  background: #fff;
+}
+
+.ib-services-duo .ib-svc-cards .arr-bank-card + .arr-bank-card {
+  border-top: 1px solid #d0d4d8;
+}
+
 /* IB transaction lifecycle — front image as section bg, no side media */
 .ib-lifecycle {
   position: relative;
@@ -13531,7 +13849,7 @@ body[dir="ltr"] .fp-why-list li {
   top: 0;
   bottom: 0;
   left: 0;
-  right: 19%;
+  right: 0;
   z-index: 0;
   background-size: cover;
   background-position: right center;
@@ -13781,6 +14099,12 @@ body[dir="ltr"] .fp-why-list li {
   background-repeat: no-repeat;
   z-index: 1;
   pointer-events: none;
+}
+
+/* English only — mirror the methodology bg; Arabic stays as-is */
+html[dir="ltr"] .ib-method-media,
+body[dir="ltr"] .ib-method-media {
+  transform: scaleX(-1);
 }
 
 .ib-method-cards-wrap {

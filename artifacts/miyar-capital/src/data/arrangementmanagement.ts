@@ -159,34 +159,34 @@ export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
 
     capitalMarkets: {
       id: "capital-markets",
-      titleEn: "",
+      titleEn: "Capital Markets",
       titleAr: "أسواق رأس المال",
-      bodyEn: "",
+      bodyEn: "A structured offering that achieves targeted liquidity for shareholders and reflects the fair value of the company",
       bodyAr:
         "طرح مُهيكَل يحقق السيولة المستهدفة للمساهمين ويعكس القيمة العادلة للشركة",
       arrows: [
         {
-          labelEn: "",
+          labelEn: "RANKING OF INITIAL PUBLIC OFFERINGS AND PRIVATE OFFERINGS",
           labelAr: "ترتيب الطروحات العامة الأولية و الطروحات الخاصة",
           tone: "navy",
         },
         {
-          labelEn: "",
+          labelEn: "DIRECT LISTING",
           labelAr: "الإدراج المباشر",
           tone: "teal",
         },
         {
-          labelEn: "",
+          labelEn: "FULL COORDINATION WITH THE CAPITAL MARKET AUTHORITY",
           labelAr: "التنسيق الكامل مع هيئة السوق المالية",
           tone: "mist",
         },
         {
-          labelEn: "",
+          labelEn: "CAPITAL RAISING OPERATIONS MANAGEMENT",
           labelAr: "إدارة عمليات زيادة رأس المال",
           tone: "black",
         },
         {
-          labelEn: "",
+          labelEn: "ISSUANCE OF PRIORITY RIGHTS TO SHAREHOLDERS",
           labelAr: "إصدار حقوق الأولوية للمساهمين",
           tone: "slate",
         },
@@ -195,31 +195,31 @@ export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
 
     sukukDebt: {
       id: "sukuk-debt",
-      titleEn: "",
+      titleEn: "Sukuk & Debt Instruments",
       titleAr: "الصكوك وأدوات الدين",
       rows: [
         {
           num: "01",
-          titleEn: "",
+          titleEn: "Release Management",
           titleAr: "إدارة الإصدار",
-          bodyEn: "",
-          bodyAr: "ترتيب الطروحات العامة الأولية | الطروحات الخاصة",
+          bodyEn: "INITIAL PUBLIC OFFERINGS (IPO) <strong>|</strong> PRIVATE OFFERINGS",
+          bodyAr: "ترتيب الطروحات العامة الأولية <strong>|</strong> الطروحات الخاصة",
           tone: "mist",
         },
         {
           num: "02",
-          titleEn: "",
+          titleEn: "Shariah Compatibility",
           titleAr: "التوافق الشرعي",
-          bodyEn: "",
+          bodyEn: "WORK WITH CONSULTANTS TO ENSURE FULL COMPLIANCE WITH REGULATORY AND SHARIAH REQUIREMENTS",
           bodyAr:
             "العمل مع المستشارين لضمان الامتثال الكامل للمتطلبات التنظيمية و الشرعية",
           tone: "navy",
         },
         {
           num: "03",
-          titleEn: "",
+          titleEn: "Structuring",
           titleAr: "الهيكلة",
-          bodyEn: "",
+          bodyEn: "DESIGN THE MOST SUITABLE LEGAL AND FINANCIAL STRUCTURE FOR THE SUKUK ACCORDING TO THE NATURE OF THE ASSET AND THE OBJECTIVES OF THE ISSUANCE",
           bodyAr:
             "تصميم الهيكل الشرعي والمالي الأنسب للصكوك وفق طبيعة الأصل وأهداف الإصدار",
           tone: "slate",
@@ -229,38 +229,38 @@ export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
 
     ma: {
       id: "ma",
-      titleEn: "",
+      titleEn: "Mergers & Acquisitions",
       titleAr: "الاندماج و الاستحواذ M&A",
-      subtitleEn: "",
+      subtitleEn: "Strategic Consulting",
       subtitleAr: "الاستشارات الاستراتيجية",
       cells: [
         {
-          labelEn: "",
+          labelEn: "ANALYSIS & EVALUATION OF M&A OPPORTUNITIES",
           labelAr: "تحليل وتقييم فرص الاستحواذ والاندماج",
           tone: "navy",
         },
         {
-          labelEn: "",
+          labelEn: "SUPPORTING CLIENTS IN SETTING STRATEGIC GOALS",
           labelAr: "دعم العملاء في تحديد الأهداف الاستراتيجية",
           tone: "blue",
         },
         {
-          labelEn: "",
+          labelEn: "CONDUCTING FINANCIAL AND LEGAL DUE DILIGENCE",
           labelAr: "إجراء العناية الواجبة المالية و القانونية",
           tone: "mist",
         },
         {
-          labelEn: "",
+          labelEn: "STRUCTURING THE DEAL TO ACHIEVE FINANCIAL AND LEGAL EFFICIENCY",
           labelAr: "هيكلة الصفقة بما يحقق كفاءة مالية و قانونية",
           tone: "slate",
         },
         {
-          labelEn: "",
+          labelEn: "MANAGING NEGOTIATIONS & BRIDGING THE GAP BETWEEN PARTIES",
           labelAr: "إدارة التفاوض وتقريب وجهات النظر بين الأطراف",
           tone: "black",
         },
         {
-          labelEn: "",
+          labelEn: "OVERSEEING THE DOCUMENTATION & CLOSING THE DEAL",
           labelAr: "الإشراف على التوثيق وإغلاق الصفقة",
           tone: "charcoal",
         },
@@ -269,33 +269,33 @@ export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
 
     bankFinancing: {
       id: "bank-financing",
-      titleEn: "",
+      titleEn: "Arranging Bank Financing",
       titleAr: "ترتيب التمويل البنكي",
-      bodyEn: "",
+      bodyEn: "As part of its investment banking services, Miyar Capital offersspecialized advice on arranging bank facilitiesfor companies seeking to finance their expansion projects and restructure their financial models through our edtensive relationships with financial institutions.",
       bodyAr:
         "تقدم معيار المالية، ضمن خدماتها في المصرفية الاستثمارية، استشارات متخصصة في ترتيب تسهيلات التمويل البنكي وذلك للشركات الساعية لتمويل مشاريعها التوسعية و إعادة هيكلة نماذجها المالية من خلال علاقتنا الممتدة مع المؤسسات التمويلية",
-      highlightEn: "",
+      highlightEn: "We provide our clients with broader access to financing sources on more competitive terms",
       highlightAr:
         "نؤمن لعملائنا وصولاً أوسع لمصادر التمويل بشروط أكثر تنافسية",
       cards: [
         {
-          titleEn: "",
+          titleEn: "Efficiency in Implementation",
           titleAr: "الكفاءة في التنفيذ",
-          bodyEn: "",
+          bodyEn: "Manaing the entire process to ensure the funding is secured within the targeted timeframe",
           bodyAr:
             "إدارة العملية بالكامل لضمان الحصول على التمويل في الإطار الزمني المستهدف",
         },
         {
-          titleEn: "",
+          titleEn: "Access To Funders",
           titleAr: "الوصول إلى الممولين",
-          bodyEn: "",
+          bodyEn: "A broad network of relationships with commercial banks, investment fnds, and financial institutions",
           bodyAr:
             "قاعدة واسعة من العلاقات مع البنوك التجارية و الصناديق الاستثمارية والمؤسسات التمويلية",
         },
         {
-          titleEn: "",
+          titleEn: "Negotiation",
           titleAr: "التفاوض",
-          bodyEn: "",
+          bodyEn: "Negotiating optimal financing requirements: <strong>Pricing / Repayment schedule / Guarantees</strong>",
           bodyAr:
             "التفاوض على متطلبات تمويلية مثلى: التسعير / جدول السداد / الضمانات",
         },
