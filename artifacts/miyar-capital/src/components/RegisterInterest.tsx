@@ -19,7 +19,7 @@ type Props = {
   sourcePage: string;
   pageTitleEn: string;
   pageTitleAr: string;
-  /** Optional override; ContactModal defaults to man_on_phone. */
+  /** Optional override; ContactModal defaults to get-in-touch. */
   image?: string | null;
   /** Optional CTA button label override. */
   buttonLabelEn?: string;

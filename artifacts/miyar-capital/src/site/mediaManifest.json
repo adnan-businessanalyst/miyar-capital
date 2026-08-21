@@ -52,6 +52,18 @@
       },
       "image": "/media/content/client-ifo.webp"
     },
+    "client-solutions-section": {
+      "files": {
+        ".jpg": "/media/content/client-solutions-section.jpg"
+      },
+      "image": "/media/content/client-solutions-section.jpg"
+    },
+    "get-in-touch": {
+      "files": {
+        ".jpg": "/media/content/get-in-touch.jpg"
+      },
+      "image": "/media/content/get-in-touch.jpg"
+    },
     "man-look-ltr": {
       "files": {
         ".png": "/media/content/man-look-ltr.png"

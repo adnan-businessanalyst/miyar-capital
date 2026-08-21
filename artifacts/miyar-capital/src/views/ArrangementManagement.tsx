@@ -51,7 +51,7 @@ export function ArrangementManagement() {
     return (
       <section
         key="services"
-        className="blk arr-services"
+        className="blk arr-services amgmt-services"
         style={{ background: "#fff", backgroundColor: "#fff" }}
       >
         <div className="wrap">
@@ -60,58 +60,60 @@ export function ArrangementManagement() {
               <SectionHead
                 title={pickLang(svc.headingEn, svc.headingAr, lang)}
               />
-              <figure className="arr-services-media">
-                <img
-                  className="arr-services-media-back"
-                  src={detailBg}
-                  alt=""
-                  aria-hidden="true"
-                />
-                <div className="arr-services-media-frame">
+              <div className="arr-services-media-col">
+                <figure className="arr-services-media">
                   <img
-                    src={servicesImg}
-                    alt={pickLang(
-                      "Arrangement management services",
-                      "خدمات إدارة الترتيبات",
-                      lang,
-                    )}
+                    className="arr-services-media-back"
+                    src={detailBg}
+                    alt=""
+                    aria-hidden="true"
                   />
-                </div>
-              </figure>
-              <nav
-                className="arr-services-toc"
-                aria-label={pickLang(svc.headingEn, svc.headingAr, lang)}
-              >
-                <ul>
-                  {(
-                    [
-                      { id: cm.id, titleEn: cm.titleEn, titleAr: cm.titleAr },
-                      {
-                        id: sukuk.id,
-                        titleEn: sukuk.titleEn ?? "",
-                        titleAr: sukuk.titleAr,
-                      },
-                      { id: ma.id, titleEn: ma.titleEn, titleAr: ma.titleAr },
-                      {
-                        id: bank.id,
-                        titleEn: bank.titleEn,
-                        titleAr: bank.titleAr,
-                      },
-                    ] as const
-                  ).map((item) => {
-                    const label = pickLang(item.titleEn, item.titleAr, lang);
-                    if (!label.trim()) return null;
-                    return (
-                      <li key={item.id}>
-                        <a href={`#${item.id}`}>{label}</a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </nav>
+                  <div className="arr-services-media-frame">
+                    <img
+                      src={servicesImg}
+                      alt={pickLang(
+                        "Arrangement management services",
+                        "خدمات إدارة الترتيبات",
+                        lang,
+                      )}
+                    />
+                  </div>
+                </figure>
+                <nav
+                  className="arr-services-toc"
+                  aria-label={pickLang(svc.headingEn, svc.headingAr, lang)}
+                >
+                  <ul>
+                    {(
+                      [
+                        { id: cm.id, titleEn: cm.titleEn, titleAr: cm.titleAr },
+                        {
+                          id: sukuk.id,
+                          titleEn: sukuk.titleEn ?? "",
+                          titleAr: sukuk.titleAr,
+                        },
+                        { id: ma.id, titleEn: ma.titleEn, titleAr: ma.titleAr },
+                        {
+                          id: bank.id,
+                          titleEn: bank.titleEn,
+                          titleAr: bank.titleAr,
+                        },
+                      ] as const
+                    ).map((item) => {
+                      const label = pickLang(item.titleEn, item.titleAr, lang);
+                      if (!label.trim()) return null;
+                      return (
+                        <li key={item.id}>
+                          <a href={`#${item.id}`}>{label}</a>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </nav>
+              </div>
             </aside>
 
-            <div className="arr-services-left">
+            <div className="arr-services-left amgmt-services-left">
               {/* Capital Markets — arrow chips */}
               <article className="arr-svc arr-svc--capital" id={cm.id}>
                 <div className="arr-svc-head">
@@ -160,9 +162,11 @@ export function ArrangementManagement() {
                       key={row.num}
                       className={`arr-sukuk-row arr-sukuk-row--${row.tone}`}
                     >
-                      <span className="arr-sukuk-num" aria-hidden="true">
-                        {row.num}
-                      </span>
+                      <span
+                        className="arr-sukuk-num"
+                        data-num={row.num}
+                        aria-hidden="true"
+                      />
                       <div className="arr-sukuk-title">
                         <RichText
                           html={pickLang(row.titleEn, row.titleAr, lang)}
