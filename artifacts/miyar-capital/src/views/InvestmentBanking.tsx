@@ -5,14 +5,11 @@ import {
   Calculator,
   CandlestickChart,
   Combine,
-  FileSearch,
-  Handshake,
   Landmark,
   type LucideIcon,
 } from "lucide-react";
 import { PageHero } from "../components/PageHero";
-import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
-import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
+import { PrimaryCardGrid } from "../components/PrimaryCard";
 import { PrimaryCardSmall } from "../components/PrimaryCardSmall";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
@@ -20,24 +17,56 @@ import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { INVESTMENT_BANKING } from "../data/investmentbanking";
 import { useLanguage } from "../i18n/LanguageContext";
+import { CONTENT_IMAGES, DETAILS_PG_IMAGE } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
-const PRODUCT_ICONS: Record<string, LucideIcon> = {
-  "/investment-banking/capital-markets-advisory": CandlestickChart,
-  "/investment-banking/mergers-acquisitions": Combine,
-  "/investment-banking/debt-financing-arrangement": Landmark,
-  "/investment-banking/valuation-financial-advisory": Calculator,
-  "/investment-banking/real-estate-private-arrangements": Building2,
-};
+/** Title-matched icons for advise cards (view-local; PrimaryCard untouched). */
+const ADVISE_CARD_ICONS: { match: string; Icon: LucideIcon }[] = [
+  { match: "Capital Markets", Icon: CandlestickChart },
+  { match: "Sukuk", Icon: Landmark },
+  { match: "Mergers", Icon: Combine },
+  { match: "Bank", Icon: Building2 },
+  { match: "Financial Consulting", Icon: Calculator },
+  { match: "Valuation", Icon: Calculator },
+];
 
-const ADVISE_ICONS: Record<string, LucideIcon> = {
-  "Standalone Advisory": FileSearch,
-  "Transaction Advisory": Handshake,
-};
+function adviseIconForTitle(titleEn: string): LucideIcon {
+  const found = ADVISE_CARD_ICONS.find(({ match }) =>
+    titleEn.toLowerCase().includes(match.toLowerCase()),
+  );
+  return found?.Icon ?? CandlestickChart;
+}
+
+function AdviseCardIcon({ Icon }: { Icon: LucideIcon }) {
+  return (
+    <div className="ib-advise-icon" aria-hidden="true">
+      <span className="ib-advise-icon-layer ib-advise-icon-layer--back">
+        <Icon strokeWidth={1.5} />
+      </span>
+      <span className="ib-advise-icon-layer ib-advise-icon-layer--mid">
+        <Icon strokeWidth={1.5} />
+      </span>
+      <span className="ib-advise-icon-layer ib-advise-icon-layer--face">
+        <Icon strokeWidth={1.5} />
+      </span>
+    </div>
+  );
+}
+
+function splitBodyByBr(html: string): string[] {
+  const parts = html
+    .split(/<br\s*\/?>/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  return parts.length > 0 ? parts : [];
+}
 
 export function InvestmentBanking() {
   const { lang } = useLanguage();
   const data = INVESTMENT_BANKING;
+  const servicesFront =
+    CONTENT_IMAGES.service_investment_banking || CONTENT_IMAGES.app_bg;
+  const servicesBack = DETAILS_PG_IMAGE || servicesFront;
 
   const renderSection = (id: (typeof data.sectionOrder)[number]) => {
     switch (id) {
@@ -91,50 +120,39 @@ export function InvestmentBanking() {
         );
       }
       case "advise": {
-        // const paras = lang === "ar" ? data.advise.parasAr : data.advise.parasEn;
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk ib-advise">
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.advise.tagEn, data.advise.tagAr, lang)}
-                // subtitle={pickLang(
-                //   data.advise.headingEn,
-                //   data.advise.headingAr,
-                //   lang,
-                // )}
               />
-              <div className="ib-lead">
-                {/* {paras.map((para, i) =>
-                  i === paras.length - 1 ? (
-                    <RichText
-                      key={para.slice(0, 40)}
-                      as="span"
-                      className="ib-lead-line"
-                      html={para}
-                    />
-                  ) : (
-                    <RichText
-                      key={para.slice(0, 40)}
-                      as="p"
-                      html={para}
-                    />
-                  ),
-                )} */}
-              </div>
-              <PrimaryCardGrid columns={2}>
-                {data.advise.cards.map((card) => {
-                  const Icon = ADVISE_ICONS[card.titleEn];
+              <PrimaryCardGrid columns={2} className="ib-advise-grid">
+                {data.advise.cards.map((card, i) => {
+                  const title = pickLang(card.titleEn, card.titleAr, lang);
+                  const body = pickLang(card.bodyEn, card.bodyAr, lang);
+                  const lines = splitBodyByBr(body);
+                  const Icon = adviseIconForTitle(card.titleEn);
                   return (
-                    <PrimaryCard
-                      key={card.titleEn}
-                      icon={Icon ? <Icon strokeWidth={1.5} /> : undefined}
-                      title={pickLang(card.titleEn, card.titleAr, lang)}
+                    <article
+                      className="ib-advise-card"
+                      key={`${card.titleEn || card.titleAr}-${i}`}
                     >
-                      <RichText
-                        as="p"
-                        html={pickLang(card.bodyEn, card.bodyAr, lang)}
-                      />
-                    </PrimaryCard>
+                      <AdviseCardIcon Icon={Icon} />
+                      {title.trim() ? (
+                        <h3 className="ib-advise-card-title">
+                          <RichText html={title} />
+                        </h3>
+                      ) : null}
+                      {lines.length > 0 ? (
+                        <ul className="ib-advise-card-list">
+                          {lines.map((line) => (
+                            <li key={line.slice(0, 48)}>
+                              <RichText html={line} />
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </article>
                   );
                 })}
               </PrimaryCardGrid>
@@ -142,9 +160,17 @@ export function InvestmentBanking() {
           </section>
         );
       }
-      case "method":
+      case "method": {
+        const methodBg = CONTENT_IMAGES.section_bg_our_approach;
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk ib-method-section">
+            {methodBg ? (
+              <div
+                className="ib-method-section-bg"
+                style={{ backgroundImage: `url(${methodBg})` }}
+                aria-hidden="true"
+              />
+            ) : null}
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.method.tagEn, data.method.tagAr, lang)}
@@ -155,6 +181,7 @@ export function InvestmentBanking() {
                 )}
               />
               <Steps
+                className="ib-method-steps"
                 items={data.method.steps.map((step) => ({
                   num: step.num,
                   title: pickLang(step.titleEn, step.titleAr, lang),
@@ -164,9 +191,10 @@ export function InvestmentBanking() {
             </div>
           </section>
         );
+      }
       case "execute": {
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk ib-execute">
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.execute.tagEn, data.execute.tagAr, lang)}
@@ -204,65 +232,107 @@ export function InvestmentBanking() {
           </section>
         );
       }
-      case "products":
+      case "products": {
+        const heading = pickLang(
+          data.products.tagEn,
+          data.products.tagAr,
+          lang,
+        );
         return (
-          <section key={id} className="blk">
+          <section
+            key={id}
+            className="blk arr-services ib-services"
+            style={{ background: "#fff", backgroundColor: "#fff" }}
+          >
             <div className="wrap">
-              <SectionHead
-                title={pickLang(
-                  data.products.tagEn,
-                  data.products.tagAr,
-                  lang,
-                )}
-                subtitle={pickLang(
-                  data.products.headingEn,
-                  data.products.headingAr,
-                  lang,
-                )}
-              />
-              <PrimaryCardClickableGrid
-                columns={3}
-                items={data.products.items.map((item) => {
-                  const Icon = PRODUCT_ICONS[item.href];
-                  return {
-                    id: item.href,
-                    href: "",
-                    showArrow: false,
-                    icon: Icon ? <Icon strokeWidth={1.5} /> : undefined,
-                    title: pickLang(item.titleEn, item.titleAr, lang),
-                    body: pickLang(item.bodyEn, item.bodyAr, lang),
-                  };
-                })}
-              />
+              <div className="arr-services-layout">
+                <aside className="arr-services-right">
+                  {heading.trim() ? <SectionHead title={heading} /> : null}
+                  <figure className="arr-services-media">
+                    <img
+                      className="arr-services-media-back"
+                      src={servicesBack}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    <div className="arr-services-media-frame">
+                      <img
+                        src={servicesFront}
+                        alt={pickLang(
+                          "Investment banking services",
+                          "خدمات الخدمات المصرفية الاستثمارية",
+                          lang,
+                        )}
+                      />
+                    </div>
+                  </figure>
+                </aside>
+
+                <div className="arr-services-left ib-services-left">
+                  <div className="arr-bank-cards ib-svc-cards">
+                    {data.products.items.map((item, i) => {
+                      const title = pickLang(item.titleEn, item.titleAr, lang);
+                      const body = pickLang(item.bodyEn, item.bodyAr, lang);
+                      if (!title.trim() && !body.trim()) return null;
+                      return (
+                        <article
+                          className="arr-bank-card ib-svc-card"
+                          key={`${item.href}-${i}`}
+                        >
+                          {title.trim() ? (
+                            <h4>
+                              <RichText html={title} />
+                            </h4>
+                          ) : null}
+                          {body.trim() ? (
+                            <RichText as="p" html={body} />
+                          ) : null}
+                        </article>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         );
-      case "lifecycle":
+      }
+      case "lifecycle": {
+        const title = pickLang(
+          data.lifecycle.tagEn,
+          data.lifecycle.tagAr,
+          lang,
+        );
+        const subtitle = pickLang(
+          data.lifecycle.headingEn,
+          data.lifecycle.headingAr,
+          lang,
+        );
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk am-process ib-lifecycle">
+            {servicesFront ? (
+              <div
+                className="ib-lifecycle-bg"
+                style={{ backgroundImage: `url(${servicesFront})` }}
+                aria-hidden="true"
+              />
+            ) : null}
             <div className="wrap">
-              <SectionHead
-                title={pickLang(
-                  data.lifecycle.tagEn,
-                  data.lifecycle.tagAr,
-                  lang,
-                )}
-                subtitle={pickLang(
-                  data.lifecycle.headingEn,
-                  data.lifecycle.headingAr,
-                  lang,
-                )}
-              />
-              <Steps
-                items={data.lifecycle.steps.map((step) => ({
-                  num: step.num,
-                  title: pickLang(step.titleEn, step.titleAr, lang),
-                  body: pickLang(step.bodyEn, step.bodyAr, lang),
-                }))}
-              />
+              <SectionHead title={title} subtitle={subtitle} />
+              <div className="am-process-cards ib-lifecycle-cards">
+                <Steps
+                  className="am-process-steps"
+                  items={data.lifecycle.steps.map((step) => ({
+                    num: step.num,
+                    title: pickLang(step.titleEn, step.titleAr, lang),
+                    body: pickLang(step.bodyEn, step.bodyAr, lang),
+                  }))}
+                />
+              </div>
             </div>
           </section>
         );
+      }
       default:
         return null;
     }

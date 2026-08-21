@@ -36,6 +36,7 @@ export const CONTENT_IMAGES = {
   ),
   service_asset_management: content("service-asset-management"),
   service_investment_banking: content("service-investment-banking"),
+  section_bg_our_approach: content("section-bg-our-approach"),
   wm_independent_thinking: content("wm-independent-thinking"),
   wm_long_term_partnership: content("wm-long-term-partnership"),
   wm_tailored_strategies: content("wm-tailored-strategies"),

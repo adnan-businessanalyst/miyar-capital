@@ -115,7 +115,7 @@ export function AssetManagement() {
           lang,
         );
         return (
-          <section key={id} className="blk blk--cream am-process">
+          <section key={id} className="blk blk--cream am-process am-process-light">
             <div className="wrap">
               <div className="am-process-layout">
                 <aside className="am-process-aside">
