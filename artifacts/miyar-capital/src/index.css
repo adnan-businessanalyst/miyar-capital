@@ -1480,14 +1480,14 @@ section.blk {
  */
 .page:not(.fp)
   > section.blk:nth-child(
-    odd of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles)
+    odd of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
   ) {
   background-color: var(--section-bg-soft);
 }
 
 .page:not(.fp)
   > section.blk:nth-child(
-    even of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles)
+    even of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
   ) {
   background-color: var(--section-bg-light);
 }
@@ -9799,6 +9799,64 @@ body[dir="rtl"] .reg-form textarea {
     );
 }
 
+/* IA Our Services — title on white; photo band starts below with a gap */
+.page--investment-advisory .ia-services.ia-valuate-section {
+  background: #fff !important;
+  background-color: #fff !important;
+  overflow: hidden;
+  padding-bottom: 0;
+}
+
+.page--investment-advisory .ia-services.ia-valuate-section::before {
+  content: none;
+}
+
+.page--investment-advisory .ia-services > .wrap:first-child .sec-head {
+  margin-bottom: 0;
+}
+
+.page--investment-advisory .ia-services-photo {
+  position: relative;
+  margin-top: clamp(1.5rem, 2.2vw, 2.25rem);
+  padding-top: clamp(2rem, 3.5vw, 3rem);
+  padding-bottom: 88px;
+}
+
+.page--investment-advisory .ia-services-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.page--investment-advisory .ia-services-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.page--investment-advisory .ia-services-photo > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.page--investment-advisory .ia-services .ia-valuate-title {
+  color: #fff;
+}
+
+.page--investment-advisory .ia-services .ia-valuate {
+  margin-top: clamp(1.35rem, 1rem + 1.2vw, 2rem);
+}
+
+.page--investment-advisory .ia-services .ia-valuate-card-head h4,
+.page--investment-advisory .ia-services .ia-valuate-card-body p {
+  color: #fff;
+}
+
 .ia-valuate-section > .wrap,
 .ib-services-duo > .wrap {
   position: relative;
@@ -11055,11 +11113,83 @@ body[dir="ltr"] .arr-arrow:nth-child(5) {
   background-color: #fff !important;
 }
 
-.amgmt-services-left {
-  background: transparent;
+.amgmt-services .arr-services-layout.amgmt-services-layout {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: none;
+  grid-template-rows: none;
+  gap: clamp(1.75rem, 1.25rem + 1.5vw, 2.75rem);
 }
 
-/* Product card parents — light grey panels */
+.amgmt-services .amgmt-services-layout > .sec-head {
+  width: 100%;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+/* Row 1: image | list (DOM order). RTL flips to list left / image right. */
+.amgmt-services-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: clamp(1.35rem, 1rem + 2vw, 2.5rem);
+  row-gap: 1.25rem;
+  align-items: start;
+  width: 100%;
+  background: #000;
+  padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+}
+
+.amgmt-services-top .arr-services-media,
+.amgmt-services-top .arr-services-toc {
+  grid-column: auto;
+  grid-row: auto;
+  width: 100%;
+  min-width: 0;
+}
+
+.amgmt-services-top .arr-services-media {
+  padding: 0;
+}
+
+.amgmt-services-top .arr-services-media-frame {
+  aspect-ratio: 4 / 3;
+  min-height: 0;
+}
+
+.amgmt-services-top .arr-services-toc {
+  padding-block-start: 0;
+  align-self: center;
+}
+
+.amgmt-services-top .arr-services-toc ul {
+  gap: 1.05rem;
+}
+
+.amgmt-services-top .arr-services-toc a {
+  color: var(--cool-grey-1);
+  font-weight: 400;
+  border-bottom-color: transparent;
+}
+
+.amgmt-services-top .arr-services-toc a.is-active,
+.amgmt-services-top .arr-services-toc a:hover,
+.amgmt-services-top .arr-services-toc a:focus-visible {
+  color: #fff;
+  font-weight: 700;
+  border-bottom-color: #fff;
+}
+
+/* Row 2: products — single full-width column */
+.amgmt-services .amgmt-services-left {
+  grid-column: auto;
+  grid-row: auto;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  background: #fff;
+}
+
+/* Product card parents — white, sharp */
 .amgmt-services .arr-arrows,
 .amgmt-services .arr-sukuk-rows,
 .amgmt-services .arr-ma-grid,
@@ -11067,8 +11197,9 @@ body[dir="ltr"] .arr-arrow:nth-child(5) {
   gap: 0;
   row-gap: 0;
   column-gap: 0;
-  background: #e8eaec;
-  border-radius: 0.65rem;
+  width: 100%;
+  background: #fff;
+  border-radius: 0;
   padding: clamp(0.75rem, 0.55rem + 0.8vw, 1.15rem);
   overflow: hidden;
 }
@@ -11094,13 +11225,14 @@ body[dir="ltr"] .arr-arrow:nth-child(5) {
   text-align: center;
 }
 
-/* Inner cards — white, no outer borders, flush */
+/* Inner cards — light cool grey, sharp, no outer borders */
 .amgmt-services .arr-arrow,
 .amgmt-services .arr-sukuk-row,
 .amgmt-services .arr-ma-cell,
 .amgmt-services .arr-bank-card {
   border: none !important;
-  background: #fff !important;
+  border-radius: 0 !important;
+  background: var(--cool-grey-1) !important;
 }
 
 /* Horizontal dividers between stacked inner cards */
@@ -11157,15 +11289,6 @@ body[dir="ltr"] .arr-arrow:nth-child(5) {
   font-variant-numeric: lining-nums tabular-nums;
   font-feature-settings: "locl" 0, "tnum" 1, "lnum" 1;
   -webkit-font-feature-settings: "locl" 0, "tnum" 1, "lnum" 1;
-}
-
-/* TOC — tight under media; keep space between links */
-.amgmt-services .arr-services-media-col {
-  gap: 0.75rem;
-}
-
-.amgmt-services .arr-services-toc ul {
-  gap: 0.95rem;
 }
 
 /* ===== ARRANGEMENT — detailed info ===== */
@@ -11440,6 +11563,19 @@ body[dir="rtl"] .detail-arrows {
     row-gap: 1.5rem;
   }
 
+  .amgmt-services-top {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .amgmt-services-top .arr-services-toc {
+    padding-block-start: 0;
+  }
+
+  .amgmt-services-top .arr-services-media-frame {
+    aspect-ratio: 16 / 10;
+    min-height: 16rem;
+  }
+
   .arr-services-right {
     display: flex;
     flex-direction: column;
@@ -11481,6 +11617,10 @@ body[dir="rtl"] .detail-arrows {
 
   .arr-services-left {
     padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  }
+
+  .amgmt-services .amgmt-services-left {
+    padding: 0;
   }
 
   .arr-services-media-frame {

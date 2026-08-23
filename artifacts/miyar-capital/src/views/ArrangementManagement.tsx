@@ -31,6 +31,7 @@ export function ArrangementManagement() {
   const prevDetail = (activeDetail - 1 + cards.length) % cards.length;
   const nextDetail = (activeDetail + 1) % cards.length;
   const svc = data.services;
+  const [activeSvc, setActiveSvc] = useState(svc.capitalMarkets.id);
 
   const cardTitle = (i: number) =>
     pickLang(cards[i].titleEn, cards[i].titleAr, lang);
@@ -55,63 +56,63 @@ export function ArrangementManagement() {
         style={{ background: "#fff", backgroundColor: "#fff" }}
       >
         <div className="wrap">
-          <div className="arr-services-layout">
-            <aside className="arr-services-right">
-              <SectionHead
-                title={pickLang(svc.headingEn, svc.headingAr, lang)}
-              />
-              <div className="arr-services-media-col">
-                <figure className="arr-services-media">
+          <div className="arr-services-layout amgmt-services-layout">
+            <SectionHead title={pickLang(svc.headingEn, svc.headingAr, lang)} />
+
+            {/* Image first in DOM: LTR = image left / list right; RTL = image right / list left */}
+            <div className="amgmt-services-top">
+              <figure className="arr-services-media">
+                <div className="arr-services-media-frame">
                   <img
-                    className="arr-services-media-back"
-                    src={detailBg}
-                    alt=""
-                    aria-hidden="true"
+                    src={servicesImg}
+                    alt={pickLang(
+                      "Arrangement management services",
+                      "خدمات إدارة الترتيبات",
+                      lang,
+                    )}
                   />
-                  <div className="arr-services-media-frame">
-                    <img
-                      src={servicesImg}
-                      alt={pickLang(
-                        "Arrangement management services",
-                        "خدمات إدارة الترتيبات",
-                        lang,
-                      )}
-                    />
-                  </div>
-                </figure>
-                <nav
-                  className="arr-services-toc"
-                  aria-label={pickLang(svc.headingEn, svc.headingAr, lang)}
-                >
-                  <ul>
-                    {(
-                      [
-                        { id: cm.id, titleEn: cm.titleEn, titleAr: cm.titleAr },
-                        {
-                          id: sukuk.id,
-                          titleEn: sukuk.titleEn ?? "",
-                          titleAr: sukuk.titleAr,
-                        },
-                        { id: ma.id, titleEn: ma.titleEn, titleAr: ma.titleAr },
-                        {
-                          id: bank.id,
-                          titleEn: bank.titleEn,
-                          titleAr: bank.titleAr,
-                        },
-                      ] as const
-                    ).map((item) => {
-                      const label = pickLang(item.titleEn, item.titleAr, lang);
-                      if (!label.trim()) return null;
-                      return (
-                        <li key={item.id}>
-                          <a href={`#${item.id}`}>{label}</a>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </nav>
-              </div>
-            </aside>
+                </div>
+              </figure>
+              <nav
+                className="arr-services-toc"
+                aria-label={pickLang(svc.headingEn, svc.headingAr, lang)}
+              >
+                <ul>
+                  {(
+                    [
+                      { id: cm.id, titleEn: cm.titleEn, titleAr: cm.titleAr },
+                      {
+                        id: sukuk.id,
+                        titleEn: sukuk.titleEn ?? "",
+                        titleAr: sukuk.titleAr,
+                      },
+                      { id: ma.id, titleEn: ma.titleEn, titleAr: ma.titleAr },
+                      {
+                        id: bank.id,
+                        titleEn: bank.titleEn,
+                        titleAr: bank.titleAr,
+                      },
+                    ] as const
+                  ).map((item) => {
+                    const label = pickLang(item.titleEn, item.titleAr, lang);
+                    if (!label.trim()) return null;
+                    const isActive = activeSvc === item.id;
+                    return (
+                      <li key={item.id}>
+                        <a
+                          href={`#${item.id}`}
+                          className={isActive ? "is-active" : undefined}
+                          aria-current={isActive ? "true" : undefined}
+                          onClick={() => setActiveSvc(item.id)}
+                        >
+                          {label}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+            </div>
 
             <div className="arr-services-left amgmt-services-left">
               {/* Capital Markets — arrow chips */}
