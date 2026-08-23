@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, type CSSProperties, type ComponentType } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, type CSSProperties, type ComponentType } from "react";
 import { useRouter } from "next/navigation";
 import {
   Target,
@@ -15,12 +15,10 @@ import { useLocalePath } from "../i18n/useLocalePath";
 import { HERO_TEXT } from "../site/heroText";
 import { pickLang } from "../site/types";
 import { HeroBackground } from "../components/HeroBackground";
-import { LazyVideo } from "../components/LazyVideo";
-import { CONTENT_IMAGES, CONTENT_VIDEOS } from "../site/contentImages";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { FOOTER_BG_IMAGE } from "../site/footer";
 import { useHeroCardLoginAlign } from "../hooks/useHeroCardLoginAlign";
 import { GetInTouch } from "../components/GetInTouch";
-import { JobsSection } from "../components/JobsSection";
 import { RichText } from "../components/RichText";
 import { SarText } from "../components/SarText";
 import { SectionHead } from "../components/SectionHead";
@@ -28,12 +26,13 @@ import { CONTACT } from "../data/contact";
 import type { TranslationKey } from "../data/frontpage";
 import type { HomepageHero } from "../data/homepageHero";
 import { DEFAULT_HOMEPAGE_HERO } from "../data/homepageHero";
-import type { JobsPageData } from "../data/jobs";
-import { EMPTY_JOBS_PAGE } from "../data/jobs";
+import { EXECUTIVE_TEAM, resolvePersonPhoto } from "../data/people";
 
-const appBg = CONTENT_IMAGES.app_bg;
+const ceo = EXECUTIVE_TEAM.find((p) => p.id === "ceo") ?? EXECUTIVE_TEAM[0];
+const ceoPhoto = resolvePersonPhoto(ceo.photo, ceo.gender);
+
 const appPhoneScreen = CONTENT_IMAGES.app_phone_screen;
-const appPhoneVideo = CONTENT_VIDEOS.app_phone_screen;
+const whySectionBg = CONTENT_IMAGES.section_bg_our_approach;
 const ibImg = CONTENT_IMAGES.service_investment_banking;
 const amImg = CONTENT_IMAGES.service_asset_management;
 
@@ -60,6 +59,40 @@ function slotStyle(cfg: SlotCfg): React.CSSProperties {
   if (cfg.sat !== undefined && cfg.sat !== 100) parts.push(`saturate(${cfg.sat}%)`);
   if (cfg.shadow) parts.push("drop-shadow(0 6px 16px rgba(0,0,0,0.45))");
   return parts.length ? { filter: parts.join(" ") } : {};
+}
+
+function AppPhone({ className }: { className?: string }) {
+  return (
+    <div className={`fp-phone${className ? ` ${className}` : ""}`}>
+      <div className="fp-phone-notch" />
+      <div
+        className={`fp-phone-screen${appPhoneScreen ? " has-media" : ""}`}
+        style={
+          appPhoneScreen
+            ? {
+                backgroundImage: `url(${appPhoneScreen})`,
+                backgroundSize: "cover",
+                backgroundPosition: "top center",
+                backgroundRepeat: "no-repeat",
+              }
+            : undefined
+        }
+        role={appPhoneScreen ? "img" : undefined}
+        aria-label={appPhoneScreen ? "Miyar mobile app screen" : undefined}
+      >
+        {!appPhoneScreen && (
+          <>
+            <div className="fp-phone-brand">MIYAR</div>
+            <div className="fp-phone-bar" />
+            <div className="fp-phone-bar short" />
+            <div className="fp-phone-tile" />
+            <div className="fp-phone-bar" />
+            <div className="fp-phone-bar short" />
+          </>
+        )}
+      </div>
+    </div>
+  );
 }
 
 function SlotImg({ raw, fallback, className, alt }: { raw: string; fallback: string; className?: string; alt?: string }) {
@@ -190,7 +223,7 @@ function AnimatedHero({ lang }: { lang: string }) {
 
   return (
     <>
-      <span className="fp-eyebrow" lang={isAr ? "ar" : "en"} dir={isAr ? "rtl" : "ltr"}>
+      <h1 className="fp-eyebrow" lang={isAr ? "ar" : "en"} dir={isAr ? "rtl" : "ltr"}>
         {letters.map((char, i) => (
           <span key={`${char}-${i}`} className={litIdx === i ? "fp-ey-lit" : undefined}>
             {char}
@@ -199,9 +232,9 @@ function AnimatedHero({ lang }: { lang: string }) {
         <span className="fp-ey-static">
           {isAr ? `${capital}\u00A0` : `\u00A0${capital}`}
         </span>
-      </span>
+      </h1>
       <div className={`fp-hero-swap${fading ? " is-fading" : ""}`}>
-        <h1>{h1Text}</h1>
+        <h2>{h1Text}</h2>
         <p>{pText}</p>
       </div>
     </>
@@ -215,7 +248,6 @@ const DEFAULT_ORDER = [
   "principals",
   "why",
   "contact",
-  "jobs",
   "app",
 ];
 
@@ -226,7 +258,6 @@ const FP_BANDED_SECTIONS = new Set([
   "principals",
   "why",
   "contact",
-  "jobs",
 ]);
 
 function fpSectionBgClass(id: string, order: string[]): string {
@@ -239,18 +270,33 @@ function fpSectionBgClass(id: string, order: string[]): string {
 
 export function FrontPage({
   hero,
-  jobs,
 }: {
   hero?: HomepageHero;
-  jobs?: JobsPageData;
 }) {
   const router = useRouter();
   const { t, lang } = useLanguage();
   const withLocale = useLocalePath();
   const heroWrapRef = useRef<HTMLDivElement>(null);
+  const fpRootRef = useRef<HTMLDivElement>(null);
+  const pillarsBoxRef = useRef<HTMLDivElement>(null);
   const h = hero ?? DEFAULT_HOMEPAGE_HERO;
-  const jobsData = jobs ?? EMPTY_JOBS_PAGE;
   useHeroCardLoginAlign(heroWrapRef, h.promoShow, lang);
+
+  useLayoutEffect(() => {
+    const root = fpRootRef.current;
+    const box = pillarsBoxRef.current;
+    if (!root || !box) return;
+    const apply = () => {
+      root.style.setProperty("--fp-pillars-h", `${Math.round(box.getBoundingClientRect().height)}px`);
+    };
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(box);
+    return () => {
+      ro.disconnect();
+      root.style.removeProperty("--fp-pillars-h");
+    };
+  }, [lang]);
 
   const openHref = (href: string) => {
     if (/^https?:\/\//.test(href)) {
@@ -303,17 +349,19 @@ export function FrontPage({
                   onClick={() => openHref(h.promoHref)}
                 >
                   <div className="fp-hero-card-body">
-                    <h4>
+                    <h2>
                       <RichText
                         html={pickLang(h.promoTitleEn, h.promoTitleAr, lang)}
                       />
-                    </h4>
+                    </h2>
                     <RichText
                       as="p"
                       html={pickLang(h.promoBodyEn, h.promoBodyAr, lang)}
                     />
-                    <span className="fp-card-arrow">→</span>
                   </div>
+                  <span className="fp-card-arrow" aria-hidden="true">
+                    →
+                  </span>
                 </aside>
               )}
             </div>
@@ -323,8 +371,8 @@ export function FrontPage({
         return (
           <section key={id} className={`blk fp-wwd ${bg(id)}`}>
             <div className="wrap">
-              <div className="fp-tag">{t("fp_wwd_tag")}</div>
-              <h2 className="fp-h2 fp-wwd-h2">{t("fp_wwd_h")}</h2>
+              <h2 className="fp-tag">{t("fp_wwd_tag")}</h2>
+              <p className="subtitle fp-h2 fp-wwd-h2">{t("fp_wwd_h")}</p>
               <p className="fp-wwd-lead">{t("fp_wwd_lead")}</p>
               <a
                 className="fp-wwd-link"
@@ -372,35 +420,46 @@ export function FrontPage({
         return (
           <section key={id} className={`blk fp-principals ${bg(id)}`}>
             <div className="wrap fp-principals-grid">
-              <p className="fp-principals-left">
-                {t("fp_prin_left_a")}
-                <span className="fp-principals-hl">{t("fp_prin_left_hl")}</span>
-                {t("fp_prin_left_b")}
-              </p>
+              <div className="fp-principals-top">
+                <p className="fp-principals-left">
+                  {t("fp_prin_left_a")}
+                  <span className="fp-principals-hl">{t("fp_prin_left_hl")}</span>
+                  {t("fp_prin_left_b")}
+                </p>
+                <figure className="fp-principals-photo">
+                  <img
+                    src={ceoPhoto}
+                    alt={pickLang(ceo.name, ceo.nameAr, lang)}
+                  />
+                </figure>
+              </div>
               <div className="fp-principals-right">
-                <p>
-                  <strong>{t("fp_prin_r1_lead")}</strong>
-                  {t("fp_prin_r1_body")}
-                </p>
-                <p>
-                  <strong>{t("fp_prin_r2_lead")}</strong>
-                  {t("fp_prin_r2_body")}
-                </p>
-                <p>
-                  <strong>{t("fp_prin_r3_lead")}</strong>
-                  {t("fp_prin_r3_body")}
-                </p>
+                <div className="fp-pillars-box" ref={pillarsBoxRef}>
+                  <h2>{t("fp_prin_pillars")}</h2>
+                  <p>
+                    <strong>{t("fp_prin_r1_lead")}</strong>
+                    {t("fp_prin_r1_body")}
+                  </p>
+                  <p>
+                    <strong>{t("fp_prin_r2_lead")}</strong>
+                    {t("fp_prin_r2_body")}
+                  </p>
+                  <p>
+                    <strong>{t("fp_prin_r3_lead")}</strong>
+                    {t("fp_prin_r3_body")}
+                  </p>
+                </div>
               </div>
             </div>
           </section>
         );
       case "services":
         return (
-          <section key={id} id="what-we-do" className={`blk ${bg(id)}`}>
-            <div className="wrap">
-              <div className="fp-center">
-                <div className="fp-tag">{t("fp_services_tag")}</div>
-                <h2 className="fp-h2">{t("fp_services_h")}</h2>
+          <section key={id} id="what-we-do" className={`blk fp-services-section ${bg(id)}`}>
+            <div className="wrap fp-services-layout">
+              <div className="fp-services-head">
+                <h2 className="fp-tag">{t("fp_services_tag")}</h2>
+                <p className="subtitle fp-h2">{t("fp_services_h")}</p>
               </div>
               <div className="fp-services">
                 <div className="fp-service" onClick={() => followLink(t("fp_svc_ib_url"), "/investment-banking")}>
@@ -431,10 +490,18 @@ export function FrontPage({
         );
       case "why":
         return (
-          <section key={id} className={`blk ${bg(id)}`}>
+          <section
+            key={id}
+            className={`blk fp-why ${bg(id)}`}
+            style={
+              whySectionBg
+                ? ({ "--fp-why-section-bg": `url(${whySectionBg})` } as CSSProperties)
+                : undefined
+            }
+          >
             <div className="wrap">
-              <div className="fp-center" style={{ marginBottom: "28px" }}>
-                <div className="fp-tag">{t("fp_why_tag")}</div>
+              <div className="fp-center">
+                <h2 className="fp-tag">{t("fp_why_tag")}</h2>
               </div>
               <WhyAccordion t={t} />
             </div>
@@ -461,20 +528,15 @@ export function FrontPage({
             </div>
           </section>
         );
-      case "jobs":
-        return <JobsSection key={id} className={bg(id)} data={jobsData} />;
       case "app":
         return (
           <section key={id} className="fp-app">
-            <img
-              className="fp-app-bg"
-              src={appBg}
-              alt="mobile app section background image"
-            />
             <div className="wrap fp-app-inner">
               <div className="fp-app-text">
-                <h2>{t("fp_app_h")}</h2>
-                <p>{t("fp_app_p")}</p>
+                <div className="fp-app-copy">
+                  <h2>{t("fp_app_h")}</h2>
+                  <p className="subtitle">{t("fp_app_p")}</p>
+                </div>
                 <div className="fp-store">
                   <a
                     className="fp-store-btn"
@@ -497,48 +559,9 @@ export function FrontPage({
                 </div>
               </div>
               <div className="fp-app-phones">
-                <div className="fp-phone">
-                  <div className="fp-phone-notch" />
-                  <div
-                    className={`fp-phone-screen${appPhoneVideo || appPhoneScreen ? " has-media" : ""}`}
-                    style={
-                      !appPhoneVideo && appPhoneScreen
-                        ? {
-                            backgroundImage: `url(${appPhoneScreen})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "top center",
-                            backgroundRepeat: "no-repeat",
-                          }
-                        : undefined
-                    }
-                    role={!appPhoneVideo && appPhoneScreen ? "img" : undefined}
-                    aria-label={
-                      appPhoneVideo || appPhoneScreen
-                        ? "Miyar mobile app screen"
-                        : undefined
-                    }
-                  >
-                    {appPhoneVideo ? (
-                      <LazyVideo
-                        className="fp-phone-media"
-                        src={appPhoneVideo}
-                        poster={appPhoneScreen || undefined}
-                        aria-label="Miyar mobile app screen"
-                      />
-                    ) : (
-                      !appPhoneScreen && (
-                        <>
-                          <div className="fp-phone-brand">MIYAR</div>
-                          <div className="fp-phone-bar" />
-                          <div className="fp-phone-bar short" />
-                          <div className="fp-phone-tile" />
-                          <div className="fp-phone-bar" />
-                          <div className="fp-phone-bar short" />
-                        </>
-                      )
-                    )}
-                  </div>
-                </div>
+                <AppPhone className="fp-phone--left" />
+                <AppPhone className="fp-phone--mid" />
+                <AppPhone className="fp-phone--right" />
               </div>
             </div>
           </section>
@@ -548,5 +571,5 @@ export function FrontPage({
     }
   };
 
-  return <div className="page fp">{sectionOrder.map((id) => renderSection(id))}</div>;
+  return <div className="page fp" ref={fpRootRef}>{sectionOrder.map((id) => renderSection(id))}</div>;
 }

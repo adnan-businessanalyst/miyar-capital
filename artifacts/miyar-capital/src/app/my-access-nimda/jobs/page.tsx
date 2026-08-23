@@ -87,8 +87,8 @@ export default async function AdminJobsPage() {
       <div className="admin-wrap">
         <h1>Jobs</h1>
         <p className="admin-meta">
-          Manage careers section copy, HR email, and job postings on the{" "}
-          <a href="/">homepage</a>. Hidden posts stay in the CMS but are not
+          Manage careers page copy, HR email, and job postings on{" "}
+          <a href="/careers">/careers</a>. Hidden posts stay in the CMS but are not
           shown publicly.
         </p>
 

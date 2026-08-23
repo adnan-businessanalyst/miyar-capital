@@ -25,16 +25,20 @@ export function useHeroCardLoginAlign(
 
     const clear = () => {
       wrap.style.removeProperty("--fp-hero-card-inline-start");
+      wrap.style.removeProperty("--fp-hero-card-width");
       wrap.classList.remove("is-card-aligned");
       const card = wrap.querySelector<HTMLElement>(".fp-hero-card");
       if (card) {
         card.style.removeProperty("inset-inline-start");
         card.style.removeProperty("inset-inline-end");
+        card.style.removeProperty("width");
+        card.style.removeProperty("max-width");
       }
     };
 
     const sync = () => {
       const login = document.querySelector<HTMLElement>("header .tb-login");
+      const auth = document.querySelector<HTMLElement>("header .tb-auth");
       const card = wrap.querySelector<HTMLElement>(".fp-hero-card");
       if (!mq.matches || !login || !card) {
         clear();
@@ -52,13 +56,23 @@ export function useHeroCardLoginAlign(
         ? wrapRect.right - borderStart
         : wrapRect.left + borderStart;
       const loginStart = isRtl ? loginRect.right : loginRect.left;
-      const insetStart = Math.max(0, isRtl ? paddingBoxStart - loginStart : loginStart - paddingBoxStart);
+      const insetStart = Math.round(
+        Math.max(0, isRtl ? paddingBoxStart - loginStart : loginStart - paddingBoxStart),
+      );
       const value = `${insetStart}px`;
+      const authPx = auth ? auth.getBoundingClientRect().width : 0;
+      const cardPx = authPx ? (isRtl ? authPx : authPx * 1.3) : 0;
+      const authWidth = cardPx ? `${Math.round(cardPx)}px` : "";
 
       wrap.style.setProperty("--fp-hero-card-inline-start", value);
+      if (authWidth) wrap.style.setProperty("--fp-hero-card-width", authWidth);
       wrap.classList.add("is-card-aligned");
       card.style.insetInlineStart = value;
       card.style.insetInlineEnd = "auto";
+      if (authWidth) {
+        card.style.width = authWidth;
+        card.style.maxWidth = "none";
+      }
     };
 
     sync();
@@ -70,6 +84,8 @@ export function useHeroCardLoginAlign(
     if (header) ro.observe(header);
     const loginEl = document.querySelector("header .tb-login");
     if (loginEl) ro.observe(loginEl);
+    const authEl = document.querySelector("header .tb-auth");
+    if (authEl) ro.observe(authEl);
 
     window.addEventListener("resize", sync);
     mq.addEventListener("change", sync);

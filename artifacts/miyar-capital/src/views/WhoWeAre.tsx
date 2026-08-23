@@ -63,7 +63,7 @@ export function WhoWeAre() {
           ? paras[0].slice(ledeAr.length)
           : paras[0];
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk wwa-intro">
             <div className="wrap">
               {/* DOM order: copy → facts → image (facts sit under intro). */}
               <div className="ab-two-col wwa-story">
@@ -141,9 +141,17 @@ export function WhoWeAre() {
           </section>
         );
       }
-      case "methodology":
+      case "methodology": {
+        const methodBg =
+          CONTENT_IMAGES.section_bg_our_approach ||
+          "/media/content/section-bg-our-approach.jpg";
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk wwa-method">
+            <div
+              className="wwa-method-bg"
+              style={{ backgroundImage: `url("${methodBg}")` }}
+              aria-hidden="true"
+            />
             <div className="wrap">
               <SectionHead
                 center
@@ -153,7 +161,7 @@ export function WhoWeAre() {
                   lang,
                 )}
               />
-              <div className="method-grid">
+              <div className="method-grid wwa-method-grid">
                 {data.methodology.items.map((item) => {
                   const Icon = ICONS[item.icon];
                   const title = pickLang(item.titleEn, item.titleAr, lang);
@@ -176,9 +184,13 @@ export function WhoWeAre() {
             </div>
           </section>
         );
-      case "principles":
+      }
+      case "principles": {
+        const principlesBg =
+          CONTENT_IMAGES.client_solutions_section ||
+          "/media/content/client-solutions-section.jpg";
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk wwa-principles">
             <div className="wrap">
               <SectionHead
                 center
@@ -193,33 +205,43 @@ export function WhoWeAre() {
                   lang,
                 )}
               />
-              <PrimaryCardGrid columns={4}>
-                {data.principles.items.map((item) => {
-                  const Icon = ICONS[item.icon];
-                  return (
-                    <PrimaryCard
-                      key={item.titleEn}
-                      icon={<Icon strokeWidth={1.5} />}
-                      title={pickLang(item.titleEn, item.titleAr, lang)}
-                    >
-                      <RichText
-                        as="p"
-                        html={pickLang(item.bodyEn, item.bodyAr, lang)}
-                      />
-                    </PrimaryCard>
-                  );
-                })}
-              </PrimaryCardGrid>
+            </div>
+            <div className="wwa-principles-photo">
+              <div
+                className="wwa-principles-bg"
+                style={{ backgroundImage: `url("${principlesBg}")` }}
+                aria-hidden="true"
+              />
+              <div className="wrap">
+                <PrimaryCardGrid columns={4} className="wwa-principles-grid">
+                  {data.principles.items.map((item) => {
+                    const Icon = ICONS[item.icon];
+                    return (
+                      <PrimaryCard
+                        key={item.titleEn}
+                        icon={<Icon strokeWidth={1.5} />}
+                        title={pickLang(item.titleEn, item.titleAr, lang)}
+                      >
+                        <RichText
+                          as="p"
+                          html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                        />
+                      </PrimaryCard>
+                    );
+                  })}
+                </PrimaryCardGrid>
+              </div>
             </div>
           </section>
         );
+      }
       default:
         return null;
     }
   };
 
   return (
-    <div className="page">
+    <div className="page page--who-we-are">
       {data.sectionOrder.map((id) => renderSection(id))}
     </div>
   );

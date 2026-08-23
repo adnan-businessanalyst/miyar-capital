@@ -14,7 +14,7 @@ export function ExecutiveTeam() {
   const orgTitle = isAr ? "الهيكل التنظيمي" : "Organizational Structure";
 
   return (
-    <div className="page">
+    <div className="page page--executive-team">
       <PageHero
         title={isAr ? "الفريق التنفيذي" : "Executive Team"}
         crumbs={[

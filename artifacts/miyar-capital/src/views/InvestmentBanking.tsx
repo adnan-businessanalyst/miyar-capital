@@ -18,7 +18,7 @@ import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { INVESTMENT_BANKING } from "../data/investmentbanking";
 import { useLanguage } from "../i18n/LanguageContext";
-import { CONTENT_IMAGES, DETAILS_PG_IMAGE } from "../site/contentImages";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 /** Title-matched icons for advise cards (view-local; PrimaryCard untouched). */
@@ -67,7 +67,6 @@ export function InvestmentBanking() {
   const data = INVESTMENT_BANKING;
   const servicesFront =
     CONTENT_IMAGES.service_investment_banking || CONTENT_IMAGES.app_bg;
-  const servicesBack = DETAILS_PG_IMAGE || servicesFront;
   const servicesSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -106,7 +105,7 @@ export function InvestmentBanking() {
         const paras =
           lang === "ar" ? data.overview.parasAr : data.overview.parasEn;
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk ib-intro">
             <div className="wrap">
               <SectionHead
                 title={pickLang(
@@ -129,6 +128,18 @@ export function InvestmentBanking() {
                   />
                 ))}
               </div>
+              {servicesFront ? (
+                <figure className="ib-intro-media">
+                  <img
+                    src={servicesFront}
+                    alt={pickLang(
+                      "Investment banking",
+                      "المصرفية الاستثمارية",
+                      lang,
+                    )}
+                  />
+                </figure>
+              ) : null}
             </div>
           </section>
         );
@@ -151,12 +162,14 @@ export function InvestmentBanking() {
                       className="ib-advise-card"
                       key={`${card.titleEn || card.titleAr}-${i}`}
                     >
-                      <AdviseCardIcon Icon={Icon} />
-                      {title.trim() ? (
-                        <h3 className="ib-advise-card-title">
-                          <RichText html={title} />
-                        </h3>
-                      ) : null}
+                      <div className="ib-advise-card-head">
+                        <AdviseCardIcon Icon={Icon} />
+                        {title.trim() ? (
+                          <h3 className="ib-advise-card-title">
+                            <RichText html={title} />
+                          </h3>
+                        ) : null}
+                      </div>
                       {lines.length > 0 ? (
                         <ul className="ib-advise-card-list">
                           {lines.map((line) => (
@@ -279,12 +292,6 @@ export function InvestmentBanking() {
               ) : null}
             </div>
             <figure className="ib-services-media">
-              <img
-                className="ib-services-media-back"
-                src={servicesBack}
-                alt=""
-                aria-hidden="true"
-              />
               <div className="ib-services-media-front">
                 <img
                   src={servicesFront}
@@ -367,7 +374,7 @@ export function InvestmentBanking() {
   };
 
   return (
-    <div className="page">
+    <div className="page page--investment-banking">
       {data.sectionOrder.map((id) => renderSection(id))}
       <RegisterInterestSection
         sourcePage="/investment-banking"

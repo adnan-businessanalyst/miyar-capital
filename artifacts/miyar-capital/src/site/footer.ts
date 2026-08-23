@@ -134,6 +134,12 @@ export const SITE_FOOTER: SiteFooter = {
           labelAr: "الأخبار",
           href: "/news",
         },
+        {
+          id: "f-careers",
+          labelEn: "Careers",
+          labelAr: "الوظائف",
+          href: "/careers",
+        },
       ],
     },
   ],

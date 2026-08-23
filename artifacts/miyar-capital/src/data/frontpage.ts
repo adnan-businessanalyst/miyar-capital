@@ -38,6 +38,7 @@ export type TranslationKey =
   | "fp_prin_r2_body"
   | "fp_prin_r3_lead"
   | "fp_prin_r3_body"
+  | "fp_prin_pillars"
   | "fp_services_tag"
   | "fp_services_h"
   | "fp_svc_ib"
@@ -124,6 +125,7 @@ export const EN: Record<TranslationKey, string> = {
   fp_prin_r2_body: " We build a deliberately small number of strategies we are willing to underwrite with our own credibility — diversified across four pillars, governed by an independent second line, and reported transparently.",
   fp_prin_r3_lead: "Alignment first.",
   fp_prin_r3_body: " Unit-holder outcomes precede the firm's. Our economics are designed to reward performance and continuity, not asset-gathering for its own sake.",
+  fp_prin_pillars: "Our Pillars",
   fp_services_tag: "WHAT WE DO",
   fp_services_h: "Two businesses. One standard of conviction.",
   fp_svc_ib: "Investment Banking",
@@ -194,7 +196,7 @@ export const AR: Record<TranslationKey, string> = {
   am_h: "إدارة أصول منظّمة حول أهداف المستثمر — عبر أربع ركائز.",
   fp_wwd_tag: "شركة سعودية مستقلة و مرخصة من هيئة السوق المالية",
   fp_wwd_h: "استثمارٌ بصفة الأصيل، مبنيٌّ على الاقتناع — لا مجرد على كثرة المنتجات.",
-  fp_wwd_lead: "«ميار كابيتال» شركة استثمارية سعودية مستقلة، تُدير رؤوس الأموال عبر أربع ركائز متكاملة، وتقدّم المشورة للشركات والمساهمين في الصفقات التي تُشكّل مستقبلهم. نتخصص في أعمال الأوراق المالية — بما في ذلك الترتيب وتقديم المشورة وإدارة الاستثمارات والصناديق — برسالةٍ قوامها تحقيق قيمةٍ مستدامة لعملائنا وشركائنا.",
+  fp_wwd_lead: "معيار المالية شركة استثمارية سعودية مستقلة، تُدير رؤوس الأموال عبر أربع ركائز متكاملة، وتقدّم المشورة للشركات والمساهمين في الصفقات التي تُشكّل مستقبلهم. نتخصص في أعمال الأوراق المالية — بما في ذلك الترتيب وتقديم المشورة وإدارة الاستثمارات والصناديق — برسالةٍ قوامها تحقيق قيمةٍ مستدامة لعملائنا وشركائنا.",
   fp_wwd_link: "من نحن",
   fp_wwd_link_url: "/who-we-are",
   fp_wwd_p1_n: "ركائز استثمارية",
@@ -212,6 +214,7 @@ export const AR: Record<TranslationKey, string> = {
   fp_prin_r2_body: "نبني عدداً محدوداً من الاستراتيجيات عن سابق قصدٍ وتصميم — استراتيجيات نضع مصداقيتنا ضماناً لها، مُنوّعة على أربع ركائز، وخاضعة لحوكمة وظائف رقابية مستقلة، ويُفصح عن نتائجها بشفافية.",
   fp_prin_r3_lead: "المواءمة أولاً. ",
   fp_prin_r3_body: "مصلحة مالكي الوحدات قبل مصلحتنا. حوافزنا مبنية على الأداء والاستمرارية،لا على مجرد زيادة المبيعات.",
+  fp_prin_pillars: "ركائزنا",
   fp_services_tag: "خدماتنا",
   fp_services_h: "ما نقدّمه",
   fp_svc_ib: "مستشار الإستثمار",

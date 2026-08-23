@@ -30,7 +30,14 @@ export function PersonRow({
 
   return (
     <article className="person-row">
-      <div className="person-row-media">
+      <div
+        className={[
+          "person-row-media",
+          photo ? "" : "person-row-media--placeholder",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
         <img src={resolvedPhoto} alt={displayName} loading="lazy" />
       </div>
       <div className="person-row-body">

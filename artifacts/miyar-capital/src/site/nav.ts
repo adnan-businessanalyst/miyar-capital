@@ -36,6 +36,12 @@ export const SITE_NAV: NavDoc = {
           labelAr: "الفريق التنفيذي",
           href: "/executive-team",
         },
+        {
+          id: "about-careers",
+          labelEn: "Careers",
+          labelAr: "الوظائف",
+          href: "/careers",
+        },
         // {
         //   id: "about-gov",
         //   labelEn: "Governance & Independence",

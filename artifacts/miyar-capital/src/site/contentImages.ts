@@ -31,6 +31,8 @@ export const CONTENT_IMAGES = {
   ra_2: content("ra-2"),
   ra_3: content("ra-3"),
   ra_4: content("ra-4"),
+  /** Real Assets projects section background */
+  projects_bg: content("projects-bg"),
   private_offers: content("private_offers"),
   our_services_arrangement_management: content(
     "our-services-arrangement-managment",

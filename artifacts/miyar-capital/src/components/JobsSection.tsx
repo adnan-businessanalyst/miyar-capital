@@ -2,7 +2,7 @@
  * JobsSection — Careers listing section that shows job cards with links and apply actions.
  *
  * Used by:
- * - views/FrontPage.tsx
+ * - views/Careers.tsx
  */
 
 "use client";
@@ -16,9 +16,11 @@ import type { JobsPageData } from "../data/jobs";
 export function JobsSection({
   className = "",
   data,
+  hideHead = false,
 }: {
   className?: string;
   data: JobsPageData;
+  hideHead?: boolean;
 }) {
   const { lang } = useLanguage();
   const withLocale = useLocalePath();
@@ -27,23 +29,32 @@ export function JobsSection({
   return (
     <section className={`blk fp-jobs ${className}`.trim()} id="jobs">
       <div className="wrap">
-        <div className="fp-center">
-          <div className="fp-tag">
-            {pickLang(settings.tagEn, settings.tagAr, lang)}
-          </div>
-          <h2 className="fp-h2">
-            {pickLang(settings.headingEn, settings.headingAr, lang)}
-          </h2>
-          <p className="fp-jobs-intro">
-            {pickLang(settings.introEn, settings.introAr, lang)}
-          </p>
-          {settings.hrEmail ? (
+        {hideHead ? (
+          settings.hrEmail ? (
             <p className="fp-jobs-hr">
               <span>{pickLang(settings.hrLabelEn, settings.hrLabelAr, lang)}</span>{" "}
               <a href={`mailto:${settings.hrEmail}`}>{settings.hrEmail}</a>
             </p>
-          ) : null}
-        </div>
+          ) : null
+        ) : (
+          <div className="fp-center">
+            <h2 className="fp-tag">
+              {pickLang(settings.tagEn, settings.tagAr, lang)}
+            </h2>
+            <p className="subtitle fp-h2">
+              {pickLang(settings.headingEn, settings.headingAr, lang)}
+            </p>
+            <p className="fp-jobs-intro">
+              {pickLang(settings.introEn, settings.introAr, lang)}
+            </p>
+            {settings.hrEmail ? (
+              <p className="fp-jobs-hr">
+                <span>{pickLang(settings.hrLabelEn, settings.hrLabelAr, lang)}</span>{" "}
+                <a href={`mailto:${settings.hrEmail}`}>{settings.hrEmail}</a>
+              </p>
+            ) : null}
+          </div>
+        )}
 
         {jobs.length === 0 ? (
           <p className="fp-jobs-empty">

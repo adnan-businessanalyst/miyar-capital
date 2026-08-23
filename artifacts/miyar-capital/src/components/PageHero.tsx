@@ -7,6 +7,7 @@
  * - views/ArrangementManagement.tsx
  * - views/AssetManagement.tsx
  * - views/BoardOfDirectors.tsx
+ * - views/Careers.tsx
  * - views/CapitalMarketsAdvisory.tsx
  * - views/DPM.tsx
  * - views/DebtFinancingArrangement.tsx
@@ -75,7 +76,7 @@ export interface PageHeroProps {
   /** Small uppercase badge above the title. */
   badge?: string;
   /**
-   * Supporting line under the title (`p.ph-desc`).
+   * Supporting line under the title (`h2.ph-desc`).
    * Prefer this over `description`. Omit or empty → blank slot.
    */
   subtitle?: string;
@@ -271,9 +272,9 @@ export function PageHero({
           {titleText ? <h1>{titleText}</h1> : null}
 
           {subtitleText ? (
-            <p className="ph-desc">
+            <h2 className="ph-desc">
               <RichText html={subtitleText} />
-            </p>
+            </h2>
           ) : null}
 
           {children}
@@ -329,9 +330,9 @@ export function PageHero({
         ) : null}
 
         {subtitleText ? (
-          <p className={`ph-desc ph-reveal${revealed ? " is-in" : ""}`}>
+          <h2 className={`ph-desc ph-reveal${revealed ? " is-in" : ""}`}>
             <RichText html={subtitleText} />
-          </p>
+          </h2>
         ) : null}
 
         {chips && chips.length > 0 ? (

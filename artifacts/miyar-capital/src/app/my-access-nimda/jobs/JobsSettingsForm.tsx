@@ -88,7 +88,7 @@ export function JobsSettingsForm({ initial }: { initial: JobsSettings }) {
     <form className="admin-form" onSubmit={onSubmit}>
       <h2 style={{ marginTop: 0, fontSize: "1.1rem" }}>Careers section settings</h2>
       <p className="admin-meta" style={{ marginTop: 0 }}>
-        HR email and homepage careers copy.
+        HR email and careers page copy.
       </p>
 
       <label className="admin-form-span">

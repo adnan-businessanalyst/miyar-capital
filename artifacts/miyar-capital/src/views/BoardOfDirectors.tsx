@@ -13,7 +13,7 @@ export function BoardOfDirectors() {
   const introParas = isAr ? BOARD_INTRO.parasAr : BOARD_INTRO.parasEn;
 
   return (
-    <div className="page">
+    <div className="page page--board-of-directors">
       <PageHero
         title={isAr ? "مجلس الإدارة" : "Board of Directors"}
         crumbs={[

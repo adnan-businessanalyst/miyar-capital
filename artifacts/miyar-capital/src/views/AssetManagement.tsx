@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import type { CSSProperties } from "react";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useLocalePath } from "../i18n/useLocalePath";
 import { PageHero } from "../components/PageHero";
@@ -13,10 +14,7 @@ import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { ASSET_MANAGEMENT } from "../data/assetmanagement";
-import {
-  CONTENT_IMAGES,
-  DETAILS_PG_IMAGE,
-} from "../site/contentImages";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 import { RichText } from "../components/RichText";
 
@@ -27,7 +25,6 @@ export function AssetManagement() {
   const data = ASSET_MANAGEMENT;
   const processFront =
     CONTENT_IMAGES.service_asset_management || CONTENT_IMAGES.app_bg;
-  const processBack = DETAILS_PG_IMAGE || processFront;
 
   const pillars: PillarCarouselItem[] = data.platform.pillars.map((p) => ({
     num: p.num,
@@ -58,7 +55,17 @@ export function AssetManagement() {
         );
       case "platform":
         return (
-          <section key={id} className="blk">
+          <section
+            key={id}
+            className="blk am-platform"
+            style={
+              processFront
+                ? ({
+                    "--am-platform-card-img": `url(${processFront})`,
+                  } as CSSProperties)
+                : undefined
+            }
+          >
             <div className="wrap">
               <div className="plat-split">
                 <h2 className="sec-title">
@@ -114,40 +121,26 @@ export function AssetManagement() {
           data.process.headingAr,
           lang,
         );
+        const processBg =
+          CONTENT_IMAGES.section_bg_our_approach ||
+          "/media/content/section-bg-our-approach.jpg";
         return (
           <section key={id} className="blk am-inv-process">
+            <div
+              className="am-inv-process-bg"
+              style={{ backgroundImage: `url(${processBg})` }}
+              aria-hidden="true"
+            />
             <div className="wrap">
-              <div className="am-process-layout">
-                <aside className="am-process-aside">
-                  <SectionHead title={title} subtitle={subtitle} />
-                  <figure className="arr-services-media am-process-media">
-                    <img
-                      className="arr-services-media-back"
-                      src={processBack}
-                      alt=""
-                      aria-hidden="true"
-                    />
-                    <div className="arr-services-media-frame">
-                      <img
-                        src={processFront}
-                        alt={pickLang(
-                          "Asset management investment process",
-                          "عملية الاستثمار في إدارة الأصول",
-                          lang,
-                        )}
-                      />
-                    </div>
-                  </figure>
-                </aside>
-                <div className="am-process-cards am-inv-process-panel">
-                  <Steps
-                    className="am-inv-process-steps"
-                    items={data.process.steps.map((step) => ({
-                      title: pickLang(step.titleEn, step.titleAr, lang),
-                      body: pickLang(step.bodyEn, step.bodyAr, lang),
-                    }))}
-                  />
-                </div>
+              <SectionHead title={title} subtitle={subtitle} />
+              <div className="am-inv-process-panel">
+                <Steps
+                  className="am-inv-process-steps"
+                  items={data.process.steps.map((step) => ({
+                    title: pickLang(step.titleEn, step.titleAr, lang),
+                    body: pickLang(step.bodyEn, step.bodyAr, lang),
+                  }))}
+                />
               </div>
             </div>
           </section>
@@ -200,7 +193,7 @@ export function AssetManagement() {
   };
 
   return (
-    <div className="page">
+    <div className="page page--asset-management">
       {data.sectionOrder.map((id) => renderSection(id))}
       <RegisterInterestSection
         sourcePage="/asset-management"

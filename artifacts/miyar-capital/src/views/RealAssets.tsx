@@ -251,8 +251,19 @@ export function RealAssets() {
             },
           ],
         }));
+        const projectsBg =
+          CONTENT_IMAGES.projects_bg || "/media/content/projects-bg.jpg";
         return (
-          <section key={id} className="blk blk--cream">
+          <section
+            key={id}
+            className="blk ra-projects"
+            style={{ ["--ra-projects-bg-img" as string]: `url("${projectsBg}")` }}
+          >
+            <div
+              className="ra-projects-bg"
+              style={{ backgroundImage: `url("${projectsBg}")` }}
+              aria-hidden="true"
+            />
             <div className="wrap">
               <div className="ra-projects-head">
                 <SectionHead
@@ -277,6 +288,7 @@ export function RealAssets() {
                 </p>
               </div>
               <ScrollExamples
+                className="ra-projects-scroll"
                 items={scrollItems}
                 ariaLabel={pickLang(
                   data.projects.headingEn,

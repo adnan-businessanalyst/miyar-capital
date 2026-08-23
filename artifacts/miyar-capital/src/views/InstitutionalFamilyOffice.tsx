@@ -25,10 +25,7 @@ import {
 } from "../data/institutionalfamilyoffice";
 import { useResolvedMedia } from "../hooks/useResolvedMedia";
 import { useLanguage } from "../i18n/LanguageContext";
-import {
-  CONTENT_IMAGES,
-  DETAILS_PG_IMAGE,
-} from "../site/contentImages";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const SOURCE_PAGE = "/asset-management/institutional-family-office";
@@ -49,12 +46,6 @@ export function InstitutionalFamilyOffice() {
   const { lang } = useLanguage();
   const data = INSTITUTIONAL_FAMILY_OFFICE;
   const introImg = useResolvedMedia("content", INTRO_MEDIA_BASENAME);
-  const approachFront =
-    CONTENT_IMAGES.client_ifo ||
-    CONTENT_IMAGES.private_offers ||
-    introImg ||
-    "";
-  const approachBack = DETAILS_PG_IMAGE || approachFront;
 
   const renderSection = (id: IfoSectionId) => {
     switch (id) {
@@ -94,7 +85,7 @@ export function InstitutionalFamilyOffice() {
 
       case "overview":
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk ifo-overview">
             <div className="wrap">
               <div className="pi-intro">
                 <div className="pi-intro-text">
@@ -150,7 +141,7 @@ export function InstitutionalFamilyOffice() {
 
       case "serve":
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk blk--cream ifo-serve">
             <div className="wrap">
               <SectionHead
                 title={pickLang(
@@ -191,36 +182,30 @@ export function InstitutionalFamilyOffice() {
           data.approach.headingAr,
           lang,
         );
+        const approachBg =
+          CONTENT_IMAGES.section_bg_our_approach ||
+          "/media/content/section-bg-our-approach.jpg";
         return (
-          <section key={id} className="blk blk--cream am-process">
+          <section
+            key={id}
+            className="blk am-process ifo-approach"
+            style={{
+              ["--ifo-approach-bg-img" as string]: `url("${approachBg}")`,
+            }}
+          >
+            <div
+              className="ifo-approach-bg"
+              style={{ backgroundImage: `url("${approachBg}")` }}
+              aria-hidden="true"
+            />
             <div className="wrap">
               <div className="am-process-layout">
                 <aside className="am-process-aside">
                   <SectionHead title={title} />
-                  {approachFront ? (
-                    <figure className="arr-services-media am-process-media">
-                      <img
-                        className="arr-services-media-back"
-                        src={approachBack}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                      <div className="arr-services-media-frame">
-                        <img
-                          src={approachFront}
-                          alt={pickLang(
-                            "Institutional and family office approach",
-                            "منهج المكاتب العائلية والمؤسسية",
-                            lang,
-                          )}
-                        />
-                      </div>
-                    </figure>
-                  ) : null}
                 </aside>
                 <div className="am-process-cards">
                   <Steps
-                    className="am-process-steps"
+                    className="ifo-approach-steps"
                     items={data.approach.steps.map((step) => ({
                       num: step.num,
                       title: pickLang(step.titleEn, step.titleAr, lang),
@@ -236,7 +221,7 @@ export function InstitutionalFamilyOffice() {
 
       case "engagement":
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk blk--cream ifo-engagement">
             <div className="wrap">
               <SectionHead
                 title={pickLang(
@@ -309,7 +294,7 @@ export function InstitutionalFamilyOffice() {
   };
 
   return (
-    <div className="page">
+    <div className="page page--institutional-family-office">
       {data.sectionOrder.map((id) => (
         <Fragment key={id}>
           {id === "notes" ? (

@@ -43,7 +43,7 @@ export function JobDetail({
       <PageHero
         title={title}
         crumbs={[
-          { label: careersLabel, href: "/" },
+          { label: careersLabel, href: "/careers" },
           { label: title },
         ]}
         description={`${pickLang(job.location, job.locationAr ?? "", lang)} · ${pickLang(job.employmentType, job.employmentTypeAr ?? "", lang)} · ${job.referenceCode}`}
@@ -52,7 +52,7 @@ export function JobDetail({
       <section className="blk">
         <div className="wrap job-detail">
           <Link
-            href={`${withLocale("/")}#jobs`}
+            href={withLocale("/careers")}
             className="job-detail-back"
           >
             {lang === "ar" ? "→" : "←"} {backLabel}

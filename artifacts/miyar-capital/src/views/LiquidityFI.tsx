@@ -15,7 +15,7 @@ export function LiquidityFI() {
   const data = LIQUIDITY_FI;
 
   return (
-    <div className="page">
+    <div className="page page--liquidity-fi">
       <PageHero
         title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
         crumbs={[

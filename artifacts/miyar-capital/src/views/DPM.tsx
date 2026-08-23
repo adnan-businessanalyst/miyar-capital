@@ -8,6 +8,7 @@ import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
 import { DPM_PAGE } from "../data/dpm";
 import { useLanguage } from "../i18n/LanguageContext";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 const SOURCE_PAGE = "/asset-management/dpm";
@@ -43,9 +44,12 @@ export function DPM() {
           />
         );
 
-      case "mandates":
+      case "mandates": {
+        const mandatesBg =
+          CONTENT_IMAGES.client_solutions_section ||
+          "/media/content/client-solutions-section.jpg";
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk dpm-mandates">
             <div className="wrap">
               <SectionHead
                 title={pickLang(
@@ -68,27 +72,40 @@ export function DPM() {
                   lang,
                 )}
               />
-              <PrimaryCardGrid columns={4}>
-                {data.mandates.items.map((item) => (
-                  <PrimaryCard
-                    key={item.num}
-                    badge={item.num}
-                    title={pickLang(item.titleEn, item.titleAr, lang)}
-                  >
-                    <RichText
-                      as="p"
-                      html={pickLang(item.bodyEn, item.bodyAr, lang)}
-                    />
-                  </PrimaryCard>
-                ))}
-              </PrimaryCardGrid>
+            </div>
+            <div className="dpm-photo">
+              <div
+                className="dpm-mandates-bg"
+                style={{ backgroundImage: `url("${mandatesBg}")` }}
+                aria-hidden="true"
+              />
+              <div className="wrap">
+                <PrimaryCardGrid columns={4}>
+                  {data.mandates.items.map((item) => (
+                    <PrimaryCard
+                      key={item.num}
+                      badge={item.num}
+                      title={pickLang(item.titleEn, item.titleAr, lang)}
+                    >
+                      <RichText
+                        as="p"
+                        html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                      />
+                    </PrimaryCard>
+                  ))}
+                </PrimaryCardGrid>
+              </div>
             </div>
           </section>
         );
+      }
 
-      case "cycle":
+      case "cycle": {
+        const cycleBg =
+          CONTENT_IMAGES.section_bg_our_approach ||
+          "/media/content/section-bg-our-approach.jpg";
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk dpm-cycle">
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.cycle.tagEn, data.cycle.tagAr, lang)}
@@ -98,15 +115,26 @@ export function DPM() {
                   lang,
                 )}
               />
-              <Steps
-                items={data.cycle.steps.map((step) => ({
-                  title: pickLang(step.titleEn, step.titleAr, lang),
-                  body: pickLang(step.bodyEn, step.bodyAr, lang),
-                }))}
+            </div>
+            <div className="dpm-photo">
+              <div
+                className="dpm-cycle-bg"
+                style={{ backgroundImage: `url("${cycleBg}")` }}
+                aria-hidden="true"
               />
+              <div className="wrap">
+                <Steps
+                  className="dpm-cycle-steps"
+                  items={data.cycle.steps.map((step) => ({
+                    title: pickLang(step.titleEn, step.titleAr, lang),
+                    body: pickLang(step.bodyEn, step.bodyAr, lang),
+                  }))}
+                />
+              </div>
             </div>
           </section>
         );
+      }
 
       default:
         return null;
@@ -114,7 +142,7 @@ export function DPM() {
   };
 
   return (
-    <div className="page">
+    <div className="page page--dpm">
       {data.sectionOrder.map(renderSection)}
       <RegisterInterestSection
         sourcePage={SOURCE_PAGE}

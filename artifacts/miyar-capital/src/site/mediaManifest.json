@@ -143,6 +143,12 @@
       },
       "image": "/media/content/ra-intro.webp"
     },
+    "projects-bg": {
+      "files": {
+        ".jpg": "/media/content/projects-bg.jpg"
+      },
+      "image": "/media/content/projects-bg.jpg"
+    },
     "section-bg-our-approach": {
       "files": {
         ".jpg": "/media/content/section-bg-our-approach.jpg"
