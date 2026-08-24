@@ -1533,6 +1533,32 @@ section.blk {
   display: inline-block;
 }
 
+/* Site-wide: no underline on h2 titles */
+h2,
+.sec-title,
+.ri-title,
+.fp-tag,
+.fp-h2,
+.fp-wwd-h2,
+.ib-h2,
+.hierarchy-title,
+.contact-modal-title {
+  text-decoration: none !important;
+  border-bottom: none !important;
+}
+
+h2::after,
+.sec-title::after,
+.fp-tag::after,
+.fp-h2::after,
+.fp-center .fp-tag::after,
+.fp-wwd .fp-tag::after,
+.hierarchy-title::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
 /* Section subtitle: lighter supporting line */
 .sec-sub {
   color: var(--muted);
@@ -13420,14 +13446,8 @@ body[dir="rtl"] .fp > section:not(.fp-hero):not(.fp-app).fp-wwd {
 }
 
 .fp-tag::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--navy);
+  content: none;
+  display: none;
 }
 
 .fp-center {
@@ -16925,11 +16945,11 @@ body[dir="ltr"] .ib-method-media {
 }
 
 .ib-method-cards {
-  background: #fff;
+  background: transparent;
   border-radius: 0;
   padding-block: clamp(1rem, 0.75rem + 1.1vw, 1.5rem);
   padding-inline: clamp(0.45rem, 0.3rem + 0.45vw, 0.75rem);
-  box-shadow: 0 10px 28px rgba(12, 71, 110, 0.08);
+  box-shadow: none;
 }
 
 /* Fill the white parent — no centered leftover side gaps */
@@ -16948,19 +16968,26 @@ body[dir="ltr"] .ib-method-media {
 }
 
 .ib-method-section .ib-method-steps .steps-card.svc.svc--dark {
-  color: #5a5f66 !important;
-  background: #f4f5f6 !important;
-  border: none !important;
+  color: var(--navy) !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  background-image: none !important;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
   border-radius: 0 !important;
   padding: 2rem !important; /* equal all around = top */
   min-height: 15.3rem !important; /* 17rem − 10% */
-  box-shadow: 0 10px 28px rgba(12, 71, 110, 0.06) !important;
+  box-shadow:
+    0 10px 28px rgba(12, 71, 110, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55) !important;
 }
 
 .ib-method-section .ib-method-steps .steps-card.svc.svc--dark:hover {
-  background: #f4f5f6 !important;
-  border: none !important;
-  box-shadow: 0 14px 32px rgba(12, 71, 110, 0.09) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow:
+    0 14px 32px rgba(12, 71, 110, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
   transform: translateY(-0.15rem);
 }
 
@@ -16975,7 +17002,7 @@ body[dir="ltr"] .ib-method-media {
 .ib-method-section .ib-method-steps .steps-sub p,
 .ib-method-section .ib-method-steps .steps-card .rich-text,
 .ib-method-section .ib-method-steps .steps-card .eq-rich {
-  color: #5a5f66 !important;
+  color: var(--navy) !important;
 }
 
 /* Methodology cards only: drop circular badges; 01–06 before titles */
@@ -17005,7 +17032,7 @@ body[dir="ltr"] .ib-method-media {
   font-size: 1.65em;
   font-weight: 700;
   line-height: 1;
-  color: #c5c9ce;
+  color: var(--cool-grey-6);
   font-variant-numeric: tabular-nums;
 }
 
