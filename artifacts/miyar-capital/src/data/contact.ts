@@ -44,6 +44,8 @@ export interface ContactCopy {
   messageAr: string;
   attachmentLabelEn: string;
   attachmentLabelAr: string;
+  attachmentButtonEn: string;
+  attachmentButtonAr: string;
   attachmentHintEn: string;
   attachmentHintAr: string;
   submitEn: string;
@@ -119,8 +121,10 @@ export const CONTACT: ContactCopy = {
   messageAr: "اكتب رسالتك",
   attachmentLabelEn: "Attach an image (optional)",
   attachmentLabelAr: "إرفاق صورة (اختياري)",
-  attachmentHintEn: "JPEG, PNG, or WebP · max 2 MB · one file",
-  attachmentHintAr: "JPEG أو PNG أو WebP · بحد أقصى 2 ميجابايت · ملف واحد",
+  attachmentButtonEn: "Upload image",
+  attachmentButtonAr: "رفع صورة",
+  attachmentHintEn: "PNG, JPG, or JPEG · max 2 MB · one file",
+  attachmentHintAr: "PNG أو JPG أو JPEG · بحد أقصى 2 ميجابايت · ملف واحد",
   submitEn: "Send Message",
   submitAr: "إرسال الرسالة",
   sendingEn: "Sending…",
@@ -144,9 +148,9 @@ export const CONTACT: ContactCopy = {
   errorSubjectEn: "Please select a subject.",
   errorSubjectAr: "يرجى اختيار الموضوع.",
   errorAttachmentEn:
-    "Attachment must be a single JPEG, PNG, or WebP image up to 2 MB.",
+    "Attachment must be a single PNG, JPG, or JPEG image up to 2 MB.",
   errorAttachmentAr:
-    "يجب أن يكون المرفق صورة JPEG أو PNG أو WebP بحجم لا يتجاوز 2 ميجابايت.",
+    "يجب أن يكون المرفق صورة PNG أو JPG أو JPEG بحجم لا يتجاوز 2 ميجابايت.",
   errorAttachmentSubjectEn: "Images can only be attached for complaints.",
   errorAttachmentSubjectAr: "يمكن إرفاق الصور مع الشكاوى فقط.",
 };

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { NewsArticle } from "@/views/NewsArticle";
 import { fetchNewsBySlug } from "@/lib/news";
+import { socialMetadata } from "@/site/social";
+import { NewsArticle } from "@/views/NewsArticle";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +16,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) {
     return { title: "News" };
   }
+  const title = data.article.title;
+  const description = data.article.blurb;
   return {
-    title: data.article.title,
-    description: data.article.blurb,
+    title,
+    description,
+    ...socialMetadata({
+      title,
+      description,
+      image: data.article.imageUrl || undefined,
+      url: `/news/${data.article.slug}`,
+    }),
   };
 }
 

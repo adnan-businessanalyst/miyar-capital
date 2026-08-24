@@ -65,6 +65,8 @@ function splitBodyByBr(html: string): string[] {
 export function InvestmentBanking() {
   const { lang } = useLanguage();
   const data = INVESTMENT_BANKING;
+  const introImg =
+    CONTENT_IMAGES.investment_banking_intro || CONTENT_IMAGES.app_bg;
   const servicesFront =
     CONTENT_IMAGES.service_investment_banking || CONTENT_IMAGES.app_bg;
   const servicesSectionRef = useRef<HTMLElement | null>(null);
@@ -128,10 +130,10 @@ export function InvestmentBanking() {
                   />
                 ))}
               </div>
-              {servicesFront ? (
+              {introImg ? (
                 <figure className="ib-intro-media">
                   <img
-                    src={servicesFront}
+                    src={introImg}
                     alt={pickLang(
                       "Investment banking",
                       "المصرفية الاستثمارية",

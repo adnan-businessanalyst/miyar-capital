@@ -23,8 +23,10 @@ export function AssetManagement() {
   const { lang } = useLanguage();
   const withLocale = useLocalePath();
   const data = ASSET_MANAGEMENT;
-  const processFront =
-    CONTENT_IMAGES.service_asset_management || CONTENT_IMAGES.app_bg;
+  const platformCardImg =
+    CONTENT_IMAGES.asset_management_active_card ||
+    CONTENT_IMAGES.service_asset_management ||
+    CONTENT_IMAGES.app_bg;
 
   const pillars: PillarCarouselItem[] = data.platform.pillars.map((p) => ({
     num: p.num,
@@ -59,9 +61,9 @@ export function AssetManagement() {
             key={id}
             className="blk am-platform"
             style={
-              processFront
+              platformCardImg
                 ? ({
-                    "--am-platform-card-img": `url(${processFront})`,
+                    "--am-platform-card-img": `url(${platformCardImg})`,
                   } as CSSProperties)
                 : undefined
             }

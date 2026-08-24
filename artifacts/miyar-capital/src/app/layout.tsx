@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { SiteChrome } from "@/components/SiteChrome";
 import { SITE_META } from "@/site/defaults";
+import { SITE_ORIGIN, socialMetadata } from "@/site/social";
 import "@emran-alhaddad/saudi-riyal-font/index.css";
 import "@/index.css";
 
+const social = socialMetadata();
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_ORIGIN),
   title: {
     default: SITE_META.metaTitle || "Miyar Capital",
     template: "%s | Miyar Capital",
@@ -15,6 +19,8 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
+  openGraph: social.openGraph,
+  twitter: social.twitter,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

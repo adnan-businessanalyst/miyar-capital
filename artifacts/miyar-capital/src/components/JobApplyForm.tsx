@@ -299,12 +299,13 @@ export function JobApplyForm({ job, sourcePage }: Props) {
         </span>
       </div>
       <div className="contact-modal-attach">
-        <label className="contact-modal-attach-label" htmlFor="job-apply-cv">
+        <span className="contact-modal-attach-label">
           {pickLang(copy.cvEn, copy.cvAr, lang)}
           <RequiredMark />
-        </label>
+        </span>
         <input
           id="job-apply-cv"
+          className="contact-upload-input"
           type="file"
           name="cv"
           accept="application/pdf,.pdf"
@@ -330,6 +331,9 @@ export function JobApplyForm({ job, sourcePage }: Props) {
             setError("");
           }}
         />
+        <label htmlFor="job-apply-cv" className="btn btn-navy contact-upload-btn">
+          {pickLang(copy.cvButtonEn, copy.cvButtonAr, lang)}
+        </label>
         <p className="contact-modal-attach-hint">
           {pickLang(copy.cvHintEn, copy.cvHintAr, lang)}
           {cvName ? ` — ${cvName}` : ""}

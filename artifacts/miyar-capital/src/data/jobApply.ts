@@ -15,6 +15,8 @@ export const JOB_APPLY = {
   messageAr: "الرسالة",
   cvEn: "Attach CV (PDF)",
   cvAr: "إرفاق السيرة الذاتية (PDF)",
+  cvButtonEn: "Upload CV",
+  cvButtonAr: "رفع السيرة الذاتية",
   cvHintEn: "PDF only · max 5 MB",
   cvHintAr: "PDF فقط · بحد أقصى 5 ميغابايت",
   jobLabelEn: "Position",

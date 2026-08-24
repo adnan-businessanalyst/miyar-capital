@@ -30,7 +30,7 @@ type Props = {
 const MESSAGE_MIN = 20;
 const MESSAGE_MAX = 300;
 const IMAGE_MAX_BYTES = 2 * 1024 * 1024;
-const IMAGE_ACCEPT = "image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp";
+const IMAGE_ACCEPT = "image/jpeg,image/png,.jpg,.jpeg,.png";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 declare global {
@@ -58,13 +58,9 @@ async function getRecaptchaToken(): Promise<string | undefined> {
 }
 
 function isAllowedImageFile(file: File): boolean {
-  if (!/\.(jpe?g|png|webp)$/i.test(file.name)) return false;
+  if (!/\.(jpe?g|png)$/i.test(file.name)) return false;
   if (!file.type) return true;
-  return (
-    file.type === "image/jpeg" ||
-    file.type === "image/png" ||
-    file.type === "image/webp"
-  );
+  return file.type === "image/jpeg" || file.type === "image/png";
 }
 
 function RequiredMark() {
@@ -471,11 +467,12 @@ export function ContactForm({
       </div>
       {isGetInTouch && subject === "Complaint" ? (
         <div className="contact-modal-attach">
-          <label className="contact-modal-attach-label" htmlFor="contact-attachment">
+          <span className="contact-modal-attach-label">
             {pickLang(copy.attachmentLabelEn, copy.attachmentLabelAr, lang)}
-          </label>
+          </span>
           <input
             id="contact-attachment"
+            className="contact-upload-input"
             type="file"
             name="attachment"
             accept={IMAGE_ACCEPT}
@@ -501,6 +498,9 @@ export function ContactForm({
               setError("");
             }}
           />
+          <label htmlFor="contact-attachment" className="btn btn-navy contact-upload-btn">
+            {pickLang(copy.attachmentButtonEn, copy.attachmentButtonAr, lang)}
+          </label>
           <p className="contact-modal-attach-hint">
             {pickLang(copy.attachmentHintEn, copy.attachmentHintAr, lang)}
             {fileName ? ` — ${fileName}` : ""}

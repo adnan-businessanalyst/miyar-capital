@@ -2,6 +2,7 @@
  * JobApplyButton — Apply button that opens a ContactModal containing JobApplyForm for a given posting.
  *
  * Used by:
+ * - components/JobsSection.tsx
  * - views/JobDetail.tsx
  */
 

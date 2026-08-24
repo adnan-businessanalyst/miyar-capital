@@ -23,7 +23,7 @@ import {
   type WhoWeAreIconId,
 } from "../data/whoweare";
 
-const storyImg = CONTENT_IMAGES.private_offers;
+const storyImg = CONTENT_IMAGES.who_we_are_intro || CONTENT_IMAGES.private_offers;
 
 const ICONS: Record<WhoWeAreIconId, ComponentType<LucideProps>> = {
   compass: Compass,
@@ -214,21 +214,17 @@ export function WhoWeAre() {
               />
               <div className="wrap">
                 <PrimaryCardGrid columns={4} className="wwa-principles-grid">
-                  {data.principles.items.map((item) => {
-                    const Icon = ICONS[item.icon];
-                    return (
-                      <PrimaryCard
-                        key={item.titleEn}
-                        icon={<Icon strokeWidth={1.5} />}
-                        title={pickLang(item.titleEn, item.titleAr, lang)}
-                      >
-                        <RichText
-                          as="p"
-                          html={pickLang(item.bodyEn, item.bodyAr, lang)}
-                        />
-                      </PrimaryCard>
-                    );
-                  })}
+                  {data.principles.items.map((item) => (
+                    <PrimaryCard
+                      key={item.titleEn}
+                      title={pickLang(item.titleEn, item.titleAr, lang)}
+                    >
+                      <RichText
+                        as="p"
+                        html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                      />
+                    </PrimaryCard>
+                  ))}
                 </PrimaryCardGrid>
               </div>
             </div>

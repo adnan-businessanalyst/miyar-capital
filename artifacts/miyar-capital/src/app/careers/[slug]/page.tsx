@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { fetchJobBySlug } from "@/lib/jobs";
+import { socialMetadata } from "@/site/social";
 import { JobDetail } from "@/views/JobDetail";
 
 export const dynamic = "force-dynamic";
@@ -13,9 +14,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const data = await fetchJobBySlug(slug);
   if (!data) return { title: "Careers" };
+  const title = data.job.title;
+  const description = data.job.summary;
   return {
-    title: data.job.title,
-    description: data.job.summary,
+    title,
+    description,
+    ...socialMetadata({
+      title,
+      description,
+      url: `/careers/${data.job.slug}`,
+    }),
   };
 }
 

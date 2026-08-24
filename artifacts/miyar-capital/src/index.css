@@ -1886,22 +1886,43 @@ body[dir="rtl"] .sec-sub {
 .am-platform .pcar-card.is-active,
 .am-platform .pcar-card.is-active:hover {
   background-color: #fff;
-  background-image:
-    linear-gradient(to right, #fff 46%, transparent 78%),
-    var(--am-platform-card-img);
-  background-repeat: no-repeat;
-  background-size: 100% 100%, 52% 100%;
-  background-position: center, right center;
+  background-image: none;
   border: none !important;
   outline: none;
   box-shadow: none !important;
 }
-html[dir="rtl"] .am-platform .pcar-card.is-active,
-body[dir="rtl"] .am-platform .pcar-card.is-active {
-  background-image:
-    linear-gradient(to left, #fff 46%, transparent 78%),
-    var(--am-platform-card-img);
-  background-position: center, left center;
+
+.am-platform .pcar-card.is-active::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: 52%;
+  z-index: 0;
+  background-image: var(--am-platform-card-img);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+html[dir="rtl"] .am-platform .pcar-card.is-active::before,
+body[dir="rtl"] .am-platform .pcar-card.is-active::before {
+  transform: scaleX(-1);
+}
+
+.am-platform .pcar-card.is-active::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to right, #fff 46%, transparent 78%);
+  pointer-events: none;
+}
+
+html[dir="rtl"] .am-platform .pcar-card.is-active::after,
+body[dir="rtl"] .am-platform .pcar-card.is-active::after {
+  background: linear-gradient(to left, #fff 46%, transparent 78%);
 }
 .am-platform .pcar-card.is-active .pcar-watermark {
   z-index: 1;
@@ -8980,6 +9001,10 @@ body[dir="rtl"] .board-intro p,
   display: block;
 }
 
+.page--who-we-are .wwa-story-img img {
+  object-position: right bottom;
+}
+
 .page--who-we-are {
   --wwa-intro-overlap: clamp(10rem, 22vw, 16rem);
 }
@@ -9004,6 +9029,14 @@ body[dir="rtl"] .board-intro p,
   margin-bottom: calc(-1 * var(--wwa-intro-overlap));
 }
 
+.page--who-we-are .wwa-story-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--navy) 40%, transparent);
+  pointer-events: none;
+}
+
 .page--who-we-are .wwa-method,
 .page--who-we-are .wwa-principles {
   position: relative;
@@ -9023,8 +9056,9 @@ body[dir="rtl"] .board-intro p,
 
 .page--who-we-are .wwa-principles-photo {
   position: relative;
-  padding-top: clamp(1.75rem, 3vw, 2.5rem);
-  padding-bottom: 88px;
+  margin-top: clamp(2.75rem, 5vw, 4.5rem);
+  padding-top: clamp(2.75rem, 5vw, 4.5rem);
+  padding-bottom: clamp(5.5rem, 8vw, 8rem);
 }
 
 .page--who-we-are .wwa-method {
@@ -9112,6 +9146,7 @@ body[dir="rtl"] .board-intro p,
   --pc-body: rgba(255, 255, 255, 0.88);
   --pc-icon-color: #fff;
   --pc-radius: 0;
+  --pc-pad-y: clamp(2.15rem, 2.4vw, 3rem);
   --wwa-principles-glass: rgba(255, 255, 255, 0.2);
   isolation: isolate;
   background: none !important;
@@ -9119,6 +9154,11 @@ body[dir="rtl"] .board-intro p,
   border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 0;
   box-shadow: none;
+  min-height: clamp(17.5rem, 24vw, 23rem);
+}
+
+.page--who-we-are .wwa-principles .primary-card-icon {
+  display: none;
 }
 
 .page--who-we-are .wwa-principles .primary-card::before {
@@ -15058,6 +15098,27 @@ body[dir="ltr"] .fp-why-list li {
 .contact-modal-attach-label {
   font-size: 0.6875rem;
   color: var(--muted);
+}
+
+.contact-upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.contact-upload-btn {
+  align-self: flex-start;
+  cursor: pointer;
+  margin-top: 4px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
 }
 
 .contact-modal-attach-hint {

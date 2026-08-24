@@ -1,17 +1,15 @@
 /** Max complaint image size (2 MB). */
 export const CONTACT_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
 
-const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
+const ALLOWED_MIME = new Set(["image/jpeg", "image/png"]);
 
 export type ValidatedContactImage = {
   buffer: Buffer;
-  mimeType: "image/jpeg" | "image/png" | "image/webp";
+  mimeType: "image/jpeg" | "image/png";
   fileName: string;
 };
 
-function sniffImageMime(
-  buf: Buffer,
-): "image/jpeg" | "image/png" | "image/webp" | null {
+function sniffImageMime(buf: Buffer): "image/jpeg" | "image/png" | null {
   if (buf.length < 12) return null;
   // JPEG
   if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return "image/jpeg";
@@ -27,19 +25,6 @@ function sniffImageMime(
     buf[7] === 0x0a
   ) {
     return "image/png";
-  }
-  // WEBP: RIFF....WEBP
-  if (
-    buf[0] === 0x52 &&
-    buf[1] === 0x49 &&
-    buf[2] === 0x46 &&
-    buf[3] === 0x46 &&
-    buf[8] === 0x57 &&
-    buf[9] === 0x45 &&
-    buf[10] === 0x42 &&
-    buf[11] === 0x50
-  ) {
-    return "image/webp";
   }
   return null;
 }
@@ -65,7 +50,7 @@ function sanitizeFileName(name: string, mime: ValidatedContactImage["mimeType"])
     .slice(0, 80)
     .trim();
   const ext =
-    mime === "image/jpeg" ? "jpg" : mime === "image/png" ? "png" : "webp";
+    mime === "image/jpeg" ? "jpg" : "png";
   const stem = base.replace(/\.[^.]+$/, "") || "complaint";
   return `${stem}.${ext}`;
 }
@@ -103,14 +88,14 @@ export async function validateContactImage(
   if (declared && !ALLOWED_MIME.has(declared)) {
     return {
       ok: false,
-      error: "Attachment must be a JPEG, PNG, or WebP image.",
+      error: "Attachment must be a PNG, JPG, or JPEG image.",
     };
   }
 
-  if (!/\.(jpe?g|png|webp)$/i.test(name) && declared === "") {
+  if (!/\.(jpe?g|png)$/i.test(name) && declared === "") {
     return {
       ok: false,
-      error: "Attachment must be a JPEG, PNG, or WebP image.",
+      error: "Attachment must be a PNG, JPG, or JPEG image.",
     };
   }
 
@@ -126,7 +111,7 @@ export async function validateContactImage(
   if (!sniffed) {
     return {
       ok: false,
-      error: "Attachment is not a valid JPEG, PNG, or WebP image.",
+      error: "Attachment is not a valid PNG, JPG, or JPEG image.",
     };
   }
 

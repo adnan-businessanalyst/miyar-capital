@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { FrontPage } from "@/views/FrontPage";
 import { fetchHomepageHero } from "@/lib/homepageHero";
+import { socialMetadata } from "@/site/social";
+import { FrontPage } from "@/views/FrontPage";
+
+const homeDescription =
+  "Miyar Capital - independent Saudi investment firm. Asset management and investment banking, Shariah-compliant.";
 
 export const metadata: Metadata = {
   title: "Home",
-  description:
-    "Miyar Capital - independent Saudi investment firm. Asset management and investment banking, Shariah-compliant.",
+  description: homeDescription,
+  ...socialMetadata({
+    title: "Miyar Capital",
+    description: homeDescription,
+    url: "/",
+  }),
 };
 
 export const dynamic = "force-dynamic";

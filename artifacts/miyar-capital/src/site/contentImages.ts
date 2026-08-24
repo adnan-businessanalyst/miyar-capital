@@ -34,11 +34,14 @@ export const CONTENT_IMAGES = {
   /** Real Assets projects section background */
   projects_bg: content("projects-bg"),
   private_offers: content("private_offers"),
+  who_we_are_intro: content("who-we-are-intro"),
   our_services_arrangement_management: content(
     "our-services-arrangement-managment",
   ),
   service_asset_management: content("service-asset-management"),
+  asset_management_active_card: content("asset-management-active-card"),
   service_investment_banking: content("service-investment-banking"),
+  investment_banking_intro: content("investment-banking-intro"),
   section_bg_our_approach: content("section-bg-our-approach"),
   client_solutions_section: content("client-solutions-section"),
   wm_independent_thinking: content("wm-independent-thinking"),

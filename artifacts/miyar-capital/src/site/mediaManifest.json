@@ -46,6 +46,12 @@
       "video": "/media/content/app-phone-screen.mp4",
       "image": "/media/content/app-phone-screen.webp"
     },
+    "asset-management-active-card": {
+      "files": {
+        ".png": "/media/content/asset-management-active-card.png"
+      },
+      "image": "/media/content/asset-management-active-card.png"
+    },
     "client-ifo": {
       "files": {
         ".webp": "/media/content/client-ifo.webp"
@@ -63,6 +69,12 @@
         ".jpg": "/media/content/get-in-touch.jpg"
       },
       "image": "/media/content/get-in-touch.jpg"
+    },
+    "investment-banking-intro": {
+      "files": {
+        ".jpeg": "/media/content/investment-banking-intro.jpeg"
+      },
+      "image": "/media/content/investment-banking-intro.jpeg"
     },
     "man-look-ltr": {
       "files": {
@@ -100,6 +112,12 @@
         ".webp": "/media/content/private_offers.webp"
       },
       "image": "/media/content/private_offers.webp"
+    },
+    "projects-bg": {
+      "files": {
+        ".jpg": "/media/content/projects-bg.jpg"
+      },
+      "image": "/media/content/projects-bg.jpg"
     },
     "ra-1": {
       "files": {
@@ -143,12 +161,6 @@
       },
       "image": "/media/content/ra-intro.webp"
     },
-    "projects-bg": {
-      "files": {
-        ".jpg": "/media/content/projects-bg.jpg"
-      },
-      "image": "/media/content/projects-bg.jpg"
-    },
     "section-bg-our-approach": {
       "files": {
         ".jpg": "/media/content/section-bg-our-approach.jpg"
@@ -166,6 +178,12 @@
         ".webp": "/media/content/service-investment-banking.webp"
       },
       "image": "/media/content/service-investment-banking.webp"
+    },
+    "who-we-are-intro": {
+      "files": {
+        ".jpeg": "/media/content/who-we-are-intro.jpeg"
+      },
+      "image": "/media/content/who-we-are-intro.jpeg"
     }
   },
   "executives": {

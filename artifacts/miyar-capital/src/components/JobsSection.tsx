@@ -8,10 +8,11 @@
 "use client";
 
 import Link from "next/link";
+import type { JobsPageData } from "../data/jobs";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useLocalePath } from "../i18n/useLocalePath";
 import { pickLang } from "../site/types";
-import type { JobsPageData } from "../data/jobs";
+import { JobApplyButton } from "./JobApplyButton";
 
 export function JobsSection({
   className = "",
@@ -90,6 +91,7 @@ export function JobsSection({
                       {pickLang(job.summary, job.summaryAr ?? "", lang)}
                     </p>
                   </div>
+                  <JobApplyButton job={job} settings={settings} />
                 </li>
               );
             })}
