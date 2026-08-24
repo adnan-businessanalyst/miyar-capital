@@ -138,8 +138,8 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
     "advise",
     "method",
     "execute",
-    "products",
-    "lifecycle",
+    // "products", // خدماتنا / OUR SERVICES
+    // "lifecycle", // دورة حياة المعاملة / TRANSACTION LIFECYCLE
   ],
 
   hero: {

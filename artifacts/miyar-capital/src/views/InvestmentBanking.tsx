@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { PageHero } from "../components/PageHero";
 import { PrimaryCardGrid } from "../components/PrimaryCard";
-import { PrimaryCardSmall } from "../components/PrimaryCardSmall";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
 import { SectionHead } from "../components/SectionHead";
@@ -149,6 +148,13 @@ export function InvestmentBanking() {
       case "advise": {
         return (
           <section key={id} className="blk ib-advise">
+            {servicesFront ? (
+              <div
+                className="ib-advise-bg"
+                style={{ backgroundImage: `url(${servicesFront})` }}
+                aria-hidden="true"
+              />
+            ) : null}
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.advise.tagEn, data.advise.tagAr, lang)}
@@ -228,41 +234,40 @@ export function InvestmentBanking() {
         );
       }
       case "execute": {
+        const executeTitle = pickLang(
+          data.execute.tagEn,
+          data.execute.tagAr,
+          lang,
+        );
+        const executeSub = pickLang(
+          data.execute.headingEn || data.execute.bodyEn,
+          data.execute.headingAr || data.execute.bodyAr,
+          lang,
+        );
         return (
           <section key={id} className="blk ib-execute">
-            <div className="wrap">
-              <SectionHead
-                title={pickLang(data.execute.tagEn, data.execute.tagAr, lang)}
-                subtitle={pickLang(
-                  data.execute.headingEn,
-                  data.execute.headingAr,
-                  lang,
-                )}
+            {servicesFront ? (
+              <div
+                className="ib-lifecycle-bg"
+                style={{ backgroundImage: `url(${servicesFront})` }}
+                aria-hidden="true"
               />
-              <div className="ib-lead">
-                <RichText
-                  as="p"
-                  html={pickLang(
-                    data.execute.bodyEn,
-                    data.execute.bodyAr,
-                    lang,
-                  )}
+            ) : null}
+            <div className="wrap">
+              <SectionHead title={executeTitle} subtitle={executeSub} />
+              <div className="ib-lifecycle-panel">
+                <Steps
+                  className="ib-lifecycle-steps"
+                  items={data.execute.cards.map((card, i) => {
+                    const title = pickLang(card.titleEn, card.titleAr, lang);
+                    const body = pickLang(card.bodyEn, card.bodyAr, lang);
+                    return {
+                      num: String(i + 1).padStart(2, "0"),
+                      title: title.trim() ? title : body,
+                      body: title.trim() ? body : "",
+                    };
+                  })}
                 />
-              </div>
-              <div className="ib-execute-stage">
-                <PrimaryCardGrid
-                  columns={4}
-                  className="ib-execute-cards"
-                >
-                  {data.execute.cards.map((card, i) => (
-                    <PrimaryCardSmall
-                      key={`${card.titleEn || card.bodyEn}-${i}`}
-                      className="ib-execute-card"
-                      title={pickLang(card.titleEn, card.titleAr, lang)}
-                      body={pickLang(card.bodyEn, card.bodyAr, lang)}
-                    />
-                  ))}
-                </PrimaryCardGrid>
               </div>
             </div>
           </section>

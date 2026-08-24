@@ -1480,14 +1480,14 @@ section.blk {
  */
 .page:not(.fp)
   > section.blk:nth-child(
-    odd of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
+    odd of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ib-execute):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
   ) {
   background-color: var(--section-bg-soft);
 }
 
 .page:not(.fp)
   > section.blk:nth-child(
-    even of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
+    even of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ib-execute):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
   ) {
   background-color: var(--section-bg-light);
 }
@@ -1513,7 +1513,7 @@ section.blk {
   line-height: 1.4;
 }
 
-/* Section title: prominent primary h2 with full text underline */
+/* Section title: prominent primary h2 */
 .sec-title {
   font-family: var(--serif);
   font-weight: 600;
@@ -1524,8 +1524,8 @@ section.blk {
   margin: 0;
   display: inline-block;
   max-width: 100%;
-  padding-bottom: 0.4em;
-  border-bottom: 2px solid currentColor;
+  padding-bottom: 0;
+  border-bottom: none;
   text-decoration: none;
 }
 
@@ -3000,30 +3000,33 @@ body[dir="rtl"] .page--institutional-family-office .ifo-overview .sec-title {
 
 .page--institutional-family-office > section.blk.ri,
 .page--institutional-family-office > .ri {
-  background: var(--navy) !important;
   background-color: var(--navy) !important;
+  background-image: url("/media/content/contact-bg.jpeg") !important;
+  background-size: cover !important;
+  background-position: 50% 88% !important;
+  background-repeat: no-repeat !important;
 }
 
 .page--institutional-family-office > .ri .ri-title,
 .page--institutional-family-office > .ri .contact-cta .ri-title {
-  color: #fff;
+  color: var(--navy);
   border-bottom-color: currentColor;
 }
 
 .page--institutional-family-office > .ri .ri-body,
 .page--institutional-family-office > .ri .contact-cta .ri-body {
-  color: #fff;
+  color: var(--muted);
 }
 
 .page--institutional-family-office > .ri .btn.btn-navy.cta-btn {
-  background: #fff;
-  color: var(--navy);
+  background: var(--navy);
+  color: #fff;
   border: none;
 }
 
 .page--institutional-family-office > .ri .btn.btn-navy.cta-btn:hover {
-  background: transparent;
-  color: #fff;
+  background: var(--gold);
+  color: var(--navy-deep);
   border: none;
 }
 
@@ -4583,50 +4586,92 @@ body[dir="rtl"] .page--investment-banking > :is(.blk, .ri):not(.page-hero):not(.
   line-height: calc(1.55 * var(--ib-lh-scale));
 }
 
-/* IB Arrangement & Advisory — primary blue section */
+/* IB Arrangement & Advisory — same layout as transaction lifecycle */
 .page:not(.fp) > section.blk.ib-execute,
 section.blk.ib-execute {
-  background: var(--navy) !important;
+  position: relative;
+  overflow: hidden;
   background-color: var(--navy) !important;
+  padding-block: clamp(7.5rem, 12vw, 11rem);
+}
+
+.ib-execute > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.ib-execute .ib-lifecycle-bg {
+  background-position: right 78%;
+}
+
+.ib-execute .sec-title {
+  color: #fff;
+  border-bottom-color: currentColor;
+}
+
+.ib-execute .sec-sub {
+  color: #c5c9ce;
 }
 
 .ib-execute,
 .ib-execute .sec-head,
 .ib-execute .sec-title,
-.ib-execute .sec-sub,
-.ib-execute .ib-lead,
-.ib-execute .ib-lead p,
-.ib-execute .ib-lead .ib-lead-line,
-.ib-execute .ib-execute-card,
-.ib-execute .ib-execute-card .primary-card-small-title,
-.ib-execute .ib-execute-card .primary-card-small-body {
+.ib-execute .sec-sub {
   text-align: start;
-  color: #fff;
 }
 
-.ib-execute .sec-title {
-  border-bottom-color: currentColor;
+.ib-execute .ib-lifecycle-panel {
+  --ib-life-row-h: 6.75rem;
+  width: 100%;
+  max-width: none;
 }
 
-.page--investment-banking .ib-execute .ib-lead,
-.page--investment-banking .ib-execute .ib-lead p,
-.page--investment-banking .ib-execute .ib-lead .ib-lead-line,
-html[dir="rtl"] .page--investment-banking .ib-execute .ib-lead p,
-body[dir="rtl"] .page--investment-banking .ib-execute .ib-lead p {
-  color: var(--cool-grey);
-  font-size: clamp(1.5rem, 1.25rem + 1.15vw, 1.95rem);
-  font-weight: 700;
-  line-height: 1.55;
+.ib-execute .ib-lifecycle-steps .steps-grid {
+  gap: 1rem !important;
 }
 
-/* IB Scope of Financial Services — secondary color section */
+.ib-execute .ib-lifecycle-steps .steps-card.svc,
+.ib-execute .ib-lifecycle-steps .steps-card.svc.svc--dark {
+  grid-template-columns: auto minmax(0, 1fr) !important;
+  height: var(--ib-life-row-h) !important;
+  min-height: var(--ib-life-row-h) !important;
+  max-height: none !important;
+}
+
+.ib-execute .ib-lifecycle-steps .steps-card h4 {
+  grid-column: 2 / -1;
+  max-width: none;
+  white-space: normal;
+}
+
+.ib-execute .ib-lifecycle-steps .steps-sub:has(p:empty) {
+  display: none !important;
+}
+
+/* IB Scope of Financial Services — photo background */
 .page:not(.fp) > section.blk.ib-advise,
 section.blk.ib-advise {
   position: relative;
   z-index: 1;
+  overflow: hidden;
   background: var(--navy-mid) !important;
   background-color: var(--navy-mid) !important;
   padding-top: calc(clamp(5rem, 14vw, 9rem) + 1.15rem);
+}
+
+.ib-advise-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.ib-advise > .wrap {
+  position: relative;
+  z-index: 1;
 }
 
 .ib-advise .sec-title {
@@ -4645,6 +4690,12 @@ section.blk.ib-advise {
   justify-content: flex-start;
   align-items: stretch;
   gap: 0;
+  padding: 0.15rem 1.35rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 12px 40px rgba(8, 18, 32, 0.18);
 }
 
 .ib-advise-grid.primary-card-grid > .ib-advise-card {
@@ -6305,19 +6356,22 @@ body[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickab
 
 .page--real-assets > section.blk.ri,
 .page--real-assets > .ri {
-  background: var(--navy) !important;
   background-color: var(--navy) !important;
+  background-image: url("/media/content/contact-bg.jpeg") !important;
+  background-size: cover !important;
+  background-position: 50% 88% !important;
+  background-repeat: no-repeat !important;
 }
 
 .page--real-assets > .ri .ri-title,
 .page--real-assets > .ri .contact-cta .ri-title {
-  color: #fff;
+  color: var(--navy);
   border-bottom-color: currentColor;
 }
 
 .page--real-assets > .ri .ri-body,
 .page--real-assets > .ri .contact-cta .ri-body {
-  color: #fff;
+  color: var(--muted);
 }
 
 .page--real-assets > .ri .ri-disclaimer {
@@ -6336,9 +6390,15 @@ body[dir="rtl"] .primary-card.primary-card-clickable:hover .primary-card-clickab
 
 .page--real-assets > .ri .btn.btn-navy.cta-btn,
 .page--real-assets > .ri .btn.btn-navy.cta-btn:hover {
-  background: #fff;
-  color: var(--navy);
-  border-color: #fff;
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+}
+
+.page--real-assets > .ri .btn.btn-navy.cta-btn:hover {
+  background: var(--gold);
+  color: var(--navy-deep);
+  border-color: var(--gold);
 }
 
 .page:not(.fp) > section.blk.ra-projects,
@@ -10419,7 +10479,37 @@ body[dir="ltr"] .ib-services-duo .ib-services-media-front img {
 
 /* ===== REGISTER INTEREST section ===== */
 .ri {
-  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--navy);
+  background-image: url("/media/content/contact-bg.jpeg");
+  background-size: cover;
+  background-position: 50% 88%;
+  background-repeat: no-repeat;
+  padding-block: clamp(8.5rem, 14vw, 12.5rem);
+}
+
+.ri::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(12, 71, 110, 0.32);
+  pointer-events: none;
+}
+
+.ri > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .ri,
+  .fp > section.fp-contact,
+  section.blk:has(> .wrap.ib-cta),
+  section.blk.ib-execute {
+    margin-top: clamp(2.75rem, 4vw, 4.25rem);
+  }
 }
 
 .ri h2 {
@@ -12759,10 +12849,7 @@ body[dir="rtl"] .fp > section:not(.fp-hero) :is(h2, h3, .fp-tag, .fp-h2, .sec-ti
   margin-inline: 0 auto;
   padding-bottom: 0;
   border-bottom: none;
-  text-decoration: underline;
-  text-underline-offset: 0.04em;
-  text-decoration-thickness: 0.06em;
-  text-underline-position: under;
+  text-decoration: none;
 }
 .fp > section:not(.fp-hero):not(.fp-app) :is(h2, .sec-title) {
   font-size: calc(clamp(1.5rem, 4.5vw, 45px) * var(--fp-copy-scale));
@@ -13130,8 +13217,9 @@ body[dir="rtl"] .fp > section:not(.fp-hero) .fp-service-cap h3 {
 }
 .fp > section:not(.fp-hero) .fp-contact--form-only .fp-contact-form {
   width: min(100%, 44rem);
-  padding-block: calc(clamp(5rem, 8vw, 6.25rem) * var(--fp-copy-scale));
-  gap: calc(2rem * var(--fp-copy-scale));
+  padding: calc(clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem) * var(--fp-copy-scale))
+    calc(clamp(1.5rem, 1.2rem + 1.4vw, 2.5rem) * var(--fp-copy-scale));
+  gap: calc(1.75rem * var(--fp-copy-scale));
 }
 .fp > section:not(.fp-hero) .fp-job {
   padding-block: 1.75rem;
@@ -13164,28 +13252,51 @@ body[dir="rtl"] .fp > section:not(.fp-hero) .fp-service-cap h3 {
   background: var(--fp-section-bg-soft) !important;
 }
 
-.fp > section.fp-contact {
-  background: var(--navy) !important;
+.fp > section.fp-contact,
+.fp > section.fp-contact.fp-section-bg-a,
+.fp > section.fp-contact.fp-section-bg-b {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--navy) !important;
+  background-image: url("/media/content/contact-bg.jpeg") !important;
+  background-size: cover !important;
+  background-position: 50% 88% !important;
+  background-repeat: no-repeat !important;
+  padding-block: clamp(8.5rem, 14vw, 12.5rem);
+}
+
+.fp > section.fp-contact::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(12, 71, 110, 0.32);
+  pointer-events: none;
+}
+
+.fp > section.fp-contact > * {
+  position: relative;
+  z-index: 1;
 }
 .fp > section.fp-contact :is(h2, .sec-title) {
-  color: #fff !important;
+  color: var(--navy) !important;
 }
 .fp > section.fp-contact :is(.subtitle, .sec-sub) {
-  color: rgba(255, 255, 255, 0.88) !important;
+  color: var(--muted) !important;
 }
 .fp > section.fp-contact .btn,
 .fp > section.fp-contact .btn-navy,
 .fp > section.fp-contact .cta-btn {
-  background: #fff;
-  color: var(--navy);
-  border: 1px solid #fff;
+  background: var(--navy);
+  color: #fff;
+  border: 1px solid var(--navy);
 }
 .fp > section.fp-contact .btn:hover,
 .fp > section.fp-contact .btn-navy:hover,
 .fp > section.fp-contact .cta-btn:hover {
-  background: transparent;
-  color: #fff;
-  border-color: #fff;
+  background: var(--gold);
+  color: var(--navy-deep);
+  border-color: var(--gold);
 }
 
 .fp > section:not(.fp-hero):not(.fp-app).fp-wwd {
@@ -14671,11 +14782,13 @@ body[dir="ltr"] .fp-why-list li {
 }
 
 .fp-contact--form-only .fp-contact-form {
-  width: min(100%, 40rem);
+  width: min(100%, 42rem);
   align-items: center;
   text-align: center;
-  padding-block: 80px;
+  padding: clamp(1.75rem, 1.35rem + 1.4vw, 2.65rem)
+    clamp(1.5rem, 1.2rem + 1.6vw, 2.75rem);
   gap: 1.75rem;
+  background: #fff;
 }
 
 .fp-contact--form-only .fp-contact-form .sec-head {
@@ -14697,6 +14810,15 @@ body[dir="ltr"] .fp-why-list li {
   text-align: center;
 }
 
+.ri .contact-cta {
+  max-width: 42rem;
+  width: 100%;
+  margin-inline: auto;
+  padding: clamp(1.75rem, 1.35rem + 1.4vw, 2.65rem)
+    clamp(1.5rem, 1.2rem + 1.6vw, 2.75rem);
+  background: #fff;
+}
+
 .contact-cta .ri-title {
   font-family: var(--serif);
   font-weight: 600;
@@ -14707,8 +14829,8 @@ body[dir="ltr"] .fp-why-list li {
   margin: 0;
   display: inline-block;
   max-width: 100%;
-  padding-bottom: 0.28em;
-  border-bottom: 2px solid currentColor;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .contact-cta .ri-body {
@@ -14719,6 +14841,26 @@ body[dir="ltr"] .fp-why-list li {
   font-weight: 300;
   line-height: 1.55;
   color: var(--muted);
+}
+
+.ri .contact-cta .ri-title {
+  color: var(--navy);
+  border-bottom-color: currentColor;
+}
+
+.ri .contact-cta .ri-body {
+  color: var(--muted);
+}
+
+.ri .btn.btn-navy.cta-btn {
+  background: var(--navy);
+  color: #fff;
+  border: none;
+}
+
+.ri .btn.btn-navy.cta-btn:hover {
+  background: var(--gold);
+  color: var(--navy-deep);
 }
 
 .ri-disclaimer {
@@ -14770,37 +14912,27 @@ body[dir="ltr"] .fp-why-list li {
 }
 
 .contact-modal--with-media {
+  display: flex;
+  flex-direction: column;
   width: min(100%, 36rem);
 }
 
-/* Physical columns: EN form|image, AR image|form */
 .contact-modal-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
-  direction: ltr;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   min-width: 0;
+  min-height: 0;
   max-height: min(92vh, 92dvh);
-}
-
-.contact-modal[dir="ltr"] .contact-modal-body {
-  order: 1;
-}
-
-.contact-modal[dir="ltr"] .contact-modal-media {
-  order: 2;
-}
-
-.contact-modal[dir="rtl"] .contact-modal-media {
-  order: 1;
-}
-
-.contact-modal[dir="rtl"] .contact-modal-body {
-  order: 2;
 }
 
 .contact-modal-media {
   position: relative;
-  min-height: 0;
+  width: 100%;
+  flex: 0 0 auto;
+  aspect-ratio: 16 / 9;
+  min-height: 14rem;
+  max-height: 20rem;
   background: var(--navy);
   overflow: hidden;
 }
@@ -14812,82 +14944,13 @@ body[dir="ltr"] .fp-why-list li {
   display: block;
 }
 
-/* Black overlay — 40% opacity */
-.contact-modal-media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.4);
-  pointer-events: none;
-}
-
-/*
- * Edge blur toward the form:
- * AR (image left, form right) → blur on the right
- * EN (form left, image right) → blur on the left
- */
-.contact-modal-media::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 2;
-  width: min(55%, 11rem);
-  pointer-events: none;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.contact-modal[dir="rtl"] .contact-modal-media::before {
-  right: 0;
-  background: linear-gradient(
-    to left,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.18) 45%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  mask-image: linear-gradient(to left, #000 0%, #000 35%, transparent 100%);
-  -webkit-mask-image: linear-gradient(
-    to left,
-    #000 0%,
-    #000 35%,
-    transparent 100%
-  );
-}
-
-.contact-modal[dir="ltr"] .contact-modal-media::before {
-  left: 0;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(255, 255, 255, 0.18) 45%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  mask-image: linear-gradient(to right, #000 0%, #000 35%, transparent 100%);
-  -webkit-mask-image: linear-gradient(
-    to right,
-    #000 0%,
-    #000 35%,
-    transparent 100%
-  );
-}
-
 .contact-modal-body {
   padding: 16px 16px 14px;
   min-width: 0;
+  width: 100%;
   text-align: start;
-  overflow: hidden;
-  /* Restore writing direction for form content (parent layout is LTR). */
-  direction: inherit;
-}
-
-.contact-modal[dir="rtl"] .contact-modal-body {
-  direction: rtl;
-}
-
-.contact-modal[dir="ltr"] .contact-modal-body {
-  direction: ltr;
+  overflow: auto;
+  flex: 1 1 auto;
 }
 
 .contact-modal-title {
@@ -14906,7 +14969,7 @@ body[dir="ltr"] .fp-why-list li {
   position: absolute;
   top: 6px;
   inset-inline-end: 6px;
-  z-index: 2;
+  z-index: 5;
   width: 30px;
   height: 30px;
   border: 0;
@@ -15162,13 +15225,12 @@ body[dir="ltr"] .fp-why-list li {
   }
 
   .contact-modal-layout {
-    grid-template-columns: 1fr;
     max-height: min(92dvh, 92vh);
   }
 
-  /* Forms: drop man-on-phone media so the form can use the full width. */
   .contact-modal-media {
-    display: none;
+    min-height: 11rem;
+    max-height: 16rem;
   }
 
   .contact-modal-body {
@@ -15827,7 +15889,7 @@ body[dir="rtl"] .fp-app::after {
     --fp-svc-overlap: 0px;
   }
   .fp > section:not(.fp-hero) .fp-contact--form-only .fp-contact-form {
-    padding-block: clamp(3.25rem, 8vw, 4.5rem);
+    padding-block: clamp(1.5rem, 4vw, 2.25rem);
     padding-inline: clamp(1.25rem, 4vw, 2rem);
   }
   .fp > section:not(.fp-hero) .fp-app-inner {
@@ -16299,59 +16361,65 @@ body[dir="rtl"] .page--dpm .dpm-mandates .primary-card-title::after {
 
 .page--asset-management > section.blk.ri,
 .page--asset-management > .ri {
-  background: var(--navy) !important;
   background-color: var(--navy) !important;
+  background-image: url("/media/content/contact-bg.jpeg") !important;
+  background-size: cover !important;
+  background-position: 50% 88% !important;
+  background-repeat: no-repeat !important;
 }
 
 .page--asset-management > .ri .ri-title,
 .page--asset-management > .ri .contact-cta .ri-title {
-  color: #fff;
+  color: var(--navy);
   border-bottom-color: currentColor;
 }
 
 .page--asset-management > .ri .ri-body,
 .page--asset-management > .ri .contact-cta .ri-body {
-  color: #fff;
+  color: var(--muted);
 }
 
 .page--asset-management > .ri .btn.btn-navy.cta-btn {
-  background: #fff;
-  color: var(--navy);
+  background: var(--navy);
+  color: #fff;
   border: none;
 }
 
 .page--asset-management > .ri .btn.btn-navy.cta-btn:hover {
-  background: transparent;
-  color: #fff;
+  background: var(--gold);
+  color: var(--navy-deep);
   border: none;
 }
 
 .page--dpm > section.blk.ri,
 .page--dpm > .ri {
-  background: var(--navy) !important;
   background-color: var(--navy) !important;
+  background-image: url("/media/content/contact-bg.jpeg") !important;
+  background-size: cover !important;
+  background-position: 50% 88% !important;
+  background-repeat: no-repeat !important;
 }
 
 .page--dpm > .ri .ri-title,
 .page--dpm > .ri .contact-cta .ri-title {
-  color: #fff;
+  color: var(--navy);
   border-bottom-color: currentColor;
 }
 
 .page--dpm > .ri .ri-body,
 .page--dpm > .ri .contact-cta .ri-body {
-  color: #fff;
+  color: var(--muted);
 }
 
 .page--dpm > .ri .btn.btn-navy.cta-btn {
-  background: #fff;
-  color: var(--navy);
+  background: var(--navy);
+  color: #fff;
   border: none;
 }
 
 .page--dpm > .ri .btn.btn-navy.cta-btn:hover {
-  background: transparent;
-  color: #fff;
+  background: var(--gold);
+  color: var(--navy-deep);
   border: none;
 }
 .ifo-h3 {
@@ -16806,6 +16874,8 @@ body[dir="rtl"] .page--dpm .dpm-mandates .primary-card-title::after {
   overflow: hidden;
   /* Image reaches the true section bottom; spacing moved onto the stage */
   padding-bottom: 0 !important;
+  background: var(--cool-grey-2) !important;
+  background-color: var(--cool-grey-2) !important;
 }
 
 .ib-method-section .sec-title {
@@ -17228,6 +17298,48 @@ body[dir="ltr"] .ib-method-media {
   margin: 0 auto 30px;
   font-weight: 300;
   line-height: 1.65;
+}
+
+section.blk:has(> .wrap.ib-cta) {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--navy) !important;
+  background-image: url("/media/content/contact-bg.jpeg") !important;
+  background-size: cover !important;
+  background-position: 50% 88% !important;
+  background-repeat: no-repeat !important;
+  padding-block: clamp(8.5rem, 14vw, 12.5rem);
+}
+
+section.blk:has(> .wrap.ib-cta)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(12, 71, 110, 0.32);
+  pointer-events: none;
+}
+
+section.blk:has(> .wrap.ib-cta) > * {
+  position: relative;
+  z-index: 1;
+}
+
+section.blk:has(> .wrap.ib-cta) > .wrap.ib-cta {
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: clamp(1.75rem, 1.35rem + 1.4vw, 2.65rem)
+    clamp(1.5rem, 1.2rem + 1.6vw, 2.75rem);
+  background: #fff;
+}
+
+section.blk:has(> .wrap.ib-cta) .ib-cta .sec-title {
+  color: var(--navy);
+  border-bottom-color: currentColor;
+}
+
+section.blk:has(> .wrap.ib-cta) .ib-cta .sec-sub {
+  color: var(--muted);
 }
 
 /* Notes & Disclosures — dark navy */

@@ -1,8 +1,7 @@
 /**
  * PrimaryCardSmall — Compact skewed-square primary card with centered title and optional body.
  *
- * Used by:
- * - views/InvestmentBanking.tsx
+ * Used by: (none yet)
  */
 
 import type { ReactNode } from "react";
