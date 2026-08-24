@@ -1480,14 +1480,14 @@ section.blk {
  */
 .page:not(.fp)
   > section.blk:nth-child(
-    odd of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ib-execute):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
+    odd of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ib-execute):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section):not(.am-platform)
   ) {
   background-color: var(--section-bg-soft);
 }
 
 .page:not(.fp)
   > section.blk:nth-child(
-    even of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ib-execute):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section)
+    even of .blk:not(.eq-cta):not(.ri):not(.detail):not(.core-capabilities-section):not(.ib-method-section):not(.ib-lifecycle):not(.ib-execute):not(.ifo-approach):not(.ifo-notes):not(.dpm-mandates):not(.dpm-cycle):not(.wwa-method):not(.wwa-principles):not(.ia-valuate-section):not(.am-platform)
   ) {
   background-color: var(--section-bg-light);
 }
@@ -1905,6 +1905,12 @@ body[dir="rtl"] .sec-sub {
 }
 
 /* AM platform carousel cards */
+.page:not(.fp) > section.blk.am-platform,
+section.blk.am-platform {
+  background: var(--cool-grey-1) !important;
+  background-color: var(--cool-grey-1) !important;
+}
+
 .am-platform .pcar-card {
   top: 43%;
   background: #fff;
@@ -14911,7 +14917,7 @@ body[dir="ltr"] .fp-why-list li {
 .contact-modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: 400;
   display: grid;
   place-items: center;
   padding: 24px;

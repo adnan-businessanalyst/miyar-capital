@@ -15,6 +15,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import { useLanguage } from "../i18n/LanguageContext";
 import { GET_IN_TOUCH_IMG } from "../site/getInTouch";
 
@@ -85,8 +86,9 @@ export function ContactModal({
   }, [open, onClose]);
 
   if (!open) return null;
+  if (typeof document === "undefined") return null;
 
-  return (
+  return createPortal(
     <div
       className="contact-modal-backdrop"
       role="presentation"
@@ -132,6 +134,7 @@ export function ContactModal({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
