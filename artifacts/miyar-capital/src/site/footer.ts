@@ -56,15 +56,33 @@ export const SITE_FOOTER: SiteFooter = {
       titleAr: "إدارة الأصول",
       links: [
         {
-          id: "f-liq",
-          labelEn: "Liquidity & FI Solutions",
+          id: "f-am-overview",
+          labelEn: "Overview",
+          labelAr: "نظرة عامة",
+          href: "/asset-management",
+        },
+        {
+          id: "f-lfi",
+          labelEn: "Liquidity & Fixed Income Solutions",
           labelAr: "حلول السيولة والدخل الثابت",
-          href: "/asset-management/liquidity-fi",
+          href: "/asset-management/liquidity-fixed-income",
+        },
+        {
+          id: "f-liq",
+          labelEn: "Murabaha",
+          labelAr: "المرابحة",
+          href: "/asset-management/liquidity-fixed-income/murabaha-fund",
+        },
+        {
+          id: "f-direct-mur",
+          labelEn: "Direct Murabaha",
+          labelAr: "المرابحة المباشرة",
+          href: "/asset-management/liquidity-fixed-income/direct-murabaha",
         },
         {
           id: "f-eq",
           labelEn: "Equity Management",
-          labelAr: "أسهم الملكية الخاصة",
+          labelAr: "إدارة الأسهم",
           href: "/asset-management/equity-management",
         },
         {
@@ -91,6 +109,12 @@ export const SITE_FOOTER: SiteFooter = {
           labelAr: "المؤسسات و المكاتب العائلية",
           href: "/asset-management/institutional-family-office",
         },
+        {
+          id: "f-dpm-est",
+          labelEn: "Discretionary Portfolio Management",
+          labelAr: "الإدارة التقديرية للمحافظ",
+          href: "/asset-management/Discretionary-portfolio-management",
+        },
       ],
     },
     {
@@ -99,9 +123,9 @@ export const SITE_FOOTER: SiteFooter = {
       titleAr: "المصرفية الاستثمارية",
       links: [
         {
-          id: "f-cm",
-          labelEn: "Investment Banking",
-          labelAr: "المصرفية الاستثمارية",
+          id: "f-ib-overview",
+          labelEn: "Overview",
+          labelAr: "نظرة عامة",
           href: "/investment-banking",
         },
         {
@@ -113,7 +137,7 @@ export const SITE_FOOTER: SiteFooter = {
         {
           id: "f-debt",
           labelEn: "Financial Advisory",
-          labelAr: "مستشار المالية",
+          labelAr: "المستشار المالي",
           href: "/investment-advisory",
         },
       ],

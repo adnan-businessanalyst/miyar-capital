@@ -110,7 +110,7 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         labelEn: "Vehicles",
         labelAr: "الأدوات",
         valueEn: "Public Funds · Private Funds · DPM",
-        valueAr: "صناديق عامة · صناديق خاصة · إدارة المحافظ الإستثمارية الخاصة",
+        valueAr: "صناديق عامة · صناديق خاصة · إدارة المحافظ الاستثمارية الخاصة",
       },
       {
         labelEn: "Regulation",
@@ -123,36 +123,36 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
 
   platform: {
     headingEn: "One integrated platform, not a product shelf.",
-    headingAr: "منصةٌ واحدة متكاملة، لا مجموعةَ منتجات متفرقة.",
+    headingAr: "نهج متكامل عبر الركائز الأربع، لا مجموعةَ منتجات متفرقة.",
     bodyEn:
       "Each pillar carries its own page, documents and process. Allocation is coordinated centrally so that mandates draw on the full platform rather than a single fund.",
     bodyAr:
-      "لكل ركيزة ملفها الخاص ووثائقها وإجراءاتها. ويُنسَّق توزيع الأصول مركزياً بحيث يستفيد أصحاب التفاويض من المنصة كاملةً لا من صندوقٍ واحد.",
+      "لكل ركيزة ملفها الخاص و وثائقها وإجراءاتها. ويُنسَّق توزيع الأصول مركزياً بحيث يستفيد أصحاب التفويضات من المنصة كاملةً لا من صندوقٍ واحد.",
     pillars: [
       {
         num: "I",
-        titleEn: "Liquidity & Fixed Income",
-        titleAr: "السيولة والدخل الثابت",
+        titleEn: "I. Liquidity & Fixed Income",
+        titleAr: "I. السيولة والدخل الثابت",
         bodyEn:
           "Murabaha and money-market solutions.",
         bodyAr:
           "حلول المرابحة وأسواق النقد.",
-        href: "/asset-management/liquidity-fi",
+        href: "/asset-management/liquidity-fixed-income",
       },
       {
         num: "II",
-        titleEn: "Equity Management",
-        titleAr: "إدارة أسهم الملكية الخاصة",
+        titleEn: "II. Equity Management",
+        titleAr: "II. إدارة الأسهم",
         bodyEn:
           "Saudi and regional equity strategies.",
         bodyAr:
-          "استراتيجيات سعودية وإقليمية لأسهم الملكية الخاصة.",
+          "استراتيجيات سعودية وإقليمية إدارة الأسهم.",
         href: "/asset-management/equity-management",
       },
       {
         num: "III",
-        titleEn: "Real Assets",
-        titleAr: "الأصول العقارية",
+        titleEn: "III. Real Assets",
+        titleAr: "III. الأصول العقارية",
         bodyEn:
           "Real estate income & development funds.",
         bodyAr:
@@ -161,8 +161,8 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
       },
       {
         num: "IV",
-        titleEn: "Private Markets",
-        titleAr: "الأسواق الخاصة",
+        titleEn: "IV. Private Markets",
+        titleAr: "IV. الأسواق الخاصة",
         bodyEn:
           "PE & private credit - qualified investors.",
         bodyAr:
@@ -237,11 +237,11 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         id: "dpm",
         num: "A",
         titleEn: "Discretionary Portfolio Management",
-        titleAr: "إدارة المحافظ الإستثمارية الخاصة",
+        titleAr: "إدارة المحافظ الاستثمارية الخاصة",
         bodyEn:
           "Bespoke mandates built around a written investment policy, liquidity needs and horizon — the firm's primary engine for AUM growth.",
         bodyAr:
-          "تفاويض مُفصَّلة تُبنى على سياسة استثمارٍ مكتوبة واحتياجات السيولة والمدى الزمني، وهي المحرك الرئيس لنمو الأصول المُدارة لدى الشركة.",
+          "تفويضات مُفصَّلة تُبنى على سياسة استثمارٍ مكتوبة واحتياجات السيولة والمدى الزمني، وهي المحرك الرئيس لنمو الأصول المُدارة لدى الشركة.",
         href: "/asset-management/dpm",
       },
       {
@@ -252,8 +252,19 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         bodyEn:
           "Multi-asset solutions, advisory mandates and endowment / waqf structures for sophisticated pools of capital.",
         bodyAr:
-          "حلول متعددة الأصول، وتفاويض استشارية، وهياكل الأوقاف، لرؤوس الأموال المؤسسية والمؤهلة.",
+          "حلول متعددة الأصول، تفويضات استشارية، وهياكل الأوقاف، لرؤوس الأموال المؤسسية والمؤهلة.",
         href: "/asset-management/institutional-family-office",
+      },
+      {
+        id: "dpm-combined",
+        num: "C",
+        titleEn: "Discretionary Portfolio Management",
+        titleAr: "الإدارة التقديرية للمحافظ",
+        bodyEn:
+          "Bespoke mandates for individuals, family offices and institutions — built around a written investment policy, liquidity needs and horizon.",
+        bodyAr:
+          "تفويضات مُفصَّلة للأفراد والمكاتب العائلية والمؤسسات، تُبنى على سياسة استثمارٍ مكتوبة واحتياجات السيولة والمدى الزمني.",
+        href: "/asset-management/Discretionary-portfolio-management",
       },
     ],
   },

@@ -27,6 +27,7 @@ type Props = {
   /** Optional modal title override. */
   modalTitleEn?: string;
   modalTitleAr?: string;
+  serviceEnquiry?: boolean;
 };
 
 /** Consistent Register Interest CTA button + modal (EN / AR). */
@@ -39,6 +40,7 @@ export function RegisterInterest({
   buttonLabelAr,
   modalTitleEn,
   modalTitleAr,
+  serviceEnquiry = false,
 }: Props) {
   const { lang } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -73,6 +75,7 @@ export function RegisterInterest({
           variant="register"
           pageTitleEn={pageTitleEn}
           pageTitleAr={pageTitleAr}
+          serviceEnquiry={serviceEnquiry}
         />
       </ContactModal>
     </>

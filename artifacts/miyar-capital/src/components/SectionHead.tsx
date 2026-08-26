@@ -6,8 +6,10 @@
  * - views/ArrangementManagement.tsx
  * - views/AssetManagement.tsx
  * - views/CapitalMarketsAdvisory.tsx
+ * - views/DiscretionaryPortfolioManagement.tsx
  * - views/DPM.tsx
  * - views/DebtFinancingArrangement.tsx
+ * - views/DirectMurabaha.tsx
  * - views/Disclosures.tsx
  * - views/EquityManagement.tsx
  * - views/FATCA.tsx
@@ -19,6 +21,7 @@
  * - views/InvestmentAdvisory.tsx
  * - views/InvestmentBanking.tsx
  * - views/InvestmentManagement.tsx
+ * - views/LiquidityAndFixedIncome.tsx
  * - views/MergersAcquisitions.tsx
  * - views/PrivateMarketsPage.tsx
  * - views/RealAssets.tsx

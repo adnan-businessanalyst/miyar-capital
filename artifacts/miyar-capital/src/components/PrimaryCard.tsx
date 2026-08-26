@@ -3,10 +3,13 @@
  *
  * Used by:
  * - views/ArrangementManagement.tsx
+ * - views/DirectMurabaha.tsx
+ * - views/DiscretionaryPortfolioManagement.tsx
  * - views/DPM.tsx
  * - views/EquityManagement.tsx
  * - views/InstitutionalFamilyOffice.tsx
  * - views/InvestmentBanking.tsx
+ * - views/LiquidityAndFixedIncome.tsx
  * - views/WhoWeAre.tsx
  */
 

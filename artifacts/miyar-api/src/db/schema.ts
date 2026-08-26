@@ -102,7 +102,7 @@ export const homepageHero = pgTable("homepage_hero", {
   promoShow: boolean("promo_show").notNull().default(true),
   promoHref: varchar("promo_href", { length: 500 })
     .notNull()
-    .default("/asset-management/liquidity-fi"),
+    .default("/asset-management/liquidity-fixed-income/murabaha-fund"),
   promoTitleEn: varchar("promo_title_en", { length: 300 }).notNull().default("Sukuk Offerings"),
   promoTitleAr: varchar("promo_title_ar", { length: 300 }).notNull().default("عروض الصكوك"),
   promoBodyEn: text("promo_body_en")

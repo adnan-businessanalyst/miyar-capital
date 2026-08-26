@@ -76,14 +76,28 @@ export const SITE_NAV: NavDoc = {
         },
         {
           id: "am-liq",
-          labelEn: "Liquidity & FI Solutions",
+          labelEn: "Liquidity & Fixed Income Solutions",
           labelAr: "حلول السيولة والدخل الثابت",
-          href: "/asset-management/liquidity-fi",
+          href: "/asset-management/liquidity-fixed-income",
+          children: [
+            {
+              id: "am-mur",
+              labelEn: "Murabaha",
+              labelAr: "المرابحة",
+              href: "/asset-management/liquidity-fixed-income/murabaha-fund",
+            },
+            {
+              id: "am-direct-mur",
+              labelEn: "Direct Murabaha",
+              labelAr: "المرابحة المباشرة",
+              href: "/asset-management/liquidity-fixed-income/direct-murabaha",
+            },
+          ],
         },
         {
           id: "am-eq",
           labelEn: "Equity Management",
-          labelAr: "أسهم الملكية الخاصة",
+          labelAr: "إدارة الأسهم",
           href: "/asset-management/equity-management",
         },
         {
@@ -115,6 +129,12 @@ export const SITE_NAV: NavDoc = {
           labelEn: "Institutional & Family Office",
           labelAr: "المؤسسات والمكاتب العائلية",
           href: "/asset-management/institutional-family-office",
+        },
+        {
+          id: "am-dpm-est",
+          labelEn: "Discretionary Portfolio Management",
+          labelAr: "الإدارة التقديرية للمحافظ",
+          href: "/asset-management/Discretionary-portfolio-management",
         },
         // {
         //   id: "am-grp3",
@@ -169,7 +189,7 @@ export const SITE_NAV: NavDoc = {
         {
           id: "ib-repa",
           labelEn: "Financial Advisory",
-          labelAr: "مستشار المالية",
+          labelAr: "المستشار المالي",
           href: "/investment-advisory",
         },
 

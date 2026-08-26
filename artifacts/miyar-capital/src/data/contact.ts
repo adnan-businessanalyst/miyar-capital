@@ -72,6 +72,20 @@ export interface ContactCopy {
   errorAttachmentAr: string;
   errorAttachmentSubjectEn: string;
   errorAttachmentSubjectAr: string;
+  consentLabelEn: string;
+  consentLabelAr: string;
+  investorClassLabelEn: string;
+  investorClassLabelAr: string;
+  investorClassPlaceholderEn: string;
+  investorClassPlaceholderAr: string;
+  investorClassInstitutionEn: string;
+  investorClassInstitutionAr: string;
+  investorClassQualifiedEn: string;
+  investorClassQualifiedAr: string;
+  errorConsentEn: string;
+  errorConsentAr: string;
+  errorInvestorClassEn: string;
+  errorInvestorClassAr: string;
 }
 
 export const CONTACT: ContactCopy = {
@@ -153,4 +167,18 @@ export const CONTACT: ContactCopy = {
     "يجب أن يكون المرفق صورة PNG أو JPG أو JPEG بحجم لا يتجاوز 2 ميجابايت.",
   errorAttachmentSubjectEn: "Images can only be attached for complaints.",
   errorAttachmentSubjectAr: "يمكن إرفاق الصور مع الشكاوى فقط.",
+  consentLabelEn: "I agree to be contacted about this service.",
+  consentLabelAr: "أوافق على التواصل معي بخصوص هذه الخدمة.",
+  investorClassLabelEn: "Investor classification",
+  investorClassLabelAr: "تصنيف المستثمر",
+  investorClassPlaceholderEn: "Select classification",
+  investorClassPlaceholderAr: "اختر التصنيف",
+  investorClassInstitutionEn: "Institution",
+  investorClassInstitutionAr: "مؤسسة",
+  investorClassQualifiedEn: "Qualified",
+  investorClassQualifiedAr: "مؤهل",
+  errorConsentEn: "Please confirm that we may contact you.",
+  errorConsentAr: "يرجى الموافقة على التواصل.",
+  errorInvestorClassEn: "Please select an investor classification.",
+  errorInvestorClassAr: "يرجى اختيار تصنيف المستثمر.",
 };

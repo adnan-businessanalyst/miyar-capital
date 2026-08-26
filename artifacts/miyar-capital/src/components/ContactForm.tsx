@@ -25,6 +25,8 @@ type Props = {
   /** Required for register interest — shown as a read-only page field. */
   pageTitleEn?: string;
   pageTitleAr?: string;
+  /** Adds contact-consent checkbox and investor-classification select. */
+  serviceEnquiry?: boolean;
 };
 
 const MESSAGE_MIN = 20;
@@ -87,6 +89,7 @@ export function ContactForm({
   thanksMessage,
   pageTitleEn = "",
   pageTitleAr = "",
+  serviceEnquiry = false,
 }: Props) {
   const { lang } = useLanguage();
   const copy = CONTACT;
@@ -124,6 +127,8 @@ export function ContactForm({
   const [messageTouched, setMessageTouched] = useState(false);
   const [fileName, setFileName] = useState("");
   const [attachOk, setAttachOk] = useState(true);
+  const [contactConsent, setContactConsent] = useState(false);
+  const [investorClass, setInvestorClass] = useState("");
 
   useEffect(() => {
     if (!isRegister || messageTouched) return;
@@ -150,8 +155,23 @@ export function ContactForm({
     }
 
     if (!pageTitle.trim()) return false;
+    if (serviceEnquiry) {
+      if (!contactConsent) return false;
+      if (!investorClass.trim()) return false;
+    }
     return true;
-  }, [attachOk, email, isGetInTouch, messageLenOk, name, pageTitle, phone]);
+  }, [
+    attachOk,
+    contactConsent,
+    email,
+    investorClass,
+    isGetInTouch,
+    messageLenOk,
+    name,
+    pageTitle,
+    phone,
+    serviceEnquiry,
+  ]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -231,6 +251,21 @@ export function ContactForm({
       return;
     }
 
+    if (serviceEnquiry) {
+      if (!contactConsent) {
+        setStatus("error");
+        setError(pickLang(copy.errorConsentEn, copy.errorConsentAr, lang));
+        return;
+      }
+      if (!investorClass.trim()) {
+        setStatus("error");
+        setError(
+          pickLang(copy.errorInvestorClassEn, copy.errorInvestorClassAr, lang),
+        );
+        return;
+      }
+    }
+
     const token = await getRecaptchaToken();
 
     try {
@@ -268,7 +303,21 @@ export function ContactForm({
             email: emailVal,
             phone: phoneVal,
             subject: "",
-            message: messageVal,
+            message: serviceEnquiry
+              ? `${messageVal}\n\n${pickLang(copy.investorClassLabelEn, copy.investorClassLabelAr, lang)}: ${
+                  investorClass === "qualified"
+                    ? pickLang(
+                        copy.investorClassQualifiedEn,
+                        copy.investorClassQualifiedAr,
+                        lang,
+                      )
+                    : pickLang(
+                        copy.investorClassInstitutionEn,
+                        copy.investorClassInstitutionAr,
+                        lang,
+                      )
+                }\n${pickLang(copy.consentLabelEn, copy.consentLabelAr, lang)}: yes`
+              : messageVal,
             sourcePage,
             pageTitle: pageTitle.trim(),
             recaptchaToken: token,
@@ -300,6 +349,8 @@ export function ContactForm({
       setMessageTouched(false);
       setFileName("");
       setAttachOk(true);
+      setContactConsent(false);
+      setInvestorClass("");
     } catch {
       setStatus("error");
       setError(pickLang(copy.errorNetworkEn, copy.errorNetworkAr, lang));
@@ -506,6 +557,63 @@ export function ContactForm({
             {fileName ? ` — ${fileName}` : ""}
           </p>
         </div>
+      ) : null}
+      {serviceEnquiry ? (
+        <>
+          <label className="contact-field">
+            <span className="contact-field-label">
+              {pickLang(
+                copy.investorClassLabelEn,
+                copy.investorClassLabelAr,
+                lang,
+              )}
+              <RequiredMark />
+            </span>
+            <select
+              name="investorClass"
+              value={investorClass}
+              onChange={(ev) => setInvestorClass(ev.target.value)}
+              required
+              aria-required="true"
+            >
+              <option value="">
+                {pickLang(
+                  copy.investorClassPlaceholderEn,
+                  copy.investorClassPlaceholderAr,
+                  lang,
+                )}
+              </option>
+              <option value="institution">
+                {pickLang(
+                  copy.investorClassInstitutionEn,
+                  copy.investorClassInstitutionAr,
+                  lang,
+                )}
+              </option>
+              <option value="qualified">
+                {pickLang(
+                  copy.investorClassQualifiedEn,
+                  copy.investorClassQualifiedAr,
+                  lang,
+                )}
+              </option>
+            </select>
+          </label>
+          <label className="contact-field contact-field--check">
+            <input
+              type="checkbox"
+              name="contactConsent"
+              checked={contactConsent}
+              onChange={(ev) => setContactConsent(ev.target.checked)}
+              required
+              aria-required="true"
+            />
+            <span>
+              {pickLang(copy.consentLabelEn, copy.consentLabelAr, lang)}
+              <RequiredMark />
+            </span>
+          </label>
+        </>
       ) : null}
       {error ? <p className="form-error">{error}</p> : null}
       <button

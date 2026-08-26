@@ -5,13 +5,16 @@
  * - views/ArrangementManagement.tsx
  * - views/AssetManagement.tsx
  * - views/CapitalMarketsAdvisory.tsx
+ * - views/DiscretionaryPortfolioManagement.tsx
  * - views/DPM.tsx
  * - views/DebtFinancingArrangement.tsx
+ * - views/DirectMurabaha.tsx
  * - views/EquityManagement.tsx
  * - views/IBRegisterInterest.tsx
  * - views/InstitutionalFamilyOffice.tsx
  * - views/InvestmentAdvisory.tsx
  * - views/InvestmentBanking.tsx
+ * - views/LiquidityAndFixedIncome.tsx
  * - views/LiquidityFI.tsx
  * - views/MergersAcquisitions.tsx
  * - views/PrivateMarketsPage.tsx
@@ -56,6 +59,8 @@ type Props = {
   /** Optional disclaimer body (supports light HTML). */
   disclaimerBodyEn?: string;
   disclaimerBodyAr?: string;
+  /** Register form includes contact-consent and investor-classification fields. */
+  serviceEnquiry?: boolean;
 };
 
 /** Bottom-of-page Register Interest band — title, body, CTA, optional disclaimer. */
@@ -78,6 +83,7 @@ export function RegisterInterestSection({
   disclaimerLeadAr,
   disclaimerBodyEn,
   disclaimerBodyAr,
+  serviceEnquiry = false,
 }: Props) {
   const { lang } = useLanguage();
 
@@ -111,7 +117,9 @@ export function RegisterInterestSection({
         <h2 className="ri-title">
           <RichText html={title} />
         </h2>
-        <RichText as="p" className="ri-body" html={body} />
+        {body.trim() ? (
+          <RichText as="p" className="ri-body" html={body} />
+        ) : null}
         <RegisterInterest
           sourcePage={sourcePage}
           pageTitleEn={pageTitleEn}
@@ -121,6 +129,7 @@ export function RegisterInterestSection({
           buttonLabelAr={buttonLabelAr}
           modalTitleEn={modalTitleEn}
           modalTitleAr={modalTitleAr}
+          serviceEnquiry={serviceEnquiry}
         />
       </div>
       {showDisclaimer ? (

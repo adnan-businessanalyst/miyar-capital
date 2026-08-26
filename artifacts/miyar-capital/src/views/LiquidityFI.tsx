@@ -4,24 +4,33 @@ import { Factsheet } from "../components/Factsheet";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
+import { LFI_PAGE_PATH, MURABAHA_PAGE_PATH } from "../data/liquidityandfixedincome";
 import { LIQUIDITY_FI } from "../data/liquidityfi";
 import { useLanguage } from "../i18n/LanguageContext";
 import { pickLang } from "../site/types";
 
-const SOURCE_PAGE = "/asset-management/liquidity-fi";
+const SOURCE_PAGE = MURABAHA_PAGE_PATH;
 
 export function LiquidityFI() {
   const { lang } = useLanguage();
   const data = LIQUIDITY_FI;
 
   return (
-    <div className="page page--liquidity-fi">
+    <div className="page page--murabaha">
       <PageHero
         title={pickLang(data.hero.titleEn, data.hero.titleAr, lang)}
         crumbs={[
           {
             label: pickLang(data.hero.crumbAmEn, data.hero.crumbAmAr, lang),
             href: "/asset-management",
+          },
+          {
+            label: pickLang(
+              data.hero.crumbParentEn,
+              data.hero.crumbParentAr,
+              lang,
+            ),
+            href: LFI_PAGE_PATH,
           },
           {
             label: pickLang(
@@ -72,27 +81,45 @@ export function LiquidityFI() {
       </section>
 
       <section className="blk">
-        <div className="disclaimer">
-          <div className="wrap">
-            <b>
-              {pickLang(data.disclaimer.leadEn, data.disclaimer.leadAr, lang)}
-            </b>{" "}
-            <RichText
-              as="span"
-              html={pickLang(
-                data.disclaimer.bodyEn,
-                data.disclaimer.bodyAr,
-                lang,
-              )}
-            />
-          </div>
+        <div className="wrap">
+          <h3>
+            {pickLang(data.disclaimer.leadEn, data.disclaimer.leadAr, lang)}
+          </h3>
+          <RichText
+            as="p"
+            html={pickLang(
+              data.disclaimer.bodyEn,
+              data.disclaimer.bodyAr,
+              lang,
+            )}
+          />
+        </div>
+      </section>
+
+      <section className="blk">
+        <div className="wrap">
+          <h3>
+            {pickLang(
+              data.disclosure.titleEn,
+              data.disclosure.titleAr,
+              lang,
+            )}
+          </h3>
+          <RichText
+            as="p"
+            html={pickLang(
+              data.disclosure.bodyEn,
+              data.disclosure.bodyAr,
+              lang,
+            )}
+          />
         </div>
       </section>
 
       <RegisterInterestSection
         sourcePage={SOURCE_PAGE}
-        pageTitleEn="Liquidity & Fixed Income"
-        pageTitleAr="السيولة والدخل الثابت"
+        pageTitleEn="Miyar Murabaha Fund"
+        pageTitleAr="صندوق معيار للمرابحة"
       />
     </div>
   );

@@ -4,6 +4,7 @@
  * Used by:
  * - views/AssetManagement.tsx
  * - views/InvestmentBanking.tsx
+ * - views/LiquidityAndFixedIncome.tsx
  */
 
 "use client";
@@ -23,8 +24,10 @@ export interface PrimaryCardClickableItem {
   badge?: string;
   /** Lucide (or other) icon node. */
   icon?: ReactNode;
-  /** Bottom-left corner arrow; defaults to true when href is non-empty. */
+  /** Bottom-left corner arrow; defaults to true when href is non-empty and no `ctaLabel`. */
   showArrow?: boolean;
+  /** Text CTA at the foot of the card (replaces the corner arrow). */
+  ctaLabel?: string;
 }
 
 export function PrimaryCardClickable({
@@ -34,6 +37,7 @@ export function PrimaryCardClickable({
   body,
   href = "",
   showArrow,
+  ctaLabel = "",
   className = "",
 }: Omit<PrimaryCardClickableItem, "id"> & { className?: string }) {
   const router = useRouter();
@@ -45,13 +49,15 @@ export function PrimaryCardClickable({
       ? withLocale(href)
       : href;
   const internal = !empty && href.startsWith("/");
-  const arrow = showArrow ?? !empty;
+  const label = ctaLabel.trim();
+  const arrow = !label && (showArrow ?? !empty);
 
   const rootClass = [
     "primary-card",
     "primary-card--link",
     "primary-card-clickable",
     arrow ? "primary-card-clickable--arrow" : "",
+    label ? "primary-card-clickable--cta" : "",
     className,
   ]
     .filter(Boolean)
@@ -89,7 +95,9 @@ export function PrimaryCardClickable({
       <div className="primary-card-body">
         <RichText as="p" html={body} />
       </div>
-      {arrow ? (
+      {label ? (
+        <span className="primary-card-clickable-cta">{label}</span>
+      ) : arrow ? (
         <span className="primary-card-clickable-arrow" aria-hidden="true">
           →
         </span>
@@ -132,6 +140,7 @@ export function PrimaryCardClickableGrid({
           body={item.body}
           href={item.href}
           showArrow={item.showArrow}
+          ctaLabel={item.ctaLabel}
         />
       ))}
     </div>

@@ -1,7 +1,7 @@
 /**
  * Liquidity & FI / Miyar Murabaha Fund page copy (EN + AR).
  * Imported by `views/LiquidityFI.tsx` — not CMS-managed.
- * Route: /asset-management/liquidity-fi
+ * Route: /asset-management/liquidity-fixed-income/murabaha-fund
  *
  * Bodies may include RichText markup: `<br>`, `<strong>`, `<em>`,
  * `<span class="rt-navy|rt-accent|rt-muted|rt-white">…</span>` (rendered via RichText).
@@ -36,6 +36,8 @@ export interface LiquidityFiContent {
     crumbAmAr: string;
     crumbPageEn: string;
     crumbPageAr: string;
+    crumbParentEn: string;
+    crumbParentAr: string;
     meta: LiquidityFiMetaFact[];
   };
   body: LiquidityFiBodyBlock[];
@@ -54,6 +56,12 @@ export interface LiquidityFiContent {
     bodyEn: string;
     bodyAr: string;
   };
+  disclosure: {
+    titleEn: string;
+    titleAr: string;
+    bodyEn: string;
+    bodyAr: string;
+  };
 }
 
 export const LIQUIDITY_FI: LiquidityFiContent = {
@@ -62,13 +70,15 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
     titleAr: "صندوق معيار للمرابحة",
     crumbAmEn: "Asset Management",
     crumbAmAr: "إدارة الأصول",
-    crumbPageEn: "Liquidity & FI Solutions",
-    crumbPageAr: "حلول السيولة والدخل الثابت",
+    crumbPageEn: "Miyar Murabaha Fund",
+    crumbPageAr: "صندوق معيار للمرابحة",
+    crumbParentEn: "Liquidity & Fixed Income",
+    crumbParentAr: "حلول السيولة والدخل الثابت",
     meta: [
       {
         labelEn: "Pillar",
         labelAr: "الركيزة",
-        valueEn: "Liquidity & FI Solutions",
+        valueEn: "Liquidity &amp; Fixed Income",
         valueAr: "حلول السيولة والدخل الثابت",
       },
       {
@@ -91,33 +101,33 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
       headingEn: "Fund Objective",
       headingAr: "هدف الصندوق",
       bodyEn:
-        "The fund seeks capital preservation and competitive short-term income through Shariah-compliant Murabaha and money-market instruments, while maintaining daily liquidity. It is positioned as the platform's liquidity anchor for both standalone investors and DPM mandates.",
+        "The fund seeks to preserve capital and generate competitive short-term income through Murabaha transactions and Shariah-compliant money-market instruments, while maintaining daily liquidity. It is our core liquidity solution, open to individuals and institutions alike.",
       bodyAr:
-        "يسعى الصندوق إلى المحافظة على رأس المال وتحقيق دخلٍ تنافسي قصير الأجل من خلال صفقات المرابحة وأدوات أسواق النقد المتوافقة مع أحكام الشريعة الإسلامية، مع الحفاظ على سيولةٍ يومية. ويمثّل الصندوق الخيار الأساسي للسيولة في المنصة، للمستثمرين مباشرةً وللتفاويض المُدارة على حدٍّ سواء.",
+        "يسعى الصندوق إلى المحافظة على رأس المال وتوليد دخل تنافسي قصير الأجل من خلال صفقات المرابحة وأدوات أسواق النقد المتوافقة مع الشريعة، مع الحفاظ على سيولة يومية. وهو خيارنا الأساسي لإدارة السيولة، متاح للأفراد والمؤسسات على حدٍّ سواء.",
     },
     {
-      headingEn: "Investment Universe",
+      headingEn: "Investment Scope",
       headingAr: "نطاق الاستثمار",
       bodyEn:
-        "Diversified across high-quality Murabaha placements and short-tenor money-market instruments with approved counterparties, managed to a conservative duration and concentration framework overseen by the independent risk function.",
+        "The fund invests in high-quality Murabaha transactions and short-term money-market instruments with approved counterparties, managed within a conservative maturity and concentration framework under the oversight of an independent risk function.",
       bodyAr:
-        "استثماراتٌ مُنوّعة في المرابحات عالية الجودة وأدوات أسواق النقد قصيرة الأجل مع أطرافٍ نظيرة معتمدة، تُدار وفق إطارٍ متحفّظ لمدة الاستحقاق وحدود التركّز، تُشرف عليه وظيفة المخاطر المستقلة.",
+        "يستثمر الصندوق في صفقات مرابحة وأدوات نقدية قصيرة الأجل عالية الجودة مع أطراف نظيرة معتمدة، ويُدار ضمن إطار متحفّظ لمدة الاستحقاق وحدود التركّز، تحت إشراف وظيفة مستقلة لإدارة المخاطر.",
     },
     {
       headingEn: "Who It Is For",
       headingAr: "لمن يناسب",
       bodyEn:
-        "Investors prioritising liquidity and stability — corporate treasuries, family offices parking capital, and clients seeking a lower-volatility allocation within a broader mandate.",
+        "For anyone seeking capital preservation with steady income and available liquidity — from individuals looking for a lower-volatility home for cash, to family offices and corporate treasuries seeking a stable component within a broader portfolio.",
       bodyAr:
-        "للمستثمرين الذين تتقدّم لديهم السيولة والاستقرار: خزائن الشركات، والمكاتب العائلية التي تحتفظ بسيولةٍ بانتظار توظيفها، والعملاء الباحثين عن مكوّنٍ منخفض التذبذب ضمن تفويضٍ أوسع.",
+        "لكل من يسعى إلى الحفاظ على رأس ماله مع دخل مستقر وسيولة متاحة — من الأفراد الراغبين في بديل استثماري منخفض التذبذب للسيولة، إلى المكاتب العائلية وخزائن الشركات الباحثة عن مكوّن مستقر ضمن محفظة أوسع.",
     },
     {
       headingEn: "Subscription & Redemption",
       headingAr: "الاشتراك والاسترداد",
       bodyEn:
-        "Subscription and redemption frequency, cut-off times and minimums are set out in the fund's Terms &amp; Conditions. Eligibility is subject to client classification and suitability assessment.",
+        "Subscription and redemption dates, cut-off times and minimums are set out in the fund's Terms and Conditions. Eligibility is subject to client classification and a suitability assessment.",
       bodyAr:
-        "تُحدَّد أيام التعامل والمواعيد النهائية لتقديم الطلبات والحد الأدنى للاشتراك في شروط الصندوق وأحكامه. وتخضع الأهلية لتصنيف العميل وتقييم الملاءمة.",
+        "تُحدَّد مواعيد الاشتراك والاسترداد وأوقات الإقفال والحد الأدنى في شروط الصندوق وأحكامه. وتخضع الأهلية لتصنيف العميل وتقييم الملاءمة.",
     },
   ],
 
@@ -140,14 +150,14 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
       {
         labelEn: "Liquidity",
         labelAr: "السيولة",
-        valueEn: "Daily*",
-        valueAr: "يومية*",
+        valueEn: "Daily",
+        valueAr: "يومية",
       },
       {
         labelEn: "Investor Type",
         labelAr: "نوع المستثمر",
-        valueEn: "Eligible / Public",
-        valueAr: "مؤهل / عام",
+        valueEn: "Public — individuals and institutions",
+        valueAr: "عام — أفراد ومؤسسات",
       },
       {
         labelEn: "Structure",
@@ -155,25 +165,28 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
         valueEn: "Shariah-compliant",
         valueAr: "متوافق مع الشريعة",
       },
-      {
-        labelEn: "Last Updated",
-        labelAr: "آخر تحديث",
-        valueEn: "Per T&amp;Cs",
-        valueAr: "وفق الشروط والأحكام",
-      },
     ],
-    primaryCtaEn: "Download Factsheet &amp; T&amp;Cs ↓",
+    primaryCtaEn: "Download Factsheet &amp; Terms and Conditions ↓",
     primaryCtaAr: "تحميل نشرة الحقائق والشروط والأحكام ↓",
     secondaryCtaEn: "Subscribe / Enquire",
     secondaryCtaAr: "اشترك / استفسر",
   },
 
   disclaimer: {
-    leadEn: "Important.",
-    leadAr: "تنبيه مهم.",
+    leadEn: "Risk Note",
+    leadAr: "تنويه المخاطر",
     bodyEn:
-      "*Subject to fund Terms &amp; Conditions. Performance, NAV and target returns are shown only where approved by Compliance and supported by official fund documents. Past performance is not indicative of future results; the value of investments may go up or down. Nothing on this page constitutes investment advice or an offer of securities. Eligibility requires client classification and a suitability assessment.",
+      "The value of investments may fall as well as rise, and past performance is not a reliable indicator of future results. Eligibility is subject to client classification and a suitability assessment. The fund is offered solely through its official, Compliance-approved documents.",
     bodyAr:
-      "*يخضع ما ورد في هذه الصفحة لشروط الصندوق وأحكامه. ولا تُعرض بيانات الأداء وصافي قيمة الأصول والعوائد المستهدفة إلا بعد اعتمادها من إدارة الالتزام واستنادها إلى مستندات الصندوق الرسمية. والأداء السابق لا يُعد مؤشراً على الأداء المستقبلي، وقد ترتفع قيمة الاستثمارات أو تنخفض. ولا يُشكّل أيٌّ مما ورد في هذه الصفحة مشورةً استثمارية أو طرحاً لأوراق مالية. وتتطلب الأهلية تصنيف العميل وتقييم الملاءمة.",
+      "قد تنخفض قيمة الاستثمارات كما قد ترتفع، والأداء السابق ليس مؤشراً موثوقاً للنتائج المستقبلية. الأهلية مشروطة بتصنيف العميل وتقييم الملاءمة. ويُقدَّم الصندوق حصراً من خلال مستنداته الرسمية المعتمدة.",
+  },
+
+  disclosure: {
+    titleEn: "Disclosure",
+    titleAr: "الإفصاح التنظيمي",
+    bodyEn:
+      "Miyar Capital is authorised and regulated by the CMA, licence No. 21216-32. Content is for information only and does not constitute an offer of securities or investment advice.",
+    bodyAr:
+      "معيار المالية شركة مرخّصة ومنظّمة من هيئة السوق المالية، ترخيص رقم 21216-32. المحتوى لأغراض المعلومات فقط ولا يُعدّ عرضاً لأوراق مالية أو مشورة استثمارية.",
   },
 };

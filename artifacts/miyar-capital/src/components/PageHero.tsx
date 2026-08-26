@@ -11,6 +11,7 @@
  * - views/CapitalMarketsAdvisory.tsx
  * - views/DPM.tsx
  * - views/DebtFinancingArrangement.tsx
+ * - views/DirectMurabaha.tsx
  * - views/Disclosures.tsx
  * - views/EquityManagement.tsx
  * - views/ExecutiveTeam.tsx
@@ -25,6 +26,7 @@
  * - views/InvestmentBanking.tsx
  * - views/InvestmentManagement.tsx
  * - views/JobDetail.tsx
+ * - views/LiquidityAndFixedIncome.tsx
  * - views/LiquidityFI.tsx
  * - views/MergersAcquisitions.tsx
  * - views/News.tsx

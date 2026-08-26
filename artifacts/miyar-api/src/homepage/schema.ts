@@ -21,7 +21,7 @@ export const DEFAULT_HOMEPAGE_HERO: HomepageHeroPayload = {
   ctaLabelEn: "Explore Our Services",
   ctaLabelAr: "استكشف خدماتنا",
   promoShow: true,
-  promoHref: "/asset-management/liquidity-fi",
+  promoHref: "/asset-management/liquidity-fixed-income/murabaha-fund",
   promoTitleEn: "Sukuk Offerings",
   promoTitleAr: "عروض الصكوك",
   promoBodyEn:

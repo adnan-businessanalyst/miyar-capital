@@ -271,7 +271,7 @@ export const ARRANGEMENT_MANAGEMENT: ArrangementManagementContent = {
       id: "bank-financing",
       titleEn: "Arranging Bank Financing",
       titleAr: "ترتيب التمويل البنكي",
-      bodyEn: "As part of its investment banking services, Miyar Capital offersspecialized advice on arranging bank facilitiesfor companies seeking to finance their expansion projects and restructure their financial models through our edtensive relationships with financial institutions.",
+      bodyEn: "As part of its investment banking services, Miyar Capital offers specialized advice on arranging bank facilities for companies seeking to finance their expansion projects and restructure their financial models through our extensive relationships with financial institutions.",
       bodyAr:
         "تقدم معيار المالية، ضمن خدماتها في المصرفية الاستثمارية، استشارات متخصصة في ترتيب تسهيلات التمويل البنكي وذلك للشركات الساعية لتمويل مشاريعها التوسعية و إعادة هيكلة نماذجها المالية من خلال علاقتنا الممتدة مع المؤسسات التمويلية",
       highlightEn: "We provide our clients with broader access to financing sources on more competitive terms",

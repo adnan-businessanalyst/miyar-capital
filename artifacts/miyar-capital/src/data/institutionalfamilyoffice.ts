@@ -1,6 +1,6 @@
 /**
  * Institutional & Family Office page copy (EN + AR).
- * Imported by `views/InstitutionalFamilyOffice.tsx` — not CMS-managed.
+ * Imported by `views/InstitutionalFamilyOffice.tsx` and `views/DiscretionaryPortfolioManagement.tsx` — not CMS-managed.
  * Route: /asset-management/institutional-family-office
  *
  * Bodies may include `<br>` / `&amp;` (rendered via RichText).

@@ -131,11 +131,11 @@ export const EQUITY_MANAGEMENT: EquityManagementContent = {
 
   hero: {
     titleEn: "Private Equity",
-    titleAr: "أسهم الملكية الخاصة",
+    titleAr: "إدارة الأسهم",
     crumbAmEn: "Asset Management",
     crumbAmAr: "إدارة الأصول",
     crumbPageEn: "Equity Management",
-    crumbPageAr: "أسهم الملكية الخاصة",
+    crumbPageAr: "إدارة الأسهم",
   },
 
   intro: {

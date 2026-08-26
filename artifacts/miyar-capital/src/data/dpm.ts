@@ -1,6 +1,6 @@
 /**
  * Discretionary Portfolio Management page copy (EN + AR).
- * Imported by `views/DPM.tsx` — not CMS-managed.
+ * Imported by `views/DPM.tsx` and `views/DiscretionaryPortfolioManagement.tsx` — not CMS-managed.
  * Route: /asset-management/dpm
  *
  * Bodies may include RichText markup: `<br>`, `<strong>`, `<em>`,

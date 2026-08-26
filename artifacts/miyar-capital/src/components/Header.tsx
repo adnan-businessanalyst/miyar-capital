@@ -7,7 +7,7 @@
 
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useLanguage } from "../i18n/LanguageContext";
 import {
@@ -46,6 +46,32 @@ function collectHrefs(item: NavItem): string[] {
   const hrefs = item.href ? [item.href] : [];
   for (const child of item.children ?? []) hrefs.push(...collectHrefs(child));
   return hrefs;
+}
+
+function pathMatches(href: string | undefined, barePath: string): boolean {
+  if (!href) return false;
+  if (href === "/") return barePath === "/";
+  return barePath === href || barePath.startsWith(`${href}/`);
+}
+
+function NavCaret() {
+  return (
+    <svg
+      className="nav-caret"
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M2.5 4.25L6 8.25L9.5 4.25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
 export function Header() {
@@ -106,6 +132,23 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) {
+        setExpandedId(null);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExpandedId(null);
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
   const go = (href?: string) => () => {
     if (!href) return;
     if (href.startsWith("/")) router.push(withLocale(href));
@@ -117,10 +160,10 @@ export function Header() {
   const toggleExpanded = (id: string) =>
     setExpandedId((cur) => (cur === id ? null : id));
 
-  const isActive = (item: NavItem): boolean => {
-    const hrefs = collectHrefs(item);
-    return hrefs.some((h) => h === barePath);
-  };
+  const isActive = (item: NavItem): boolean =>
+    collectHrefs(item).some((h) => pathMatches(h, barePath));
+
+  const isHrefActive = (href?: string) => pathMatches(href, barePath);
 
   const label = (item: { labelEn: string; labelAr: string }, l: Lang) =>
     pickLang(item.labelEn, item.labelAr, l);
@@ -147,26 +190,68 @@ export function Header() {
           <Brand transparent={transparent && !menuOpen} />
           <nav>
             <ul>
-              {nav.items.map((item) => (
-                <li key={item.id} className={isActive(item) ? "on" : ""}>
-                  <a onClick={go(item.href)}>{label(item, lang)}</a>
-                  {item.children && item.children.length > 0 && (
-                    <div className="dropdown">
-                      {item.children.map((child) =>
-                        child.group ? (
-                          <div className="grp" key={child.id}>
-                            {label(child, lang)}
-                          </div>
-                        ) : (
-                          <a key={child.id} onClick={go(child.href)}>
-                            {label(child, lang)}
-                          </a>
-                        ),
-                      )}
-                    </div>
-                  )}
-                </li>
-              ))}
+              {nav.items.map((item) => {
+                const hasChildren = !!item.children && item.children.length > 0;
+                const open = expandedId === item.id;
+                return (
+                  <li
+                    key={item.id}
+                    className={[isActive(item) ? "on" : "", open ? "is-open" : ""]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
+                    {hasChildren ? (
+                      <button
+                        type="button"
+                        className="nav-parent"
+                        aria-expanded={open}
+                        aria-haspopup="true"
+                        onClick={() => toggleExpanded(item.id)}
+                      >
+                        {label(item, lang)}
+                        <NavCaret />
+                      </button>
+                    ) : (
+                      <a onClick={go(item.href)}>{label(item, lang)}</a>
+                    )}
+                    {hasChildren && (
+                      <div className="dropdown">
+                        {item.children!.map((child) => {
+                          if (child.group) {
+                            return (
+                              <div className="grp" key={child.id}>
+                                {label(child, lang)}
+                              </div>
+                            );
+                          }
+                          const nested = (child.children ?? []).filter(
+                            (gc) => !gc.group,
+                          );
+                          return (
+                            <Fragment key={child.id}>
+                              <a
+                                className={`nav-branch-parent${isActive(child) ? " on" : ""}`}
+                                onClick={go(child.href)}
+                              >
+                                {label(child, lang)}
+                              </a>
+                              {nested.map((gc) => (
+                                <a
+                                  key={gc.id}
+                                  className={`nav-nested${isHrefActive(gc.href) ? " on" : ""}`}
+                                  onClick={go(gc.href)}
+                                >
+                                  {label(gc, lang)}
+                                </a>
+                              ))}
+                            </Fragment>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
           <div className="nav-actions">
@@ -222,43 +307,58 @@ export function Header() {
             return (
               <li key={item.id}>
                 <div className="mm-row">
-                  <a
-                    className={isActive(item) ? "on" : ""}
-                    onClick={
-                      item.href
-                        ? go(item.href)
-                        : hasChildren
-                          ? () => toggleExpanded(item.id)
-                          : undefined
-                    }
-                  >
-                    {label(item, lang)}
-                  </a>
-                  {hasChildren && (
+                  {hasChildren ? (
                     <button
                       type="button"
-                      className="mm-expand"
-                      aria-label="Toggle submenu"
+                      className={`mm-parent${isActive(item) ? " on" : ""}`}
                       aria-expanded={expandedId === item.id}
                       onClick={() => toggleExpanded(item.id)}
                     >
-                      ▾
+                      {label(item, lang)}
+                      <NavCaret />
                     </button>
+                  ) : (
+                    <a
+                      className={isActive(item) ? "on" : ""}
+                      onClick={go(item.href)}
+                    >
+                      {label(item, lang)}
+                    </a>
                   )}
                 </div>
                 {hasChildren && expandedId === item.id && (
                   <div className="mm-sub">
-                    {item.children!.map((child) =>
-                      child.group ? (
-                        <div className="mm-grp" key={child.id}>
-                          {label(child, lang)}
-                        </div>
-                      ) : (
-                        <a key={child.id} onClick={go(child.href)}>
-                          {label(child, lang)}
-                        </a>
-                      ),
-                    )}
+                    {item.children!.map((child) => {
+                      if (child.group) {
+                        return (
+                          <div className="mm-grp" key={child.id}>
+                            {label(child, lang)}
+                          </div>
+                        );
+                      }
+                      const nested = (child.children ?? []).filter(
+                        (gc) => !gc.group,
+                      );
+                      return (
+                        <Fragment key={child.id}>
+                          <a
+                            className={`nav-branch-parent${isActive(child) ? " on" : ""}`}
+                            onClick={go(child.href)}
+                          >
+                            {label(child, lang)}
+                          </a>
+                          {nested.map((gc) => (
+                            <a
+                              key={gc.id}
+                              className={`nav-nested${isHrefActive(gc.href) ? " on" : ""}`}
+                              onClick={go(gc.href)}
+                            >
+                              {label(gc, lang)}
+                            </a>
+                          ))}
+                        </Fragment>
+                      );
+                    })}
                   </div>
                 )}
               </li>

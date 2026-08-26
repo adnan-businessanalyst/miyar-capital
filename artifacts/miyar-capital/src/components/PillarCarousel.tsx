@@ -108,12 +108,8 @@ function MiyarWatermark({ playToken }: { playToken: number }) {
   );
 }
 
-function getOffset(index: number, active: number, length: number) {
-  let diff = index - active;
-  const half = length / 2;
-  if (diff > half) diff -= length;
-  if (diff < -half) diff += length;
-  return diff;
+function getOffset(index: number, active: number) {
+  return index - active;
 }
 
 function roleForOffset(
@@ -155,17 +151,26 @@ export function PillarCarousel({
 
   if (pillars.length === 0) return null;
 
+  const last = pillars.length - 1;
+  const atStart = active <= 0;
+  const atEnd = active >= last;
+
   const select = (index: number) => {
-    const normalized =
-      ((index % pillars.length) + pillars.length) % pillars.length;
-    if (normalized === active) return;
+    const nextIndex = Math.max(0, Math.min(last, index));
+    if (nextIndex === active) return;
     suppressHoverPlay.current = true;
-    setActive(normalized);
+    setActive(nextIndex);
     playLogo();
   };
 
-  const prev = () => select(active - 1);
-  const next = () => select(active + 1);
+  const prev = () => {
+    if (atStart) return;
+    select(active - 1);
+  };
+  const next = () => {
+    if (atEnd) return;
+    select(active + 1);
+  };
 
   const onActiveCardEnter = (e: MouseEvent<HTMLElement>) => {
     const related = e.relatedTarget as Node | null;
@@ -204,6 +209,7 @@ export function PillarCarousel({
               type="button"
               className="pcar-arrow"
               onClick={prev}
+              disabled={atStart}
               aria-label={prevAriaLabel}
             >
               {lang === "ar" ? "→" : "←"}
@@ -212,6 +218,7 @@ export function PillarCarousel({
               type="button"
               className="pcar-arrow"
               onClick={next}
+              disabled={atEnd}
               aria-label={nextAriaLabel}
             >
               {lang === "ar" ? "←" : "→"}
@@ -221,7 +228,7 @@ export function PillarCarousel({
 
         <div className="pcar-pillwrap">
           {pillars.map((p, i) => {
-            const offset = getOffset(i, active, pillars.length);
+            const offset = getOffset(i, active);
             const role = roleForOffset(offset);
             const isActive = role === "active";
             const isThumb = role === "thumb-left" || role === "thumb-right";
