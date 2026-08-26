@@ -19692,7 +19692,7 @@ body[dir="rtl"] .fr-fund-link span {
   display: flex !important;
   flex-direction: column !important;
   flex-wrap: nowrap !important;
-  align-items: start !important;
+  align-items: flex-start !important;
   gap: 1.875rem !important;
 }
 

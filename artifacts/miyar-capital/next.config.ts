@@ -7,10 +7,20 @@ const apiInternal =
   process.env.NEXT_PUBLIC_API_URL ||
   "http://127.0.0.1:4000";
 
-/** Keep the Next cache off OneDrive — otherwise Windows hits EBUSY/EINVAL and the app dies. */
-const distDir = path
-  .relative(process.cwd(), path.join(os.tmpdir(), "miyar-capital-next"))
-  .replaceAll("\\", "/");
+/**
+ * Local Windows only: keep the Next cache off OneDrive (EBUSY/EINVAL).
+ * CI/Vercel must use `.next` so generated types resolve during `next build`.
+ */
+const useOffOneDriveCache =
+  process.platform === "win32" &&
+  process.env.CI !== "1" &&
+  process.env.VERCEL !== "1";
+
+const distDir = useOffOneDriveCache
+  ? path
+      .relative(process.cwd(), path.join(os.tmpdir(), "miyar-capital-next"))
+      .replaceAll("\\", "/")
+  : ".next";
 
 const nextConfig: NextConfig = {
   distDir,
