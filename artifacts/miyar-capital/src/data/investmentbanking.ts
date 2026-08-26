@@ -239,7 +239,7 @@ export const INVESTMENT_BANKING: InvestmentBankingContent = {
         titleEn: "Client Understanding",
         titleAr: "فهم العميل",
         bodyEn:
-          "Defining the client's goals & needs accoriding to fianncial, organizational, & economic criteria",
+          "Defining the client's goals & needs according to financial, organizational, & economic criteria",
         bodyAr:
           "تحديد أهداف و إحتياجات العميل وفقاً لمعايير مالية و تنظيمية ولإقتصادية",
       },
