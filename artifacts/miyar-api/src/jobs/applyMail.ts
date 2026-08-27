@@ -1,4 +1,10 @@
 import { Resend } from "resend";
+import {
+  isSmtpConfigured,
+  mailFrom as smtpMailFrom,
+  mailTo as smtpMailTo,
+  sendSmtpMail,
+} from "../contact/smtp.js";
 import type { JobApplyPayload } from "./applySchema.js";
 import type { ValidatedJobCv } from "./cv.js";
 import type { ScanResult } from "./scan.js";
@@ -13,38 +19,9 @@ function escapeHtml(s: string): string {
 
 /**
  * Outbound mail for job applications.
- *
- * Preferred (when you set SMTP later):
- *   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, MAIL_FROM, MAIL_TO
- *   (or JOB_APPLY_TO_EMAIL)
- *
- * Current / fallback (Resend):
- *   RESEND_API_KEY, CONTACT_FROM_EMAIL|MAIL_FROM, JOB_APPLY_TO_EMAIL|CONTACT_TO_EMAIL|MAIL_TO
- *
- * If neither is configured, sending is skipped (row is still saved).
+ * Prefers Office 365 SMTP when SMTP_USER / SMTP_PASS are set.
+ * Falls back to Resend when those are still blank.
  */
-/**
- * SMTP is prepared via env vars but inactive until SMTP_ENABLED=true and
- * nodemailer is installed. Until then, Resend is used when configured.
- *
- * Env: SMTP_ENABLED, SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS,
- *      MAIL_FROM, JOB_APPLY_TO_EMAIL|MAIL_TO|CONTACT_TO_EMAIL
- */
-export function isSmtpConfigured(): boolean {
-  const enabled = (process.env.SMTP_ENABLED || "").trim().toLowerCase();
-  if (enabled !== "1" && enabled !== "true" && enabled !== "yes") {
-    return false;
-  }
-  return Boolean(
-    process.env.SMTP_HOST?.trim() &&
-      (process.env.MAIL_FROM?.trim() || process.env.CONTACT_FROM_EMAIL?.trim()) &&
-      (
-        process.env.JOB_APPLY_TO_EMAIL?.trim() ||
-        process.env.MAIL_TO?.trim() ||
-        process.env.CONTACT_TO_EMAIL?.trim()
-      ),
-  );
-}
 
 export function isResendConfigured(): boolean {
   return Boolean(
@@ -63,45 +40,12 @@ export function isJobApplyEmailConfigured(): boolean {
 }
 
 function mailFrom(): string {
-  return (
-    process.env.MAIL_FROM?.trim() ||
-    process.env.CONTACT_FROM_EMAIL?.trim() ||
-    ""
-  );
+  return smtpMailFrom();
 }
 
 function mailTo(): string {
   return (
-    process.env.JOB_APPLY_TO_EMAIL?.trim() ||
-    process.env.MAIL_TO?.trim() ||
-    process.env.CONTACT_TO_EMAIL?.trim() ||
-    ""
-  );
-}
-
-async function sendViaSmtp(opts: {
-  from: string;
-  to: string;
-  subject: string;
-  text: string;
-  html: string;
-  attachment: ValidatedJobCv;
-}): Promise<void> {
-  // SMTP transport placeholder — wire nodemailer (or similar) when SMTP_* is live.
-  // Keeping the hook so env can be set without changing call sites.
-  const host = process.env.SMTP_HOST?.trim();
-  if (!host) {
-    throw new Error("SMTP_HOST is not configured");
-  }
-
-  /*
-   * SMTP path — set SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS + MAIL_FROM + MAIL_TO
-   * (or JOB_APPLY_TO_EMAIL). Install `nodemailer` when you go live with SMTP.
-   * Until then, configure Resend (RESEND_API_KEY + CONTACT_FROM/TO) instead.
-   */
-  void host;
-  throw new Error(
-    "SMTP transport is prepared but not active yet. Install nodemailer and wire createTransport, or use Resend env vars (RESEND_API_KEY, CONTACT_FROM_EMAIL, JOB_APPLY_TO_EMAIL).",
+    (process.env.JOB_APPLY_TO_EMAIL || "").trim() || smtpMailTo()
   );
 }
 
@@ -164,7 +108,21 @@ export async function sendJobApplyEmail(
   `;
 
   if (isSmtpConfigured()) {
-    await sendViaSmtp({ from, to, subject: subjectLine, text, html, attachment: cv });
+    await sendSmtpMail({
+      from,
+      to,
+      subject: subjectLine,
+      text,
+      html,
+      replyTo: payload.email,
+      attachments: [
+        {
+          filename: cv.fileName,
+          content: cv.buffer,
+          contentType: cv.mimeType,
+        },
+      ],
+    });
     return { skipped: false as const, transport: "smtp" as const };
   }
 

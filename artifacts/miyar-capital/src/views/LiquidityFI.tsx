@@ -1,6 +1,6 @@
 "use client";
 
-import { Factsheet } from "../components/Factsheet";
+import { CmsFactsheet } from "../components/CmsFactsheet";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
@@ -64,52 +64,39 @@ export function LiquidityFI() {
                 </div>
               ))}
             </div>
-            <Factsheet
-              title={pickLang(data.facts.headingEn, data.facts.headingAr, lang)}
-              rows={data.facts.rows.map((row) => ({
-                label: pickLang(row.labelEn, row.labelAr, lang),
-                value: pickLang(row.valueEn, row.valueAr, lang),
-              }))}
-              primaryCta={pickLang(
-                data.facts.primaryCtaEn,
-                data.facts.primaryCtaAr,
-                lang,
-              )}
-            />
+            <div className="mur-facts">
+              <CmsFactsheet
+                slug="murabaha-fund"
+                fallback={{
+                  titleEn: data.facts.headingEn,
+                  titleAr: data.facts.headingAr,
+                  rows: data.facts.rows,
+                  ctaEn: data.facts.primaryCtaEn,
+                  ctaAr: data.facts.primaryCtaAr,
+                }}
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="blk">
+      <section
+        className="mur-risk-note"
+        aria-label={pickLang(
+          data.disclaimer.leadEn,
+          data.disclaimer.leadAr,
+          lang,
+        )}
+      >
         <div className="wrap">
-          <h3>
+          <b>
             {pickLang(data.disclaimer.leadEn, data.disclaimer.leadAr, lang)}
-          </h3>
+          </b>{" "}
           <RichText
-            as="p"
+            as="span"
             html={pickLang(
               data.disclaimer.bodyEn,
               data.disclaimer.bodyAr,
-              lang,
-            )}
-          />
-        </div>
-      </section>
-
-      <section className="blk">
-        <div className="wrap">
-          <h3>
-            {pickLang(
-              data.disclosure.titleEn,
-              data.disclosure.titleAr,
-              lang,
-            )}
-          </h3>
-          <RichText
-            as="p"
-            html={pickLang(
-              data.disclosure.bodyEn,
-              data.disclosure.bodyAr,
               lang,
             )}
           />

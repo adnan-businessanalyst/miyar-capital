@@ -9,7 +9,7 @@ import {
   PillarCarousel,
   type PillarCarouselItem,
 } from "../components/PillarCarousel";
-import { PrimaryCardClickableGrid } from "../components/PrimaryCardClickable";
+import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { SectionHead } from "../components/SectionHead";
 import { Steps } from "../components/Steps";
@@ -176,15 +176,39 @@ export function AssetManagement() {
                 aria-hidden="true"
               />
               <div className="wrap am-client-solutions-cards-wrap">
-                <PrimaryCardClickableGrid
-                  items={data.clientSolutions.items.map((item) => ({
-                    id: item.id,
-                    badge: item.num,
-                    title: pickLang(item.titleEn, item.titleAr, lang),
-                    body: pickLang(item.bodyEn, item.bodyAr, lang),
-                    href: item.href,
-                  }))}
-                />
+                <div className="am-client-solutions-panel">
+                  <div className="am-client-solutions-lead">
+                    <h3>
+                      {pickLang(
+                        data.clientSolutions.introTitleEn,
+                        data.clientSolutions.introTitleAr,
+                        lang,
+                      )}
+                    </h3>
+                    <RichText
+                      as="p"
+                      html={pickLang(
+                        data.clientSolutions.introBodyEn,
+                        data.clientSolutions.introBodyAr,
+                        lang,
+                      )}
+                    />
+                  </div>
+                  <PrimaryCardGrid>
+                    {data.clientSolutions.items.map((item) => (
+                      <PrimaryCard
+                        key={item.id}
+                        badge={item.num}
+                        title={pickLang(item.titleEn, item.titleAr, lang)}
+                      >
+                        <RichText
+                          as="p"
+                          html={pickLang(item.bodyEn, item.bodyAr, lang)}
+                        />
+                      </PrimaryCard>
+                    ))}
+                  </PrimaryCardGrid>
+                </div>
               </div>
             </div>
           </section>

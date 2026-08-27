@@ -15,6 +15,8 @@
     "db:apply-contact-page-title": "tsx --env-file=.env scripts/apply-contact-page-title.ts",
     "db:apply-contact-message-length": "tsx --env-file=.env scripts/apply-contact-message-length.ts",
     "db:apply-job-applications": "tsx --env-file=.env scripts/apply-job-applications.ts",
+    "db:apply-admin-credentials": "tsx --env-file=.env scripts/apply-admin-credentials.ts",
+    "db:apply-page-factsheets": "tsx --env-file=.env scripts/apply-page-factsheets.ts",
     "db:seed:news": "tsx --env-file=.env src/news/seed.ts",
     "db:seed:jobs": "tsx --env-file=.env src/jobs/seed.ts",
     "db:seed:funds": "tsx --env-file=.env src/funds/seed.ts"
@@ -23,6 +25,7 @@
     "@hono/node-server": "^1.19.0",
     "drizzle-orm": "^0.44.5",
     "hono": "^4.9.6",
+    "nodemailer": "^7.0.13",
     "postgres": "^3.4.7",
     "resend": "^6.0.2",
     "typescript": "~5.9.3",
@@ -30,6 +33,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.3.3",
+    "@types/nodemailer": "^6.4.24",
     "drizzle-kit": "^0.31.4",
     "tsx": "^4.21.0"
   }

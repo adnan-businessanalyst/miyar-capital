@@ -66,18 +66,20 @@ export const SITE_FOOTER: SiteFooter = {
           labelEn: "Liquidity & Fixed Income Solutions",
           labelAr: "حلول السيولة والدخل الثابت",
           href: "/asset-management/liquidity-fixed-income",
-        },
-        {
-          id: "f-liq",
-          labelEn: "Murabaha",
-          labelAr: "المرابحة",
-          href: "/asset-management/liquidity-fixed-income/murabaha-fund",
-        },
-        {
-          id: "f-direct-mur",
-          labelEn: "Direct Murabaha",
-          labelAr: "المرابحة المباشرة",
-          href: "/asset-management/liquidity-fixed-income/direct-murabaha",
+          children: [
+            {
+              id: "f-liq",
+              labelEn: "Murabaha",
+              labelAr: "المرابحة",
+              href: "/asset-management/liquidity-fixed-income/murabaha-fund",
+            },
+            {
+              id: "f-direct-mur",
+              labelEn: "Direct Murabaha",
+              labelAr: "المرابحة المباشرة",
+              href: "/asset-management/liquidity-fixed-income/direct-murabaha",
+            },
+          ],
         },
         {
           id: "f-eq",
@@ -97,18 +99,18 @@ export const SITE_FOOTER: SiteFooter = {
           labelAr: "الأسواق الخاصة",
           href: "/asset-management/private-markets",
         },
-        {
-          id: "f-dpm",
-          labelEn: "DPM",
-          labelAr: "إدارة المحافظ الاستثمارية الخاصة",
-          href: "/asset-management/dpm",
-        },
-        {
-          id: "f-ifo",
-          labelEn: "Institutional & Family Office",
-          labelAr: "المؤسسات و المكاتب العائلية",
-          href: "/asset-management/institutional-family-office",
-        },
+        // {
+        //   id: "f-dpm",
+        //   labelEn: "DPM",
+        //   labelAr: "إدارة المحافظ الاستثمارية الخاصة",
+        //   href: "/asset-management/dpm",
+        // },
+        // {
+        //   id: "f-ifo",
+        //   labelEn: "Institutional & Family Office",
+        //   labelAr: "المؤسسات و المكاتب العائلية",
+        //   href: "/asset-management/institutional-family-office",
+        // },
         {
           id: "f-dpm-est",
           labelEn: "Discretionary Portfolio Management",

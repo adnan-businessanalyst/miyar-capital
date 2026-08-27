@@ -31,6 +31,7 @@ minimumReleaseAgeExclude:
   # Next.js ecosystem — allow current releases for the App Router migration.
   - next
   - resend
+  - nodemailer
   - drizzle-orm
   - drizzle-kit
   - postgres

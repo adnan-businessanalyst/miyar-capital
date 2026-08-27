@@ -503,11 +503,18 @@ export function registerJobRoutes(app: Hono) {
 
       for (const [key, value] of Object.entries(body)) {
         if (key === "cv" || key === "attachment") {
-          if (value instanceof File) rawFile = value;
-          else if (Array.isArray(value)) {
-            const first = value.find((v) => v instanceof File);
-            if (first instanceof File) rawFile = first;
+          const files = Array.isArray(value)
+            ? value.filter((v) => v instanceof File)
+            : value instanceof File
+              ? [value]
+              : [];
+          if (files.length > 1) {
+            return c.json(
+              { ok: false, error: "Only one PDF file is allowed." },
+              400,
+            );
           }
+          if (files[0] instanceof File) rawFile = files[0];
           continue;
         }
         if (typeof value === "string") fields[key] = value;

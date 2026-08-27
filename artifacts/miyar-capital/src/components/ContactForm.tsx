@@ -226,17 +226,6 @@ export function ContactForm({
         return;
       }
       if (file instanceof File && file.size > 0) {
-        if (subjectRaw !== "Complaint") {
-          setStatus("error");
-          setError(
-            pickLang(
-              copy.errorAttachmentSubjectEn,
-              copy.errorAttachmentSubjectAr,
-              lang,
-            ),
-          );
-          return;
-        }
         if (file.size > IMAGE_MAX_BYTES || !isAllowedImageFile(file)) {
           setStatus("error");
           setError(
@@ -280,11 +269,7 @@ export function ContactForm({
         body.set("message", messageVal);
         body.set("sourcePage", sourcePage);
         if (token) body.set("recaptchaToken", token);
-        if (
-          subjectRaw === "Complaint" &&
-          file instanceof File &&
-          file.size > 0
-        ) {
+        if (file instanceof File && file.size > 0) {
           body.set("attachment", file);
         }
         res = await fetch(apiUrl("/api/contact"), {
@@ -464,11 +449,7 @@ export function ContactForm({
                 name="subject"
                 value="Inquiry"
                 checked={subject === "Inquiry"}
-                onChange={() => {
-                  setSubject("Inquiry");
-                  setFileName("");
-                  setAttachOk(true);
-                }}
+                onChange={() => setSubject("Inquiry")}
               />{" "}
               {pickLang(copy.subjectInquiryEn, copy.subjectInquiryAr, lang)}
             </label>
@@ -478,11 +459,7 @@ export function ContactForm({
                 name="subject"
                 value="Info"
                 checked={subject === "Info"}
-                onChange={() => {
-                  setSubject("Info");
-                  setFileName("");
-                  setAttachOk(true);
-                }}
+                onChange={() => setSubject("Info")}
               />{" "}
               {pickLang(copy.subjectInfoEn, copy.subjectInfoAr, lang)}
             </label>
@@ -516,7 +493,7 @@ export function ContactForm({
           {messageLen}/{MESSAGE_MAX}
         </span>
       </div>
-      {isGetInTouch && subject === "Complaint" ? (
+      {isGetInTouch ? (
         <div className="contact-modal-attach">
           <span className="contact-modal-attach-label">
             {pickLang(copy.attachmentLabelEn, copy.attachmentLabelAr, lang)}
@@ -527,8 +504,19 @@ export function ContactForm({
             type="file"
             name="attachment"
             accept={IMAGE_ACCEPT}
+            multiple={false}
             onChange={(ev) => {
-              const f = ev.target.files?.[0];
+              const list = ev.target.files;
+              const f = list?.[0];
+              if (list && list.length > 1) {
+                setError(
+                  pickLang(copy.errorAttachmentEn, copy.errorAttachmentAr, lang),
+                );
+                ev.target.value = "";
+                setFileName("");
+                setAttachOk(true);
+                return;
+              }
               if (!f) {
                 setFileName("");
                 setAttachOk(true);

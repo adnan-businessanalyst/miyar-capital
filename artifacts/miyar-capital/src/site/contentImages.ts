@@ -41,6 +41,8 @@ export const CONTENT_IMAGES = {
     "our-services-arrangement-managment",
   ),
   service_asset_management: content("service-asset-management"),
+  liquidity_fixed_income_intro: content("liquidity-fixed-income-intro"),
+  family_office_intro: content("family-office-intro"),
   asset_management_active_card: content("asset-management-active-card"),
   service_investment_banking: content("service-investment-banking"),
   investment_banking_intro: content("investment-banking-intro"),

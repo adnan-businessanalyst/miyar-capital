@@ -2,7 +2,7 @@
 
 import { Globe2, MapPinned, type LucideIcon } from "lucide-react";
 import { CoreCapabilities } from "../components/CoreCapabilities";
-import { Factsheet } from "../components/Factsheet";
+import { CmsFactsheet } from "../components/CmsFactsheet";
 import { PrimaryCard, PrimaryCardGrid } from "../components/PrimaryCard";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
@@ -71,16 +71,13 @@ export function EquityManagement() {
                     html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   />
                 </div>
-                <Factsheet
-                  title={pickLang(
-                    data.productOverview.headingEn,
-                    data.productOverview.headingAr,
-                    lang,
-                  )}
-                  rows={data.productOverview.rows.map((row) => ({
-                    label: pickLang(row.labelEn, row.labelAr, lang),
-                    value: pickLang(row.valueEn, row.valueAr, lang),
-                  }))}
+                <CmsFactsheet
+                  slug="equity-management"
+                  fallback={{
+                    titleEn: data.productOverview.headingEn,
+                    titleAr: data.productOverview.headingAr,
+                    rows: data.productOverview.rows,
+                  }}
                 />
               </div>
             </div>

@@ -12,6 +12,7 @@
  * - views/DPM.tsx
  * - views/DebtFinancingArrangement.tsx
  * - views/DirectMurabaha.tsx
+ * - views/DiscretionaryPortfolioManagement.tsx
  * - views/Disclosures.tsx
  * - views/EquityManagement.tsx
  * - views/ExecutiveTeam.tsx

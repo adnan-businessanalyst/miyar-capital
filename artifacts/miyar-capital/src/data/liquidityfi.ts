@@ -1,6 +1,7 @@
 /**
  * Liquidity & FI / Miyar Murabaha Fund page copy (EN + AR).
- * Imported by `views/LiquidityFI.tsx` — not CMS-managed.
+ * Imported by `views/LiquidityFI.tsx`. Fact sheet title, rows, and PDF
+ * are CMS-managed under `/my-access-nimda/factsheets/murabaha-fund`.
  * Route: /asset-management/liquidity-fixed-income/murabaha-fund
  *
  * Bodies may include RichText markup: `<br>`, `<strong>`, `<em>`,
@@ -53,12 +54,6 @@ export interface LiquidityFiContent {
   disclaimer: {
     leadEn: string;
     leadAr: string;
-    bodyEn: string;
-    bodyAr: string;
-  };
-  disclosure: {
-    titleEn: string;
-    titleAr: string;
     bodyEn: string;
     bodyAr: string;
   };
@@ -179,14 +174,5 @@ export const LIQUIDITY_FI: LiquidityFiContent = {
       "The value of investments may fall as well as rise, and past performance is not a reliable indicator of future results. Eligibility is subject to client classification and a suitability assessment. The fund is offered solely through its official, Compliance-approved documents.",
     bodyAr:
       "قد تنخفض قيمة الاستثمارات كما قد ترتفع، والأداء السابق ليس مؤشراً موثوقاً للنتائج المستقبلية. الأهلية مشروطة بتصنيف العميل وتقييم الملاءمة. ويُقدَّم الصندوق حصراً من خلال مستنداته الرسمية المعتمدة.",
-  },
-
-  disclosure: {
-    titleEn: "Disclosure",
-    titleAr: "الإفصاح التنظيمي",
-    bodyEn:
-      "Miyar Capital is authorised and regulated by the CMA, licence No. 21216-32. Content is for information only and does not constitute an offer of securities or investment advice.",
-    bodyAr:
-      "معيار المالية شركة مرخّصة ومنظّمة من هيئة السوق المالية، ترخيص رقم 21216-32. المحتوى لأغراض المعلومات فقط ولا يُعدّ عرضاً لأوراق مالية أو مشورة استثمارية.",
   },
 };

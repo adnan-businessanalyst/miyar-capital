@@ -3,6 +3,7 @@
  *
  * Used by:
  * - views/ArrangementManagement.tsx
+ * - views/AssetManagement.tsx
  * - views/DirectMurabaha.tsx
  * - views/DiscretionaryPortfolioManagement.tsx
  * - views/DPM.tsx

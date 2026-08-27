@@ -309,10 +309,19 @@ export function JobApplyForm({ job, sourcePage }: Props) {
           type="file"
           name="cv"
           accept="application/pdf,.pdf"
+          multiple={false}
           required
           aria-required="true"
           onChange={(ev) => {
-            const f = ev.target.files?.[0];
+            const list = ev.target.files;
+            const f = list?.[0];
+            if (list && list.length > 1) {
+              setError(pickLang(copy.errorCvEn, copy.errorCvAr, lang));
+              ev.target.value = "";
+              setCvName("");
+              setCvOk(false);
+              return;
+            }
             if (!f) {
               setCvName("");
               setCvOk(false);

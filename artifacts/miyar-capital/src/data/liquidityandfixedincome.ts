@@ -93,7 +93,6 @@ export const LIQUIDITY_AND_FIXED_INCOME: LiquidityFixedIncomeContent = {
     "audience",
     "products",
     "disclaimer",
-    "regulatory",
   ],
 
   hero: {

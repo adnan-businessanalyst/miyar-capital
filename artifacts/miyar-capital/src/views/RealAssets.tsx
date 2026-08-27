@@ -1,7 +1,7 @@
 "use client";
 
 import { CoreCapabilities } from "../components/CoreCapabilities";
-import { Factsheet } from "../components/Factsheet";
+import { CmsFactsheet } from "../components/CmsFactsheet";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
@@ -119,16 +119,13 @@ export function RealAssets() {
                     html={pickLang(data.intro.bodyEn, data.intro.bodyAr, lang)}
                   />
                 </div> */}
-                <Factsheet
-                  title={pickLang(
-                    data.productOverview.headingEn,
-                    data.productOverview.headingAr,
-                    lang,
-                  )}
-                  rows={data.productOverview.rows.map((row) => ({
-                    label: pickLang(row.labelEn, row.labelAr, lang),
-                    value: pickLang(row.valueEn, row.valueAr, lang),
-                  }))}
+                <CmsFactsheet
+                  slug="real-assets"
+                  fallback={{
+                    titleEn: data.productOverview.headingEn,
+                    titleAr: data.productOverview.headingAr,
+                    rows: data.productOverview.rows,
+                  }}
                 />
               </div>
             </div>

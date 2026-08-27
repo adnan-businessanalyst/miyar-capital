@@ -42,16 +42,24 @@ function GlobeIcon() {
   );
 }
 
+function pathMatchesTree(href: string | undefined, barePath: string): boolean {
+  if (!href) return false;
+  if (href === "/") return barePath === "/";
+  const a = href.replace(/\/+$/, "") || "/";
+  const b = barePath.replace(/\/+$/, "") || "/";
+  return b === a || b.startsWith(`${a}/`);
+}
 function collectHrefs(item: NavItem): string[] {
   const hrefs = item.href ? [item.href] : [];
   for (const child of item.children ?? []) hrefs.push(...collectHrefs(child));
   return hrefs;
 }
 
-function pathMatches(href: string | undefined, barePath: string): boolean {
+function pathEquals(href: string | undefined, barePath: string): boolean {
   if (!href) return false;
-  if (href === "/") return barePath === "/";
-  return barePath === href || barePath.startsWith(`${href}/`);
+  const a = href.replace(/\/+$/, "") || "/";
+  const b = barePath.replace(/\/+$/, "") || "/";
+  return a === b;
 }
 
 function NavCaret() {
@@ -161,9 +169,9 @@ export function Header() {
     setExpandedId((cur) => (cur === id ? null : id));
 
   const isActive = (item: NavItem): boolean =>
-    collectHrefs(item).some((h) => pathMatches(h, barePath));
+    collectHrefs(item).some((h) => pathMatchesTree(h, barePath));
 
-  const isHrefActive = (href?: string) => pathMatches(href, barePath);
+  const isHrefActive = (href?: string) => pathEquals(href, barePath);
 
   const label = (item: { labelEn: string; labelAr: string }, l: Lang) =>
     pickLang(item.labelEn, item.labelAr, l);
@@ -230,20 +238,24 @@ export function Header() {
                           return (
                             <Fragment key={child.id}>
                               <a
-                                className={`nav-branch-parent${isActive(child) ? " on" : ""}`}
+                                className={`nav-branch-parent${isHrefActive(child.href) ? " on" : ""}`}
                                 onClick={go(child.href)}
                               >
                                 {label(child, lang)}
                               </a>
-                              {nested.map((gc) => (
-                                <a
-                                  key={gc.id}
-                                  className={`nav-nested${isHrefActive(gc.href) ? " on" : ""}`}
-                                  onClick={go(gc.href)}
-                                >
-                                  {label(gc, lang)}
-                                </a>
-                              ))}
+                              {nested.length > 0 ? (
+                                <div className="nav-nested-group">
+                                  {nested.map((gc) => (
+                                    <a
+                                      key={gc.id}
+                                      className={`nav-nested${isHrefActive(gc.href) ? " on" : ""}`}
+                                      onClick={go(gc.href)}
+                                    >
+                                      {label(gc, lang)}
+                                    </a>
+                                  ))}
+                                </div>
+                              ) : null}
                             </Fragment>
                           );
                         })}
@@ -342,20 +354,24 @@ export function Header() {
                       return (
                         <Fragment key={child.id}>
                           <a
-                            className={`nav-branch-parent${isActive(child) ? " on" : ""}`}
+                            className={`nav-branch-parent${isHrefActive(child.href) ? " on" : ""}`}
                             onClick={go(child.href)}
                           >
                             {label(child, lang)}
                           </a>
-                          {nested.map((gc) => (
-                            <a
-                              key={gc.id}
-                              className={`nav-nested${isHrefActive(gc.href) ? " on" : ""}`}
-                              onClick={go(gc.href)}
-                            >
-                              {label(gc, lang)}
-                            </a>
-                          ))}
+                          {nested.length > 0 ? (
+                            <div className="nav-nested-group">
+                              {nested.map((gc) => (
+                                <a
+                                  key={gc.id}
+                                  className={`nav-nested${isHrefActive(gc.href) ? " on" : ""}`}
+                                  onClick={go(gc.href)}
+                                >
+                                  {label(gc, lang)}
+                                </a>
+                              ))}
+                            </div>
+                          ) : null}
                         </Fragment>
                       );
                     })}

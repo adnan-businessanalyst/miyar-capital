@@ -87,12 +87,12 @@ export function DirectMurabaha() {
 
       case "how":
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk dm-how">
             <div className="wrap">
               <SectionHead
                 title={pickLang(data.how.titleEn, data.how.titleAr, lang)}
               />
-              <PrimaryCardGrid columns={4}>
+              <PrimaryCardGrid columns={4} className="dm-how-grid">
                 {data.how.steps.map((step) => (
                   <PrimaryCard
                     key={step.titleEn}
@@ -131,18 +131,25 @@ export function DirectMurabaha() {
 
       case "pricing":
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="dm-pricing-note" aria-label={pickLang(
+            data.pricing.titleEn,
+            data.pricing.titleAr,
+            lang,
+          )}>
             <div className="wrap">
-              <SectionHead
-                title={pickLang(
-                  data.pricing.titleEn,
-                  data.pricing.titleAr,
-                  lang,
-                )}
-              />
+              <b>
+                <RichText
+                  as="span"
+                  html={pickLang(
+                    data.pricing.titleEn,
+                    data.pricing.titleAr,
+                    lang,
+                  )}
+                />
+              </b>
+              {" "}
               <RichText
-                as="p"
-                className="sec-sub"
+                as="span"
                 html={pickLang(data.pricing.bodyEn, data.pricing.bodyAr, lang)}
               />
             </div>

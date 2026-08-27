@@ -1,3 +1,5 @@
+import { randomBytes } from "node:crypto";
+
 /** Max CV size for job applications (5 MB). */
 export const JOB_CV_MAX_BYTES = 5 * 1024 * 1024;
 
@@ -20,7 +22,7 @@ function isPdfMagic(buf: Buffer): boolean {
   );
 }
 
-/** Reject HTML/script polyglots and obvious non-PDF payloads. */
+/** Reject HTML/script polyglots, executables, and active PDF features. */
 function looksMalicious(buf: Buffer): boolean {
   const head = buf.subarray(0, Math.min(buf.length, 512)).toString("latin1");
   const lower = head.toLowerCase();
@@ -40,17 +42,22 @@ function looksMalicious(buf: Buffer): boolean {
     return true; // ELF
   if (buf[0] === 0x50 && buf[1] === 0x4b && buf[2] === 0x03 && buf[3] === 0x04)
     return true; // ZIP (docx/xlsx disguised)
+
+  const probe = buf
+    .subarray(0, Math.min(buf.length, 64 * 1024))
+    .toString("latin1");
+  if (
+    /\/JavaScript|\/JS[\s\/]|\/OpenAction|\/Launch|\/EmbeddedFile|\/RichMedia|\/AA\s/.test(
+      probe,
+    )
+  ) {
+    return true;
+  }
   return false;
 }
 
-function sanitizePdfName(name: string): string {
-  const base = name
-    .replace(/[/\\?%*:|"<>]/g, "")
-    .replace(/\s+/g, "-")
-    .slice(0, 80)
-    .trim();
-  const stem = base.replace(/\.[^.]+$/, "") || "cv";
-  return `${stem}.pdf`;
+function sanitizePdfName(_name: string): string {
+  return `cv-${randomBytes(8).toString("hex")}.pdf`;
 }
 
 /**

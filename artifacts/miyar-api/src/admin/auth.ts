@@ -1,6 +1,10 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { eq } from "drizzle-orm";
 import type { Context } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import { getDb } from "../db/index.js";
+import { adminCredentials } from "../db/schema.js";
+import { verifyPasswordHash } from "./password.js";
 
 export const ADMIN_COOKIE = "miyar_admin_session";
 const MAX_AGE_SEC = 60 * 60 * 12; // 12h
@@ -55,11 +59,28 @@ export function isAdminAuthenticated(c: Context): boolean {
   }
 }
 
-export function verifyAdminPassword(password: string): boolean {
+export function verifyEnvAdminPassword(password: string): boolean {
   const expected = process.env.ADMIN_PASSWORD ?? "";
   if (!expected || !password) return false;
   const a = Buffer.from(password);
   const b = Buffer.from(expected);
   if (a.length !== b.length) return false;
   return timingSafeEqual(a, b);
+}
+
+/** DB hash wins after a reset; otherwise ADMIN_PASSWORD. */
+export async function verifyAdminPassword(password: string): Promise<boolean> {
+  if (!password) return false;
+  try {
+    const rows = await getDb()
+      .select({ passwordHash: adminCredentials.passwordHash })
+      .from(adminCredentials)
+      .where(eq(adminCredentials.id, 1))
+      .limit(1);
+    const stored = rows[0]?.passwordHash;
+    if (stored) return verifyPasswordHash(password, stored);
+  } catch {
+    // Table may not exist yet — fall back to env.
+  }
+  return verifyEnvAdminPassword(password);
 }

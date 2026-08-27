@@ -18,6 +18,7 @@ import {
   type LiquidityFixedIncomeSectionId,
 } from "../data/liquidityandfixedincome";
 import { useLanguage } from "../i18n/LanguageContext";
+import { CONTENT_IMAGES } from "../site/contentImages";
 import { pickLang } from "../site/types";
 
 function hasCopy(en: string, ar: string, lang: "en" | "ar") {
@@ -65,12 +66,13 @@ export function LiquidityAndFixedIncome() {
           />
         );
 
-      case "strategy":
+      case "strategy": {
         if (!hasCopy(data.strategy.titleEn, data.strategy.titleAr, lang)) {
           return null;
         }
+        const photo = CONTENT_IMAGES.liquidity_fixed_income_intro;
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk lfi-strategy">
             <div className="wrap">
               <SectionHead
                 title={pickLang(
@@ -79,21 +81,33 @@ export function LiquidityAndFixedIncome() {
                   lang,
                 )}
               />
-              <RichText
-                as="p"
-                className="sec-sub"
-                html={pickLang(data.strategy.bodyEn, data.strategy.bodyAr, lang)}
-              />
+              <div className="lfi-strategy-row">
+                <RichText
+                  as="p"
+                  className="sec-sub"
+                  html={pickLang(
+                    data.strategy.bodyEn,
+                    data.strategy.bodyAr,
+                    lang,
+                  )}
+                />
+                {photo ? (
+                  <figure className="lfi-strategy-media">
+                    <img src={photo} alt="" decoding="async" />
+                  </figure>
+                ) : null}
+              </div>
             </div>
           </section>
         );
+      }
 
-      case "audience":
+      case "audience": {
         if (!hasCopy(data.audience.titleEn, data.audience.titleAr, lang)) {
           return null;
         }
         return (
-          <section key={id} className="blk blk--cream">
+          <section key={id} className="blk lfi-audience">
             <div className="wrap">
               <SectionHead
                 title={pickLang(
@@ -105,11 +119,16 @@ export function LiquidityAndFixedIncome() {
               <RichText
                 as="p"
                 className="sec-sub"
-                html={pickLang(data.audience.bodyEn, data.audience.bodyAr, lang)}
+                html={pickLang(
+                  data.audience.bodyEn,
+                  data.audience.bodyAr,
+                  lang,
+                )}
               />
             </div>
           </section>
         );
+      }
 
       case "products": {
         if (!hasCopy(data.products.titleEn, data.products.titleAr, lang)) {
@@ -125,7 +144,7 @@ export function LiquidityAndFixedIncome() {
           }))
           .filter((item) => item.title.trim() || item.body.trim());
         return (
-          <section key={id} className="blk">
+          <section key={id} className="blk lfi-products">
             <div className="wrap">
               <SectionHead
                 title={pickLang(
@@ -145,22 +164,30 @@ export function LiquidityAndFixedIncome() {
       }
 
       case "disclaimer":
-        if (!hasCopy(data.disclaimer.titleEn, data.disclaimer.titleAr, lang)) {
-          return null;
-        }
         return (
-          <section key={id} className="blk">
+          <section
+            key={id}
+            className="lfi-risk-note"
+            aria-label={pickLang(
+              data.disclaimer.titleEn,
+              data.disclaimer.titleAr,
+              lang,
+            )}
+          >
             <div className="wrap">
-              <SectionHead
-                title={pickLang(
-                  data.disclaimer.titleEn,
-                  data.disclaimer.titleAr,
-                  lang,
-                )}
-              />
+              <b>
+                <RichText
+                  as="span"
+                  html={pickLang(
+                    data.disclaimer.titleEn,
+                    data.disclaimer.titleAr,
+                    lang,
+                  )}
+                />
+              </b>
+              {" "}
               <RichText
-                as="p"
-                className="sec-sub"
+                as="span"
                 html={pickLang(
                   data.disclaimer.bodyEn,
                   data.disclaimer.bodyAr,
@@ -172,31 +199,7 @@ export function LiquidityAndFixedIncome() {
         );
 
       case "regulatory":
-        if (!hasCopy(data.regulatory.titleEn, data.regulatory.titleAr, lang)) {
-          return null;
-        }
-        return (
-          <section key={id} className="blk">
-            <div className="wrap">
-              <SectionHead
-                title={pickLang(
-                  data.regulatory.titleEn,
-                  data.regulatory.titleAr,
-                  lang,
-                )}
-              />
-              <RichText
-                as="p"
-                className="sec-sub"
-                html={pickLang(
-                  data.regulatory.bodyEn,
-                  data.regulatory.bodyAr,
-                  lang,
-                )}
-              />
-            </div>
-          </section>
-        );
+        return null;
 
       default:
         return null;

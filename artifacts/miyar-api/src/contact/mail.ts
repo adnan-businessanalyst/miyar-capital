@@ -1,6 +1,12 @@
 import { Resend } from "resend";
 import type { ContactPayload } from "./schema.js";
 import type { ValidatedContactImage } from "./image.js";
+import {
+  isSmtpConfigured,
+  mailFrom,
+  mailTo,
+  sendSmtpMail,
+} from "./smtp.js";
 
 function escapeHtml(s: string): string {
   return s
@@ -10,8 +16,9 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/** True when Resend destination is configured (to be set up later if missing). */
+/** True when SMTP (preferred) or Resend can send. */
 export function isContactEmailConfigured(): boolean {
+  if (isSmtpConfigured()) return true;
   return Boolean(
     process.env.RESEND_API_KEY &&
       process.env.CONTACT_FROM_EMAIL &&
@@ -28,11 +35,9 @@ export async function sendContactEmail(
     return { skipped: true as const };
   }
 
-  const apiKey = process.env.RESEND_API_KEY!;
-  const from = process.env.CONTACT_FROM_EMAIL!;
-  const to = process.env.CONTACT_TO_EMAIL!;
+  const from = mailFrom() || process.env.CONTACT_FROM_EMAIL!;
+  const to = mailTo() || process.env.CONTACT_TO_EMAIL!;
 
-  const resend = new Resend(apiKey);
   const when = meta.createdAt.toISOString();
   const email = payload.email?.trim() || "";
   const pageTitle =
@@ -90,6 +95,28 @@ export async function sendContactEmail(
     </div>
   `;
 
+  if (isSmtpConfigured()) {
+    await sendSmtpMail({
+      from,
+      to,
+      subject: subjectLine,
+      text,
+      html,
+      ...(email ? { replyTo: email } : {}),
+      attachments: attachment
+        ? [
+            {
+              filename: attachment.fileName,
+              content: attachment.buffer,
+              contentType: attachment.mimeType,
+            },
+          ]
+        : undefined,
+    });
+    return { skipped: false as const };
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY!);
   const { error } = await resend.emails.send({
     from,
     to: [to],

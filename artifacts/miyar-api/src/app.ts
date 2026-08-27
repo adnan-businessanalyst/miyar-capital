@@ -15,6 +15,7 @@ import { isContactEmailConfigured, sendContactEmail } from "./contact/mail.js";
 import { rateLimit } from "./contact/rateLimit.js";
 import { verifyRecaptcha } from "./contact/recaptcha.js";
 import { parseContactFields } from "./contact/schema.js";
+import { scanUpload } from "./jobs/scan.js";
 import { getDb } from "./db/index.js";
 import { contactSubmissions } from "./db/schema.js";
 import { registerReportRoutes } from "./reports/routes.js";
@@ -23,6 +24,7 @@ import { registerHomepageRoutes } from "./homepage/routes.js";
 import { registerJobRoutes } from "./jobs/routes.js";
 import { registerNewsRoutes } from "./news/routes.js";
 import { registerFundRoutes } from "./funds/routes.js";
+import { registerFactsheetRoutes } from "./factsheets/routes.js";
 
 function clientIp(c: { req: { header: (name: string) => string | undefined } }): string {
   return (
@@ -63,7 +65,7 @@ export function createApp() {
       service: "miyar-api",
       // Bump when shipping route sets so deploys are easy to verify.
       build: "2026-08-12-job-apply",
-      routes: ["jobs", "jobs-apply", "news", "reports", "disclosures", "homepage", "funds"],
+      routes: ["jobs", "jobs-apply", "news", "reports", "disclosures", "homepage", "funds", "factsheets"],
     }),
   );
 
@@ -87,11 +89,18 @@ export function createApp() {
         const body = await c.req.parseBody({ all: true });
         for (const [key, value] of Object.entries(body)) {
           if (key === "attachment") {
-            if (value instanceof File) rawFile = value;
-            else if (Array.isArray(value)) {
-              const first = value.find((v) => v instanceof File);
-              if (first instanceof File) rawFile = first;
+            const files = Array.isArray(value)
+              ? value.filter((v) => v instanceof File)
+              : value instanceof File
+                ? [value]
+                : [];
+            if (files.length > 1) {
+              return c.json(
+                { ok: false, error: "Only one image attachment is allowed." },
+                400,
+              );
             }
+            rawFile = files[0] ?? null;
             continue;
           }
           if (typeof value === "string") fields[key] = value;
@@ -123,11 +132,11 @@ export function createApp() {
       const hasFile = Boolean(rawFile && rawFile.size > 0);
 
       if (hasFile && rawFile) {
-        if (payload.variant !== "get-in-touch" || payload.subject !== "Complaint") {
+        if (payload.variant !== "get-in-touch") {
           return c.json(
             {
               ok: false,
-              error: "Attachments are only allowed for complaint submissions.",
+              error: "Attachments are only allowed on Get in Touch.",
             },
             400,
           );
@@ -137,21 +146,22 @@ export function createApp() {
           return c.json({ ok: false, error: imageResult.error }, 400);
         }
         attachment = imageResult.image;
-      }
-
-      // Get-in-touch: reject attachment metadata without a validated file.
-      if (
-        payload.variant === "get-in-touch" &&
-        payload.subject !== "Complaint" &&
-        hasFile
-      ) {
-        return c.json(
-          {
-            ok: false,
-            error: "Attachments are only allowed for complaint submissions.",
-          },
-          400,
-        );
+        if (attachment) {
+          const scan = await scanUpload({
+            buffer: attachment.buffer,
+            fileName: attachment.fileName,
+            mimeType: attachment.mimeType,
+          });
+          if (scan.status === "infected") {
+            return c.json(
+              {
+                ok: false,
+                error: "Attachment rejected by security scan.",
+              },
+              400,
+            );
+          }
+        }
       }
 
       const captchaOk = await verifyRecaptcha(payload.recaptchaToken, ip);
@@ -250,7 +260,7 @@ export function createApp() {
     }
 
     const body = (await c.req.json().catch(() => null)) as { password?: string } | null;
-    if (!body?.password || !verifyAdminPassword(body.password)) {
+    if (!body?.password || !(await verifyAdminPassword(body.password))) {
       return c.json({ error: "Invalid password" }, 401);
     }
 
@@ -263,6 +273,55 @@ export function createApp() {
       );
     }
     return c.json({ ok: true });
+  });
+
+  app.post("/api/admin/forgot-password", async (c) => {
+    const ip = clientIp(c);
+    const limited = rateLimit(`admin-forgot:${ip}`);
+    if (!limited.ok) {
+      return c.json({ error: "Too many attempts" }, 429);
+    }
+    const body = (await c.req.json().catch(() => null)) as { email?: string } | null;
+    const email = String(body?.email || "").trim();
+    if (!email) {
+      return c.json({ error: "Email is required" }, 400);
+    }
+    try {
+      const { requestPasswordReset } = await import("./admin/reset.js");
+      await requestPasswordReset(email);
+    } catch (err) {
+      console.error("[admin] forgot-password", err);
+    }
+    return c.json({
+      ok: true,
+      message: "If that email is registered, we sent a reset link.",
+    });
+  });
+
+  app.post("/api/admin/reset-password", async (c) => {
+    const ip = clientIp(c);
+    const limited = rateLimit(`admin-reset:${ip}`);
+    if (!limited.ok) {
+      return c.json({ error: "Too many attempts" }, 429);
+    }
+    const body = (await c.req.json().catch(() => null)) as {
+      token?: string;
+      password?: string;
+    } | null;
+    try {
+      const { completePasswordReset } = await import("./admin/reset.js");
+      const result = await completePasswordReset(
+        String(body?.token || ""),
+        String(body?.password || ""),
+      );
+      if ("error" in result) {
+        return c.json({ error: result.error }, result.status);
+      }
+      return c.json({ ok: true });
+    } catch (err) {
+      console.error("[admin] reset-password", err);
+      return c.json({ error: "Could not reset password. Try again." }, 500);
+    }
   });
 
   app.post("/api/admin/logout", (c) => {
@@ -389,6 +448,7 @@ export function createApp() {
   registerJobRoutes(app);
   registerNewsRoutes(app);
   registerFundRoutes(app);
+  registerFactsheetRoutes(app);
 
   return app;
 }

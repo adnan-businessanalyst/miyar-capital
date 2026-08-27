@@ -76,6 +76,12 @@
       },
       "image": "/media/content/contact-form.png"
     },
+    "family-office-intro": {
+      "files": {
+        ".jpg": "/media/content/family-office-intro.jpg"
+      },
+      "image": "/media/content/family-office-intro.jpg"
+    },
     "get-in-touch": {
       "files": {
         ".jpg": "/media/content/get-in-touch.jpg"
@@ -87,6 +93,12 @@
         ".jpeg": "/media/content/investment-banking-intro.jpeg"
       },
       "image": "/media/content/investment-banking-intro.jpeg"
+    },
+    "liquidity-fixed-income-intro": {
+      "files": {
+        ".jpg": "/media/content/liquidity-fixed-income-intro.jpg"
+      },
+      "image": "/media/content/liquidity-fixed-income-intro.jpg"
     },
     "our-services-arrangement-managment": {
       "files": {
@@ -318,6 +330,32 @@
         ".png": "/media/pe-equity.png"
       },
       "image": "/media/pe-equity.png"
+    }
+  },
+  "social-media": {
+    "facebook-card": {
+      "files": {
+        ".png": "/media/social-media/facebook-card.png"
+      },
+      "image": "/media/social-media/facebook-card.png"
+    },
+    "instagram-card": {
+      "files": {
+        ".png": "/media/social-media/instagram-card.png"
+      },
+      "image": "/media/social-media/instagram-card.png"
+    },
+    "whatsapp-card": {
+      "files": {
+        ".png": "/media/social-media/whatsapp-card.png"
+      },
+      "image": "/media/social-media/whatsapp-card.png"
+    },
+    "x-card": {
+      "files": {
+        ".png": "/media/social-media/x-card.png"
+      },
+      "image": "/media/social-media/x-card.png"
     }
   }
 }

@@ -8,12 +8,13 @@
 "use client";
 
 import Link from "next/link";
+import { Fragment } from "react";
 import { usePathname } from "next/navigation";
 import { FaApple, FaGooglePlay } from "react-icons/fa";
 import { useLanguage } from "../i18n/LanguageContext";
 import { useLocalePath } from "../i18n/useLocalePath";
 import { FOOTER_BG_IMAGE, SITE_FOOTER } from "../site/footer";
-import { pickLang } from "../site/types";
+import { pickLang, type FooterLink } from "../site/types";
 import { Brand } from "./Brand";
 import { Disclaimer } from "./Disclaimer";
 
@@ -31,6 +32,69 @@ export function Footer() {
 
   const address = pickLang(footer.addressEn, footer.addressAr, lang);
   const overlay = Math.max(0, Math.min(100, footer.overlayOpacity)) / 100;
+
+  const renderFooterLink = (
+    link: FooterLink,
+    colId: string,
+    nested = false,
+  ) => {
+    const label = pickLang(link.labelEn, link.labelAr, lang);
+    const key = `${colId}-${link.id}`;
+    const className = [
+      nested ? "nav-nested" : link.children?.length ? "nav-branch-parent" : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    let node;
+    if (!link.href) {
+      node = (
+        <a key={key} className={className || undefined}>
+          {label}
+        </a>
+      );
+    } else if (link.href.startsWith("/")) {
+      const href = withLocale(link.href);
+      const normalizedPath = pathname.replace(/\/+$/, "") || "/";
+      const normalizedHref = href.replace(/\/+$/, "") || "/";
+      const isActive = normalizedPath === normalizedHref;
+      node = (
+        <Link
+          key={key}
+          href={href}
+          className={[className, isActive ? "is-active" : ""]
+            .filter(Boolean)
+            .join(" ")}
+          aria-current={isActive ? "page" : undefined}
+        >
+          {label}
+        </Link>
+      );
+    } else {
+      node = (
+        <a
+          key={key}
+          className={className || undefined}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {label}
+        </a>
+      );
+    }
+
+    if (!link.children?.length) return node;
+
+    return (
+      <Fragment key={key}>
+        {node}
+        <div className="nav-nested-group">
+          {link.children.map((child) => renderFooterLink(child, colId, true))}
+        </div>
+      </Fragment>
+    );
+  };
 
   return (
     <footer
@@ -118,42 +182,7 @@ export function Footer() {
           {footer.columns.map((col) => (
             <div key={col.id}>
               <h6>{pickLang(col.titleEn, col.titleAr, lang)}</h6>
-              {col.links.map((link) => {
-                const label = pickLang(link.labelEn, link.labelAr, lang);
-                const key = `${col.id}-${link.id}`;
-                if (!link.href) {
-                  return <a key={key}>{label}</a>;
-                }
-                if (link.href.startsWith("/")) {
-                  const href = withLocale(link.href);
-                  const normalizedPath =
-                    pathname.replace(/\/+$/, "") || "/";
-                  const normalizedHref = href.replace(/\/+$/, "") || "/";
-                  const isActive =
-                    normalizedPath === normalizedHref ||
-                    normalizedPath.startsWith(`${normalizedHref}/`);
-                  return (
-                    <Link
-                      key={key}
-                      href={href}
-                      className={isActive ? "is-active" : undefined}
-                      aria-current={isActive ? "page" : undefined}
-                    >
-                      {label}
-                    </Link>
-                  );
-                }
-                return (
-                  <a
-                    key={key}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {label}
-                  </a>
-                );
-              })}
+              {col.links.map((link) => renderFooterLink(link, col.id))}
             </div>
           ))}
         </div>

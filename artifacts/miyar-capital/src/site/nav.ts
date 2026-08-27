@@ -118,18 +118,18 @@ export const SITE_NAV: NavDoc = {
           labelAr: "حلول العملاء",
           group: true,
         },
-        {
-          id: "am-dpm",
-          labelEn: "Discretionary Portfolio Management",
-          labelAr: "إدارة المحافظ الاستثمارية الخاصة",
-          href: "/asset-management/dpm",
-        },
-        {
-          id: "am-inst",
-          labelEn: "Institutional & Family Office",
-          labelAr: "المؤسسات والمكاتب العائلية",
-          href: "/asset-management/institutional-family-office",
-        },
+        // {
+        //   id: "am-dpm",
+        //   labelEn: "Discretionary Portfolio Management",
+        //   labelAr: "إدارة المحافظ الاستثمارية الخاصة",
+        //   href: "/asset-management/dpm",
+        // },
+        // {
+        //   id: "am-inst",
+        //   labelEn: "Institutional & Family Office",
+        //   labelAr: "المؤسسات والمكاتب العائلية",
+        //   href: "/asset-management/institutional-family-office",
+        // },
         {
           id: "am-dpm-est",
           labelEn: "Discretionary Portfolio Management",

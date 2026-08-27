@@ -1,4 +1,6 @@
-/** Max complaint image size (2 MB). */
+import { randomBytes } from "node:crypto";
+
+/** Max contact image size (2 MB). */
 export const CONTACT_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
 
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png"]);
@@ -43,20 +45,13 @@ function looksLikeMarkupOrScript(buf: Buffer): boolean {
   );
 }
 
-function sanitizeFileName(name: string, mime: ValidatedContactImage["mimeType"]): string {
-  const base = name
-    .replace(/[/\\?%*:|"<>]/g, "")
-    .replace(/\s+/g, "-")
-    .slice(0, 80)
-    .trim();
-  const ext =
-    mime === "image/jpeg" ? "jpg" : "png";
-  const stem = base.replace(/\.[^.]+$/, "") || "complaint";
-  return `${stem}.${ext}`;
+function sanitizeFileName(_name: string, mime: ValidatedContactImage["mimeType"]): string {
+  const ext = mime === "image/jpeg" ? "jpg" : "png";
+  return `contact-${randomBytes(8).toString("hex")}.${ext}`;
 }
 
 /**
- * Validate a single optional complaint image: size, declared MIME, magic bytes,
+ * Validate a single optional contact image: size, declared MIME, magic bytes,
  * and basic polyglot rejection. SVG and other formats are not allowed.
  */
 export async function validateContactImage(

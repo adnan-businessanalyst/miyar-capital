@@ -1,10 +1,17 @@
-import type { Metadata } from "next";
-import { DPM } from "@/views/DPM";
+import { notFound } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Discretionary Portfolio Management",
-};
+// Unpublished — إدارة المحافظ الاستثمارية الخاصة
+// import type { Metadata } from "next";
+// import { DPM } from "@/views/DPM";
+//
+// export const metadata: Metadata = {
+//   title: "Discretionary Portfolio Management",
+// };
+//
+// export default function Page() {
+//   return <DPM />;
+// }
 
 export default function Page() {
-  return <DPM />;
+  notFound();
 }

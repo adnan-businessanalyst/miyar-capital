@@ -1,7 +1,7 @@
 "use client";
 
 import { CoreCapabilities } from "../components/CoreCapabilities";
-import { Factsheet } from "../components/Factsheet";
+import { CmsFactsheet } from "../components/CmsFactsheet";
 import { PageHero } from "../components/PageHero";
 import { RegisterInterestSection } from "../components/RegisterInterestSection";
 import { RichText } from "../components/RichText";
@@ -75,16 +75,13 @@ export function PrivateMarketsPage() {
                   />
                 </div>
                 <div className="eq-col">
-                  <Factsheet
-                    title={pickLang(
-                      data.overview.productHeadingEn,
-                      data.overview.productHeadingAr,
-                      lang,
-                    )}
-                    rows={data.overview.facts.map((fact) => ({
-                      label: pickLang(fact.labelEn, fact.labelAr, lang),
-                      value: pickLang(fact.valueEn, fact.valueAr, lang),
-                    }))}
+                  <CmsFactsheet
+                    slug="private-markets"
+                    fallback={{
+                      titleEn: data.overview.productHeadingEn,
+                      titleAr: data.overview.productHeadingAr,
+                      rows: data.overview.facts,
+                    }}
                   />
                 </div>
               </div>

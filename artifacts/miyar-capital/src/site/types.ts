@@ -18,6 +18,7 @@ export interface FooterLink {
   labelEn: string;
   labelAr: string;
   href?: string;
+  children?: FooterLink[];
 }
 
 export interface FooterColumn {

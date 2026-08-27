@@ -52,6 +52,14 @@
   border: 1px solid #c7d2dc;
   border-radius: 8px;
 }
+.admin-login-forgot {
+  margin: 16px 0 0;
+  font-size: 0.875rem;
+}
+.admin-login-forgot a {
+  color: #0c476e;
+  text-decoration: underline;
+}
 .admin-login button,
 .admin-btn {
   background: #0c476e;

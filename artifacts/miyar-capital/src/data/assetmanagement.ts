@@ -83,6 +83,10 @@ export interface AssetManagementContent {
     tagAr: string;
     headingEn: string;
     headingAr: string;
+    introTitleEn: string;
+    introTitleAr: string;
+    introBodyEn: string;
+    introBodyAr: string;
     items: AssetManagementVertical[];
   };
 }
@@ -232,6 +236,12 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
     tagAr: "حلول العملاء",
     headingEn: "Beyond funds.",
     headingAr: "ما بعد الصناديق.",
+    introTitleEn: "Discretionary Portfolio Management",
+    introTitleAr: "الإدارة التقديرية للمحافظ",
+    introBodyEn:
+      "Bespoke mandates for individuals, family offices and institutions — built around a written investment policy, liquidity needs and horizon.",
+    introBodyAr:
+      "تفويضات مُفصَّلة للأفراد والمكاتب العائلية والمؤسسات، تُبنى على سياسة استثمارٍ مكتوبة واحتياجات السيولة والمدى الزمني.",
     items: [
       {
         id: "dpm",
@@ -254,17 +264,6 @@ export const ASSET_MANAGEMENT: AssetManagementContent = {
         bodyAr:
           "حلول متعددة الأصول، تفويضات استشارية، وهياكل الأوقاف، لرؤوس الأموال المؤسسية والمؤهلة.",
         href: "/asset-management/institutional-family-office",
-      },
-      {
-        id: "dpm-combined",
-        num: "C",
-        titleEn: "Discretionary Portfolio Management",
-        titleAr: "الإدارة التقديرية للمحافظ",
-        bodyEn:
-          "Bespoke mandates for individuals, family offices and institutions — built around a written investment policy, liquidity needs and horizon.",
-        bodyAr:
-          "تفويضات مُفصَّلة للأفراد والمكاتب العائلية والمؤسسات، تُبنى على سياسة استثمارٍ مكتوبة واحتياجات السيولة والمدى الزمني.",
-        href: "/asset-management/Discretionary-portfolio-management",
       },
     ],
   },

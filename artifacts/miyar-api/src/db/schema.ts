@@ -2,6 +2,7 @@ import {
   boolean,
   customType,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -386,3 +387,48 @@ export const fundsReportsSettings = pgTable("funds_reports_settings", {
 
 export type FundsReportsSettings = typeof fundsReportsSettings.$inferSelect;
 export type NewFundsReportsSettings = typeof fundsReportsSettings.$inferInsert;
+
+/** Singleton CMS password hash + one-time reset token. */
+export const adminCredentials = pgTable("admin_credentials", {
+  id: integer("id").primaryKey().default(1),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  passwordHash: text("password_hash"),
+  resetTokenHash: varchar("reset_token_hash", { length: 64 }),
+  resetExpiresAt: timestamp("reset_expires_at", { withTimezone: true }),
+});
+
+export type AdminCredentials = typeof adminCredentials.$inferSelect;
+
+export type PageFactsheetRow = {
+  labelEn: string;
+  labelAr: string;
+  valueEn: string;
+  valueAr: string;
+};
+
+/** Per-page product/fund fact sheet (title, rows, optional EN/AR PDF). */
+export const pageFactsheets = pgTable("page_factsheets", {
+  slug: varchar("slug", { length: 80 }).primaryKey(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+  titleEn: varchar("title_en", { length: 300 }).notNull(),
+  titleAr: varchar("title_ar", { length: 300 }).notNull().default(""),
+  rows: jsonb("rows").$type<PageFactsheetRow[]>().notNull().default([]),
+  ctaShow: boolean("cta_show").notNull().default(false),
+  ctaLabelEn: varchar("cta_label_en", { length: 300 })
+    .notNull()
+    .default("Download Factsheet ↓"),
+  ctaLabelAr: varchar("cta_label_ar", { length: 300 })
+    .notNull()
+    .default("تحميل نشرة الحقائق ↓"),
+  fileName: varchar("file_name", { length: 300 }),
+  fileNameAr: varchar("file_name_ar", { length: 300 }),
+  mimeType: varchar("mime_type", { length: 100 }),
+  mimeTypeAr: varchar("mime_type_ar", { length: 100 }),
+  fileSize: integer("file_size"),
+  fileSizeAr: integer("file_size_ar"),
+  fileData: bytea("file_data"),
+  fileDataAr: bytea("file_data_ar"),
+});
+
+export type PageFactsheet = typeof pageFactsheets.$inferSelect;
+export type NewPageFactsheet = typeof pageFactsheets.$inferInsert;

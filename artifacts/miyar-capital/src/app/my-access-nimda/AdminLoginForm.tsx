@@ -38,6 +38,9 @@ export function AdminLoginForm() {
       <button type="submit" disabled={loading}>
         {loading ? "Signing in…" : "Sign in"}
       </button>
+      <p className="admin-login-forgot">
+        <a href="/my-access-nimda/forgot-password">Forgot my password</a>
+      </p>
     </form>
   );
 }
