@@ -63,13 +63,13 @@ function investmentAdvisoryVideo(basename: string): string {
   return mediaVideoUrl("investment-advisory", basename);
 }
 
-/** Process timeline images for Investment Advisory (`ia-process-1` … `ia-process-5`). */
+/** Process timeline images for Investment Advisory (`ia-1` … `ia-4`, `id-5`). */
 export const IA_PROCESS_IMAGES = {
-  1: investmentAdvisory("ia-process-1"),
-  2: investmentAdvisory("ia-process-2"),
-  3: investmentAdvisory("ia-process-3"),
-  4: investmentAdvisory("ia-process-4"),
-  5: investmentAdvisory("ia-process-5"),
+  1: investmentAdvisory("ia-1"),
+  2: investmentAdvisory("ia-2"),
+  3: investmentAdvisory("ia-3"),
+  4: investmentAdvisory("ia-4"),
+  5: investmentAdvisory("id-5"),
 } as const;
 
 /**

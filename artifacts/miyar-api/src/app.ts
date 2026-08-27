@@ -141,6 +141,15 @@ export function createApp() {
             400,
           );
         }
+        if (payload.subject !== "Complaint") {
+          return c.json(
+            {
+              ok: false,
+              error: "Images can only be attached for complaints.",
+            },
+            400,
+          );
+        }
         const imageResult = await validateContactImage(rawFile, rawFile.name);
         if (!imageResult.ok) {
           return c.json({ ok: false, error: imageResult.error }, 400);
@@ -223,22 +232,15 @@ export function createApp() {
           createdAt: contactSubmissions.createdAt,
         });
 
+      // Always persist first. SMTP / Resend is optional and must not block CMS.
       if (isContactEmailConfigured()) {
-        try {
-          await sendContactEmail(
-            payload,
-            { id: row.id, createdAt: row.createdAt },
-            attachment,
-          );
-        } catch (mailErr) {
+        void sendContactEmail(
+          payload,
+          { id: row.id, createdAt: row.createdAt },
+          attachment,
+        ).catch((mailErr) => {
           console.error("[contact] email failed", mailErr);
-          return c.json({
-            ok: true,
-            id: row.id,
-            warning:
-              "Saved, but email notification failed. Our team can still see your message.",
-          });
-        }
+        });
       }
 
       return c.json({ ok: true, id: row.id });

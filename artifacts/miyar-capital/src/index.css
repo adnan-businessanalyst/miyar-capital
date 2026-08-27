@@ -11369,6 +11369,40 @@ body[dir="ltr"] .ib-services-duo .ib-services-media-front img {
   aspect-ratio: 16 / 11;
 }
 
+.page--investment-advisory .tl-img {
+  position: relative;
+}
+
+.page--investment-advisory .tl-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--navy) 80%, transparent) 0%,
+    color-mix(in srgb, var(--navy) 80%, transparent) 42%,
+    color-mix(in srgb, var(--navy-mid) 80%, transparent) 100%
+  );
+  transition: background 0.3s ease;
+}
+
+.page--investment-advisory .tl-row:hover .tl-img::after,
+.page--investment-advisory .tl-row:focus-within .tl-img::after {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--navy) 70%, transparent) 0%,
+    color-mix(in srgb, var(--navy) 70%, transparent) 42%,
+    color-mix(in srgb, var(--navy-mid) 70%, transparent) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page--investment-advisory .tl-img::after {
+    transition: none;
+  }
+}
+
 .tl-img img {
   width: 100%;
   height: 100%;

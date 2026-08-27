@@ -6,8 +6,7 @@ export function AdminBar() {
     <div className="admin-bar">
       <strong>Miyar Admin</strong>
       <div>
-        <Link href="/my-access-nimda/submissions">Submissions</Link>
-        <Link href="/my-access-nimda/applications">Applications</Link>
+        <Link href="/my-access-nimda/submissions">Inbox</Link>
         <Link href="/my-access-nimda/reports">Reports</Link>
         <Link href="/my-access-nimda/disclosures">Disclosures</Link>
         <Link href="/my-access-nimda/jobs">Jobs</Link>

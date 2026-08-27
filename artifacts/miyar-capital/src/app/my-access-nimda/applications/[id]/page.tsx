@@ -50,7 +50,9 @@ export default async function ApplicationDetailPage({ params }: Props) {
       <AdminBar />
       <div className="admin-wrap">
         <p>
-          <Link href="/my-access-nimda/applications">← Back to list</Link>
+          <Link href="/my-access-nimda/submissions?type=job">
+            ← Back to inbox
+          </Link>
         </p>
         <div className="admin-card">
           <h1 style={{ marginTop: 0 }}>{row.name}</h1>

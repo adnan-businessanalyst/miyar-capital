@@ -285,6 +285,36 @@
       },
       "image": "/media/investment-advisory/ia-intro.avif"
     },
+    "ia-1": {
+      "files": {
+        ".jpg": "/media/investment-advisory/ia-1.jpg"
+      },
+      "image": "/media/investment-advisory/ia-1.jpg"
+    },
+    "ia-2": {
+      "files": {
+        ".jpg": "/media/investment-advisory/ia-2.jpg"
+      },
+      "image": "/media/investment-advisory/ia-2.jpg"
+    },
+    "ia-3": {
+      "files": {
+        ".jpg": "/media/investment-advisory/ia-3.jpg"
+      },
+      "image": "/media/investment-advisory/ia-3.jpg"
+    },
+    "ia-4": {
+      "files": {
+        ".jpg": "/media/investment-advisory/ia-4.jpg"
+      },
+      "image": "/media/investment-advisory/ia-4.jpg"
+    },
+    "id-5": {
+      "files": {
+        ".jpg": "/media/investment-advisory/id-5.jpg"
+      },
+      "image": "/media/investment-advisory/id-5.jpg"
+    },
     "ia-process-1": {
       "files": {
         ".avif": "/media/investment-advisory/ia-process-1.avif"

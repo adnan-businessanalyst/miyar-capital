@@ -619,27 +619,20 @@ export function registerJobRoutes(app: Hono) {
           createdAt: jobApplications.createdAt,
         });
 
+      // Always persist first. SMTP / Resend is optional and must not block CMS.
       if (isJobApplyEmailConfigured()) {
-        try {
-          await sendJobApplyEmail(
-            {
-              ...payload,
-              jobTitle: payload.jobTitle.trim() || job.title,
-              jobReference: payload.jobReference.trim() || job.referenceCode,
-            },
-            { id: row.id, createdAt: row.createdAt },
-            cv,
-            scan,
-          );
-        } catch (mailErr) {
+        void sendJobApplyEmail(
+          {
+            ...payload,
+            jobTitle: payload.jobTitle.trim() || job.title,
+            jobReference: payload.jobReference.trim() || job.referenceCode,
+          },
+          { id: row.id, createdAt: row.createdAt },
+          cv,
+          scan,
+        ).catch((mailErr) => {
           console.error("[job-apply] email failed", mailErr);
-          return c.json({
-            ok: true,
-            id: row.id,
-            warning:
-              "Saved, but email notification failed. Our team can still see your application.",
-          });
-        }
+        });
       }
 
       return c.json({ ok: true, id: row.id });

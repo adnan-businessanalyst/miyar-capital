@@ -129,6 +129,13 @@ export function ContactForm({
   const [attachOk, setAttachOk] = useState(true);
   const [contactConsent, setContactConsent] = useState(false);
   const [investorClass, setInvestorClass] = useState("");
+  const canAttachImage = isGetInTouch && subject === "Complaint";
+
+  useEffect(() => {
+    if (canAttachImage) return;
+    setFileName("");
+    setAttachOk(true);
+  }, [canAttachImage]);
 
   useEffect(() => {
     if (!isRegister || messageTouched) return;
@@ -226,6 +233,17 @@ export function ContactForm({
         return;
       }
       if (file instanceof File && file.size > 0) {
+        if (subjectRaw !== "Complaint") {
+          setStatus("error");
+          setError(
+            pickLang(
+              copy.errorAttachmentSubjectEn,
+              copy.errorAttachmentSubjectAr,
+              lang,
+            ),
+          );
+          return;
+        }
         if (file.size > IMAGE_MAX_BYTES || !isAllowedImageFile(file)) {
           setStatus("error");
           setError(
@@ -269,7 +287,11 @@ export function ContactForm({
         body.set("message", messageVal);
         body.set("sourcePage", sourcePage);
         if (token) body.set("recaptchaToken", token);
-        if (file instanceof File && file.size > 0) {
+        if (
+          subjectRaw === "Complaint" &&
+          file instanceof File &&
+          file.size > 0
+        ) {
           body.set("attachment", file);
         }
         res = await fetch(apiUrl("/api/contact"), {
@@ -493,13 +515,14 @@ export function ContactForm({
           {messageLen}/{MESSAGE_MAX}
         </span>
       </div>
-      {isGetInTouch ? (
+      {canAttachImage ? (
         <div className="contact-modal-attach">
           <span className="contact-modal-attach-label">
             {pickLang(copy.attachmentLabelEn, copy.attachmentLabelAr, lang)}
           </span>
           <input
             id="contact-attachment"
+            key="contact-attachment-complaint"
             className="contact-upload-input"
             type="file"
             name="attachment"

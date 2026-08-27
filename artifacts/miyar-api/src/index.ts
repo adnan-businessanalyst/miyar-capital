@@ -1,5 +1,12 @@
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
 import { serve } from "@hono/node-server";
 import { createApp } from "./app.js";
+
+const envPath = resolve(process.cwd(), ".env");
+if (existsSync(envPath) && typeof process.loadEnvFile === "function") {
+  process.loadEnvFile(envPath);
+}
 
 const port = Number(process.env.PORT || 4000);
 const app = createApp();
