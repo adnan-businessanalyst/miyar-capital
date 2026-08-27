@@ -1,5 +1,5 @@
 /**
- * JobApplyForm — Job application form with CV upload, validation, and API submit.
+ * JobApplyForm — Job application form with CV upload, validation, reCAPTCHA, and API submit.
  *
  * Used by:
  * - components/JobApplyButton.tsx
@@ -12,6 +12,7 @@ import { JOB_APPLY } from "@/data/jobApply";
 import type { JobPosting } from "@/data/jobs";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { apiUrl } from "@/lib/api";
+import { getRecaptchaToken, recaptchaRequired } from "@/lib/recaptcha";
 import { pickLang } from "@/site/types";
 
 type Props = {
@@ -23,30 +24,6 @@ const MESSAGE_MIN = 20;
 const MESSAGE_MAX = 300;
 const CV_MAX_BYTES = 5 * 1024 * 1024;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-declare global {
-  interface Window {
-    grecaptcha?: {
-      ready: (cb: () => void) => void;
-      execute: (siteKey: string, options: { action: string }) => Promise<string>;
-    };
-  }
-}
-
-async function getRecaptchaToken(): Promise<string | undefined> {
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-  if (!siteKey || typeof window === "undefined" || !window.grecaptcha) {
-    return undefined;
-  }
-  return new Promise((resolve) => {
-    window.grecaptcha!.ready(() => {
-      window
-        .grecaptcha!.execute(siteKey, { action: "job_apply" })
-        .then(resolve)
-        .catch(() => resolve(undefined));
-    });
-  });
-}
 
 function RequiredMark() {
   return (
@@ -132,7 +109,13 @@ export function JobApplyForm({ job, sourcePage }: Props) {
       return;
     }
 
-    const token = await getRecaptchaToken();
+    const token = await getRecaptchaToken("job_apply");
+    if (recaptchaRequired() && !token) {
+      setStatus("error");
+      setError(pickLang(copy.errorCaptchaEn, copy.errorCaptchaAr, lang));
+      return;
+    }
+
     const body = new FormData();
     body.set("firstName", first);
     body.set("lastName", last);

@@ -7,7 +7,7 @@ Marketing site + admin UI. Backend lives in `@workspace/miyar-api`.
 | App | Path | Role |
 |-----|------|------|
 | Frontend | `artifacts/miyar-capital` | Pages, styles, admin UI |
-| API | `artifacts/miyar-api` | Contact, admin auth, report PDFs, Postgres, Resend, reCAPTCHA |
+| API | `artifacts/miyar-api` | Contact, admin auth, report PDFs, Postgres, SMTP, reCAPTCHA (production) |
 
 Browser calls **same-origin** `/api/*`. Next.js rewrites those to `API_INTERNAL_URL` (default `http://127.0.0.1:4000`) so admin cookies stay `SameSite=Lax`.
 
@@ -22,12 +22,13 @@ pnpm install
 
 # API
 cp artifacts/miyar-api/.env.example artifacts/miyar-api/.env
-# fill DATABASE_URL, Resend, ADMIN_*, RECAPTCHA_SECRET_KEY, FRONTEND_ORIGIN
+# fill DATABASE_URL_STAGING, VERCEL_URL_*, SMTP, ADMIN_*, FRONTEND_ORIGIN
 
 # Frontend
 cp artifacts/miyar-capital/.env.example artifacts/miyar-capital/.env.local
 # set NEXT_PUBLIC_RECAPTCHA_SITE_KEY; leave NEXT_PUBLIC_API_URL empty
 # API_INTERNAL_URL=http://127.0.0.1:4000
+# RAILWAY_URL_STAGING / RAILWAY_URL_PRODUCTION = hosted APIs
 
 cd artifacts/miyar-api
 pnpm db:push          # or pnpm db:migrate
@@ -58,8 +59,8 @@ See `.env.example`. Secrets stay on the API.
 
 ## Deploy notes
 
-- **Frontend:** Vercel (Root Directory `artifacts/miyar-capital`). Add rewrite `/api/:path*` → your API URL (also set `API_INTERNAL_URL` for RSC fetches).
-- **API:** Railway / Render / Fly (Node). Set env from `miyar-api/.env.example`. Default documented host: Railway.
+- **Frontend:** Vercel (Root Directory `artifacts/miyar-capital`). Set `APP_ENV` and both `RAILWAY_URL_STAGING` / `RAILWAY_URL_PRODUCTION` (or a single `API_INTERNAL_URL` on that project). Leave `NEXT_PUBLIC_API_URL` empty.
+- **API:** Railway. Set `APP_ENV` and both `VERCEL_URL_STAGING` / `VERCEL_URL_PRODUCTION` (or a single `FRONTEND_ORIGIN` on that service).
 - Clear any stale Vite **Output Directory** (`dist/public`) in Vercel.
 
 ## Remaining TODOs

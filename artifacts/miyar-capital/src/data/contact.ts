@@ -86,6 +86,8 @@ export interface ContactCopy {
   errorConsentAr: string;
   errorInvestorClassEn: string;
   errorInvestorClassAr: string;
+  errorCaptchaEn: string;
+  errorCaptchaAr: string;
 }
 
 export const CONTACT: ContactCopy = {
@@ -181,4 +183,6 @@ export const CONTACT: ContactCopy = {
   errorConsentAr: "يرجى الموافقة على التواصل.",
   errorInvestorClassEn: "Please select an investor classification.",
   errorInvestorClassAr: "يرجى اختيار تصنيف المستثمر.",
+  errorCaptchaEn: "Security check failed. Please try again.",
+  errorCaptchaAr: "فشل التحقق الأمني. يرجى المحاولة مرة أخرى.",
 };

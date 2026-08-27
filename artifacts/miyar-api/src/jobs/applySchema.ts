@@ -24,7 +24,7 @@ export const jobApplyPayloadSchema = z.object({
   jobReference: z.string().trim().min(1, "Job reference is required").max(80),
   jobId: z.string().trim().uuid().optional().or(z.literal("")),
   sourcePage: z.string().trim().min(1).max(300),
-  /** reCAPTCHA v3 token — verified when RECAPTCHA_SECRET_KEY is set. */
+  /** reCAPTCHA v3 token — verified in production only. */
   recaptchaToken: z.string().optional(),
 });
 

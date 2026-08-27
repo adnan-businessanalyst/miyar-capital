@@ -1,12 +1,9 @@
 import { cookies } from "next/headers";
+import { resolveApiInternalUrl } from "./appEnv";
 
 /** Server-side base URL for miyar-api (never expose secrets; cookie forwarded). */
 export function apiInternalBase(): string {
-  return (
-    process.env.API_INTERNAL_URL ||
-    process.env.NEXT_PUBLIC_API_URL ||
-    "http://127.0.0.1:4000"
-  ).replace(/\/$/, "");
+  return resolveApiInternalUrl();
 }
 
 export async function apiServerFetch(path: string, init?: RequestInit): Promise<Response> {

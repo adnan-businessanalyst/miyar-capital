@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { SiteChrome } from "@/components/SiteChrome";
+import { resolveAppEnv } from "@/lib/appEnv";
 import { SITE_META } from "@/site/defaults";
 import { SITE_ORIGIN, socialMetadata } from "@/site/social";
 import "@emran-alhaddad/saudi-riyal-font/index.css";
@@ -24,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const siteKey =
+    resolveAppEnv() === "production"
+      ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+      : undefined;
 
   return (
     <html lang="ar" dir="rtl">

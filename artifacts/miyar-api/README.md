@@ -1,13 +1,13 @@
 # Miyar API
 
-Standalone Node backend for Miyar Capital (Hono + Drizzle + Postgres + Resend).
+Standalone Node backend for Miyar Capital (Hono + Drizzle + Postgres + Office 365 SMTP).
 
 ## Endpoints
 
 | Method | Path | Auth |
 |--------|------|------|
 | `GET` | `/health` | public |
-| `POST` | `/api/contact` | public (+ reCAPTCHA) |
+| `POST` | `/api/contact` | public (+ reCAPTCHA in production) |
 | `GET` | `/api/reports` | public (optional `?section=annual\|financial`) |
 | `GET` | `/api/reports/:id/file` | public (`?download=1` for attachment; `?lang=ar` for Arabic PDF) |
 | `GET` | `/api/homepage-hero` | public |
@@ -34,12 +34,29 @@ Standalone Node backend for Miyar Capital (Hono + Drizzle + Postgres + Resend).
 
 ```bash
 cp artifacts/miyar-api/.env.example artifacts/miyar-api/.env
-# fill DATABASE_URL, Resend, admin, captcha secret, FRONTEND_ORIGIN
+# fill DATABASE_URL_STAGING, VERCEL_URL_STAGING / VERCEL_URL_PRODUCTION,
+# SMTP, admin, FRONTEND_ORIGIN (localhost)
+# add DATABASE_URL_PRODUCTION when the production Neon exists
 
 cd artifacts/miyar-api
-pnpm db:push   # or pnpm db:migrate
+pnpm db:push   # staging Neon (APP_ENV=staging)
 pnpm dev       # http://localhost:4000
 ```
+
+Schema against production Neon (does not swap `.env`):
+
+```bash
+cd artifacts/miyar-api
+pnpm db:push:production
+pnpm db:apply-contact:production
+pnpm db:apply-contact-page-title:production
+pnpm db:apply-contact-message-length:production
+pnpm db:apply-job-applications:production
+pnpm db:apply-admin-credentials:production
+pnpm db:apply-page-factsheets:production
+```
+
+The API picks Neon + the Vercel origin from `APP_ENV` (`staging` | `production`). Scripts named `*:production` force the production database. `/health` returns `env` and `site`.
 
 ## Cookie / CORS strategy (recommended)
 
@@ -50,7 +67,7 @@ Cross-origin without a proxy: set `COOKIE_SAME_SITE=none` (HTTPS required) and l
 
 ## Email / DNS
 
-Configure SPF + DKIM for the sending domain in the Resend dashboard before production use of `CONTACT_FROM_EMAIL`.
+Outbound mail uses Office 365 SMTP (`SMTP_USER` / `SMTP_PASS`). Forms still persist if SMTP is not filled in yet. reCAPTCHA is enforced only when `APP_ENV=production`.
 
 ## PDFs / financial reports
 
@@ -59,4 +76,4 @@ via the admin panel (`/my-access-nimda/reports` on the frontend). Public pages l
 `GET /api/reports` and serve files from `GET /api/reports/:id/file` (add `?lang=ar`
 for the Arabic PDF). Arabic site mode uses Arabic title, date, file name, and PDF.
 
-After pulling schema changes: `pnpm db:push` (or `pnpm db:migrate`) in this package.
+After pulling schema changes: `pnpm db:push` for staging, `pnpm db:push:production` for production.

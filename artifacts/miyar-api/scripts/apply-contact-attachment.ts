@@ -3,12 +3,9 @@
  * when drizzle migrate can't replay from 0000 (tables already exist).
  */
 import postgres from "postgres";
+import { requireDatabaseUrl } from "./dbUrl.ts";
 
-const url = process.env.DATABASE_URL;
-if (!url) {
-  console.error("DATABASE_URL missing");
-  process.exit(1);
-}
+const url = requireDatabaseUrl();
 
 const sql = postgres(url, { max: 1 });
 

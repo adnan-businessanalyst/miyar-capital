@@ -619,7 +619,7 @@ export function registerJobRoutes(app: Hono) {
           createdAt: jobApplications.createdAt,
         });
 
-      // Always persist first. SMTP / Resend is optional and must not block CMS.
+      // Always persist first. SMTP is optional and must not block CMS.
       if (isJobApplyEmailConfigured()) {
         void sendJobApplyEmail(
           {

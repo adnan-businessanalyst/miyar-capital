@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { CONTACT } from "@/data/contact";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { apiUrl } from "@/lib/api";
+import { getRecaptchaToken, recaptchaRequired } from "@/lib/recaptcha";
 import { pickLang } from "@/site/types";
 
 export type ContactFormVariant = "get-in-touch" | "register";
@@ -34,30 +35,6 @@ const MESSAGE_MAX = 300;
 const IMAGE_MAX_BYTES = 2 * 1024 * 1024;
 const IMAGE_ACCEPT = "image/jpeg,image/png,.jpg,.jpeg,.png";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-declare global {
-  interface Window {
-    grecaptcha?: {
-      ready: (cb: () => void) => void;
-      execute: (siteKey: string, options: { action: string }) => Promise<string>;
-    };
-  }
-}
-
-async function getRecaptchaToken(): Promise<string | undefined> {
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-  if (!siteKey || typeof window === "undefined" || !window.grecaptcha) {
-    return undefined;
-  }
-  return new Promise((resolve) => {
-    window.grecaptcha!.ready(() => {
-      window
-        .grecaptcha!.execute(siteKey, { action: "contact" })
-        .then(resolve)
-        .catch(() => resolve(undefined));
-    });
-  });
-}
 
 function isAllowedImageFile(file: File): boolean {
   if (!/\.(jpe?g|png)$/i.test(file.name)) return false;
@@ -273,7 +250,14 @@ export function ContactForm({
       }
     }
 
-    const token = await getRecaptchaToken();
+    const token = await getRecaptchaToken(
+      isGetInTouch ? "get_in_touch" : "register_interest",
+    );
+    if (recaptchaRequired() && !token) {
+      setStatus("error");
+      setError(pickLang(copy.errorCaptchaEn, copy.errorCaptchaAr, lang));
+      return;
+    }
 
     try {
       let res: Response;

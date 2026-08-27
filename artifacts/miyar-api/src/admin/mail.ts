@@ -1,13 +1,12 @@
-import { Resend } from "resend";
 import { isSmtpAuthReady, mailFrom, sendSmtpMail } from "../contact/smtp.js";
+import { resolveFrontendOrigin } from "../env.js";
 
 function fromAddress(): string {
   return mailFrom() || (process.env.CONTACT_FROM_EMAIL || "").trim();
 }
 
 export function isAdminMailConfigured(): boolean {
-  if (isSmtpAuthReady()) return true;
-  return Boolean(process.env.RESEND_API_KEY?.trim() && fromAddress());
+  return isSmtpAuthReady();
 }
 
 export async function sendAdminMail(opts: {
@@ -30,17 +29,7 @@ export async function sendAdminMail(opts: {
     return;
   }
 
-  const key = process.env.RESEND_API_KEY?.trim();
-  if (!key) throw new Error("No mail transport configured");
-  const resend = new Resend(key);
-  const { error } = await resend.emails.send({
-    from,
-    to: [opts.to],
-    subject: opts.subject,
-    text: opts.text,
-    html: opts.html,
-  });
-  if (error) throw new Error(error.message || "Failed to send email");
+  throw new Error("SMTP is not configured");
 }
 
 export function adminResetEmail(): string {
@@ -52,6 +41,5 @@ export function adminResetEmail(): string {
 }
 
 export function publicSiteOrigin(): string {
-  const raw = process.env.FRONTEND_ORIGIN || "http://localhost:3001";
-  return raw.split(",")[0]?.trim().replace(/\/$/, "") || "http://localhost:3001";
+  return resolveFrontendOrigin();
 }

@@ -1,11 +1,9 @@
 import os from "node:os";
 import path from "node:path";
 import type { NextConfig } from "next";
+import { resolveApiInternalUrl } from "./src/lib/appEnv";
 
-const apiInternal =
-  process.env.API_INTERNAL_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  "http://127.0.0.1:4000";
+const apiInternal = resolveApiInternalUrl();
 
 /**
  * Local Windows only: keep the Next cache off OneDrive (EBUSY/EINVAL).

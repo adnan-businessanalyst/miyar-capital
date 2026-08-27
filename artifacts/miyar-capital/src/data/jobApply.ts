@@ -41,4 +41,6 @@ export const JOB_APPLY = {
   errorGenericAr: "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
   errorNetworkEn: "Network error. Please try again.",
   errorNetworkAr: "خطأ في الشبكة. يرجى المحاولة مرة أخرى.",
+  errorCaptchaEn: "Security check failed. Please try again.",
+  errorCaptchaAr: "فشل التحقق الأمني. يرجى المحاولة مرة أخرى.",
 } as const;

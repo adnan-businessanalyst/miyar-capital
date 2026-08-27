@@ -16,6 +16,7 @@ import { rateLimit } from "./contact/rateLimit.js";
 import { verifyRecaptcha } from "./contact/recaptcha.js";
 import { parseContactFields } from "./contact/schema.js";
 import { scanUpload } from "./jobs/scan.js";
+import { resolveAppEnv, resolveFrontendOrigin, resolveFrontendOrigins } from "./env.js";
 import { getDb } from "./db/index.js";
 import { contactSubmissions } from "./db/schema.js";
 import { registerReportRoutes } from "./reports/routes.js";
@@ -34,14 +35,6 @@ function clientIp(c: { req: { header: (name: string) => string | undefined } }):
   );
 }
 
-function frontendOrigins(): string[] {
-  const raw = process.env.FRONTEND_ORIGIN || "http://localhost:3001";
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
 export function createApp() {
   const app = new Hono();
 
@@ -49,7 +42,7 @@ export function createApp() {
     "*",
     cors({
       origin: (origin) => {
-        const allowed = frontendOrigins();
+        const allowed = resolveFrontendOrigins();
         if (!origin) return allowed[0] ?? "*";
         return allowed.includes(origin) ? origin : allowed[0] ?? "";
       },
@@ -63,6 +56,8 @@ export function createApp() {
     c.json({
       ok: true,
       service: "miyar-api",
+      env: resolveAppEnv(),
+      site: resolveFrontendOrigin(),
       // Bump when shipping route sets so deploys are easy to verify.
       build: "2026-08-12-job-apply",
       routes: ["jobs", "jobs-apply", "news", "reports", "disclosures", "homepage", "funds", "factsheets"],
@@ -232,7 +227,7 @@ export function createApp() {
           createdAt: contactSubmissions.createdAt,
         });
 
-      // Always persist first. SMTP / Resend is optional and must not block CMS.
+      // Always persist first. SMTP is optional and must not block CMS.
       if (isContactEmailConfigured()) {
         void sendContactEmail(
           payload,

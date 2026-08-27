@@ -1,4 +1,3 @@
-import { Resend } from "resend";
 import type { ContactPayload } from "./schema.js";
 import type { ValidatedContactImage } from "./image.js";
 import {
@@ -16,14 +15,9 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/** True when SMTP (preferred) or Resend can send. */
+/** True when Office 365 SMTP can send. */
 export function isContactEmailConfigured(): boolean {
-  if (isSmtpConfigured()) return true;
-  return Boolean(
-    process.env.RESEND_API_KEY &&
-      process.env.CONTACT_FROM_EMAIL &&
-      process.env.CONTACT_TO_EMAIL,
-  );
+  return isSmtpConfigured();
 }
 
 export async function sendContactEmail(
@@ -116,29 +110,5 @@ export async function sendContactEmail(
     return { skipped: false as const };
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY!);
-  const { error } = await resend.emails.send({
-    from,
-    to: [to],
-    ...(email ? { replyTo: email } : {}),
-    subject: subjectLine,
-    text,
-    html,
-    ...(attachment
-      ? {
-          attachments: [
-            {
-              filename: attachment.fileName,
-              content: attachment.buffer.toString("base64"),
-              contentType: attachment.mimeType,
-            },
-          ],
-        }
-      : {}),
-  });
-
-  if (error) {
-    throw new Error(error.message || "Failed to send email via Resend");
-  }
-  return { skipped: false as const };
+  throw new Error("SMTP is not configured");
 }

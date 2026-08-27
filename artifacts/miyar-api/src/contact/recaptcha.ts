@@ -1,14 +1,19 @@
+import { resolveAppEnv } from "../env.js";
+
 /**
- * reCAPTCHA verification.
- * When RECAPTCHA_SECRET_KEY is unset, verification is skipped (to be configured later).
+ * reCAPTCHA v3 — production only.
+ * Staging and local skip verification even if a secret is present.
  */
 export async function verifyRecaptcha(
   token: string | undefined,
   ip?: string | null,
 ): Promise<boolean> {
-  const secret = process.env.RECAPTCHA_SECRET_KEY;
-  if (!secret) {
+  if (resolveAppEnv() !== "production") {
     return true;
+  }
+  const secret = process.env.RECAPTCHA_SECRET_KEY?.trim();
+  if (!secret) {
+    return false;
   }
   if (!token) return false;
 

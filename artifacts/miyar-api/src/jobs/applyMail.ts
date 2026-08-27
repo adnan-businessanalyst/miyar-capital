@@ -1,4 +1,3 @@
-import { Resend } from "resend";
 import {
   isSmtpConfigured,
   mailFrom as smtpMailFrom,
@@ -17,26 +16,10 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-/**
- * Outbound mail for job applications.
- * Prefers Office 365 SMTP when SMTP_USER / SMTP_PASS are set.
- * Falls back to Resend when those are still blank.
- */
-
-export function isResendConfigured(): boolean {
-  return Boolean(
-    process.env.RESEND_API_KEY?.trim() &&
-      (process.env.MAIL_FROM?.trim() || process.env.CONTACT_FROM_EMAIL?.trim()) &&
-      (
-        process.env.JOB_APPLY_TO_EMAIL?.trim() ||
-        process.env.MAIL_TO?.trim() ||
-        process.env.CONTACT_TO_EMAIL?.trim()
-      ),
-  );
-}
+/** Outbound mail for job applications via Office 365 SMTP. */
 
 export function isJobApplyEmailConfigured(): boolean {
-  return isSmtpConfigured() || isResendConfigured();
+  return isSmtpConfigured();
 }
 
 function mailFrom(): string {
@@ -126,25 +109,5 @@ export async function sendJobApplyEmail(
     return { skipped: false as const, transport: "smtp" as const };
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY!);
-  const { error } = await resend.emails.send({
-    from,
-    to: [to],
-    replyTo: payload.email,
-    subject: subjectLine,
-    text,
-    html,
-    attachments: [
-      {
-        filename: cv.fileName,
-        content: cv.buffer.toString("base64"),
-        contentType: cv.mimeType,
-      },
-    ],
-  });
-
-  if (error) {
-    throw new Error(error.message || "Failed to send email via Resend");
-  }
-  return { skipped: false as const, transport: "resend" as const };
+  throw new Error("SMTP is not configured");
 }

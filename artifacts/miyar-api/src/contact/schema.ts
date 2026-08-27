@@ -59,6 +59,7 @@ export function parseContactFields(raw: Record<string, unknown>) {
       name: raw.name ?? "",
       sourcePage: raw.sourcePage ?? "",
       pageTitle: raw.pageTitle ?? "",
+      recaptchaToken: raw.recaptchaToken,
     });
   }
   return registerPayloadSchema.safeParse({
@@ -70,6 +71,7 @@ export function parseContactFields(raw: Record<string, unknown>) {
     name: raw.name ?? "",
     sourcePage: raw.sourcePage ?? "",
     pageTitle: raw.pageTitle ?? "",
+    recaptchaToken: raw.recaptchaToken,
   });
 }
 
