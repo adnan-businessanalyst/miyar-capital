@@ -1,5 +1,6 @@
 declare global {
   interface Window {
+    __MIYAR_RECAPTCHA_SITE_KEY__?: string;
     grecaptcha?: {
       ready: (cb: () => void) => void;
       execute: (key: string, options: { action: string }) => Promise<string>;
@@ -12,15 +13,21 @@ export type RecaptchaAction =
   | "register_interest"
   | "job_apply";
 
-const LOAD_TIMEOUT_MS = 8000;
+const LOAD_TIMEOUT_MS = 15000;
 
 function siteKey(): string | undefined {
-  return process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim() || undefined;
+  if (typeof window === "undefined") return undefined;
+  return window.__MIYAR_RECAPTCHA_SITE_KEY__?.trim() || undefined;
 }
 
-/** Production Vercel sets the site key; staging leaves it empty. */
+/** True when the server injected a site key (RECAPTCHA_SITE_KEY on Vercel). */
 export function recaptchaRequired(): boolean {
   return Boolean(siteKey());
+}
+
+export function isCaptchaApiError(error: string | undefined): boolean {
+  if (!error) return false;
+  return /captcha|recaptcha|security check|التحقق الأمني/i.test(error);
 }
 
 function grecaptchaApi():
@@ -65,12 +72,14 @@ export async function getRecaptchaToken(
   const api = await waitForGrecaptcha();
   if (!api) return undefined;
   try {
-    return await new Promise((resolve, reject) => {
+    const token = await new Promise<string>((resolve, reject) => {
       api.ready(() => {
         api.execute(key, { action }).then(resolve).catch(reject);
       });
     });
-  } catch {
+    return token || undefined;
+  } catch (err) {
+    console.error("[recaptcha] execute failed", err);
     return undefined;
   }
 }

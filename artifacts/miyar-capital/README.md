@@ -26,7 +26,7 @@ cp artifacts/miyar-api/.env.example artifacts/miyar-api/.env
 
 # Frontend
 cp artifacts/miyar-capital/.env.example artifacts/miyar-capital/.env.local
-# set NEXT_PUBLIC_RECAPTCHA_SITE_KEY; leave NEXT_PUBLIC_API_URL empty
+# set RECAPTCHA_SITE_KEY on production Vercel (Config); leave NEXT_PUBLIC_API_URL empty
 # API_INTERNAL_URL=http://127.0.0.1:4000
 # RAILWAY_URL_STAGING / RAILWAY_URL_PRODUCTION = hosted APIs
 

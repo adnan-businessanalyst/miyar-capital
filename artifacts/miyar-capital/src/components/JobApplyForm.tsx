@@ -12,7 +12,7 @@ import { JOB_APPLY } from "@/data/jobApply";
 import type { JobPosting } from "@/data/jobs";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { apiUrl } from "@/lib/api";
-import { getRecaptchaToken, recaptchaRequired } from "@/lib/recaptcha";
+import { getRecaptchaToken, isCaptchaApiError, recaptchaRequired } from "@/lib/recaptcha";
 import { pickLang } from "@/site/types";
 
 type Props = {
@@ -144,8 +144,10 @@ export function JobApplyForm({ job, sourcePage }: Props) {
       if (!res.ok || !json.ok) {
         setStatus("error");
         setError(
-          json.error ||
-            pickLang(copy.errorGenericEn, copy.errorGenericAr, lang),
+          isCaptchaApiError(json.error)
+            ? pickLang(copy.errorCaptchaEn, copy.errorCaptchaAr, lang)
+            : json.error ||
+                pickLang(copy.errorGenericEn, copy.errorGenericAr, lang),
         );
         return;
       }

@@ -6,13 +6,14 @@ import { resolveAppEnv } from "../env.js";
  */
 export async function verifyRecaptcha(
   token: string | undefined,
-  ip?: string | null,
+  _ip?: string | null,
 ): Promise<boolean> {
   if (resolveAppEnv() !== "production") {
     return true;
   }
   const secret = process.env.RECAPTCHA_SECRET_KEY?.trim();
   if (!secret) {
+    console.error("[recaptcha] RECAPTCHA_SECRET_KEY is not set on this API host");
     return false;
   }
   if (!token) return false;
@@ -21,7 +22,6 @@ export async function verifyRecaptcha(
     secret,
     response: token,
   });
-  if (ip) body.set("remoteip", ip);
 
   const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
     method: "POST",
@@ -29,8 +29,15 @@ export async function verifyRecaptcha(
     body,
   });
   if (!res.ok) return false;
-  const data = (await res.json()) as { success?: boolean; score?: number };
-  if (!data.success) return false;
+  const data = (await res.json()) as {
+    success?: boolean;
+    score?: number;
+    "error-codes"?: string[];
+  };
+  if (!data.success) {
+    console.warn("[recaptcha] siteverify failed", data["error-codes"] ?? []);
+    return false;
+  }
   if (typeof data.score === "number" && data.score < 0.3) return false;
   return true;
 }

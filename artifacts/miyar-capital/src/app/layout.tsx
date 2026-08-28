@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { SiteChrome } from "@/components/SiteChrome";
-import { resolveAppEnv } from "@/lib/appEnv";
 import { SITE_META } from "@/site/defaults";
 import { SITE_ORIGIN, socialMetadata } from "@/site/social";
 import "@emran-alhaddad/saudi-riyal-font/index.css";
@@ -26,9 +25,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const siteKey =
-    resolveAppEnv() === "production"
-      ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-      : undefined;
+    process.env.RECAPTCHA_SITE_KEY?.trim() ||
+    process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim();
 
   return (
     <html lang="ar" dir="rtl">
@@ -43,10 +41,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body dir="rtl">
         <SiteChrome>{children}</SiteChrome>
         {siteKey ? (
-          <Script
-            src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
-            strategy="afterInteractive"
-          />
+          <>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.__MIYAR_RECAPTCHA_SITE_KEY__=${JSON.stringify(siteKey)};`,
+              }}
+            />
+            <Script
+              src={`https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`}
+              strategy="afterInteractive"
+            />
+          </>
         ) : null}
       </body>
     </html>
