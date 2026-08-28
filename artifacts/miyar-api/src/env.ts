@@ -72,7 +72,7 @@ function pickPairedUrl(opts: {
   fallback?: string;
 }): string | undefined {
   if (resolveAppEnv() === "production") {
-    return firstUrl(opts.production, opts.staging ? undefined : opts.fallback);
+    return firstUrl(opts.production, opts.fallback);
   }
   return firstUrl(opts.staging, opts.fallback);
 }
@@ -101,21 +101,44 @@ export function resolveDatabaseUrl(): string {
   );
 }
 
+function isLocalOrigin(url: string | undefined): boolean {
+  if (!url) return false;
+  try {
+    const host = new URL(url).hostname;
+    return host === "localhost" || host === "127.0.0.1";
+  } catch {
+    return false;
+  }
+}
+
+const PRODUCTION_SITE = "https://miyarcapital.com.sa";
+
 /** Vercel (or local) site origin for CORS and reset-email links. */
 export function resolveFrontendOrigin(): string {
   if (!isHostedRuntime()) {
     return firstUrl(firstOfCsv(process.env.FRONTEND_ORIGIN), LOCAL_SITE) ?? LOCAL_SITE;
   }
 
-  return (
-    pickPairedUrl({
-      staging: firstUrl(process.env.VERCEL_URL_STAGING, process.env.FRONTEND_ORIGIN_STAGING),
-      production: firstUrl(process.env.VERCEL_URL_PRODUCTION, process.env.FRONTEND_ORIGIN_PRODUCTION),
-      fallback: firstOfCsv(process.env.FRONTEND_ORIGIN),
-    }) ?? LOCAL_SITE
-  );
+  const picked = pickPairedUrl({
+    staging: firstUrl(process.env.VERCEL_URL_STAGING, process.env.FRONTEND_ORIGIN_STAGING),
+    production: firstUrl(process.env.VERCEL_URL_PRODUCTION, process.env.FRONTEND_ORIGIN_PRODUCTION),
+    fallback: firstOfCsv(process.env.FRONTEND_ORIGIN),
+  });
+
+  if (resolveAppEnv() === "production" && (!picked || isLocalOrigin(picked))) {
+    return PRODUCTION_SITE;
+  }
+
+  return picked ?? LOCAL_SITE;
 }
 
 export function resolveFrontendOrigins(): string[] {
-  return unique([resolveFrontendOrigin(), ...splitOrigins(process.env.FRONTEND_ORIGIN)]);
+  const extras = isHostedRuntime()
+    ? splitOrigins(process.env.FRONTEND_ORIGIN).filter((origin) => !isLocalOrigin(origin))
+    : splitOrigins(process.env.FRONTEND_ORIGIN);
+  const productionSites =
+    resolveAppEnv() === "production"
+      ? [PRODUCTION_SITE, "https://www.miyarcapital.com.sa"]
+      : [];
+  return unique([resolveFrontendOrigin(), ...productionSites, ...extras]);
 }

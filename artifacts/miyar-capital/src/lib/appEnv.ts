@@ -48,7 +48,7 @@ export function resolveApiInternalUrl(): string {
   const fallback = firstUrl(process.env.API_INTERNAL_URL, process.env.NEXT_PUBLIC_API_URL);
 
   if (resolveAppEnv() === "production") {
-    return firstUrl(production, staging ? undefined : fallback) ?? LOCAL_API;
+    return firstUrl(production, fallback) ?? LOCAL_API;
   }
 
   return firstUrl(staging, fallback, LOCAL_API) ?? LOCAL_API;
