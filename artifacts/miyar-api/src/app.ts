@@ -13,7 +13,7 @@ import {
 } from "./contact/image.js";
 import { isContactEmailConfigured, sendContactEmail } from "./contact/mail.js";
 import { rateLimit } from "./contact/rateLimit.js";
-import { verifyRecaptcha } from "./contact/recaptcha.js";
+import { isRecaptchaEnforced, verifyRecaptcha } from "./contact/recaptcha.js";
 import { parseContactFields } from "./contact/schema.js";
 import { scanUpload } from "./jobs/scan.js";
 import { resolveAppEnv, resolveFrontendOrigin, resolveFrontendOrigins } from "./env.js";
@@ -59,8 +59,12 @@ export function createApp() {
       service: "miyar-api",
       env: resolveAppEnv(),
       site: resolveFrontendOrigin(),
+      captcha: {
+        enforced: isRecaptchaEnforced(),
+        secretConfigured: Boolean(process.env.RECAPTCHA_SECRET_KEY?.trim()),
+      },
       // Bump when shipping route sets so deploys are easy to verify.
-      build: "2026-08-12-job-apply",
+      build: "2026-08-28-recaptcha-enforced",
       routes: ["jobs", "jobs-apply", "news", "reports", "disclosures", "homepage", "funds", "factsheets", "cms-pages"],
     }),
   );

@@ -1,30 +1,42 @@
 import { resolveAppEnv } from "../env.js";
 
 /**
- * reCAPTCHA v3 — production only.
- * Staging and local skip verification even if a secret is present.
- * Production always fails closed (missing secret/token, Google errors, low score).
+ * reCAPTCHA v3 verification.
+ *
+ * Enforced (fail closed) when:
+ * - APP_ENV=production, or
+ * - RECAPTCHA_SECRET_KEY is set on this host
+ *
+ * Staging/local with no secret still skips so forms work without Google keys.
  */
+export function isRecaptchaEnforced(): boolean {
+  if (resolveAppEnv() === "production") return true;
+  return Boolean(process.env.RECAPTCHA_SECRET_KEY?.trim());
+}
+
 export async function verifyRecaptcha(
   token: string | undefined,
   _ip?: string | null,
 ): Promise<boolean> {
-  if (resolveAppEnv() !== "production") {
+  if (!isRecaptchaEnforced()) {
     return true;
   }
+
   const secret = process.env.RECAPTCHA_SECRET_KEY?.trim();
   if (!secret) {
-    console.error("[recaptcha] RECAPTCHA_SECRET_KEY is not set on this API host");
+    console.error(
+      "[recaptcha] enforced but RECAPTCHA_SECRET_KEY is not set — rejecting",
+    );
     return false;
   }
-  if (!token) {
-    console.warn("[recaptcha] no token from the browser");
+  if (!token?.trim()) {
+    console.warn("[recaptcha] no token from the browser — rejecting");
     return false;
   }
 
   const body = new URLSearchParams({
     secret,
-    response: token,
+    response: token.trim(),
   });
 
   const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {

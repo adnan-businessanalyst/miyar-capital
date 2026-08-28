@@ -1,6 +1,8 @@
 declare global {
   interface Window {
     __MIYAR_RECAPTCHA_SITE_KEY__?: string;
+    /** Set from layout when Vercel/APP_ENV is production or a site key is present. */
+    __MIYAR_REQUIRE_RECAPTCHA__?: boolean;
     grecaptcha?: {
       ready: (cb: () => void) => void;
       execute: (key: string, options: { action: string }) => Promise<string>;
@@ -20,8 +22,10 @@ function siteKey(): string | undefined {
   return window.__MIYAR_RECAPTCHA_SITE_KEY__?.trim() || undefined;
 }
 
-/** True when the server injected a site key (RECAPTCHA_SITE_KEY on Vercel). */
+/** True when submit must obtain a token before calling the API. */
 export function recaptchaRequired(): boolean {
+  if (typeof window === "undefined") return false;
+  if (window.__MIYAR_REQUIRE_RECAPTCHA__) return true;
   return Boolean(siteKey());
 }
 
@@ -64,13 +68,27 @@ async function waitForGrecaptcha() {
   );
 }
 
+/**
+ * Returns a v3 token, or undefined if captcha is not configured.
+ * When recaptchaRequired(), callers must treat undefined as a hard failure.
+ */
 export async function getRecaptchaToken(
   action: RecaptchaAction,
 ): Promise<string | undefined> {
   const key = siteKey();
-  if (!key) return undefined;
+  if (!key) {
+    if (recaptchaRequired()) {
+      console.error(
+        "[recaptcha] required on this host but RECAPTCHA_SITE_KEY was not injected",
+      );
+    }
+    return undefined;
+  }
   const api = await waitForGrecaptcha();
-  if (!api) return undefined;
+  if (!api) {
+    console.error("[recaptcha] google script did not load in time");
+    return undefined;
+  }
   try {
     const token = await new Promise<string>((resolve, reject) => {
       api.ready(() => {

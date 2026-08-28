@@ -27,6 +27,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const siteKey =
     process.env.RECAPTCHA_SITE_KEY?.trim() ||
     process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY?.trim();
+  const appEnv = (process.env.APP_ENV ?? "").trim().toLowerCase();
+  const requireCaptcha =
+    Boolean(siteKey) ||
+    appEnv === "production" ||
+    appEnv === "prod" ||
+    process.env.VERCEL_ENV === "production";
+
+  const bootScript = [
+    `window.__MIYAR_REQUIRE_RECAPTCHA__=${requireCaptcha ? "true" : "false"};`,
+    siteKey
+      ? `window.__MIYAR_RECAPTCHA_SITE_KEY__=${JSON.stringify(siteKey)};`
+      : "",
+  ]
+    .filter(Boolean)
+    .join("");
 
   return (
     <html lang="ar" dir="rtl">
@@ -40,18 +55,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body dir="rtl">
         <SiteChrome>{children}</SiteChrome>
+        {bootScript ? (
+          <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+        ) : null}
         {siteKey ? (
-          <>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `window.__MIYAR_RECAPTCHA_SITE_KEY__=${JSON.stringify(siteKey)};`,
-              }}
-            />
-            <Script
-              src={`https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`}
-              strategy="afterInteractive"
-            />
-          </>
+          <Script
+            src={`https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`}
+            strategy="afterInteractive"
+          />
         ) : null}
       </body>
     </html>
