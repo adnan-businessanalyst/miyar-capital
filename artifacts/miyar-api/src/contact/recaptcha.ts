@@ -3,8 +3,7 @@ import { resolveAppEnv } from "../env.js";
 /**
  * reCAPTCHA v3 — production only.
  * Staging and local skip verification even if a secret is present.
- * Set RECAPTCHA_STRICT=1 on Railway after Google domains + secret match,
- * otherwise a missing token or hostname mismatch blocks every form.
+ * Production always fails closed (missing secret/token, Google errors, low score).
  */
 export async function verifyRecaptcha(
   token: string | undefined,
@@ -13,15 +12,14 @@ export async function verifyRecaptcha(
   if (resolveAppEnv() !== "production") {
     return true;
   }
-  const strict = process.env.RECAPTCHA_STRICT === "1";
   const secret = process.env.RECAPTCHA_SECRET_KEY?.trim();
   if (!secret) {
     console.error("[recaptcha] RECAPTCHA_SECRET_KEY is not set on this API host");
-    return !strict;
+    return false;
   }
   if (!token) {
     console.warn("[recaptcha] no token from the browser");
-    return !strict;
+    return false;
   }
 
   const body = new URLSearchParams({
@@ -36,7 +34,7 @@ export async function verifyRecaptcha(
   });
   if (!res.ok) {
     console.warn("[recaptcha] siteverify HTTP", res.status);
-    return !strict;
+    return false;
   }
   const data = (await res.json()) as {
     success?: boolean;
@@ -45,11 +43,11 @@ export async function verifyRecaptcha(
   };
   if (!data.success) {
     console.warn("[recaptcha] siteverify failed", data["error-codes"] ?? []);
-    return !strict;
+    return false;
   }
   if (typeof data.score === "number" && data.score < 0.3) {
     console.warn("[recaptcha] low score", data.score);
-    return !strict;
+    return false;
   }
   return true;
 }
