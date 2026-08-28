@@ -1,5 +1,5 @@
 # Only used if Railway Root Directory is empty (prefer artifacts/miyar-api instead).
-FROM node:22-bookworm-slim AS build
+FROM public.ecr.aws/docker/library/node:22-bookworm-slim AS build
 WORKDIR /app
 ARG CACHEBUST=2026-07-30-jobs-news
 RUN echo "cachebust=$CACHEBUST"
@@ -12,7 +12,7 @@ RUN npm prune --omit=dev \
   && test -f dist/news/routes.js \
   && grep -q registerJobRoutes dist/app.js
 
-FROM node:22-bookworm-slim
+FROM public.ecr.aws/docker/library/node:22-bookworm-slim
 WORKDIR /app
 ENV NODE_ENV=production
 ARG CACHEBUST=2026-07-30-jobs-news

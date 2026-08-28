@@ -1,5 +1,5 @@
 # Context: artifacts/miyar-api (set Railway Root Directory to this folder).
-FROM node:22-bookworm-slim AS build
+FROM public.ecr.aws/docker/library/node:22-bookworm-slim AS build
 WORKDIR /app
 # Bust Railway/Metal layer cache when this value changes.
 ARG CACHEBUST=2026-07-31-careers-detail
@@ -14,7 +14,7 @@ RUN npm prune --omit=dev \
   && test -f dist/funds/routes.js \
   && grep -q registerFundRoutes dist/app.js
 
-FROM node:22-bookworm-slim
+FROM public.ecr.aws/docker/library/node:22-bookworm-slim
 WORKDIR /app
 ENV NODE_ENV=production
 ARG CACHEBUST=2026-07-31-careers-detail
