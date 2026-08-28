@@ -29,6 +29,7 @@
  * - views/ShariahPrinciples.tsx
  * - views/ValuationFinancialAdvisory.tsx
  * - views/WhoWeAre.tsx
+ * - views/CmsPage.tsx
  */
 
 import type { ReactNode } from "react";

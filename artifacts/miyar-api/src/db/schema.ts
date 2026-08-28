@@ -432,3 +432,31 @@ export const pageFactsheets = pgTable("page_factsheets", {
 
 export type PageFactsheet = typeof pageFactsheets.$inferSelect;
 export type NewPageFactsheet = typeof pageFactsheets.$inferInsert;
+
+export const cmsPages = pgTable("cms_pages", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  parentId: uuid("parent_id"),
+  parentPath: varchar("parent_path", { length: 400 }),
+  slug: varchar("slug", { length: 80 }).notNull(),
+  path: varchar("path", { length: 400 }).notNull().unique(),
+  titleEn: varchar("title_en", { length: 300 }).notNull(),
+  titleAr: varchar("title_ar", { length: 300 }).notNull().default(""),
+  published: boolean("published").notNull().default(false),
+  navShow: boolean("nav_show").notNull().default(false),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const cmsPageBlocks = pgTable("cms_page_blocks", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  pageId: uuid("page_id")
+    .notNull()
+    .references(() => cmsPages.id, { onDelete: "cascade" }),
+  sort: integer("sort").notNull().default(0),
+  type: varchar("type", { length: 40 }).notNull(),
+  props: jsonb("props").$type<Record<string, unknown>>().notNull().default({}),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export type CmsPageRow = typeof cmsPages.$inferSelect;
+export type NewCmsPageRow = typeof cmsPages.$inferInsert;
+export type CmsPageBlockRow = typeof cmsPageBlocks.$inferSelect;

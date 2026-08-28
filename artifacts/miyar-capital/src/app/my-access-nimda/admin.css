@@ -1,5 +1,7 @@
 .admin-shell {
   min-height: 100vh;
+  direction: ltr;
+  text-align: left;
   background: #f4f7f9;
   color: #0c476e;
   font-family: "DM Sans", system-ui, sans-serif;
@@ -226,6 +228,140 @@
 @media (max-width: 700px) {
   .admin-form-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+.admin-wrap--wide {
+  max-width: 1600px;
+}
+
+.cms-editor-settings {
+  margin-top: 16px;
+}
+
+.cms-editor {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) 300px;
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+
+.cms-editor-col {
+  position: sticky;
+  top: 12px;
+}
+
+.cms-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.cms-palette .admin-btn {
+  padding: 6px 8px;
+  font-size: 0.75rem;
+}
+
+.cms-block-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cms-block-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.cms-block-item {
+  width: 100%;
+  text-align: start;
+  border: 1px solid #d5e0e6;
+  background: #fff;
+  color: #0c476e;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cms-block-item.is-active {
+  background: #0c476e;
+  color: #fff;
+  border-color: #0c476e;
+}
+
+.cms-block-move {
+  display: flex;
+  gap: 6px;
+}
+
+.cms-block-move button {
+  border: 1px solid #c7d2dc;
+  background: #fff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  cursor: pointer;
+  color: #0c476e;
+  font-size: 0.75rem;
+}
+
+.cms-editor-preview {
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.cms-preview-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e6eef2;
+}
+
+.cms-preview-bar .admin-tabs {
+  margin-top: 0;
+}
+
+.cms-preview-bar .admin-tabs button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid #c7d2dc;
+  background: #fff;
+  color: #0c476e;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cms-preview-bar .admin-tabs button.is-active {
+  background: #0c476e;
+  border-color: #0c476e;
+  color: #fff;
+}
+
+.cms-item-fields {
+  display: grid;
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid #e6eef2;
+}
+
+@media (max-width: 1100px) {
+  .cms-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .cms-editor-col {
+    position: static;
   }
 }
 

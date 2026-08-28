@@ -21,6 +21,7 @@
  * - views/RealAssets.tsx
  * - views/RealEstatePrivateArrangements.tsx
  * - views/ValuationFinancialAdvisory.tsx
+ * - views/CmsPage.tsx
  */
 
 "use client";

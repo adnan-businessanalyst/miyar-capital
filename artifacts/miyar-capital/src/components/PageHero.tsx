@@ -39,6 +39,7 @@
  * - views/ShariahPrinciples.tsx
  * - views/ValuationFinancialAdvisory.tsx
  * - views/WhoWeAre.tsx
+ * - views/CmsPage.tsx
  */
 
 "use client";

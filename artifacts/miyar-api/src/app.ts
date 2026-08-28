@@ -26,6 +26,7 @@ import { registerJobRoutes } from "./jobs/routes.js";
 import { registerNewsRoutes } from "./news/routes.js";
 import { registerFundRoutes } from "./funds/routes.js";
 import { registerFactsheetRoutes } from "./factsheets/routes.js";
+import { registerCmsPageRoutes } from "./pages/routes.js";
 
 function clientIp(c: { req: { header: (name: string) => string | undefined } }): string {
   return (
@@ -60,7 +61,7 @@ export function createApp() {
       site: resolveFrontendOrigin(),
       // Bump when shipping route sets so deploys are easy to verify.
       build: "2026-08-12-job-apply",
-      routes: ["jobs", "jobs-apply", "news", "reports", "disclosures", "homepage", "funds", "factsheets"],
+      routes: ["jobs", "jobs-apply", "news", "reports", "disclosures", "homepage", "funds", "factsheets", "cms-pages"],
     }),
   );
 
@@ -446,6 +447,7 @@ export function createApp() {
   registerNewsRoutes(app);
   registerFundRoutes(app);
   registerFactsheetRoutes(app);
+  registerCmsPageRoutes(app);
 
   return app;
 }

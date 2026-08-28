@@ -7,6 +7,7 @@
  * - views/DPM.tsx
  * - views/InstitutionalFamilyOffice.tsx
  * - views/InvestmentBanking.tsx
+ * - views/CmsPage.tsx
  */
 
 import type { CSSProperties } from "react";

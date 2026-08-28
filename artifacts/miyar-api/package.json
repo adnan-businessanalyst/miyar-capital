@@ -25,6 +25,8 @@
     "db:apply-admin-credentials:production": "tsx --env-file=.env scripts/apply-admin-credentials.ts",
     "db:apply-page-factsheets": "tsx --env-file=.env scripts/apply-page-factsheets.ts",
     "db:apply-page-factsheets:production": "tsx --env-file=.env scripts/apply-page-factsheets.ts",
+    "db:apply-cms-pages": "tsx --env-file=.env scripts/apply-cms-pages.ts",
+    "db:apply-cms-pages:production": "tsx --env-file=.env scripts/apply-cms-pages.ts",
     "db:seed:news": "tsx --env-file=.env src/news/seed.ts",
     "db:seed:news:production": "tsx --env-file=.env src/news/seed.ts",
     "db:seed:jobs": "tsx --env-file=.env src/jobs/seed.ts",

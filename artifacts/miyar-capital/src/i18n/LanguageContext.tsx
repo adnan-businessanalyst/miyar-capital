@@ -68,3 +68,29 @@ export function useLanguage(): LanguageContextValue {
   }
   return ctx;
 }
+
+/** Preview-only language context — does not touch the document or locale cookie. */
+export function LanguageOverrideProvider({
+  lang,
+  onLangChange,
+  children,
+}: {
+  lang: Lang;
+  onLangChange?: (lang: Lang) => void;
+  children: ReactNode;
+}) {
+  const setLang = useCallback(
+    (next: Lang) => {
+      onLangChange?.(next);
+    },
+    [onLangChange],
+  );
+  const t = useCallback(
+    (key: TranslationKey) => DICTS[lang][key] ?? EN[key],
+    [lang],
+  );
+  const value = useMemo(() => ({ lang, setLang, t }), [lang, setLang, t]);
+  return (
+    <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
+  );
+}

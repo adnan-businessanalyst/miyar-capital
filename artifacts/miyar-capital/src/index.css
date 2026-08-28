@@ -20660,3 +20660,183 @@ section.ib-lifecycle .ib-lifecycle-steps .steps-card .eq-rich {
   border-color: var(--cool-grey-3) !important;
   box-shadow: none !important;
 }
+
+/* ===== CMS pages only — do not restyle marketing views ===== */
+.cms-page {
+  background: #fff;
+  color: var(--ink);
+}
+
+.cms-page .cms-block.is-preview {
+  cursor: pointer;
+}
+
+.cms-page .cms-block.is-preview a,
+.cms-page .cms-block.is-preview button {
+  pointer-events: none;
+}
+
+.cms-page .cms-block.is-selected {
+  outline: 2px solid var(--navy);
+  outline-offset: -2px;
+}
+
+.cms-page .cms-band {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(2.5rem, 4vw, 4.5rem) 0;
+}
+
+.cms-page .cms-band-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.cms-page .cms-band--navy {
+  background: var(--navy);
+  color: #fff;
+}
+
+.cms-page .cms-band--navy-mid {
+  background: var(--navy-mid);
+  color: #fff;
+}
+
+.cms-page .cms-band--white {
+  background: #fff;
+  color: var(--navy);
+}
+
+.cms-page .cms-band--gradient,
+.cms-page .cms-band--gradient-navy-mid {
+  background: linear-gradient(165deg, var(--navy) 0%, var(--navy-mid) 100%);
+  color: #fff;
+}
+
+.cms-page .cms-band--gradient-navy-fade {
+  background: linear-gradient(165deg, var(--navy) 0%, transparent 100%);
+  color: #fff;
+}
+
+.cms-page .cms-band--image {
+  background-color: var(--navy);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #fff;
+  min-height: 18rem;
+}
+
+.cms-page .cms-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--navy) 80%, transparent) 0%,
+    color-mix(in srgb, var(--navy) 80%, transparent) 42%,
+    color-mix(in srgb, var(--navy-mid) 80%, transparent) 100%
+  );
+  transition: background 0.3s ease;
+}
+
+.cms-page .cms-band:hover .cms-overlay {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--navy) 70%, transparent) 0%,
+    color-mix(in srgb, var(--navy) 70%, transparent) 42%,
+    color-mix(in srgb, var(--navy-mid) 70%, transparent) 100%
+  );
+}
+
+.cms-page .cms-band--navy .sec-title,
+.cms-page .cms-band--navy-mid .sec-title,
+.cms-page .cms-band--gradient .sec-title,
+.cms-page .cms-band--image .sec-title,
+.cms-page .cms-band--navy .cms-band-title,
+.cms-page .cms-band--navy-mid .cms-band-title,
+.cms-page .cms-band--gradient .cms-band-title,
+.cms-page .cms-band--image .cms-band-title,
+.cms-page .cms-band--navy .cms-copy,
+.cms-page .cms-band--navy-mid .cms-copy,
+.cms-page .cms-band--gradient .cms-copy,
+.cms-page .cms-band--image .cms-copy {
+  color: #fff;
+}
+
+.cms-page .cms-band-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 1.35rem + 1.8vw, 2.5rem);
+  line-height: 1.35;
+  margin: 0 0 1rem;
+}
+
+.cms-page .cms-copy {
+  max-width: 42rem;
+  line-height: 1.7;
+}
+
+.cms-page .cms-intro-figure {
+  margin: 0 0 1.5rem;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.cms-page .cms-intro-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.cms-page .cms-glass {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.cms-page .primary-card.cms-glass {
+  --pc-title: var(--navy);
+  --pc-body: var(--navy);
+  --pc-icon-color: var(--navy);
+  --pc-cta: var(--navy);
+  color: var(--navy);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 10px 28px rgba(7, 30, 51, 0.12);
+}
+
+.cms-page .primary-card.cms-glass:hover {
+  --pc-icon-color: var(--navy);
+  --pc-cta: var(--navy);
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 14px 32px rgba(7, 30, 51, 0.16);
+}
+
+.cms-page .primary-card.cms-glass .primary-card-title,
+.cms-page .primary-card.cms-glass .primary-card-body,
+.cms-page .primary-card.cms-glass .primary-card-body p {
+  color: var(--navy);
+}
+
+.cms-page .steps.cms-glass .steps-card.svc.svc--dark,
+.cms-page .steps.cms-glass .steps-card.svc.svc--dark:hover {
+  color: var(--navy);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow: 0 10px 28px rgba(7, 30, 51, 0.12);
+}
+
+.cms-page .steps.cms-glass .steps-card.svc.svc--dark h4,
+.cms-page .steps.cms-glass .steps-card.svc.svc--dark p,
+.cms-page .steps.cms-glass .steps-card.svc.svc--dark .rich-text {
+  color: var(--navy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cms-page .cms-overlay {
+    transition: none;
+  }
+}

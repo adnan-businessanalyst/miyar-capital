@@ -12,6 +12,7 @@
  * - views/InvestmentBanking.tsx
  * - views/LiquidityAndFixedIncome.tsx
  * - views/WhoWeAre.tsx
+ * - views/CmsPage.tsx
  */
 
 "use client";
