@@ -17,6 +17,21 @@ const REQ_SKIP = new Set([
   "upgrade",
 ]);
 
+const PROXY_CLAIM_HEADERS = new Set(["x-miyar-client-ip", "x-miyar-proxy"]);
+
+function firstHop(raw: string | null): string {
+  return raw?.split(",")[0]?.trim() ?? "";
+}
+
+/** Visitor IP as Vercel set it — not a client-supplied X-Forwarded-For chain. */
+function visitorIp(request: Request): string {
+  return (
+    firstHop(request.headers.get("x-vercel-forwarded-for")) ||
+    request.headers.get("x-real-ip")?.trim() ||
+    firstHop(request.headers.get("x-forwarded-for"))
+  );
+}
+
 const RES_SKIP = new Set([
   "connection",
   "content-encoding",
@@ -26,10 +41,18 @@ const RES_SKIP = new Set([
 function requestHeaders(request: Request, bodyLength: number): Record<string, string | number> {
   const headers: Record<string, string | number> = {};
   request.headers.forEach((value, key) => {
-    if (REQ_SKIP.has(key.toLowerCase())) return;
-    headers[key] = value;
+    const name = key.toLowerCase();
+    if (REQ_SKIP.has(name) || PROXY_CLAIM_HEADERS.has(name)) return;
+    headers[name] = value;
   });
   if (bodyLength > 0) headers["content-length"] = bodyLength;
+
+  const secret = process.env.API_PROXY_SECRET?.trim();
+  const ip = visitorIp(request);
+  if (secret && ip) {
+    headers["x-miyar-client-ip"] = ip;
+    headers["x-miyar-proxy"] = secret;
+  }
   return headers;
 }
 

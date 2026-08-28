@@ -5,6 +5,7 @@ import { rateLimit } from "../contact/rateLimit.js";
 import { verifyRecaptcha } from "../contact/recaptcha.js";
 import { getDb } from "../db/index.js";
 import { jobApplications, jobPosts, jobsSettings } from "../db/schema.js";
+import { clientIp } from "../http/clientIp.js";
 import {
   isJobApplyEmailConfigured,
   sendJobApplyEmail,
@@ -19,16 +20,6 @@ import {
   jobsSettingsSchema,
   type JobsSettingsPayload,
 } from "./schema.js";
-
-function clientIp(c: {
-  req: { header: (name: string) => string | undefined };
-}): string {
-  return (
-    c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ||
-    c.req.header("x-real-ip") ||
-    "unknown"
-  );
-}
 
 type JobListItem = {
   id: string;
