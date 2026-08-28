@@ -23,15 +23,45 @@ export function resolveAppEnv(): AppEnv {
   );
 }
 
+function stripTrailingSlash(url: string): string {
+  return url.replace(/\/$/, "");
+}
+
+/** Accept `https://host` or `https://host/api` — callers always append `/api/...`. */
+export function normalizeApiOrigin(url: string | undefined): string | undefined {
+  const trimmed = url?.trim();
+  if (!trimmed) return undefined;
+  return stripTrailingSlash(trimmed).replace(/\/api$/i, "");
+}
+
+export function isLocalApiUrl(url: string | undefined): boolean {
+  if (!url) return false;
+  try {
+    const host = new URL(url).hostname;
+    return host === "localhost" || host === "127.0.0.1";
+  } catch {
+    return false;
+  }
+}
+
 function firstUrl(...candidates: Array<string | undefined>): string | undefined {
   for (const candidate of candidates) {
-    const url = candidate?.trim().replace(/\/$/, "");
+    const url = normalizeApiOrigin(candidate);
     if (url) return url;
   }
   return undefined;
 }
 
-/** Railway API origin for Next `/api` rewrites and server fetches. */
+function firstRemoteUrl(...candidates: Array<string | undefined>): string | undefined {
+  for (const candidate of candidates) {
+    const url = normalizeApiOrigin(candidate);
+    if (!url || isLocalApiUrl(url)) continue;
+    return url;
+  }
+  return undefined;
+}
+
+/** Railway API origin for Next `/api` proxy and server fetches. */
 export function resolveApiInternalUrl(): string {
   if (!isHostedRuntime()) {
     return (
@@ -48,8 +78,13 @@ export function resolveApiInternalUrl(): string {
   const fallback = firstUrl(process.env.API_INTERNAL_URL, process.env.NEXT_PUBLIC_API_URL);
 
   if (resolveAppEnv() === "production") {
-    return firstUrl(production, fallback) ?? LOCAL_API;
+    return firstRemoteUrl(production, fallback, staging) ?? LOCAL_API;
   }
 
-  return firstUrl(staging, fallback, LOCAL_API) ?? LOCAL_API;
+  return firstRemoteUrl(staging, fallback, production) ?? LOCAL_API;
+}
+
+export function isHostedApiConfigured(): boolean {
+  if (!isHostedRuntime()) return true;
+  return !isLocalApiUrl(resolveApiInternalUrl());
 }

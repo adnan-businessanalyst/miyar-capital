@@ -26,7 +26,7 @@ export function AdminLoginForm() {
         setError(
           json.error ||
             (res.status === 404 || res.status >= 502
-              ? "API is not reachable. Set RAILWAY_URL_PRODUCTION on Vercel and confirm Railway /health is up."
+              ? "API is not reachable. On Vercel set APP_ENV=production and RAILWAY_URL_PRODUCTION to the Railway origin, then redeploy."
               : "Login failed"),
         );
         return;

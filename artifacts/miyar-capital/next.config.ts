@@ -1,16 +1,6 @@
 import os from "node:os";
 import path from "node:path";
 import type { NextConfig } from "next";
-import { isHostedRuntime, resolveApiInternalUrl, resolveAppEnv } from "./src/lib/appEnv";
-
-const apiInternal = resolveApiInternalUrl();
-
-if (isHostedRuntime() && /localhost|127\.0\.0\.1/i.test(apiInternal)) {
-  const key = resolveAppEnv() === "production" ? "RAILWAY_URL_PRODUCTION" : "RAILWAY_URL_STAGING";
-  throw new Error(
-    `This Vercel project rewrites /api to ${apiInternal}. Set ${key} (and APP_ENV=${resolveAppEnv()}) to the Railway public HTTPS URL.`,
-  );
-}
 
 /**
  * Local Windows only: keep the Next cache off OneDrive (EBUSY/EINVAL).
@@ -61,13 +51,7 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    // Same-origin /api → standalone miyar-api (admin cookies stay Lax-compatible).
-    const base = apiInternal.replace(/\/$/, "");
     return [
-      {
-        source: "/api/:path*",
-        destination: `${base}/api/:path*`,
-      },
       {
         source: "/asset-management/Discretionary-portfolio-management",
         destination:
