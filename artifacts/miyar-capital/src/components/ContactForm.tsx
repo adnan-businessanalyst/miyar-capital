@@ -12,7 +12,7 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { CONTACT } from "@/data/contact";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { apiUrl } from "@/lib/api";
-import { getRecaptchaToken, isCaptchaApiError, recaptchaRequired } from "@/lib/recaptcha";
+import { getRecaptchaToken, isCaptchaApiError } from "@/lib/recaptcha";
 import { pickLang } from "@/site/types";
 
 export type ContactFormVariant = "get-in-touch" | "register";
@@ -253,11 +253,6 @@ export function ContactForm({
     const token = await getRecaptchaToken(
       isGetInTouch ? "get_in_touch" : "register_interest",
     );
-    if (recaptchaRequired() && !token) {
-      setStatus("error");
-      setError(pickLang(copy.errorCaptchaEn, copy.errorCaptchaAr, lang));
-      return;
-    }
 
     try {
       let res: Response;

@@ -12,7 +12,7 @@ import { JOB_APPLY } from "@/data/jobApply";
 import type { JobPosting } from "@/data/jobs";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { apiUrl } from "@/lib/api";
-import { getRecaptchaToken, isCaptchaApiError, recaptchaRequired } from "@/lib/recaptcha";
+import { getRecaptchaToken, isCaptchaApiError } from "@/lib/recaptcha";
 import { pickLang } from "@/site/types";
 
 type Props = {
@@ -110,11 +110,6 @@ export function JobApplyForm({ job, sourcePage }: Props) {
     }
 
     const token = await getRecaptchaToken("job_apply");
-    if (recaptchaRequired() && !token) {
-      setStatus("error");
-      setError(pickLang(copy.errorCaptchaEn, copy.errorCaptchaAr, lang));
-      return;
-    }
 
     const body = new FormData();
     body.set("firstName", first);
