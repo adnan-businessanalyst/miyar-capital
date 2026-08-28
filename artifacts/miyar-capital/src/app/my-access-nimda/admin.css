@@ -14,6 +14,12 @@
   background: #071e33;
   color: #fff;
 }
+.admin-bar > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+}
 .admin-bar a {
   color: #e8d5a3;
   margin-left: 16px;
@@ -121,6 +127,11 @@
   color: #b42318;
   font-size: 0.875rem;
   margin: 8px 0;
+}
+.form-ok {
+  color: #0c476e;
+  font-size: 0.875rem;
+  margin: 0 0 12px;
 }
 .form-warning {
   color: #8a6d1d;

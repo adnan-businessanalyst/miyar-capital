@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { apiUrl } from "@/lib/api";
 
-export function AdminResetPasswordForm() {
+export function AdminChangePasswordForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token") || "";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -16,43 +14,49 @@ export function AdminResetPasswordForm() {
     setLoading(true);
     setError("");
     const data = new FormData(e.currentTarget);
-    const password = String(data.get("password") ?? "");
+    const currentPassword = String(data.get("currentPassword") ?? "");
+    const newPassword = String(data.get("newPassword") ?? "");
     const confirm = String(data.get("confirm") ?? "");
-    if (password !== confirm) {
+    if (newPassword !== confirm) {
       setLoading(false);
       setError("Passwords do not match");
       return;
     }
-    const res = await fetch(apiUrl("/api/admin/reset-password"), {
+    if (newPassword === currentPassword) {
+      setLoading(false);
+      setError("New password must be different from the current password.");
+      return;
+    }
+    const res = await fetch(apiUrl("/api/admin/change-password"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ token, password }),
+      body: JSON.stringify({ currentPassword, newPassword }),
     });
     setLoading(false);
     if (!res.ok) {
       const json = (await res.json().catch(() => ({}))) as { error?: string };
-      setError(json.error || "Could not reset password");
+      setError(json.error || "Could not change password");
       return;
     }
-    router.push("/my-access-nimda");
+    router.push("/my-access-nimda?updated=1");
     router.refresh();
-  }
-
-  if (!token) {
-    return (
-      <p className="form-error">
-        This reset link is missing a token. Request a new one from the login page.
-      </p>
-    );
   }
 
   return (
     <form onSubmit={onSubmit}>
-      <label htmlFor="password">New password</label>
+      <label htmlFor="currentPassword">Current password</label>
       <input
-        id="password"
-        name="password"
+        id="currentPassword"
+        name="currentPassword"
+        type="password"
+        required
+        autoComplete="current-password"
+      />
+      <label htmlFor="newPassword">New password</label>
+      <input
+        id="newPassword"
+        name="newPassword"
         type="password"
         required
         minLength={10}
@@ -71,7 +75,7 @@ export function AdminResetPasswordForm() {
       />
       {error ? <p className="form-error">{error}</p> : null}
       <button type="submit" disabled={loading}>
-        {loading ? "Saving…" : "Set new password"}
+        {loading ? "Saving…" : "Update password"}
       </button>
     </form>
   );

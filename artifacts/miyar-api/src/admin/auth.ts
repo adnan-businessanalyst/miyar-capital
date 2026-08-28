@@ -38,7 +38,12 @@ export function createAdminSession(c: Context): void {
 }
 
 export function clearAdminSession(c: Context): void {
-  deleteCookie(c, ADMIN_COOKIE, { path: "/" });
+  const opts = cookieOptions();
+  deleteCookie(c, ADMIN_COOKIE, {
+    path: opts.path,
+    secure: opts.secure,
+    sameSite: opts.sameSite,
+  });
 }
 
 export function isAdminAuthenticated(c: Context): boolean {
@@ -68,7 +73,7 @@ export function verifyEnvAdminPassword(password: string): boolean {
   return timingSafeEqual(a, b);
 }
 
-/** DB hash wins after a reset; otherwise ADMIN_PASSWORD. */
+/** DB hash wins after reset-password or change-password; otherwise ADMIN_PASSWORD. */
 export async function verifyAdminPassword(password: string): Promise<boolean> {
   if (!password) return false;
   try {

@@ -22,7 +22,7 @@ export function AdminForgotPasswordForm() {
     setLoading(false);
     if (!res.ok) {
       const json = (await res.json().catch(() => ({}))) as { error?: string };
-      setError(json.error || "Could not send reset email");
+      setError(json.error || "Could not complete the request. Try again shortly.");
       return;
     }
     setDone(true);
@@ -31,8 +31,8 @@ export function AdminForgotPasswordForm() {
   if (done) {
     return (
       <p>
-        If that email is registered for this CMS, we sent a reset link. Check your inbox
-        and spam folder.
+        If an account exists for that email, a reset link has been sent. Check your inbox
+        and spam folder. The email never includes your current password.
       </p>
     );
   }

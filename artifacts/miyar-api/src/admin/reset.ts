@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { getDb } from "../db/index.js";
 import { adminCredentials } from "../db/schema.js";
+import { verifyAdminPassword } from "./auth.js";
 import {
   adminResetEmail,
   isAdminMailConfigured,
@@ -17,6 +18,11 @@ import {
 } from "./password.js";
 
 const RESET_TTL_MS = 60 * 60 * 1000;
+const REQUEST_MIN_MS = 350;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 async function ensureRow() {
   const db = getDb();
@@ -29,14 +35,29 @@ async function ensureRow() {
   await db.insert(adminCredentials).values({ id: 1 });
 }
 
-export async function requestPasswordReset(email: string): Promise<{ ok: true }> {
-  const expected = adminResetEmail();
-  const match = expected && emailsMatch(email, expected);
+/** Write password_hash and drop any unused reset token. Never log the password. */
+export async function setAdminPasswordHash(newPassword: string): Promise<void> {
+  await ensureRow();
+  await getDb()
+    .update(adminCredentials)
+    .set({
+      passwordHash: hashPassword(newPassword),
+      resetTokenHash: null,
+      resetExpiresAt: null,
+      updatedAt: new Date(),
+    })
+    .where(eq(adminCredentials.id, 1));
+}
 
-  if (match && isAdminMailConfigured()) {
+export async function requestPasswordReset(email: string): Promise<{ ok: true }> {
+  const started = Date.now();
+  const expected = adminResetEmail();
+  const match = Boolean(expected && emailsMatch(email, expected));
+  const token = newResetToken();
+  const tokenHash = hashToken(token);
+
+  if (match && expected && isAdminMailConfigured()) {
     await ensureRow();
-    const token = newResetToken();
-    const tokenHash = hashToken(token);
     await getDb()
       .update(adminCredentials)
       .set({
@@ -49,12 +70,14 @@ export async function requestPasswordReset(email: string): Promise<{ ok: true }>
     const link = `${publicSiteOrigin()}/my-access-nimda/reset-password?token=${token}`;
     await sendAdminMail({
       to: expected,
-      subject: "Miyar Admin password reset",
-      text: `Reset your CMS password using this link (valid for 1 hour):\n\n${link}\n\nIf you did not request this, you can ignore this email.`,
-      html: `<p>Reset your CMS password using this link (valid for 1 hour):</p><p><a href="${link}">${link}</a></p><p>If you did not request this, you can ignore this email.</p>`,
+      subject: "Miyar Admin: set a new password",
+      text: `Use this one-time link to set a new CMS password (valid for 1 hour). It does not include your current password.\n\n${link}\n\nIf you did not request this, you can ignore this email.`,
+      html: `<p>Use this one-time link to set a <strong>new</strong> CMS password (valid for 1 hour). This email never includes your current password.</p><p><a href="${link}">${link}</a></p><p>If you did not request this, you can ignore this email.</p>`,
     });
   }
 
+  const wait = REQUEST_MIN_MS - (Date.now() - started);
+  if (wait > 0) await sleep(wait);
   return { ok: true };
 }
 
@@ -85,15 +108,23 @@ export async function completePasswordReset(
     return { error: "This reset link is invalid or has expired.", status: 400 };
   }
 
-  await getDb()
-    .update(adminCredentials)
-    .set({
-      passwordHash: hashPassword(newPassword),
-      resetTokenHash: null,
-      resetExpiresAt: null,
-      updatedAt: new Date(),
-    })
-    .where(eq(adminCredentials.id, 1));
+  await setAdminPasswordHash(newPassword);
+  return { ok: true };
+}
 
+export async function changeAdminPassword(
+  currentPassword: string,
+  newPassword: string,
+): Promise<{ ok: true } | { error: string; status: 400 | 401 }> {
+  if (!currentPassword || !(await verifyAdminPassword(currentPassword))) {
+    return { error: "Invalid current password", status: 401 };
+  }
+  if (!isStrongPassword(newPassword)) {
+    return { error: "Password must be at least 10 characters.", status: 400 };
+  }
+  if (currentPassword === newPassword) {
+    return { error: "New password must be different from the current password.", status: 400 };
+  }
+  await setAdminPasswordHash(newPassword);
   return { ok: true };
 }

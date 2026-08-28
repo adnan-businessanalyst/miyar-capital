@@ -23,6 +23,7 @@ import {
   type CmsBlock,
   type CmsPageData,
 } from "@/lib/cmsPages";
+import { sanitizeCmsHref, sanitizeCmsHtml, sanitizeCmsSrc } from "@/lib/cmsSanitize";
 import type { Lang } from "@/site/types";
 import { CmsBand } from "./CmsBand";
 
@@ -38,6 +39,10 @@ function items(raw: unknown): Array<Record<string, unknown>> {
   return Array.isArray(raw) ? (raw as Array<Record<string, unknown>>) : [];
 }
 
+function cmsText(en: unknown, ar: unknown, lang: Lang): string {
+  return sanitizeCmsHtml(pickCms(en, ar, lang));
+}
+
 export function CmsPage({
   page,
   lang: langProp,
@@ -50,10 +55,10 @@ export function CmsPage({
 
   const crumbs: PageHeroCrumb[] = [
     ...page.ancestors.map((a) => ({
-      label: pickCms(a.titleEn, a.titleAr, lang),
+      label: cmsText(a.titleEn, a.titleAr, lang),
       href: a.path,
     })),
-    { label: pickCms(page.titleEn, page.titleAr, lang) },
+    { label: cmsText(page.titleEn, page.titleAr, lang) },
   ];
 
   return (
@@ -94,33 +99,34 @@ function CmsBlockView({
   crumbs: PageHeroCrumb[];
 }) {
   const design = asDesign(block.props.design);
+  if (design.image) design.image = sanitizeCmsSrc(design.image);
   const glass = design.glass ?? (block.type === "cards" || block.type === "steps");
 
   switch (block.type) {
     case "hero":
       return (
         <PageHero
-          title={pickCms(block.props.titleEn, block.props.titleAr, lang) || page.titleEn}
+          title={cmsText(block.props.titleEn, block.props.titleAr, lang) || sanitizeCmsHtml(page.titleEn)}
           crumbs={crumbs}
-          backgroundImage={str(block.props.media) || undefined}
+          backgroundImage={sanitizeCmsSrc(str(block.props.media)) || undefined}
         />
       );
     case "intro":
       return (
         <CmsBand design={design}>
           <SectionHead
-            title={pickCms(block.props.headingEn, block.props.headingAr, lang)}
+            title={cmsText(block.props.headingEn, block.props.headingAr, lang)}
           />
-          {str(block.props.image) ? (
+          {sanitizeCmsSrc(str(block.props.image)) ? (
             <figure className="cms-intro-figure">
-              <img src={str(block.props.image)} alt="" />
+              <img src={sanitizeCmsSrc(str(block.props.image))} alt="" />
             </figure>
           ) : null}
-          {pickCms(block.props.bodyEn, block.props.bodyAr, lang) ? (
+          {cmsText(block.props.bodyEn, block.props.bodyAr, lang) ? (
             <RichText
               as="p"
               className="cms-copy"
-              html={pickCms(block.props.bodyEn, block.props.bodyAr, lang)}
+              html={cmsText(block.props.bodyEn, block.props.bodyAr, lang)}
             />
           ) : null}
         </CmsBand>
@@ -129,9 +135,9 @@ function CmsBlockView({
       const list = items(block.props.items);
       return (
         <CmsBand design={{ ...design, bg: design.bg ?? "solid", solid: design.solid ?? "navy" }}>
-          {pickCms(block.props.headingEn, block.props.headingAr, lang) ? (
+          {cmsText(block.props.headingEn, block.props.headingAr, lang) ? (
             <SectionHead
-              title={pickCms(block.props.headingEn, block.props.headingAr, lang)}
+              title={cmsText(block.props.headingEn, block.props.headingAr, lang)}
             />
           ) : null}
           <PrimaryCardGrid columns={list.length >= 4 ? 4 : list.length === 3 ? 3 : 2}>
@@ -139,15 +145,15 @@ function CmsBlockView({
               <PrimaryCard
                 key={`${str(item.titleEn)}-${i}`}
                 className={glass ? "cms-glass" : undefined}
-                title={pickCms(item.titleEn, item.titleAr, lang)}
-                href={str(item.href) || undefined}
+                title={cmsText(item.titleEn, item.titleAr, lang)}
+                href={sanitizeCmsHref(str(item.href)) || undefined}
                 icon={
-                  str(item.icon) ? (
-                    <img src={str(item.icon)} alt="" />
+                  sanitizeCmsSrc(str(item.icon)) ? (
+                    <img src={sanitizeCmsSrc(str(item.icon))} alt="" />
                   ) : undefined
                 }
               >
-                <RichText as="p" html={pickCms(item.bodyEn, item.bodyAr, lang)} />
+                <RichText as="p" html={cmsText(item.bodyEn, item.bodyAr, lang)} />
               </PrimaryCard>
             ))}
           </PrimaryCardGrid>
@@ -157,16 +163,16 @@ function CmsBlockView({
     case "steps":
       return (
         <CmsBand design={{ ...design, bg: design.bg ?? "solid", solid: design.solid ?? "navy-mid" }}>
-          {pickCms(block.props.headingEn, block.props.headingAr, lang) ? (
+          {cmsText(block.props.headingEn, block.props.headingAr, lang) ? (
             <SectionHead
-              title={pickCms(block.props.headingEn, block.props.headingAr, lang)}
+              title={cmsText(block.props.headingEn, block.props.headingAr, lang)}
             />
           ) : null}
           <Steps
             className={glass ? "cms-glass" : ""}
             items={items(block.props.items).map((item) => ({
-              title: pickCms(item.titleEn, item.titleAr, lang),
-              body: pickCms(item.bodyEn, item.bodyAr, lang),
+              title: cmsText(item.titleEn, item.titleAr, lang),
+              body: cmsText(item.bodyEn, item.bodyAr, lang),
               num: str(item.num) || undefined,
             }))}
           />
@@ -175,16 +181,16 @@ function CmsBlockView({
     case "band":
       return (
         <CmsBand design={design?.bg === "none" ? { ...design, bg: "gradient", gradient: "navy-mid" } : design}>
-          {pickCms(block.props.headingEn, block.props.headingAr, lang) ? (
+          {cmsText(block.props.headingEn, block.props.headingAr, lang) ? (
             <h2 className="cms-band-title">
-              {pickCms(block.props.headingEn, block.props.headingAr, lang)}
+              {cmsText(block.props.headingEn, block.props.headingAr, lang)}
             </h2>
           ) : null}
-          {pickCms(block.props.bodyEn, block.props.bodyAr, lang) ? (
+          {cmsText(block.props.bodyEn, block.props.bodyAr, lang) ? (
             <RichText
               as="p"
               className="cms-copy"
-              html={pickCms(block.props.bodyEn, block.props.bodyAr, lang)}
+              html={cmsText(block.props.bodyEn, block.props.bodyAr, lang)}
             />
           ) : null}
         </CmsBand>
@@ -194,14 +200,14 @@ function CmsBlockView({
         <CmsBand design={design}>
           <RegisterInterestSection
             sourcePage={page.path}
-            pageTitleEn={page.titleEn}
-            pageTitleAr={page.titleAr}
-            titleEn={str(block.props.titleEn) || undefined}
-            titleAr={str(block.props.titleAr) || undefined}
-            bodyEn={str(block.props.bodyEn) || undefined}
-            bodyAr={str(block.props.bodyAr) || undefined}
-            buttonLabelEn={str(block.props.buttonLabelEn) || undefined}
-            buttonLabelAr={str(block.props.buttonLabelAr) || undefined}
+            pageTitleEn={sanitizeCmsHtml(page.titleEn)}
+            pageTitleAr={sanitizeCmsHtml(page.titleAr)}
+            titleEn={sanitizeCmsHtml(str(block.props.titleEn)) || undefined}
+            titleAr={sanitizeCmsHtml(str(block.props.titleAr)) || undefined}
+            bodyEn={sanitizeCmsHtml(str(block.props.bodyEn)) || undefined}
+            bodyAr={sanitizeCmsHtml(str(block.props.bodyAr)) || undefined}
+            buttonLabelEn={sanitizeCmsHtml(str(block.props.buttonLabelEn)) || undefined}
+            buttonLabelAr={sanitizeCmsHtml(str(block.props.buttonLabelAr)) || undefined}
           />
         </CmsBand>
       );
@@ -211,7 +217,7 @@ function CmsBlockView({
           <RichText
             as="div"
             className="cms-copy"
-            html={pickCms(block.props.bodyEn, block.props.bodyAr, lang)}
+            html={cmsText(block.props.bodyEn, block.props.bodyAr, lang)}
           />
         </CmsBand>
       );

@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { apiUrl } from "@/lib/api";
 
-export function AdminLoginForm() {
+export function AdminLoginForm({ notice = "" }: { notice?: string }) {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,6 +42,7 @@ export function AdminLoginForm() {
 
   return (
     <form onSubmit={onSubmit}>
+      {notice ? <p className="form-ok">{notice}</p> : null}
       <label htmlFor="password">Password</label>
       <input id="password" name="password" type="password" required autoComplete="current-password" />
       {error ? <p className="form-error">{error}</p> : null}
@@ -49,7 +50,7 @@ export function AdminLoginForm() {
         {loading ? "Signing in…" : "Sign in"}
       </button>
       <p className="admin-login-forgot">
-        <a href="/my-access-nimda/forgot-password">Forgot my password</a>
+        <a href="/my-access-nimda/forgot-password">Forgot password?</a>
       </p>
     </form>
   );

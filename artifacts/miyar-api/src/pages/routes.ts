@@ -17,6 +17,18 @@ import {
   updatePageSchema,
   type CmsBlockType,
 } from "./schema.js";
+import { sanitizeCmsBlockProps, sanitizeCmsHtml } from "./sanitize.js";
+
+function publicBlocks(
+  blocks: Array<{ id: string; type: string; sort: number; props: Record<string, unknown> | null }>,
+) {
+  return blocks.map((block) => ({
+    id: block.id,
+    type: block.type,
+    sort: block.sort,
+    props: sanitizeCmsBlockProps(block.type, block.props ?? {}),
+  }));
+}
 
 type PageRecord = CmsPageRow;
 
@@ -30,14 +42,18 @@ function publicPage(
     parentId: row.parentId,
     slug: row.slug,
     path: row.path,
-    titleEn: row.titleEn,
-    titleAr: row.titleAr,
+    titleEn: sanitizeCmsHtml(row.titleEn),
+    titleAr: sanitizeCmsHtml(row.titleAr),
     published: row.published,
     parentPath: row.parentPath ?? null,
     navShow: row.navShow,
     reservedPath: pathTakenBySite(row.path),
     updatedAt: row.updatedAt.toISOString(),
-    ancestors,
+    ancestors: ancestors.map((a) => ({
+      ...a,
+      titleEn: sanitizeCmsHtml(a.titleEn),
+      titleAr: sanitizeCmsHtml(a.titleAr),
+    })),
     blocks,
   };
 }
@@ -49,8 +65,8 @@ function adminPage(row: PageRecord) {
     parentPath: row.parentPath ?? null,
     slug: row.slug,
     path: row.path,
-    titleEn: row.titleEn,
-    titleAr: row.titleAr,
+    titleEn: sanitizeCmsHtml(row.titleEn),
+    titleAr: sanitizeCmsHtml(row.titleAr),
     published: row.published,
     navShow: row.navShow,
     reservedPath: pathTakenBySite(row.path),
@@ -168,12 +184,7 @@ async function publicByPath(path: string) {
   return publicPage(
     row,
     fullAncestors(rows, row),
-    blocks.map((b) => ({
-      id: b.id,
-      type: b.type,
-      sort: b.sort,
-      props: b.props ?? {},
-    })),
+    publicBlocks(blocks),
   );
 }
 
@@ -217,8 +228,8 @@ async function updateAdminPage(c: Context) {
       parentPath: resolved.parentPath,
       slug,
       path,
-      titleEn: parsed.data.titleEn ?? row.titleEn,
-      titleAr: parsed.data.titleAr ?? row.titleAr,
+        titleEn: parsed.data.titleEn !== undefined ? sanitizeCmsHtml(parsed.data.titleEn) : row.titleEn,
+        titleAr: parsed.data.titleAr !== undefined ? sanitizeCmsHtml(parsed.data.titleAr) : row.titleAr,
       published: parsed.data.published ?? row.published,
       navShow: parsed.data.navShow ?? row.navShow,
       updatedAt: new Date(),
@@ -295,8 +306,8 @@ export function registerCmsPageRoutes(app: Hono) {
         parentPath: resolved.parentPath,
         slug,
         path,
-        titleEn: parsed.data.titleEn,
-        titleAr: parsed.data.titleAr || "",
+        titleEn: sanitizeCmsHtml(parsed.data.titleEn),
+        titleAr: sanitizeCmsHtml(parsed.data.titleAr || ""),
         published: parsed.data.published ?? false,
         navShow: parsed.data.navShow ?? false,
       })
@@ -320,12 +331,7 @@ export function registerCmsPageRoutes(app: Hono) {
       page: publicPage(
         row,
         fullAncestors(rows, row),
-        blocks.map((b) => ({
-          id: b.id,
-          type: b.type,
-          sort: b.sort,
-          props: b.props ?? {},
-        })),
+        publicBlocks(blocks),
       ),
     });
   });
@@ -389,7 +395,7 @@ export function registerCmsPageRoutes(app: Hono) {
         id: block.id,
         type: block.type,
         sort: block.sort ?? index,
-        props: props.data as Record<string, unknown>,
+        props: sanitizeCmsBlockProps(block.type, props.data as Record<string, unknown>),
       });
     }
 
@@ -413,12 +419,7 @@ export function registerCmsPageRoutes(app: Hono) {
       .orderBy(asc(cmsPageBlocks.sort));
     await db.update(cmsPages).set({ updatedAt: new Date() }).where(eq(cmsPages.id, id));
     return c.json({
-      blocks: blocks.map((b) => ({
-        id: b.id,
-        type: b.type,
-        sort: b.sort,
-        props: b.props ?? {},
-      })),
+      blocks: publicBlocks(blocks),
     });
   });
 }

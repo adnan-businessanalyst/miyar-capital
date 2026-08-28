@@ -9,7 +9,10 @@ export default function ResetPasswordPage() {
     <div className="admin-wrap">
       <div className="admin-card admin-login" style={{ maxWidth: 420, margin: "80px auto" }}>
         <h1 style={{ marginTop: 0 }}>Set a new password</h1>
-        <p className="admin-meta">Choose a password of at least 10 characters.</p>
+        <p className="admin-meta">
+          Choose a new password of at least 10 characters. This replaces the previous
+          password; we never show or email the old one.
+        </p>
         <Suspense fallback={<p>Loading…</p>}>
           <AdminResetPasswordForm />
         </Suspense>

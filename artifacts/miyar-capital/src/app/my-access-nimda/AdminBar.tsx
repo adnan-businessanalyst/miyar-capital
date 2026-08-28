@@ -15,6 +15,7 @@ export function AdminBar() {
         <Link href="/my-access-nimda/factsheets">Fact sheets</Link>
         <Link href="/my-access-nimda/homepage">Homepage</Link>
         <Link href="/my-access-nimda/pages">Pages</Link>
+        <Link href="/my-access-nimda/change-password">Change password</Link>
         <AdminLogoutButton />
       </div>
     </div>

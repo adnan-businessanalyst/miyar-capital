@@ -28,6 +28,13 @@ import { registerFundRoutes } from "./funds/routes.js";
 import { registerFactsheetRoutes } from "./factsheets/routes.js";
 import { registerCmsPageRoutes } from "./pages/routes.js";
 import { clientIp, isApiProxySecretConfigured } from "./http/clientIp.js";
+import {
+  lockoutClear,
+  lockoutClearScope,
+  lockoutFail,
+  lockoutMessage,
+  lockoutStatus,
+} from "./admin/lockout.js";
 
 export function createApp() {
   const app = new Hono();
@@ -46,8 +53,12 @@ export function createApp() {
     }),
   );
 
-  app.get("/health", (c) =>
-    c.json({
+  app.get("/health", (c) => {
+    const build = "2026-08-28-health-public";
+    if (resolveAppEnv() === "production") {
+      return c.json({ ok: true, service: "miyar-api", build });
+    }
+    return c.json({
       ok: true,
       service: "miyar-api",
       env: resolveAppEnv(),
@@ -57,11 +68,10 @@ export function createApp() {
         secretConfigured: Boolean(process.env.RECAPTCHA_SECRET_KEY?.trim()),
       },
       proxySecretConfigured: isApiProxySecretConfigured(),
-      // Bump when shipping route sets so deploys are easy to verify.
-      build: "2026-08-28-client-ip",
+      build,
       routes: ["jobs", "jobs-apply", "news", "reports", "disclosures", "homepage", "funds", "factsheets", "cms-pages"],
-    }),
-  );
+    });
+  });
 
   app.post("/api/contact", async (c) => {
     try {
@@ -250,16 +260,23 @@ export function createApp() {
 
   app.post("/api/admin/login", async (c) => {
     const ip = clientIp(c);
-    const limited = rateLimit(`admin-login:${ip}`);
-    if (!limited.ok) {
-      return c.json({ error: "Too many attempts" }, 429);
+    const locked = lockoutStatus("login", ip);
+    if (!locked.ok) {
+      c.header("Retry-After", String(locked.retryAfterSec));
+      return c.json({ error: lockoutMessage(locked.retryAfterSec) }, 429);
     }
 
     const body = (await c.req.json().catch(() => null)) as { password?: string } | null;
     if (!body?.password || !(await verifyAdminPassword(body.password))) {
+      const after = lockoutFail("login", ip);
+      if (!after.ok) {
+        c.header("Retry-After", String(after.retryAfterSec));
+        return c.json({ error: lockoutMessage(after.retryAfterSec) }, 429);
+      }
       return c.json({ error: "Invalid password" }, 401);
     }
 
+    lockoutClear("login", ip);
     try {
       createAdminSession(c);
     } catch {
@@ -290,7 +307,7 @@ export function createApp() {
     }
     return c.json({
       ok: true,
-      message: "If that email is registered, we sent a reset link.",
+      message: "If an account exists for that email, a reset link has been sent.",
     });
   });
 
@@ -313,10 +330,56 @@ export function createApp() {
       if ("error" in result) {
         return c.json({ error: result.error }, result.status);
       }
+      lockoutClearScope("login");
+      lockoutClearScope("change");
       return c.json({ ok: true });
     } catch (err) {
       console.error("[admin] reset-password", err);
       return c.json({ error: "Could not reset password. Try again." }, 500);
+    }
+  });
+
+  app.post("/api/admin/change-password", async (c) => {
+    if (!isAdminAuthenticated(c)) return c.json({ error: "Unauthorized" }, 401);
+    const ip = clientIp(c);
+    const limited = rateLimit(`admin-change:${ip}`);
+    if (!limited.ok) {
+      c.header("Retry-After", String(limited.retryAfterSec));
+      return c.json({ error: "Too many attempts. Please try again shortly." }, 429);
+    }
+    const locked = lockoutStatus("change", ip);
+    if (!locked.ok) {
+      c.header("Retry-After", String(locked.retryAfterSec));
+      return c.json({ error: lockoutMessage(locked.retryAfterSec) }, 429);
+    }
+
+    const body = (await c.req.json().catch(() => null)) as {
+      currentPassword?: string;
+      newPassword?: string;
+    } | null;
+    try {
+      const { changeAdminPassword } = await import("./admin/reset.js");
+      const result = await changeAdminPassword(
+        String(body?.currentPassword || ""),
+        String(body?.newPassword || ""),
+      );
+      if ("error" in result) {
+        if (result.status === 401) {
+          const after = lockoutFail("change", ip);
+          if (!after.ok) {
+            c.header("Retry-After", String(after.retryAfterSec));
+            return c.json({ error: lockoutMessage(after.retryAfterSec) }, 429);
+          }
+        }
+        return c.json({ error: result.error }, result.status);
+      }
+      lockoutClear("change", ip);
+      lockoutClearScope("login");
+      clearAdminSession(c);
+      return c.json({ ok: true, message: "Password updated. Please sign in again." });
+    } catch (err) {
+      console.error("[admin] change-password", err);
+      return c.json({ error: "Could not change password. Try again." }, 500);
     }
   });
 

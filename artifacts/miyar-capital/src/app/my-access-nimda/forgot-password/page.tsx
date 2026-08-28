@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { AdminForgotPasswordForm } from "../AdminForgotPasswordForm";
 
-export const metadata = { title: "Forgot password" };
+export const metadata = { title: "Reset password" };
 
 export default function ForgotPasswordPage() {
   return (
     <div className="admin-wrap">
       <div className="admin-card admin-login" style={{ maxWidth: 420, margin: "80px auto" }}>
-        <h1 style={{ marginTop: 0 }}>Forgot password</h1>
+        <h1 style={{ marginTop: 0 }}>Reset password</h1>
         <p className="admin-meta">
-          Enter the admin email. If it matches, we will send a one-hour reset link.
+          Enter the admin email. If an account exists for that email, we will send a
+          one-time link to set a new password. We never send or reveal the current password.
         </p>
         <AdminForgotPasswordForm />
         <p className="admin-login-forgot">

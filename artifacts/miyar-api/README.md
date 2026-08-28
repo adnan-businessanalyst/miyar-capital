@@ -23,7 +23,10 @@ Standalone Node backend for Miyar Capital (Hono + Drizzle + Postgres + Office 36
 | `POST` | `/api/admin/reports` | session (multipart: section, title, titleAr, date, dateAr, fileName, fileNameAr, file, fileAr) |
 | `PATCH` | `/api/admin/reports/:id` | session (multipart; file / fileAr optional) |
 | `DELETE` | `/api/admin/reports/:id` | session |
-| `POST` | `/api/admin/login` | password |
+| `POST` | `/api/admin/login` | password (3 failures → 5 min lock) |
+| `POST` | `/api/admin/forgot-password` | public (neutral 200; never reveals if the email exists) |
+| `POST` | `/api/admin/reset-password` | one-time token (set a **new** password; never shares the current one) |
+| `POST` | `/api/admin/change-password` | session (current + new; clears session) |
 | `POST` | `/api/admin/logout` | session |
 | `GET` | `/api/admin/me` | session |
 | `GET` | `/api/admin/submissions` | session |
@@ -56,7 +59,16 @@ pnpm db:apply-admin-credentials:production
 pnpm db:apply-page-factsheets:production
 ```
 
-The API picks Neon + the Vercel origin from `APP_ENV` (`staging` | `production`). Scripts named `*:production` force the production database. `/health` returns `env` and `site`.
+The API picks Neon + the Vercel origin from `APP_ENV` (`staging` | `production`). Scripts named `*:production` force the production database. `/health` returns full diagnostics on staging/local; production only returns `ok`, `service`, and `build`.
+
+## Admin password
+
+- **Bootstrap:** `ADMIN_PASSWORD` is used until `admin_credentials.password_hash` exists.
+- **After Reset password or Change password:** the DB hash wins; env is ignored for login.
+- **Change password** (logged in, preferred): current password + new password → hash updated, session cleared, sign in again.
+- **Reset password** (email link): request always returns the same 200 (“If an account exists…”). Mail is sent only on `ADMIN_EMAIL` match. The email is a one-time link to set a **new** password — never the current password. The API never reveals whether the email exists.
+- **Login lockout:** 3 failed attempts → locked 5 minutes (in-memory, per Railway instance). Use Reset password if locked out.
+- **Safest ops:** after the first DB password exists, rotate/remove `ADMIN_PASSWORD` from the host env. Keep `ADMIN_EMAIL` + SMTP so Reset password remains the recovery path. Never share, display, or recover the current password.
 
 ## Cookie / CORS strategy (recommended)
 

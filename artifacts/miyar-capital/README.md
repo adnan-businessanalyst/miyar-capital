@@ -51,7 +51,11 @@ Wired: homepage, RegisterInterest, Who We Are, IB Register Interest.
 ## Admin
 
 - `/my-access-nimda` login → API session cookie `miyar_admin_session`
+- `/my-access-nimda/change-password` (logged in) — set a new password; session is cleared
+- `/my-access-nimda/forgot-password` — request a reset link (same message whether or not the email exists)
+- `/my-access-nimda/reset-password` — set a **new** password from the email link (never shares the current password)
 - `/my-access-nimda/submissions` list + detail + mark-as-read
+- Login: 3 failed attempts → locked 5 minutes. After the first DB password, rotate/remove `ADMIN_PASSWORD` on Railway.
 
 ## Env (frontend only)
 
